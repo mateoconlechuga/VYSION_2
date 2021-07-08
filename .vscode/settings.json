@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "cursor.h": "c",
+        "window_manager.h": "c",
+        "file_explorer.h": "c",
+        "init.h": "c"
+    }
+}
