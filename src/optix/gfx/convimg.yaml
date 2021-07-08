@@ -1,0 +1,19 @@
+converts:
+  - name: myimages
+    palette: xlibc
+    images:
+      - cursor_normal.png
+      - cursor_pointer.png
+      - cursor_move.png
+      - cursor_resize_horizontal.png
+      - cursor_resize_vertical.png
+      - cursor_text.png
+      - cursor_text_upper.png
+      - cursor_text_lower.png
+      - cursor_text_math.png
+
+outputs:
+  - type: c
+    include-file: gfx.h
+    converts:
+      - myimages

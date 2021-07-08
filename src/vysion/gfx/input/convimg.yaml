@@ -1,0 +1,43 @@
+palettes:
+  - name: palette
+    images: automatic
+    max-entries: 64
+
+
+converts:
+  - name: myimages
+    palette: palette
+    palette-offset: 160
+    images:
+      - icon_appvar.png
+      - icon_basic.png
+      - icon_c.png
+      - icon_ez80.png
+      - icon_folder.png
+      - icon_ice.png
+      - icon_ices.png
+      - settings_colors.png
+      - settings_desktop.png
+      - settings_reset.png
+      - settings_shell.png
+      - settings_system.png
+      - settings_taskbar.png
+      - start_about.png
+      - start_appvars.png
+      - start_exit.png
+      - start_files.png
+      - start_icon.png
+      - start_programs.png
+      - start_refresh.png
+      - start_settings.png
+      - start_search.png
+      - taskbar_icon.png
+
+outputs:
+  - type: c
+    include-file: gfx.h
+    converts:
+      - myimages
+    palettes:
+      - palette
+    directory: ..\output
