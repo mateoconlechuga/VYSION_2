@@ -2,9 +2,9 @@
 #define FILESYSTEM_H
 
 //includes
-#include "defines.h"
-#include "control.h"
+#include <stdint.h>
 #include <graphx.h>
+#include "control.h"
 
 //version
 #define VYSION_FILESYSTEM_VERSION   2
@@ -29,13 +29,19 @@
 #define VYSION_WALLPAPER_TYPE       7
 
 //default locations
+#define DEFAULT_LOCATIONS           4
 #define VYSION_ROOT                 0
 #define VYSION_PROGRAMS             1
 #define VYSION_APPVARS              2
 #define VYSION_DESKTOP              3
+//their names
+#define VYSION_ROOT_NAME            "Root"
+#define VYSION_PROGRAMS_NAME        "Programs"
+#define VYSION_APPVARS_NAME         "Appvars"
+#define VYSION_DESKTOP_NAME         "Desktop"
 
 //things for saving
-#define VYSION_FILESYSTEM_APPVAR    "VYSFILE"
+#define VYSION_FILESYSTEM_APPVAR    "VYSFILES"
 
 //some important byte sequences to know
 #define ASM_HEX_SEQUENCE            ((uint16_t) 31727) //0xEF7B
@@ -50,6 +56,22 @@
 #define ICON_HEIGHT                 16
 
 //structs and things
+//master things
+struct vysion_filesystem_info_save {
+    int version;
+    int num_files;
+    int num_folders;
+    //number of folder indexes (so deleting doesn't break things later on)
+    int num_folder_indices;
+};
+
+struct vysion_context {
+    struct vysion_filesystem_info_save filesystem_info_save;
+    //array of files and folders
+    struct vysion_file **file;
+    struct vysion_folder **folder;
+};
+
 //used for files and folders
 struct vysion_file_widget {
     //the type, these should be the most primitive types (e.g. VYSION_FILE or VYSION_FOLDER)
@@ -89,32 +111,35 @@ struct vysion_folder_save {
     //we'll probably need 2 variables, one for the number of folder indices and one for the number of folders
     int index;
     bool requires_password : 1;
+    bool index_assigned : 1;
 };
 //the actual folder
 struct vysion_folder {
     struct vysion_folder_save save;
     gfx_sprite_t *icon;
-    //this should speed things up a bit, have the folders keep track of which files they have in them
+    //this should speed things up a bit, have the folders keep track of which files and folders they have in them
     //this will be detected at the beginning
-    int num_files;
-    struct vysion_file **file;
+    struct vysion_file **contents;
 };
 
 //functions
 //general
 void vysion_DetectAllFiles(struct vysion_context *context);
+void vysion_DetectAllFolders(struct vysion_context *context);
 void vysion_GetFileInfo(struct vysion_file *file);
 void vysion_GetFileInfo_Asm(struct vysion_file *file, void *data);
 void vysion_GetFileInfo_Basic(struct vysion_file *file, void *data);
 //saving/loading
 void vysion_SaveFilesystem(struct vysion_context *context);
 void vysion_LoadFilesystem(struct vysion_context *context);
+void vysion_InitializeFilesystem(struct vysion_context *context);
 //adding/deleting
 struct vysion_file *vysion_AddFile(struct vysion_context *context);
 struct vysion_folder *vysion_AddFolder(struct vysion_context *context);
 //hash table stuff
 int vysion_CreateFilesystemHashTable(struct vysion_context *context, struct vysion_file ***hash_table);
 int vysion_FilesystemHashSearch(char *name, uint8_t type, struct vysion_file **hash_table, int hash_table_size);
-
+//other things
+struct vysion_folder *vysion_GetFolderByIndex(struct vysion_context *context, int index);
 
 #endif

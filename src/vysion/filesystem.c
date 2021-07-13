@@ -1,9 +1,9 @@
-#include "defines.h"
 #include "filesystem.h"
 #include "util.h"
 #include "control.h"
 #include <fileioc.h>
 #include <graphx.h>
+#include <debug.h>
 
 //NOTE: This should be called AFTER vysion_LoadFilesystem or bad things could happen
 void vysion_DetectAllFiles(struct vysion_context *context) {
@@ -15,7 +15,7 @@ void vysion_DetectAllFiles(struct vysion_context *context) {
     uint8_t type;
     //count, remove this later
     int count = 0;
-    gfx_FillScreen(255);
+    dbg_sprintf(dbgout, "tf is going on\n");
     timer_Control = TIMER1_ENABLE | TIMER1_32K | TIMER1_UP;
     timer_1_Counter = 0;
     while ((name = ti_DetectAny(&search_pos, NULL, &type)) != NULL) {
@@ -23,35 +23,61 @@ void vysion_DetectAllFiles(struct vysion_context *context) {
         struct vysion_file *file;
         //check to make sure it's an actual program
         if (*name == '#' || *name == '!' || !(type == TI_PRGM_TYPE || type == TI_PPRGM_TYPE || type == TI_APPVAR_TYPE)) continue;
-        /*gfx_SetTextXY(2, count * 10 + 2);
-        gfx_PrintUInt(count, 1);
-        gfx_PrintString(" ");
-        gfx_PrintString(name);*/
         //if it's already been saved in the filesystem
+        dbg_sprintf(dbgout, "Name: %s New: ", name);
         if (hash_table_size && ((index = vysion_FilesystemHashSearch(name, type, hash_table, hash_table_size)) != INVALID)) {
+            dbg_sprintf(dbgout, "0 ");
             file = hash_table[index];
             /*gfx_PrintString(" ");
             gfx_PrintUInt(index, 2);*/
             //refresh some information
             //we're assuming it's in the table already
         } else {
+            dbg_sprintf(dbgout, "1 ");
             //otherwise add it
             file = vysion_AddFile(context);
             //copy its data in
             file->save.ti_type = type;
+            file->save.widget.type = VYSION_FILE;
             strcpy(file->save.widget.name, name);
             //the location should be initialized as well (programs, appvars)
             if (type == TI_APPVAR_TYPE) file->save.widget.location = VYSION_APPVARS;
             else file->save.widget.location = VYSION_PROGRAMS;
         }
+        dbg_sprintf(dbgout, "Location: %d\n", file->save.widget.location);
         //get the file's information
         vysion_GetFileInfo(file);
         //increment the count
         ++count;
     }
-    gfx_PrintStringXY("Done. ", 2, 2);
-    gfx_PrintUInt(timer_1_Counter / 33, 4);
-    while (!os_GetCSC());
+}
+
+//so this HAS to be done after the vysion_DetectAllFiles function is called
+//bad things will probably happen otherwise
+void vysion_DetectAllFolders(struct vysion_context *context) {
+    struct vysion_file_widget *temp[context->filesystem_info_save.num_files + context->filesystem_info_save.num_folders];
+    for (int i = 0; i < context->filesystem_info_save.num_folders; i++) {
+        //start by getting how many files there are, and then allocate accordingly
+        int count = 0;
+        for (int j = 0; j < context->filesystem_info_save.num_files; j++) {
+            if (context->file[j]->save.widget.location == context->folder[i]->save.index) {
+                temp[count] = context->file[j];
+                count++;
+            }
+        }
+        for (int j = 0; j < context->filesystem_info_save.num_folders; j++) {
+            if (context->folder[j]->save.widget.location == context->folder[i]->save.index) {
+                temp[count] = context->folder[j];
+                count++;
+            }
+        }
+        //now copy everything into the folder1
+        //we want a NULL at the end
+        context->folder[i]->contents = malloc((count + 1) * sizeof(struct vysion_file_widget *));
+        context->folder[i]->contents[count] = NULL;
+        memcpy(context->folder[i]->contents, temp, count * sizeof(struct vysion_file_widget *));
+    }
+    dbg_sprintf(dbgout, "Success.\n");
 }
 
 //saving and loading things
@@ -64,9 +90,11 @@ void vysion_SaveFilesystem(struct vysion_context *context) {
         ti_Write(&context->filesystem_info_save, sizeof(struct vysion_filesystem_info_save), 1, slot);
         //just look through and do the files first
         //the save struct is the first entry in the struct, we already established that
-        for (int i = 0; i < context->filesystem_info_save.num_files; i++) ti_Write(context->file[i], sizeof(struct vysion_file_save), 1, slot);
+        for (int i = 0; i < context->filesystem_info_save.num_files; i++)
+            ti_Write(context->file[i], sizeof(struct vysion_file_save), 1, slot);
         //same for the folders
-        for (int i = 0; i < context->filesystem_info_save.num_folders; i++) ti_Write(context->folder[i], sizeof(struct vysion_folder_save), 1, slot);
+        for (int i = 0; i < context->filesystem_info_save.num_folders; i++)
+            ti_Write(context->folder[i], sizeof(struct vysion_folder_save), 1, slot);
         ti_Close(slot);
     }
 }
@@ -96,10 +124,36 @@ void vysion_LoadFilesystem(struct vysion_context *context) {
         for (int i = 0; i < num_folders; i++) {
             struct vysion_folder *folder = vysion_AddFolder(context);
             ti_Read(folder, sizeof(struct vysion_folder_save), 1, slot);
+            dbg_sprintf(dbgout, "Loaded index: %d\n", folder->save.index);
         }
         ti_Close(slot);
+    } else vysion_InitializeFilesystem(context);
+}
+
+void vysion_InitializeFilesystem(struct vysion_context *context) {
+    char *name[DEFAULT_LOCATIONS] = {
+        //root
+        VYSION_ROOT_NAME,
+        //programs
+        VYSION_PROGRAMS_NAME,
+        //appvars
+        VYSION_APPVARS_NAME,
+        //desktop
+        VYSION_DESKTOP_NAME,
+    };
+    //then do this
+    dbg_sprintf(dbgout, "Initializing filesystem...\n");
+    for (int i = 0; i < DEFAULT_LOCATIONS; i++) {
+        struct vysion_folder *folder;
+        folder = vysion_AddFolder(context);
+        dbg_sprintf(dbgout, "That worked apparently.\n");
+        strcpy(folder->save.widget.name, name[i]);
+        folder->save.index = i;
+        folder->save.widget.location = VYSION_ROOT;
+        folder->save.widget.type = VYSION_FOLDER;
     }
 }
+
 
 //get the file info (size, archived/unarchived, locked, icon, etc.)
 void vysion_GetFileInfo(struct vysion_file *file) {
@@ -174,8 +228,11 @@ struct vysion_file *vysion_AddFile(struct vysion_context *context) {
 struct vysion_folder *vysion_AddFolder(struct vysion_context *context) {
     int new_num_folders = ++context->filesystem_info_save.num_folders;
     context->folder = realloc(context->folder, new_num_folders * sizeof(struct vysion_folder *));
-    context->folder[new_num_folders]->save.index = context->filesystem_info_save.num_folder_indices++;
-    return context->folder[new_num_folders - 1] = malloc(sizeof(struct vysion_folder));
+    dbg_sprintf(dbgout, "That's probably the line that breaks it. %d\n", new_num_folders);
+    context->folder[new_num_folders - 1] = malloc(sizeof(struct vysion_folder));
+    context->folder[new_num_folders - 1]->save.index = context->filesystem_info_save.num_folder_indices++;
+    dbg_sprintf(dbgout, "Index: %d Indices: %d Folders: %d\n", context->folder[new_num_folders - 1]->save.index, context->filesystem_info_save.num_folder_indices, context->filesystem_info_save.num_folders);
+    return context->folder[new_num_folders - 1];
 }
 
 //useful things
@@ -227,4 +284,16 @@ int vysion_FilesystemHashSearch(char *name, uint8_t type, struct vysion_file **h
         target_index %= hash_table_size;
     }
     return found_file ? target_index : INVALID;
+}
+
+struct vysion_folder *vysion_GetFolderByIndex(struct vysion_context *context, int index) {
+    int i = 0;
+    struct vysion_folder *ptr = NULL;
+    for (i = 0; i < context->filesystem_info_save.num_folders; i++) {
+        if (context->folder[i]->save.index == index) {
+            ptr = context->folder[i];
+            break;
+        }
+    }
+    return ptr;
 }

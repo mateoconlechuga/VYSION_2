@@ -1,5 +1,6 @@
 #include "window.h"
 #include <debug.h>
+#include "../gui_control.h"
 
 //returns true if window size has changed
 void optix_UpdateWindow_default(struct optix_widget *widget) {
@@ -43,13 +44,15 @@ void optix_UpdateWindow_default(struct optix_widget *widget) {
             } else if ((!current_context->settings->cursor_active && widget == current_context->cursor->current_selection) ||
             //(current_context->cursor->current_selection->type == OPTIX_WINDOW_TITLE_BAR_TYPE && ((struct optix_window_title_bar *) current_context->cursor->current_selection)->window == widget) ||
             (current_context->settings->cursor_active && optix_CheckTransformOverlap(&current_context->cursor->widget, widget))) {
-                if (widget->state.selected) {
+                if (!widget->state.selected) {
+                    dbg_sprintf(dbgout, "This may be the problem.\n");
                     //do this, which I think will be fine?
-                    if (widget->child && widget->child[0]) optix_SetCurrentSelection(widget->child[0]);
+                    optix_SetCurrentSelection(widget);
+                    current_context->cursor->direction = OPTIX_CURSOR_FORCE_UPDATE;
                     widget->state.needs_redraw = true;
+                    widget->state.selected = true;
                 }
-                widget->state.selected = true;
-            } else widget->state.selected = false;
+            } else if (current_context->settings->cursor_active) widget->state.selected = false;
         }
     } else widget->state.selected = false;
     //handle this, I guess
@@ -152,7 +155,10 @@ void optix_UpdateWindowTitleBar_default(struct optix_widget *widget) {
                     current_context->data->gui_needs_full_redraw = true;
                 } else {
                     //we may need a redraws
-                    if (!window->widget.state.selected) if (!current_context->settings->cursor_active && window->widget.child && window->widget.child[0]) optix_SetCurrentSelection(window->widget.child[0]);
+                    if (!window->widget.state.selected) {
+                        optix_SetCurrentSelection(widget);
+                        current_context->cursor->direction = OPTIX_CURSOR_FORCE_UPDATE;
+                    }
                     window_title_bar->window->widget.state.needs_redraw = widget->state.needs_redraw = true;
                     if (window_title_bar->window->widget.child) optix_RecursiveSetNeedsRedraw(window_title_bar->window->widget.child);
                     window_title_bar->window->widget.state.selected = widget->state.selected = true;

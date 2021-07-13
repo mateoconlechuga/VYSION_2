@@ -1,428 +1,181 @@
 	section	.text,"ax",@progbits
 	assume	adl = 1
-	file	0 "/media/michael/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/filesystem.c" md5 0xc8314b6584240d882fbd8625b73fb6e4
-	file	1 "/media/michael/Data/Data/Programming/TI/CEdev2/include/stdint.h" md5 0x82cbaa55f693a5a19696046350717638
 	section	.text,"ax",@progbits
 	public	_vysion_DetectAllFiles
 _vysion_DetectAllFiles:
-	private	func_begin0
-func_begin0:
-	file	2 "src/vysion/filesystem.c" md5 0xc8314b6584240d882fbd8625b73fb6e4
-	loc	2 9 0
-	cfi_sections .debug_frame
-	cfi_startproc
-	ld	hl, -25
+	ld	hl, -19
 	call	__frameset
-	private	tmp0
-tmp0:
-	cfi_def_cfa ix, 6
-	cfi_offset ix, -6
 	ld	iy, (ix + 6)
-	ld	de, 0
-	private	tmp1
-tmp1:
-	loc	2 11 26 prologue_end
-	ld	(ix + -3), de
-	private	tmp2
-tmp2:
-	loc	2 12 57
+	ld	bc, 0
+	xor	a, a
+	ld	(ix + -3), bc
 	ld	hl, (iy + 3)
-	loc	2 12 27 is_stmt 0
 	add	hl, bc
 	or	a, a
 	sbc	hl, bc
-	push	de
-	pop	bc
+	push	bc
+	pop	de
 	ld	hl, 0
 	jq	z, BB0_2
-	private	tmp3
-tmp3:
-	loc	2 0 27
-	lea	hl, ix + -3
-	private	tmp4
-tmp4:
-	loc	2 12 69
-	push	hl
+	pea	ix + -3
 	ld	hl, (ix + 6)
-	private	tmp5
-tmp5:
 	push	hl
 	call	_vysion_CreateFilesystemHashTable
-	private	tmp6
-tmp6:
-	loc	2 0 69
-	ld	de, 0
-	loc	2 12 69
-	pop	bc
-	pop	bc
-	ld	bc, (ix + -3)
+	xor	a, a
+	ld	bc, 0
+	pop	de
+	pop	de
+	ld	de, (ix + -3)
 BB0_2:
-	loc	2 0 69
-	ld	(ix + -19), bc
-	ld	(ix + -16), hl
-	lea	hl, ix + -6
+	ld	(ix + -13), de
 	ld	(ix + -10), hl
-	lea	hl, ix + -7
-	private	tmp7
-tmp7:
-	loc	2 13 11 is_stmt 1
-	ld	(ix + -13), hl
-	ld	(ix + -6), de
-	private	tmp8
-tmp8:
-	loc	2 0 11 is_stmt 0
-	ld	hl, -1
-	loc	2 18 5 is_stmt 1
-	push	hl
-	call	_gfx_FillScreen
-	private	tmp9
-tmp9:
-	pop	hl
-	loc	2 19 19
+	ld	(ix + -6), bc
 	ld.sis	hl, 515
 	ld	iy, -917456
 	ld	(iy), l
 	ld	(iy + 1), h
-	ld	hl, -917504
-	push	hl
-	pop	iy
-	loc	2 20 21
 	or	a, a
 	sbc	hl, hl
+	ld	de, -917504
+	push	de
+	pop	iy
 	ld	(iy), hl
-	xor	a, a
 	ld	(iy + 3), a
-	private	tmp10
-tmp10:
 BB0_3:
-	loc	2 21 20
-	ld	hl, (ix + -13)
-	private	tmp11
-tmp11:
-	push	hl
-	private	tmp12
-tmp12:
-	ld	hl, 0
-	push	hl
-	ld	hl, (ix + -10)
-	private	tmp13
-tmp13:
-	push	hl
-	private	tmp14
-tmp14:
+	pea	ix + -7
+	push	bc
+	pea	ix + -6
 	call	_ti_DetectAny
-	private	tmp15
-tmp15:
 	push	hl
 	pop	iy
 	pop	hl
 	pop	hl
 	pop	hl
-	private	tmp16
-tmp16:
-	loc	2 21 5 is_stmt 0
 	lea	hl, iy + 0
 	add	hl, bc
 	or	a, a
 	sbc	hl, bc
 	jq	z, BB0_16
-	private	tmp17
-tmp17:
-	loc	2 25 13 is_stmt 1
 	ld	a, (iy)
-	loc	2 25 26 is_stmt 0
 	cp	a, 33
+	ld	bc, 0
 	jq	z, BB0_3
-	private	tmp18
-tmp18:
 	cp	a, 35
 	jq	z, BB0_3
-	private	tmp19
-tmp19:
-	loc	2 25 47
 	ld	e, (ix + -7)
-	private	tmp20
-tmp20:
-	loc	2 25 68
 	ld	a, e
 	sub	a, 5
 	cp	a, 2
 	jq	c, BB0_8
-	private	tmp21
-tmp21:
 	ld	a, e
 	cp	a, 21
 	jq	nz, BB0_3
-	private	tmp22
-tmp22:
 BB0_8:
-	loc	2 31 29 is_stmt 1
-	ld	hl, (ix + -16)
+	ld	hl, (ix + -10)
 	add	hl, bc
 	or	a, a
 	sbc	hl, bc
-	ld	(ix + -22), iy
+	ld	(ix + -16), iy
 	jq	z, BB0_10
-	private	tmp23
-tmp23:
-	loc	2 31 42 is_stmt 0
-	ld	hl, (ix + -16)
+	ld	hl, (ix + -10)
 	push	hl
-	ld	hl, (ix + -19)
-	private	tmp24
-tmp24:
+	ld	hl, (ix + -13)
 	push	hl
-	private	tmp25
-tmp25:
 	ld	l, e
-	private	tmp26
-tmp26:
 	push	hl
 	push	iy
 	call	_vysion_FilesystemHashSearch
-	private	tmp27
-tmp27:
-	loc	2 0 42
-	ld	iy, (ix + -22)
-	loc	2 31 42
+	ld	iy, (ix + -16)
 	push	hl
 	pop	de
 	pop	hl
 	pop	hl
 	pop	hl
 	pop	hl
-	private	tmp28
-tmp28:
-	loc	2 31 13
 	push	de
 	pop	hl
 	ld	bc, -1
 	or	a, a
 	sbc	hl, bc
 	jq	nz, BB0_14
-	private	tmp29
-tmp29:
 BB0_10:
-	loc	2 39 20 is_stmt 1
 	ld	hl, (ix + 6)
 	push	hl
 	call	_vysion_AddFile
-	private	tmp30
-tmp30:
 	push	hl
 	pop	iy
 	pop	hl
-	private	tmp31
-tmp31:
-	loc	2 41 34
 	ld	a, (ix + -7)
-	private	tmp32
-tmp32:
-	loc	2 41 32 is_stmt 0
 	ld	(iy + 13), a
-	ld	(ix + -25), iy
-	private	tmp33
-tmp33:
-	loc	2 42 20 is_stmt 1
+	ld	(iy), 0
+	ld	(ix + -19), iy
 	inc	iy
-	loc	2 42 13 is_stmt 0
-	ld	hl, (ix + -22)
+	ld	hl, (ix + -16)
 	push	hl
 	push	iy
 	call	_strcpy
-	private	tmp34
-tmp34:
 	pop	hl
 	pop	hl
-	private	tmp35
-tmp35:
-	loc	2 44 17 is_stmt 1
 	ld	a, (ix + -7)
-	private	tmp36
-tmp36:
-	loc	2 44 17 is_stmt 0
 	cp	a, 21
 	jq	nz, BB0_13
-	private	tmp37
-tmp37:
-	loc	2 44 68
 	ld	hl, 2
 	jq	BB0_12
-	private	tmp38
-tmp38:
 BB0_13:
-	loc	2 45 45 is_stmt 1
 	ld	hl, 1
-	private	tmp39
-tmp39:
 BB0_12:
-	loc	2 0 45 is_stmt 0
-	ld	iy, (ix + -25)
+	ld	iy, (ix + -19)
 	ld	(iy + 10), hl
 	jq	BB0_15
-	private	tmp40
-tmp40:
 BB0_14:
-	loc	2 32 20 is_stmt 1
 	ex	de, hl
-	private	tmp41
-tmp41:
 	ld	bc, 3
 	call	__imulu
-	private	tmp42
-tmp42:
 	push	hl
 	pop	de
-	ld	hl, (ix + -19)
+	ld	hl, (ix + -13)
 	add	hl, de
 	ld	iy, (hl)
-	private	tmp43
-tmp43:
 BB0_15:
-	loc	2 48 9
 	push	iy
 	call	_vysion_GetFileInfo
-	private	tmp44
-tmp44:
 	pop	hl
-	private	tmp45
-tmp45:
-	loc	2 51 5
+	ld	bc, 0
 	jq	BB0_3
-	private	tmp46
-tmp46:
 BB0_16:
-	loc	2 0 5 is_stmt 0
-	ld	hl, 2
-	loc	2 52 5 is_stmt 1
-	push	hl
-	push	hl
-	ld	hl, L_.str
-	push	hl
-	call	_gfx_PrintStringXY
-	private	tmp47
-tmp47:
-	pop	hl
-	pop	hl
-	pop	hl
-	ld	hl, -917504
-	push	hl
-	pop	iy
-	loc	2 53 19
-	ld	hl, (iy)
-	ld	e, (iy + 3)
-	loc	2 53 35 is_stmt 0
-	ld	bc, 33
-	xor	a, a
-	call	__ldivu
-	private	tmp48
-tmp48:
-	loc	2 0 35
-	ld	de, 4
-	loc	2 53 5
-	push	de
-	push	hl
-	call	_gfx_PrintUInt
-	private	tmp49
-tmp49:
-	pop	hl
-	pop	hl
-	private	tmp50
-tmp50:
-BB0_17:
-	loc	2 54 13 is_stmt 1
-	call	_os_GetCSC
-	private	tmp51
-tmp51:
-	loc	2 54 5 is_stmt 0
-	or	a, a
-	jq	z, BB0_17
-	private	tmp52
-tmp52:
-	loc	2 55 1 is_stmt 1
 	ld	sp, ix
 	pop	ix
-	cfi_def_cfa sp, 3
-	cfi_restore ix
 	ret
-	private	tmp53
-tmp53:
 	section	.text,"ax",@progbits
-	private	func_end0
-func_end0:
-	cfi_endproc
-	file	3 "/media/michael/Data/Data/Programming/TI/CEdev2/include/graphx.h" md5 0x6fbdcd846ef31912194280a2afa35252
-	file	4 "/media/michael/Data/Data/Programming/TI/CEdev2/include/fileioc.h" md5 0xfb819d09ef03d458b3d0d2879c3c9e29
-	file	5 "/media/michael/Data/Data/Programming/TI/CEdev2/include/tice.h" md5 0xa248922a65576862af7cfa081fb13d28
 
 	section	.text,"ax",@progbits
 	public	_vysion_CreateFilesystemHashTable
 _vysion_CreateFilesystemHashTable:
-	private	func_begin1
-func_begin1:
-	loc	2 184 0
-	cfi_startproc
-	ld	hl, -15
+	ld	hl, -12
 	call	__frameset
-	private	tmp54
-tmp54:
-	cfi_def_cfa ix, 6
-	cfi_offset ix, -6
 	ld	iy, (ix + 6)
-	private	tmp55
-tmp55:
-	loc	2 186 57 prologue_end
 	ld	hl, (iy + 3)
-	loc	2 186 67 is_stmt 0
 	push	hl
 	pop	iy
-	private	tmp56
-tmp56:
 	add	iy, iy
-	private	tmp57
-tmp57:
-	loc	2 0 67
 	ld	(ix + -3), iy
-	ld	(ix + -6), hl
-	private	tmp58
-tmp58:
-	loc	2 187 9 is_stmt 1
 	add	hl, bc
 	or	a, a
 	sbc	hl, bc
 	jq	nz, BB1_1
-	private	tmp59
-tmp59:
-BB1_12:
-	loc	2 213 1
+BB1_13:
 	ld	hl, (ix + -3)
 	ld	sp, ix
 	pop	ix
-	cfi_def_cfa sp, 3
-	cfi_restore ix
 	ret
-	private	tmp60
-tmp60:
 BB1_1:
-	loc	2 0 1 is_stmt 0
 	ld	bc, 6
-	loc	2 188 42 is_stmt 1
-	ld	hl, (ix + -6)
 	call	__imulu
-	private	tmp61
-tmp61:
-	loc	2 188 19 is_stmt 0
 	push	hl
 	call	_malloc
-	private	tmp62
-tmp62:
 	pop	de
-	loc	2 188 17
 	ld	iy, (ix + 9)
 	ld	(iy), hl
-	private	tmp63
-tmp63:
-	loc	2 191 10 is_stmt 1
 	ld	de, 1
 	ld	bc, (ix + -3)
 	push	bc
@@ -430,284 +183,160 @@ tmp63:
 	or	a, a
 	sbc	hl, de
 	call	__setflag
-	private	tmp64
-tmp64:
 	jq	p, BB1_3
-	private	tmp65
-tmp65:
 	ld	bc, 0
-	private	tmp66
-tmp66:
 BB1_3:
-	loc	2 0 0 is_stmt 0
 	ld	de, 0
-	private	tmp67
-tmp67:
+	ld	iy, (ix + 6)
 BB1_4:
-	loc	2 191 5
 	push	bc
 	pop	hl
 	add	hl, bc
 	or	a, a
 	sbc	hl, bc
-	ld	iy, (ix + 6)
 	jq	z, BB1_5
-	private	tmp68
-tmp68:
-	loc	2 191 48
 	ld	iy, (ix + 9)
 	ld	iy, (iy)
 	push	de
 	pop	hl
-	loc	2 191 64
 	add	iy, de
 	ld	de, 0
 	ld	(iy), de
-	private	tmp69
-tmp69:
-	loc	2 191 5
+	ld	iy, (ix + 6)
 	dec	bc
 	ld	de, 3
 	add	hl, de
 	ex	de, hl
 	jq	BB1_4
-	private	tmp70
-tmp70:
 BB1_5:
-	loc	2 0 5
 	ld	bc, 0
-	private	tmp71
-tmp71:
 BB1_7:
-	loc	2 192 55 is_stmt 1
 	ld	de, (iy + 3)
-	private	tmp72
-tmp72:
-	loc	2 192 5 is_stmt 0
 	push	bc
 	pop	hl
 	or	a, a
 	sbc	hl, de
 	call	__setflag
-	private	tmp73
-tmp73:
-	jq	p, BB1_12
-	private	tmp74
-tmp74:
-	loc	2 193 63 is_stmt 1
+	jq	p, BB1_13
 	ld	iy, (iy + 12)
-	ld	(ix + -15), bc
-	loc	2 193 54 is_stmt 0
+	ld	(ix + -6), bc
 	push	bc
 	pop	hl
 	ld	de, 3
 	push	de
 	pop	bc
-	private	tmp75
-tmp75:
 	call	__imulu
-	private	tmp76
-tmp76:
 	push	hl
 	pop	de
 	add	iy, de
 	ld	hl, (iy)
 	inc	hl
-	loc	2 193 28
 	push	hl
 	call	_vysion_util_GetStringHash
-	private	tmp77
-tmp77:
-	push	hl
 	pop	de
-	pop	hl
-	private	tmp78
-tmp78:
-	loc	2 0 28
-	ld	hl, (ix + 9)
-	ld	hl, (hl)
-	ld	(ix + -9), hl
-	private	tmp79
-tmp79:
-BB1_9:
-	ex	de, hl
 	ld	bc, (ix + -3)
-	call	__irems
-	private	tmp80
-tmp80:
+	call	__iremu
+	ld	bc, 3
 	push	hl
 	pop	de
-	private	tmp81
-tmp81:
-	loc	2 197 16 is_stmt 1
-	ld	bc, 3
+	ld	hl, (ix + 9)
+	ld	iy, (hl)
+	ld	(ix + -12), iy
+BB1_9:
+	push	de
+	pop	hl
 	call	__imulu
-	private	tmp82
-tmp82:
-	push	hl
+	push	de
 	pop	bc
-	ld	iy, (ix + -9)
-	add	iy, bc
-	ld	hl, (iy)
-	private	tmp83
-tmp83:
-	loc	2 197 9 is_stmt 0
-	ld	(ix + -12), hl
-	ld	hl, (ix + -6)
-	ld	bc, 0
+	push	hl
+	pop	de
+	add	iy, de
+	ld	de, (iy)
+	ld	hl, (ix + -3)
+	ld	(ix + -9), bc
 	or	a, a
 	sbc	hl, bc
 	call	__setflag
-	private	tmp84
-tmp84:
-	jq	m, BB1_11
-	private	tmp85
-tmp85:
-	loc	2 0 0
-	inc	de
-	loc	2 197 9
-	ld	hl, (ix + -12)
+	jq	m, BB1_12
+	ex	de, hl
 	add	hl, bc
 	or	a, a
 	sbc	hl, bc
-	jq	nz, BB1_9
-	private	tmp86
-tmp86:
-BB1_11:
-	loc	2 0 9
+	jq	z, BB1_12
+	ld	hl, (ix + -9)
+	inc	hl
+	ld	bc, (ix + -3)
+	call	__irems
+	push	hl
+	pop	de
+	ld	bc, 3
+	ld	iy, (ix + -12)
+	jq	BB1_9
+BB1_12:
 	ld	(ix + -9), iy
-	loc	2 203 48 is_stmt 1
 	ld	iy, (ix + 6)
 	ld	iy, (iy + 12)
-	ld	de, (ix + -15)
-	loc	2 203 39 is_stmt 0
+	ld	de, (ix + -6)
 	push	de
 	pop	hl
 	ld	bc, 3
 	call	__imulu
-	private	tmp87
-tmp87:
-	loc	2 0 39
 	push	de
 	pop	bc
-	loc	2 203 39
 	push	hl
 	pop	de
 	add	iy, de
 	ld	hl, (iy)
-	loc	2 203 37
 	ld	iy, (ix + -9)
 	ld	(iy), hl
 	ld	iy, (ix + 6)
-	private	tmp88
-tmp88:
-	loc	2 192 67 is_stmt 1
 	inc	bc
-	private	tmp89
-tmp89:
-	loc	2 192 5 is_stmt 0
 	jq	BB1_7
-	private	tmp90
-tmp90:
 	section	.text,"ax",@progbits
-	private	func_end1
-func_end1:
-	cfi_endproc
 
 	section	.text,"ax",@progbits
 	public	_vysion_FilesystemHashSearch
 _vysion_FilesystemHashSearch:
-	private	func_begin2
-func_begin2:
-	loc	2 216 0 is_stmt 1
-	cfi_startproc
 	ld	hl, -9
 	call	__frameset
-	private	tmp91
-tmp91:
-	cfi_def_cfa ix, 6
-	cfi_offset ix, -6
 	ld	hl, (ix + 15)
 	ld	de, -1
-	private	tmp92
-tmp92:
-	loc	2 219 9 prologue_end
 	add	hl, bc
-	private	tmp93
-tmp93:
 	or	a, a
 	sbc	hl, bc
 	jq	nz, BB2_1
-	private	tmp94
-tmp94:
-	loc	2 0 9 is_stmt 0
 	jq	BB2_8
-	private	tmp95
-tmp95:
 BB2_1:
 	ld	hl, (ix + 6)
-	private	tmp96
-tmp96:
-	loc	2 220 20 is_stmt 1
 	push	hl
 	call	_vysion_util_GetStringHash
-	private	tmp97
-tmp97:
-	loc	2 0 20 is_stmt 0
 	ld	bc, (ix + 15)
-	loc	2 220 20
+	pop	de
+	call	__iremu
 	push	hl
 	pop	iy
-	pop	hl
-	private	tmp98
-tmp98:
-	loc	2 221 10 is_stmt 1
 	ld	de, 1
 	push	bc
 	pop	hl
 	or	a, a
 	sbc	hl, de
 	call	__setflag
-	private	tmp99
-tmp99:
 	push	bc
-	pop	de
-	jq	p, BB2_3
-	private	tmp100
-tmp100:
-	ld	de, 0
-	private	tmp101
-tmp101:
-BB2_3:
-BB2_4:
-	loc	2 0 0 is_stmt 0
-	lea	hl, iy + 0
-	call	__irems
-	private	tmp102
-tmp102:
-	push	hl
-	pop	iy
-	private	tmp103
-tmp103:
-	loc	2 221 5
-	push	de
 	pop	hl
+	jq	p, BB2_3
+	or	a, a
+	sbc	hl, hl
+BB2_3:
+	ld	bc, 3
+	ld	de, -1
+BB2_4:
 	add	hl, bc
 	or	a, a
 	sbc	hl, bc
 	jq	z, BB2_10
-	private	tmp104
-tmp104:
-	loc	2 0 5
-	ld	(ix + -6), de
-	private	tmp105
-tmp105:
-	loc	2 222 20 is_stmt 1
+	ld	(ix + -6), hl
 	lea	hl, iy + 0
-	ld	bc, 3
 	call	__imulu
-	private	tmp106
-tmp106:
 	push	hl
 	pop	de
 	ld	hl, (ix + 12)
@@ -715,390 +344,420 @@ tmp106:
 	ld	(ix + -9), hl
 	ld	hl, (hl)
 	inc	hl
-	loc	2 222 13 is_stmt 0
 	ld	de, (ix + 6)
 	push	de
 	push	hl
 	ld	(ix + -3), iy
 	call	_strcmp
-	private	tmp107
-tmp107:
 	pop	de
 	pop	de
-	loc	2 222 75
 	add	hl, bc
 	or	a, a
 	sbc	hl, bc
 	jq	nz, BB2_7
-	private	tmp108
-tmp108:
-	loc	2 222 78
 	ld	hl, (ix + -9)
 	ld	iy, (hl)
-	loc	2 222 109
 	ld	a, (iy + 13)
-	private	tmp109
-tmp109:
-	loc	2 222 13
 	ld	l, (ix + 9)
 	cp	a, l
 	jq	z, BB2_11
-	private	tmp110
-tmp110:
 BB2_7:
-	loc	2 0 13
-	ld	iy, (ix + -3)
-	loc	2 226 21 is_stmt 1
-	inc	iy
-	private	tmp111
-tmp111:
-	loc	2 0 21 is_stmt 0
-	ld	de, (ix + -6)
-	private	tmp112
-tmp112:
-	loc	2 221 5 is_stmt 1
-	dec	de
+	ld	hl, (ix + -3)
+	inc	hl
 	ld	bc, (ix + 15)
-	jq	BB2_4
-	private	tmp113
-tmp113:
-BB2_10:
-	loc	2 0 5 is_stmt 0
+	call	__irems
+	push	hl
+	pop	iy
+	ld	hl, (ix + -6)
+	dec	hl
 	ld	de, -1
+	ld	bc, 3
+	jq	BB2_4
+BB2_10:
 	jq	BB2_8
-	private	tmp114
-tmp114:
 BB2_11:
 	ld	de, (ix + -3)
-	private	tmp115
-tmp115:
 BB2_8:
-	loc	2 230 1 is_stmt 1
 	ex	de, hl
 	ld	sp, ix
 	pop	ix
-	cfi_def_cfa sp, 3
-	cfi_restore ix
 	ret
-	private	tmp116
-tmp116:
 	section	.text,"ax",@progbits
-	private	func_end2
-func_end2:
-	cfi_endproc
 
 	section	.text,"ax",@progbits
 	public	_vysion_AddFile
 _vysion_AddFile:
-	private	func_begin3
-func_begin3:
-	loc	2 167 0
-	cfi_startproc
 	ld	hl, -3
 	call	__frameset
-	private	tmp117
-tmp117:
-	cfi_def_cfa ix, 6
-	cfi_offset ix, -6
 	ld	iy, (ix + 6)
 	ld	bc, 3
-	private	tmp118
-tmp118:
-	loc	2 168 25 prologue_end
 	ld	hl, (iy + 3)
 	ld	(ix + -3), hl
 	inc	hl
 	ld	(iy + 3), hl
-	private	tmp119
-tmp119:
-	loc	2 169 38
 	ld	de, (iy + 12)
-	private	tmp120
-tmp120:
-	loc	2 169 58 is_stmt 0
 	call	__imulu
-	private	tmp121
-tmp121:
-	loc	2 169 21
 	push	hl
 	push	de
 	call	_realloc
-	private	tmp122
-tmp122:
 	pop	de
 	pop	de
-	loc	2 169 19
 	ld	iy, (ix + 6)
-	private	tmp123
-tmp123:
 	ld	(iy + 12), hl
-	private	tmp124
-tmp124:
-	loc	2 171 47 is_stmt 1
 	ld	hl, 25
 	push	hl
 	call	_malloc
-	private	tmp125
-tmp125:
 	push	hl
 	pop	de
 	pop	hl
-	loc	2 171 21 is_stmt 0
 	ld	iy, (ix + 6)
 	ld	iy, (iy + 12)
-	loc	2 171 12
 	ld	hl, (ix + -3)
 	ld	bc, 3
 	call	__imulu
-	private	tmp126
-tmp126:
 	push	hl
 	pop	bc
 	add	iy, bc
-	loc	2 171 45
 	ld	(iy), de
-	loc	2 171 5
 	ex	de, hl
 	ld	sp, ix
 	pop	ix
-	cfi_def_cfa sp, 3
-	cfi_restore ix
 	ret
-	private	tmp127
-tmp127:
 	section	.text,"ax",@progbits
-	private	func_end3
-func_end3:
-	cfi_endproc
 
 	section	.text,"ax",@progbits
 	public	_vysion_GetFileInfo
 _vysion_GetFileInfo:
-	private	func_begin4
-func_begin4:
-	loc	2 105 0 is_stmt 1
-	cfi_startproc
 	ld	hl, -3
 	call	__frameset
-	private	tmp128
-tmp128:
-	cfi_def_cfa ix, 6
-	cfi_offset ix, -6
 	ld	iy, (ix + 6)
-	private	tmp129
-tmp129:
-	loc	2 0 0 prologue_end
-	ld	hl, L_.str.3
-	private	tmp130
-tmp130:
-	loc	2 107 28
+	ld	hl, L_.str.2
 	lea	bc, iy + 0
 	inc	bc
-	private	tmp131
-tmp131:
-	loc	2 107 68 is_stmt 0
 	ld	a, (iy + 13)
-	loc	2 107 17
 	ld	e, a
 	push	de
 	push	hl
 	push	bc
 	call	_ti_OpenVar
-	private	tmp132
-tmp132:
 	ld	e, a
 	pop	hl
 	pop	hl
 	pop	hl
-	private	tmp133
-tmp133:
-	loc	2 107 9
 	or	a, a
 	jq	z, BB4_9
-	private	tmp134
-tmp134:
-	loc	2 0 9
 	ld	hl, 0
 	ld	bc, (ix + 6)
 	push	bc
 	pop	iy
-	private	tmp135
-tmp135:
-	loc	2 109 20 is_stmt 1
 	ld	(iy + 15), hl
-	loc	2 110 22
 	push	de
 	ld	(ix + -3), de
 	call	_ti_GetSize
-	private	tmp136
-tmp136:
 	pop	de
-	loc	2 110 20 is_stmt 0
 	ld	iy, (ix + 6)
 	ld	(iy + 22), l
 	ld	(iy + 23), h
-	loc	2 111 26 is_stmt 1
 	ld	hl, (ix + -3)
 	push	hl
 	call	_ti_IsArchived
-	private	tmp137
-tmp137:
 	pop	de
 	ld	iy, (ix + 6)
-	loc	2 111 24 is_stmt 0
 	ld	a, (iy + 24)
 	add	hl, bc
 	or	a, a
 	sbc	hl, bc
 	ld	l, 0
 	jq	z, BB4_3
-	loc	2 0 24
 	ld	l, 2
 BB4_3:
-	loc	2 111 24
 	and	a, -3
 	add	a, l
 	ld	(iy + 24), a
-	private	tmp138
-tmp138:
-	loc	2 113 24 is_stmt 1
 	ld	a, (iy + 13)
-	private	tmp139
-tmp139:
-	loc	2 113 13 is_stmt 0
 	cp	a, 5
 	jq	nz, BB4_5
-	private	tmp140
-tmp140:
-	loc	2 114 85 is_stmt 1
 	ld	hl, (ix + -3)
 	push	hl
 	call	_ti_GetDataPtr
-	private	tmp141
-tmp141:
 	pop	de
-	loc	2 114 54 is_stmt 0
 	push	hl
 	ld	hl, (ix + 6)
 	push	hl
 	call	_vysion_GetFileInfo_Basic
-	private	tmp142
-tmp142:
-	loc	2 0 54
 	jq	BB4_7
-	private	tmp143
-tmp143:
 BB4_5:
-	loc	2 113 13 is_stmt 1
 	cp	a, 6
 	ld	de, (ix + -3)
 	jq	nz, BB4_8
-	private	tmp144
-tmp144:
-	loc	2 113 79 is_stmt 0
 	push	de
 	call	_ti_GetDataPtr
-	private	tmp145
-tmp145:
 	pop	de
-	loc	2 113 50
 	push	hl
 	ld	hl, (ix + 6)
 	push	hl
 	call	_vysion_GetFileInfo_Asm
-	private	tmp146
-tmp146:
 BB4_7:
-	loc	2 0 50
 	ld	de, (ix + -3)
 	pop	hl
 	pop	hl
-	private	tmp147
-tmp147:
 BB4_8:
-	loc	2 116 9 is_stmt 1
 	push	de
 	call	_ti_Close
-	private	tmp148
-tmp148:
 	pop	hl
-	private	tmp149
-tmp149:
 BB4_9:
-	loc	2 118 1
 	pop	hl
 	pop	ix
-	cfi_def_cfa sp, 3
-	cfi_restore ix
 	ret
-	private	tmp150
-tmp150:
 	section	.text,"ax",@progbits
-	private	func_end4
-func_end4:
-	cfi_endproc
+
+	section	.text,"ax",@progbits
+	public	_vysion_DetectAllFolders
+_vysion_DetectAllFolders:
+	ld	hl, -24
+	call	__frameset
+	ld	iy, (ix + 6)
+	ld	bc, 3
+	ld	de, (iy + 3)
+	ld	iy, (iy + 6)
+	lea	hl, iy + 0
+	add	hl, de
+	call	__imulu
+	push	hl
+	pop	de
+	ld	hl, 0
+	add	hl, sp
+	or	a, a
+	sbc	hl, de
+	ld	(ix + -15), hl
+	ld	sp, hl
+	lea	bc, iy + 0
+	ld	de, 0
+BB5_1:
+	push	de
+	pop	hl
+	or	a, a
+	sbc	hl, bc
+	call	__setflag
+	jq	p, BB5_5
+	ld	(ix + -9), bc
+	ld	(ix + -6), de
+	ld	iy, (ix + 6)
+	ld	de, (iy + 3)
+	push	de
+	pop	hl
+	ld	bc, 1
+	or	a, a
+	sbc	hl, bc
+	call	__setflag
+	jq	p, BB5_4
+	ld	de, 0
+BB5_4:
+	or	a, a
+	sbc	hl, hl
+	ld	(ix + -12), hl
+	ld	(ix + -3), hl
+BB5_6:
+	push	de
+	pop	hl
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	jq	z, BB5_16
+	ld	iy, (ix + 6)
+	ld	hl, (iy + 12)
+	ld	bc, (ix + -12)
+	add	hl, bc
+	ld	iy, (hl)
+	ld	(ix + -21), iy
+	ld	hl, (iy + 10)
+	ld	(ix + -18), hl
+	ld	iy, (ix + 6)
+	ld	iy, (iy + 15)
+	ld	hl, (ix + -6)
+	ld	bc, 3
+	call	__imulu
+	push	hl
+	pop	bc
+	add	iy, bc
+	ld	iy, (iy)
+	ld	bc, (iy + 13)
+	ld	hl, (ix + -18)
+	or	a, a
+	sbc	hl, bc
+	jq	nz, BB5_15
+	push	de
+	pop	iy
+	ld	de, (ix + -3)
+	push	de
+	pop	hl
+	ld	bc, 3
+	call	__imulu
+	push	hl
+	pop	bc
+	ld	hl, (ix + -15)
+	add	hl, bc
+	ld	bc, (ix + -21)
+	ld	(hl), bc
+	inc	de
+	ld	(ix + -3), de
+	lea	de, iy + 0
+	jq	BB5_9
+BB5_15:
+BB5_9:
+	dec	de
+	ld	hl, (ix + -12)
+	ld	bc, 3
+	add	hl, bc
+	ld	(ix + -12), hl
+	jq	BB5_6
+BB5_16:
+	or	a, a
+	sbc	hl, hl
+	ld	(ix + -12), hl
+	ld	bc, 3
+	ld	hl, (ix + -9)
+BB5_10:
+	ld	(ix + -9), hl
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	jq	z, BB5_11
+	ld	iy, (ix + 6)
+	ld	hl, (iy + 15)
+	ld	(ix + -21), hl
+	ld	de, (ix + -12)
+	add	hl, de
+	ld	iy, (hl)
+	ld	(ix + -24), iy
+	ld	hl, (iy + 10)
+	ld	(ix + -18), hl
+	ld	hl, (ix + -6)
+	call	__imulu
+	push	hl
+	pop	de
+	ld	hl, (ix + -21)
+	add	hl, de
+	ld	iy, (hl)
+	ld	de, (iy + 13)
+	ld	hl, (ix + -18)
+	or	a, a
+	sbc	hl, de
+	jq	nz, BB5_17
+	ld	hl, (ix + -3)
+	call	__imulu
+	push	hl
+	pop	de
+	ld	hl, (ix + -15)
+	add	hl, de
+	ld	iy, (ix + -24)
+	ld	(hl), iy
+	ld	hl, (ix + -3)
+	inc	hl
+	ld	(ix + -3), hl
+	jq	BB5_14
+BB5_17:
+BB5_14:
+	ld	hl, (ix + -9)
+	dec	hl
+	ld	iy, (ix + -12)
+	add	iy, bc
+	ld	(ix + -12), iy
+	jq	BB5_10
+BB5_11:
+	ld	hl, (ix + -3)
+	call	__imulu
+	ld	(ix + -9), hl
+	push	hl
+	pop	iy
+	ld	de, 3
+	add	iy, de
+	push	iy
+	call	_malloc
+	ld	(ix + -12), hl
+	pop	hl
+	ld	hl, (ix + 6)
+	push	hl
+	pop	iy
+	ld	iy, (iy + 15)
+	ld	hl, (ix + -6)
+	ld	bc, 3
+	call	__imulu
+	push	hl
+	pop	de
+	lea	hl, iy + 0
+	add	hl, de
+	ld	iy, (hl)
+	push	hl
+	pop	bc
+	ld	hl, (ix + -12)
+	ld	(iy + 20), hl
+	push	bc
+	pop	hl
+	ld	iy, (hl)
+	ld	iy, (iy + 20)
+	ld	hl, (ix + -3)
+	ld	bc, 3
+	call	__imulu
+	push	hl
+	pop	bc
+	add	iy, bc
+	ld	hl, 0
+	ld	(iy), hl
+	ld	iy, (ix + 6)
+	ld	hl, (iy + 15)
+	add	hl, de
+	ld	iy, (hl)
+	ld	hl, (iy + 20)
+	ld	de, (ix + -9)
+	push	de
+	ld	de, (ix + -15)
+	push	de
+	push	hl
+	call	_memcpy
+	ld	de, (ix + -6)
+	pop	hl
+	pop	hl
+	pop	hl
+	inc	de
+	ld	iy, (ix + 6)
+	ld	bc, (iy + 6)
+	jq	BB5_1
+BB5_5:
+	ld	sp, ix
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
 
 	section	.text,"ax",@progbits
 	public	_vysion_SaveFilesystem
 _vysion_SaveFilesystem:
-	private	func_begin5
-func_begin5:
-	loc	2 58 0
-	cfi_startproc
 	ld	hl, -15
 	call	__frameset
-	private	tmp151
-tmp151:
-	cfi_def_cfa ix, 6
-	cfi_offset ix, -6
 	ld	hl, 2
-	private	tmp152
-tmp152:
-	loc	2 0 0 prologue_end
-	ld	de, L_.str.1
-	ld	bc, L_.str.2
-	private	tmp153
-tmp153:
-	loc	2 60 9
+	ld	de, L_.str
+	ld	bc, L_.str.1
 	ld	(ix + -3), hl
-	private	tmp154
-tmp154:
-	loc	2 61 17
 	push	bc
 	push	de
 	call	_ti_Open
-	private	tmp155
-tmp155:
 	ld	e, a
 	pop	hl
 	pop	hl
-	private	tmp156
-tmp156:
-	loc	2 61 9 is_stmt 0
 	or	a, a
-	jq	z, BB5_8
-	private	tmp157
-tmp157:
-	loc	2 0 9
-	ld	iy, 3
+	jq	z, BB6_8
+	ld	hl, 3
 	ld	bc, 1
-	lea	hl, ix + -3
-	private	tmp158
-tmp158:
-	loc	2 63 9 is_stmt 1
 	push	de
 	push	bc
-	push	iy
 	push	hl
+	pea	ix + -3
 	ld	(ix + -6), de
 	call	_ti_Write
-	private	tmp159
-tmp159:
 	pop	hl
 	pop	hl
 	pop	hl
 	pop	hl
-	loc	2 64 9
 	ld	hl, (ix + -6)
 	push	hl
 	ld	hl, 1
@@ -1106,52 +765,30 @@ tmp159:
 	ld	hl, 12
 	push	hl
 	ld	hl, (ix + 6)
-	private	tmp160
-tmp160:
 	push	hl
 	call	_ti_Write
-	private	tmp161
-tmp161:
 	pop	hl
 	pop	hl
 	pop	hl
 	pop	hl
 	ld	bc, 0
-	private	tmp162
-tmp162:
-	loc	2 0 0 is_stmt 0
 	ld	(ix + -9), bc
-	private	tmp163
-tmp163:
 	ld	(ix + -12), bc
-	private	tmp164
-tmp164:
-BB5_2:
-	loc	2 67 59 is_stmt 1
+BB6_2:
 	ld	iy, (ix + 6)
 	ld	de, (iy + 3)
 	ld	(ix + -15), bc
-	private	tmp165
-tmp165:
-	loc	2 67 9 is_stmt 0
 	push	bc
 	pop	hl
 	or	a, a
 	sbc	hl, de
 	call	__setflag
-	private	tmp166
-tmp166:
-	jq	p, BB5_3
-	private	tmp167
-tmp167:
-	loc	2 67 93
+	jq	p, BB6_3
 	ld	iy, (ix + 6)
 	ld	hl, (iy + 12)
-	loc	2 67 84
 	ld	de, (ix + -12)
 	add	hl, de
 	ld	hl, (hl)
-	loc	2 67 75
 	ld	de, (ix + -6)
 	push	de
 	ld	de, 1
@@ -1160,62 +797,37 @@ tmp167:
 	push	de
 	push	hl
 	call	_ti_Write
-	private	tmp168
-tmp168:
 	pop	hl
 	pop	hl
 	pop	hl
 	pop	hl
 	ld	bc, (ix + -15)
-	loc	2 67 71
 	inc	bc
-	private	tmp169
-tmp169:
-	loc	2 67 9
 	ld	de, 3
 	ld	hl, (ix + -12)
 	add	hl, de
 	ld	(ix + -12), hl
-	jq	BB5_2
-	private	tmp170
-tmp170:
-BB5_3:
-	loc	2 0 0
+	jq	BB6_2
+BB6_3:
 	or	a, a
 	sbc	hl, hl
 	push	hl
 	pop	bc
-BB5_5:
-	private	tmp171
-tmp171:
-	loc	2 69 59 is_stmt 1
+BB6_5:
 	ld	iy, (ix + 6)
 	ld	de, (iy + 6)
 	ld	(ix + -12), bc
-	private	tmp172
-tmp172:
-	loc	2 0 59 is_stmt 0
 	push	bc
 	pop	hl
-	private	tmp173
-tmp173:
-	loc	2 69 9
 	or	a, a
 	sbc	hl, de
 	call	__setflag
-	private	tmp174
-tmp174:
-	jq	p, BB5_6
-	private	tmp175
-tmp175:
-	loc	2 69 95
+	jq	p, BB6_6
 	ld	iy, (ix + 6)
 	ld	hl, (iy + 15)
-	loc	2 69 86
 	ld	de, (ix + -9)
 	add	hl, de
 	ld	hl, (hl)
-	loc	2 69 77
 	ld	de, (ix + -6)
 	push	de
 	ld	de, 1
@@ -1224,100 +836,60 @@ tmp175:
 	push	de
 	push	hl
 	call	_ti_Write
-	private	tmp176
-tmp176:
 	pop	hl
 	pop	hl
 	pop	hl
 	pop	hl
 	ld	bc, (ix + -12)
-	loc	2 69 73
 	inc	bc
-	private	tmp177
-tmp177:
-	loc	2 69 9
 	ld	de, 3
 	ld	hl, (ix + -9)
 	add	hl, de
 	ld	(ix + -9), hl
-	jq	BB5_5
-	private	tmp178
-tmp178:
-BB5_6:
-	loc	2 70 9 is_stmt 1
+	jq	BB6_5
+BB6_6:
 	ld	hl, (ix + -6)
 	push	hl
 	call	_ti_Close
-	private	tmp179
-tmp179:
 	pop	hl
-	private	tmp180
-tmp180:
-BB5_8:
-	loc	2 72 1
+BB6_8:
 	ld	sp, ix
 	pop	ix
-	cfi_def_cfa sp, 3
-	cfi_restore ix
 	ret
-	private	tmp181
-tmp181:
 	section	.text,"ax",@progbits
-	private	func_end5
-func_end5:
-	cfi_endproc
 
 	section	.text,"ax",@progbits
 	public	_vysion_LoadFilesystem
 _vysion_LoadFilesystem:
-	private	func_begin6
-func_begin6:
-	loc	2 75 0
-	cfi_startproc
 	ld	hl, -12
 	call	__frameset
-	private	tmp182
-tmp182:
-	cfi_def_cfa ix, 6
-	cfi_offset ix, -6
-	loc	2 0 0 prologue_end
-	ld	hl, L_.str.1
-	ld	de, L_.str.3
-	loc	2 78 17
+	ld	hl, L_.str
+	ld	de, L_.str.2
 	push	de
 	push	hl
 	call	_ti_Open
-	private	tmp183
-tmp183:
 	ld	e, a
 	pop	hl
 	pop	hl
-	private	tmp184
-tmp184:
-	loc	2 78 9 is_stmt 0
 	or	a, a
-	jq	z, BB6_12
-	private	tmp185
-tmp185:
-	loc	2 0 9
+	jq	nz, BB7_2
+	ld	hl, (ix + 6)
+	push	hl
+	call	_vysion_InitializeFilesystem
+	jq	BB7_13
+BB7_2:
 	ld	hl, 3
 	ld	bc, 1
-	private	tmp186
-tmp186:
-	loc	2 82 9 is_stmt 1
 	push	de
 	push	bc
 	push	hl
 	pea	ix + -3
 	ld	(ix + -9), de
 	call	_ti_Read
-	private	tmp187
-tmp187:
 	pop	hl
 	pop	hl
 	pop	hl
 	pop	hl
-	loc	2 84 9
 	ld	hl, (ix + -9)
 	push	hl
 	ld	hl, 1
@@ -1325,83 +897,38 @@ tmp187:
 	ld	hl, 12
 	push	hl
 	ld	hl, (ix + 6)
-	private	tmp188
-tmp188:
 	push	hl
-	private	tmp189
-tmp189:
 	call	_ti_Read
-	private	tmp190
-tmp190:
 	pop	hl
 	pop	hl
 	pop	hl
 	pop	hl
 	ld	iy, (ix + 6)
-	private	tmp191
-tmp191:
-	loc	2 86 51
-	ld	bc, (iy + 3)
-	private	tmp192
-tmp192:
-	loc	2 87 53
+	ld	de, (iy + 3)
 	ld	hl, (iy + 6)
-	private	tmp193
-tmp193:
-	loc	2 0 53 is_stmt 0
 	ld	(ix + -6), hl
-	private	tmp194
-tmp194:
-	ld	de, 0
-	loc	2 90 93 is_stmt 1
-	ld	(iy + 6), de
-	private	tmp195
-tmp195:
-	loc	2 90 49 is_stmt 0
-	ld	(iy + 3), de
-	private	tmp196
-tmp196:
-	loc	2 91 14 is_stmt 1
-	inc	de
-	push	bc
-	pop	hl
 	or	a, a
-	sbc	hl, de
-	call	__setflag
-	private	tmp197
-tmp197:
-	loc	2 0 14 is_stmt 0
-	dec	de
-	loc	2 91 14
-	jq	p, BB6_3
-	private	tmp198
-tmp198:
+	sbc	hl, hl
+	ld	(iy + 6), hl
+	ld	(iy + 3), hl
+	ld	bc, 1
 	push	de
-	pop	bc
-	private	tmp199
-tmp199:
-BB6_3:
-BB6_4:
-	loc	2 91 9
-	push	bc
 	pop	hl
-	add	hl, bc
 	or	a, a
 	sbc	hl, bc
-	jq	z, BB6_5
-	private	tmp200
-tmp200:
-	loc	2 92 40 is_stmt 1
-	ld	hl, (ix + 6)
-	push	hl
-	ld	(ix + -12), bc
+	ex	de, hl
+	call	__setflag
+	ld	de, (ix + 6)
+	dec	bc
+	jq	p, BB7_5
+	push	bc
+	pop	hl
+	jq	BB7_5
+BB7_6:
+	push	de
+	ld	(ix + -12), hl
 	call	_vysion_AddFile
-	private	tmp201
-tmp201:
 	pop	de
-	private	tmp202
-tmp202:
-	loc	2 93 13
 	ld	de, (ix + -9)
 	push	de
 	ld	de, 1
@@ -1410,62 +937,31 @@ tmp202:
 	push	de
 	push	hl
 	call	_ti_Read
-	private	tmp203
-tmp203:
-	loc	2 0 13 is_stmt 0
-	ld	bc, (ix + -12)
-	ld	de, 0
-	loc	2 93 13
+	ld	de, (ix + 6)
 	pop	hl
 	pop	hl
 	pop	hl
 	pop	hl
-	private	tmp204
-tmp204:
-	loc	2 91 9 is_stmt 1
-	dec	bc
-	jq	BB6_4
-	private	tmp205
-tmp205:
-BB6_5:
-	loc	2 96 9
+	ld	hl, (ix + -12)
+	dec	hl
+BB7_5:
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	jq	nz, BB7_6
 	ld	hl, (ix + -6)
 	ld	bc, 1
 	or	a, a
 	sbc	hl, bc
 	call	__setflag
-	private	tmp206
-tmp206:
-	jq	p, BB6_7
-	private	tmp207
-tmp207:
-	ld	(ix + -6), de
-	private	tmp208
-tmp208:
-BB6_7:
-	loc	2 0 9 is_stmt 0
-	ld	de, (ix + -9)
-	private	tmp209
-tmp209:
-BB6_9:
-	loc	2 96 9
-	ld	hl, (ix + -6)
-	add	hl, bc
-	or	a, a
-	sbc	hl, bc
-	jq	z, BB6_10
-	private	tmp210
-tmp210:
-	loc	2 97 44 is_stmt 1
-	ld	hl, (ix + 6)
-	push	hl
+	jq	p, BB7_10
+	ld	iy, 0
+	ld	(ix + -6), iy
+	jq	BB7_10
+BB7_11:
+	push	de
 	call	_vysion_AddFolder
-	private	tmp211
-tmp211:
 	pop	de
-	private	tmp212
-tmp212:
-	loc	2 98 13
 	ld	de, (ix + -9)
 	push	de
 	ld	de, 1
@@ -1474,327 +970,218 @@ tmp212:
 	push	de
 	push	hl
 	call	_ti_Read
-	private	tmp213
-tmp213:
-	loc	2 0 13 is_stmt 0
-	ld	de, (ix + -9)
-	loc	2 98 13
+	ld	de, (ix + 6)
 	pop	hl
 	pop	hl
 	pop	hl
 	pop	hl
-	private	tmp214
-tmp214:
-	loc	2 96 9 is_stmt 1
 	ld	hl, (ix + -6)
 	dec	hl
 	ld	(ix + -6), hl
-	jq	BB6_9
-	private	tmp215
-tmp215:
-BB6_10:
-	loc	2 100 9
-	push	de
+BB7_10:
+	ld	hl, (ix + -6)
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	jq	nz, BB7_11
+	ld	hl, (ix + -9)
+	push	hl
 	call	_ti_Close
-	private	tmp216
-tmp216:
+BB7_13:
 	pop	hl
-	private	tmp217
-tmp217:
-BB6_12:
-	loc	2 102 1
 	ld	sp, ix
 	pop	ix
-	cfi_def_cfa sp, 3
-	cfi_restore ix
 	ret
-	private	tmp218
-tmp218:
 	section	.text,"ax",@progbits
-	private	func_end6
-func_end6:
-	cfi_endproc
 
 	section	.text,"ax",@progbits
 	public	_vysion_AddFolder
 _vysion_AddFolder:
-	private	func_begin7
-func_begin7:
-	loc	2 174 0
-	cfi_startproc
-	ld	hl, -9
+	ld	hl, -3
 	call	__frameset
-	private	tmp219
-tmp219:
-	cfi_def_cfa ix, 6
-	cfi_offset ix, -6
 	ld	iy, (ix + 6)
 	ld	bc, 3
-	private	tmp220
-tmp220:
-	loc	2 175 27 prologue_end
 	ld	hl, (iy + 6)
 	ld	(ix + -3), hl
 	inc	hl
 	ld	(iy + 6), hl
-	private	tmp221
-tmp221:
-	loc	2 176 40
-	ld	(ix + -6), hl
 	ld	de, (iy + 15)
-	private	tmp222
-tmp222:
-	loc	2 176 64 is_stmt 0
 	call	__imulu
-	private	tmp223
-tmp223:
-	loc	2 176 23
 	push	hl
 	push	de
 	call	_realloc
-	private	tmp224
-tmp224:
-	push	hl
 	pop	de
-	ld	(ix + -9), de
-	pop	hl
-	pop	hl
+	pop	de
 	ld	iy, (ix + 6)
-	private	tmp225
-tmp225:
-	loc	2 176 21
-	ld	(iy + 15), de
-	loc	2 177 100 is_stmt 1
-	ld	de, (iy + 9)
-	push	de
-	pop	hl
-	inc	hl
-	ld	(iy + 9), hl
-	private	tmp226
-tmp226:
-	loc	2 177 5 is_stmt 0
-	ld	hl, (ix + -6)
-	ld	bc, 3
-	call	__imulu
-	private	tmp227
-tmp227:
-	push	hl
-	pop	bc
-	ld	hl, (ix + -9)
-	add	hl, bc
-	ld	iy, (hl)
-	loc	2 177 50
-	ld	(iy + 13), de
-	loc	2 178 51 is_stmt 1
-	ld	hl, 26
+	ld	(iy + 15), hl
+	ld	hl, 23
 	push	hl
 	call	_malloc
-	private	tmp228
-tmp228:
 	push	hl
 	pop	de
 	pop	hl
-	loc	2 178 21 is_stmt 0
 	ld	iy, (ix + 6)
 	ld	iy, (iy + 15)
-	loc	2 178 12
 	ld	hl, (ix + -3)
 	ld	bc, 3
 	call	__imulu
-	private	tmp229
-tmp229:
 	push	hl
 	pop	bc
+	ld	(ix + -3), bc
 	add	iy, bc
-	loc	2 178 49
 	ld	(iy), de
-	loc	2 178 5
-	ex	de, hl
+	ld	iy, (ix + 6)
+	ld	bc, (iy + 9)
+	push	bc
+	pop	de
+	inc	de
+	ld	(iy + 9), de
+	ld	hl, (iy + 15)
+	ld	de, (ix + -3)
+	add	hl, de
+	ld	iy, (hl)
+	ld	(iy + 13), bc
+	lea	hl, iy + 0
 	ld	sp, ix
 	pop	ix
-	cfi_def_cfa sp, 3
-	cfi_restore ix
 	ret
-	private	tmp230
-tmp230:
 	section	.text,"ax",@progbits
-	private	func_end7
-func_end7:
-	cfi_endproc
+
+	section	.text,"ax",@progbits
+	public	_vysion_InitializeFilesystem
+_vysion_InitializeFilesystem:
+	ld	hl, -9
+	call	__frameset
+	ld	bc, 0
+	ld	de, L___const.vysion_InitializeFilesystem.name
+	ld	(ix + -3), de
+	ld	de, 4
+BB9_1:
+	push	bc
+	pop	hl
+	or	a, a
+	sbc	hl, de
+	jq	z, BB9_2
+	ld	hl, (ix + 6)
+	push	hl
+	ld	(ix + -6), bc
+	call	_vysion_AddFolder
+	ld	(ix + -9), hl
+	pop	de
+	push	hl
+	pop	iy
+	inc	iy
+	ld	hl, (ix + -3)
+	ld	de, (hl)
+	push	de
+	push	iy
+	call	_strcpy
+	ld	bc, (ix + -6)
+	ld	de, 4
+	pop	hl
+	pop	hl
+	ld	iy, (ix + -9)
+	ld	(iy + 13), bc
+	or	a, a
+	sbc	hl, hl
+	ld	(iy + 10), hl
+	ld	(iy), 1
+	inc	bc
+	ld	iy, (ix + -3)
+	lea	iy, iy + 3
+	ld	(ix + -3), iy
+	jq	BB9_1
+BB9_2:
+	ld	sp, ix
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
 
 	section	.text,"ax",@progbits
 	public	_vysion_GetFileInfo_Asm
 _vysion_GetFileInfo_Asm:
-	private	func_begin8
-func_begin8:
-	loc	2 121 0 is_stmt 1
-	cfi_startproc
 	call	__frameset0
-	private	tmp231
-tmp231:
-	cfi_def_cfa ix, 6
-	cfi_offset ix, -6
 	ld	bc, (ix + 6)
 	ld	iy, (ix + 9)
-	private	tmp232
-tmp232:
-	loc	2 124 9 prologue_end
 	ld	l, (iy)
 	ld	h, (iy + 1)
-	private	tmp233
-tmp233:
-	loc	2 124 9 is_stmt 0
 	ld.sis	de, 31727
 	or	a, a
 	sbc.sis	hl, de
-	jq	nz, BB8_1
-	private	tmp234
-tmp234:
-	loc	2 129 13 is_stmt 1
+	jq	nz, BB10_1
 	ld	a, (iy + 2)
-	loc	2 129 5 is_stmt 0
 	cp	a, 127
-	jq	z, BB8_3
-	private	tmp235
-tmp235:
-	loc	2 0 5
+	jq	z, BB10_3
 	ld	l, 3
-	jq	BB8_5
-	private	tmp236
-tmp236:
-BB8_1:
-	loc	2 125 9 is_stmt 1
+	jq	BB10_5
+BB10_1:
 	push	iy
 	push	bc
 	call	_vysion_GetFileInfo_Basic
-	private	tmp237
-tmp237:
 	pop	hl
 	pop	hl
-	jq	BB8_9
-	private	tmp238
-tmp238:
-BB8_3:
-	loc	2 0 9 is_stmt 0
+	jq	BB10_9
+BB10_3:
 	ld	l, 5
-	private	tmp239
-tmp239:
-BB8_5:
-	loc	2 129 5 is_stmt 1
+BB10_5:
 	or	a, a
-	jq	z, BB8_6
-	private	tmp240
-tmp240:
-	loc	2 0 5 is_stmt 0
-	jq	BB8_8
-	private	tmp241
-tmp241:
-BB8_6:
+	jq	z, BB10_6
+	jq	BB10_8
+BB10_6:
 	ld	l, 4
-	private	tmp242
-tmp242:
-BB8_8:
+BB10_8:
 	ld	de, (ix + 6)
 	lea	bc, iy + 0
-	private	tmp243
-tmp243:
 	push	de
 	pop	iy
-	private	tmp244
-tmp244:
 	ld	(iy + 18), l
-	private	tmp245
-tmp245:
-	loc	2 143 18 is_stmt 1
 	ld	hl, 20
 	push	hl
 	ld	hl, 16
 	push	hl
 	push	bc
 	call	_memchr
-	private	tmp246
-tmp246:
 	pop	de
 	pop	de
 	pop	de
-	loc	2 143 16 is_stmt 0
 	ld	iy, (ix + 6)
 	ld	(iy + 15), hl
-BB8_9:
-	loc	2 144 1 is_stmt 1
+BB10_9:
 	pop	ix
-	cfi_def_cfa sp, 3
-	cfi_restore ix
 	ret
-	private	tmp247
-tmp247:
 	section	.text,"ax",@progbits
-	private	func_end8
-func_end8:
-	cfi_endproc
 
 	section	.text,"ax",@progbits
 	public	_vysion_GetFileInfo_Basic
 _vysion_GetFileInfo_Basic:
-	private	func_begin9
-func_begin9:
-	loc	2 146 0
-	cfi_startproc
 	ld	hl, -14
 	call	__frameset
-	private	tmp248
-tmp248:
-	cfi_def_cfa ix, 6
-	cfi_offset ix, -6
-	loc	2 0 0 prologue_end
 	ld	hl, L___const.vysion_GetFileInfo_Basic.ti_basic_sequence
 	ld	de, 6
 	lea	bc, ix + -6
-	private	tmp249
-tmp249:
-	loc	2 148 13
 	push	de
 	push	hl
 	ld	(ix + -11), bc
 	push	bc
 	call	_memcpy
-	private	tmp250
-tmp250:
 	pop	hl
 	pop	hl
 	pop	hl
-	loc	2 149 10
 	ld.sis	hl, 32
 	ld	(ix + -8), l
 	ld	(ix + -7), h
-	private	tmp251
-tmp251:
-	loc	2 151 20
 	ld	iy, (ix + 6)
 	ld	a, (iy + 13)
-	loc	2 151 28 is_stmt 0
 	cp	a, 5
-	jq	nz, BB9_1
-	private	tmp252
-tmp252:
-	loc	2 0 28
+	jq	nz, BB11_1
 	ld	a, 0
-	jq	BB9_3
-BB9_1:
+	jq	BB11_3
+BB11_1:
 	ld	a, 1
-BB9_3:
-	private	tmp253
-tmp253:
-	loc	2 151 9
+BB11_3:
 	and	a, 1
-	private	tmp254
-tmp254:
-	loc	2 151 63
 	ld	iy, (ix + 6)
 	ld	(iy + 18), a
-	private	tmp255
-tmp255:
-	loc	2 153 9 is_stmt 1
 	ld	hl, 6
 	push	hl
 	ld	hl, (ix + 9)
@@ -1802,137 +1189,165 @@ tmp255:
 	ld	hl, (ix + -11)
 	push	hl
 	call	_memcmp
-	private	tmp256
-tmp256:
 	pop	de
 	pop	de
 	pop	de
-	private	tmp257
-tmp257:
-	loc	2 153 9 is_stmt 0
 	add	hl, bc
 	or	a, a
 	sbc	hl, bc
-	jq	nz, BB9_7
-	private	tmp258
-tmp258:
-	loc	2 0 9
+	jq	nz, BB11_7
 	ld	hl, _malloc
 	ld	de, 16
-	private	tmp259
-tmp259:
-	loc	2 155 22 is_stmt 1
 	push	hl
 	push	de
 	push	de
 	call	_gfx_AllocSprite
-	private	tmp260
-tmp260:
 	pop	de
 	pop	de
 	pop	de
-	loc	2 155 20 is_stmt 0
 	ld	iy, (ix + 6)
 	ld	(iy + 15), hl
 	ld	iy, (ix + 9)
 	lea	hl, iy + 6
 	ld	(ix + -11), hl
 	ld	de, 0
-	private	tmp261
-tmp261:
-BB9_5:
-	loc	2 0 20
+BB11_5:
 	push	de
 	pop	bc
-	private	tmp262
-tmp262:
-	loc	2 156 9 is_stmt 1
 	ex	de, hl
-	private	tmp263
-tmp263:
-	loc	2 0 9 is_stmt 0
 	ld	de, 256
-	loc	2 156 9
 	or	a, a
 	sbc	hl, de
-	jq	z, BB9_7
-	private	tmp264
-tmp264:
-	loc	2 157 23 is_stmt 1
+	jq	z, BB11_7
 	ld	hl, (ix + -11)
 	ld	(ix + -14), bc
 	add	hl, bc
 	ld	a, (hl)
-	loc	2 157 21 is_stmt 0
 	ld	(ix + -8), a
-	loc	2 158 43 is_stmt 1
 	ld	hl, 16
 	push	hl
 	ld	hl, 0
 	push	hl
 	pea	ix + -8
 	call	_strtol
-	private	tmp265
-tmp265:
 	push	hl
 	pop	de
 	pop	hl
 	pop	hl
 	pop	hl
-	loc	2 158 35 is_stmt 0
 	ld	hl, L___const.vysion_GetFileInfo_Basic.palette
 	add	hl, de
 	ld	de, (ix + -14)
 	ld	a, (hl)
-	loc	2 158 19
 	ld	iy, (ix + 6)
 	ld	iy, (iy + 15)
-	loc	2 158 33
 	add	iy, de
 	ld	(iy + 2), a
-	private	tmp266
-tmp266:
-	loc	2 156 56 is_stmt 1
 	inc	de
-	private	tmp267
-tmp267:
-	loc	2 156 9 is_stmt 0
-	jq	BB9_5
-	private	tmp268
-tmp268:
-BB9_7:
-	loc	2 161 1 is_stmt 1
+	jq	BB11_5
+BB11_7:
 	ld	sp, ix
 	pop	ix
-	cfi_def_cfa sp, 3
-	cfi_restore ix
 	ret
-	private	tmp269
-tmp269:
 	section	.text,"ax",@progbits
-	private	func_end9
-func_end9:
-	cfi_endproc
+
+	section	.text,"ax",@progbits
+	public	_vysion_GetFolderByIndex
+_vysion_GetFolderByIndex:
+	ld	hl, -9
+	call	__frameset
+	ld	iy, (ix + 6)
+	ld	de, 0
+	ld	(ix + -3), de
+	ld	de, (iy + 6)
+	ld	bc, 1
+	push	de
+	pop	hl
+	or	a, a
+	sbc	hl, bc
+	call	__setflag
+	jq	p, BB12_2
+	ld	de, 0
+BB12_2:
+	inc	de
+BB12_3:
+	dec	de
+	ld	hl, (ix + -3)
+	ld	bc, 3
+	add	hl, bc
+	ld	(ix + -9), hl
+	push	de
+	pop	hl
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	jq	z, BB12_6
+	ld	iy, (ix + 6)
+	ld	hl, (iy + 15)
+	ld	bc, (ix + -3)
+	add	hl, bc
+	ld	iy, (hl)
+	ld	(ix + -6), iy
+	ld	hl, (iy + 13)
+	ld	bc, (ix + 9)
+	or	a, a
+	sbc	hl, bc
+	ld	hl, (ix + -9)
+	ld	(ix + -3), hl
+	jq	nz, BB12_3
+	jq	BB12_5
+BB12_6:
+	ld	iy, 0
+	ld	(ix + -6), iy
+BB12_5:
+	ld	hl, (ix + -6)
+	ld	sp, ix
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
 
 	section	.rodata,"a",@progbits
 	private	L_.str
 L_.str:
-	db	"Done. ",000o
+	db	"VYSFILES",000o
 
 	section	.rodata,"a",@progbits
 	private	L_.str.1
 L_.str.1:
-	db	"VYSFILE",000o
+	db	"w+",000o
 
 	section	.rodata,"a",@progbits
 	private	L_.str.2
 L_.str.2:
-	db	"w+",000o
+	db	"r",000o
 
 	section	.rodata,"a",@progbits
 	private	L_.str.3
 L_.str.3:
-	db	"r",000o
+	db	"Root",000o
+
+	section	.rodata,"a",@progbits
+	private	L_.str.4
+L_.str.4:
+	db	"Programs",000o
+
+	section	.rodata,"a",@progbits
+	private	L_.str.5
+L_.str.5:
+	db	"Appvars",000o
+
+	section	.rodata,"a",@progbits
+	private	L_.str.6
+L_.str.6:
+	db	"Desktop",000o
+
+	section	.rodata,"a",@progbits
+	private	L___const.vysion_InitializeFilesystem.name
+L___const.vysion_InitializeFilesystem.name:
+	dl	L_.str.3
+	dl	L_.str.4
+	dl	L_.str.5
+	dl	L_.str.6
 
 	section	.rodata,"a",@progbits
 	private	L___const.vysion_GetFileInfo_Basic.palette
@@ -1944,2620 +1359,8 @@ L___const.vysion_GetFileInfo_Basic.palette:
 L___const.vysion_GetFileInfo_Basic.ti_basic_sequence:
 	db	">DCS?*"
 
-	file	6 "src/vysion/filesystem.h" md5 0x0dff454256fc94261a2ebd10dfa56404
-	file	7 "src/vysion/control.h" md5 0xe14eed5d002cd5802ec622871be9917b
-	section	.debug_loclists,"",@progbits
-	dd	debug_list_header_end0-debug_list_header_start0
-	private	debug_list_header_start0
-debug_list_header_start0:
-	dw	5
-	db	3
-	db	0
-	dd	38
-	private	loclists_table_base0
-loclists_table_base0:
-	dd	debug_loc0-loclists_table_base0
-	dd	debug_loc1-loclists_table_base0
-	dd	debug_loc2-loclists_table_base0
-	dd	debug_loc3-loclists_table_base0
-	dd	debug_loc4-loclists_table_base0
-	dd	debug_loc5-loclists_table_base0
-	dd	debug_loc6-loclists_table_base0
-	dd	debug_loc7-loclists_table_base0
-	dd	debug_loc8-loclists_table_base0
-	dd	debug_loc9-loclists_table_base0
-	dd	debug_loc10-loclists_table_base0
-	dd	debug_loc11-loclists_table_base0
-	dd	debug_loc12-loclists_table_base0
-	dd	debug_loc13-loclists_table_base0
-	dd	debug_loc14-loclists_table_base0
-	dd	debug_loc15-loclists_table_base0
-	dd	debug_loc16-loclists_table_base0
-	dd	debug_loc17-loclists_table_base0
-	dd	debug_loc18-loclists_table_base0
-	dd	debug_loc19-loclists_table_base0
-	dd	debug_loc20-loclists_table_base0
-	dd	debug_loc21-loclists_table_base0
-	dd	debug_loc22-loclists_table_base0
-	dd	debug_loc23-loclists_table_base0
-	dd	debug_loc24-loclists_table_base0
-	dd	debug_loc25-loclists_table_base0
-	dd	debug_loc26-loclists_table_base0
-	dd	debug_loc27-loclists_table_base0
-	dd	debug_loc28-loclists_table_base0
-	dd	debug_loc29-loclists_table_base0
-	dd	debug_loc30-loclists_table_base0
-	dd	debug_loc31-loclists_table_base0
-	dd	debug_loc32-loclists_table_base0
-	dd	debug_loc33-loclists_table_base0
-	dd	debug_loc34-loclists_table_base0
-	dd	debug_loc35-loclists_table_base0
-	dd	debug_loc36-loclists_table_base0
-	dd	debug_loc37-loclists_table_base0
-	private	debug_loc0
-debug_loc0:
-	db	4
-	uleb128	tmp4-func_begin0
-	uleb128	tmp5-func_begin0
-	db	2
-	db	114
-	db	0
-	db	4
-	uleb128	tmp23-func_begin0
-	uleb128	tmp24-func_begin0
-	db	2
-	db	116
-	db	6
-	db	4
-	uleb128	tmp24-func_begin0
-	uleb128	tmp25-func_begin0
-	db	1
-	db	82
-	db	4
-	uleb128	tmp25-func_begin0
-	uleb128	tmp29-func_begin0
-	db	2
-	db	116
-	db	6
-	db	4
-	uleb128	tmp40-func_begin0
-	uleb128	tmp43-func_begin0
-	db	2
-	db	116
-	db	6
-	db	0
-	private	debug_loc1
-debug_loc1:
-	db	4
-	uleb128	tmp1-func_begin0
-	uleb128	tmp2-func_begin0
-	db	1
-	db	85
-	db	0
-	private	debug_loc2
-debug_loc2:
-	db	4
-	uleb128	tmp10-func_begin0
-	uleb128	tmp13-func_begin0
-	db	3
-	db	116
-	db	15
-	db	6
-	db	4
-	uleb128	tmp13-func_begin0
-	uleb128	tmp14-func_begin0
-	db	2
-	db	114
-	db	0
-	db	4
-	uleb128	tmp14-func_begin0
-	uleb128	func_end0-func_begin0
-	db	3
-	db	116
-	db	15
-	db	6
-	db	0
-	private	debug_loc3
-debug_loc3:
-	db	4
-	uleb128	tmp7-func_begin0
-	uleb128	func_end0-func_begin0
-	db	2
-	db	116
-	db	9
-	db	0
-	private	debug_loc4
-debug_loc4:
-	db	4
-	uleb128	tmp8-func_begin0
-	uleb128	tmp10-func_begin0
-	db	3
-	db	17
-	db	0
-	db	159
-	db	0
-	private	debug_loc5
-debug_loc5:
-	db	4
-	uleb128	tmp16-func_begin0
-	uleb128	tmp27-func_begin0
-	db	1
-	db	85
-	db	4
-	uleb128	tmp46-func_begin0
-	uleb128	tmp47-func_begin0
-	db	1
-	db	85
-	db	0
-	private	debug_loc6
-debug_loc6:
-	db	4
-	uleb128	tmp10-func_begin0
-	uleb128	tmp11-func_begin0
-	db	3
-	db	116
-	db	12
-	db	6
-	db	4
-	uleb128	tmp11-func_begin0
-	uleb128	tmp12-func_begin0
-	db	2
-	db	114
-	db	0
-	db	4
-	uleb128	tmp12-func_begin0
-	uleb128	tmp20-func_begin0
-	db	3
-	db	116
-	db	12
-	db	6
-	db	4
-	uleb128	tmp20-func_begin0
-	uleb128	tmp26-func_begin0
-	db	1
-	db	81
-	db	4
-	uleb128	tmp26-func_begin0
-	uleb128	tmp27-func_begin0
-	db	1
-	db	82
-	db	4
-	uleb128	tmp32-func_begin0
-	uleb128	tmp34-func_begin0
-	db	4
-	db	83
-	db	157
-	db	8
-	db	8
-	db	4
-	uleb128	tmp36-func_begin0
-	uleb128	tmp40-func_begin0
-	db	4
-	db	83
-	db	157
-	db	8
-	db	8
-	db	4
-	uleb128	tmp46-func_begin0
-	uleb128	func_end0-func_begin0
-	db	3
-	db	116
-	db	12
-	db	6
-	db	0
-	private	debug_loc7
-debug_loc7:
-	db	4
-	uleb128	tmp28-func_begin0
-	uleb128	tmp29-func_begin0
-	db	1
-	db	81
-	db	4
-	uleb128	tmp40-func_begin0
-	uleb128	tmp41-func_begin0
-	db	1
-	db	81
-	db	0
-	private	debug_loc8
-debug_loc8:
-	db	4
-	uleb128	tmp31-func_begin0
-	uleb128	tmp33-func_begin0
-	db	1
-	db	85
-	db	4
-	uleb128	tmp33-func_begin0
-	uleb128	tmp40-func_begin0
-	db	2
-	db	116
-	db	0
-	db	4
-	uleb128	tmp43-func_begin0
-	uleb128	tmp44-func_begin0
-	db	1
-	db	85
-	db	0
-	private	debug_loc9
-debug_loc9:
-	db	4
-	uleb128	tmp55-func_begin0
-	uleb128	tmp59-func_begin0
-	db	1
-	db	85
-	db	4
-	uleb128	tmp60-func_begin0
-	uleb128	tmp62-func_begin0
-	db	1
-	db	85
-	db	0
-	private	debug_loc10
-debug_loc10:
-	db	4
-	uleb128	tmp57-func_begin0
-	uleb128	tmp58-func_begin0
-	db	1
-	db	85
-	db	4
-	uleb128	tmp58-func_begin0
-	uleb128	func_end1-func_begin0
-	db	2
-	db	116
-	db	12
-	db	0
-	private	debug_loc11
-debug_loc11:
-	db	4
-	uleb128	tmp63-func_begin0
-	uleb128	tmp67-func_begin0
-	db	3
-	db	17
-	db	0
-	db	159
-	db	0
-	private	debug_loc12
-debug_loc12:
-	db	4
-	uleb128	tmp71-func_begin0
-	uleb128	tmp75-func_begin0
-	db	1
-	db	80
-	db	4
-	uleb128	tmp89-func_begin0
-	uleb128	func_end1-func_begin0
-	db	1
-	db	80
-	db	0
-	private	debug_loc13
-debug_loc13:
-	db	4
-	uleb128	tmp81-func_begin0
-	uleb128	tmp83-func_begin0
-	db	1
-	db	81
-	db	0
-	private	debug_loc14
-debug_loc14:
-	db	4
-	uleb128	tmp92-func_begin0
-	uleb128	tmp93-func_begin0
-	db	1
-	db	82
-	db	0
-	private	debug_loc15
-debug_loc15:
-	db	4
-	uleb128	tmp98-func_begin0
-	uleb128	tmp101-func_begin0
-	db	3
-	db	17
-	db	0
-	db	159
-	db	0
-	private	debug_loc16
-debug_loc16:
-	db	4
-	uleb128	tmp103-func_begin0
-	uleb128	tmp107-func_begin0
-	db	1
-	db	85
-	db	4
-	uleb128	tmp113-func_begin0
-	uleb128	tmp114-func_begin0
-	db	1
-	db	85
-	db	0
-	private	debug_loc17
-debug_loc17:
-	db	4
-	uleb128	tmp118-func_begin0
-	uleb128	tmp120-func_begin0
-	db	1
-	db	85
-	db	4
-	uleb128	tmp123-func_begin0
-	uleb128	tmp124-func_begin0
-	db	1
-	db	85
-	db	0
-	private	debug_loc18
-debug_loc18:
-	db	4
-	uleb128	tmp119-func_begin0
-	uleb128	tmp121-func_begin0
-	db	1
-	db	82
-	db	0
-	private	debug_loc19
-debug_loc19:
-	db	4
-	uleb128	tmp130-func_begin0
-	uleb128	tmp131-func_begin0
-	db	1
-	db	85
-	db	0
-	private	debug_loc20
-debug_loc20:
-	db	4
-	uleb128	tmp133-func_begin0
-	uleb128	tmp136-func_begin0
-	db	1
-	db	81
-	db	0
-	private	debug_loc21
-debug_loc21:
-	db	4
-	uleb128	tmp153-func_begin0
-	uleb128	tmp158-func_begin0
-	db	3
-	db	17
-	db	2
-	db	159
-	db	4
-	uleb128	tmp158-func_begin0
-	uleb128	tmp159-func_begin0
-	db	2
-	db	114
-	db	0
-	db	0
-	private	debug_loc22
-debug_loc22:
-	db	4
-	uleb128	tmp160-func_begin0
-	uleb128	tmp161-func_begin0
-	db	1
-	db	82
-	db	0
-	private	debug_loc23
-debug_loc23:
-	db	4
-	uleb128	tmp156-func_begin0
-	uleb128	tmp159-func_begin0
-	db	1
-	db	81
-	db	0
-	private	debug_loc24
-debug_loc24:
-	db	4
-	uleb128	tmp163-func_begin0
-	uleb128	tmp164-func_begin0
-	db	3
-	db	17
-	db	0
-	db	159
-	db	4
-	uleb128	tmp164-func_begin0
-	uleb128	tmp165-func_begin0
-	db	1
-	db	80
-	db	4
-	uleb128	tmp165-func_begin0
-	uleb128	tmp169-func_begin0
-	db	2
-	db	116
-	db	0
-	db	4
-	uleb128	tmp169-func_begin0
-	uleb128	tmp170-func_begin0
-	db	1
-	db	80
-	db	0
-	private	debug_loc25
-debug_loc25:
-	db	4
-	uleb128	tmp171-func_begin0
-	uleb128	tmp172-func_begin0
-	db	1
-	db	80
-	db	4
-	uleb128	tmp172-func_begin0
-	uleb128	tmp177-func_begin0
-	db	2
-	db	116
-	db	3
-	db	4
-	uleb128	tmp177-func_begin0
-	uleb128	tmp178-func_begin0
-	db	1
-	db	80
-	db	0
-	private	debug_loc26
-debug_loc26:
-	db	4
-	uleb128	tmp188-func_begin0
-	uleb128	tmp189-func_begin0
-	db	1
-	db	82
-	db	4
-	uleb128	tmp191-func_begin0
-	uleb128	tmp199-func_begin0
-	db	1
-	db	85
-	db	0
-	private	debug_loc27
-debug_loc27:
-	db	4
-	uleb128	tmp184-func_begin0
-	uleb128	tmp187-func_begin0
-	db	1
-	db	81
-	db	0
-	private	debug_loc28
-debug_loc28:
-	db	4
-	uleb128	tmp192-func_begin0
-	uleb128	tmp199-func_begin0
-	db	1
-	db	80
-	db	0
-	private	debug_loc29
-debug_loc29:
-	db	4
-	uleb128	tmp193-func_begin0
-	uleb128	tmp194-func_begin0
-	db	1
-	db	82
-	db	4
-	uleb128	tmp194-func_begin0
-	uleb128	tmp217-func_begin0
-	db	2
-	db	116
-	db	6
-	db	0
-	private	debug_loc30
-debug_loc30:
-	db	4
-	uleb128	tmp196-func_begin0
-	uleb128	tmp199-func_begin0
-	db	3
-	db	17
-	db	0
-	db	159
-	db	0
-	private	debug_loc31
-debug_loc31:
-	db	4
-	uleb128	tmp202-func_begin0
-	uleb128	tmp203-func_begin0
-	db	1
-	db	82
-	db	0
-	private	debug_loc32
-debug_loc32:
-	db	4
-	uleb128	tmp212-func_begin0
-	uleb128	tmp213-func_begin0
-	db	1
-	db	82
-	db	0
-	private	debug_loc33
-debug_loc33:
-	db	4
-	uleb128	tmp220-func_begin0
-	uleb128	tmp222-func_begin0
-	db	1
-	db	85
-	db	4
-	uleb128	tmp225-func_begin0
-	uleb128	tmp226-func_begin0
-	db	1
-	db	85
-	db	0
-	private	debug_loc34
-debug_loc34:
-	db	4
-	uleb128	tmp221-func_begin0
-	uleb128	tmp222-func_begin0
-	db	1
-	db	82
-	db	4
-	uleb128	tmp222-func_begin0
-	uleb128	func_end7-func_begin0
-	db	2
-	db	116
-	db	3
-	db	0
-	private	debug_loc35
-debug_loc35:
-	db	4
-	uleb128	tmp232-func_begin0
-	uleb128	tmp237-func_begin0
-	db	1
-	db	85
-	db	4
-	uleb128	tmp238-func_begin0
-	uleb128	tmp244-func_begin0
-	db	1
-	db	85
-	db	0
-	private	debug_loc36
-debug_loc36:
-	db	4
-	uleb128	tmp232-func_begin0
-	uleb128	tmp237-func_begin0
-	db	1
-	db	80
-	db	4
-	uleb128	tmp238-func_begin0
-	uleb128	tmp243-func_begin0
-	db	1
-	db	80
-	db	0
-	private	debug_loc37
-debug_loc37:
-	db	4
-	uleb128	tmp261-func_begin0
-	uleb128	tmp263-func_begin0
-	db	1
-	db	81
-	db	4
-	uleb128	tmp263-func_begin0
-	uleb128	tmp265-func_begin0
-	db	1
-	db	80
-	db	4
-	uleb128	tmp267-func_begin0
-	uleb128	tmp268-func_begin0
-	db	1
-	db	81
-	db	0
-	private	debug_list_header_end0
-debug_list_header_end0:
-	section	.debug_abbrev,"",@progbits
-	private	abbrev_start236
-abbrev_start236:
-	db	1
-	db	17
-	db	1
-	db	37
-	db	37
-	db	19
-	db	5
-	db	3
-	db	37
-	db	114
-	db	23
-	db	16
-	db	23
-	db	27
-	db	37
-	db	17
-	db	27
-	db	18
-	db	6
-	db	115
-	db	23
-	db	116
-	db	23
-	db	"",214o,001o
-	db	23
-	db	0
-	db	0
-	db	2
-	db	15
-	db	0
-	db	0
-	db	0
-	db	3
-	db	15
-	db	0
-	db	73
-	db	19
-	db	0
-	db	0
-	db	4
-	db	53
-	db	0
-	db	73
-	db	19
-	db	0
-	db	0
-	db	5
-	db	22
-	db	0
-	db	73
-	db	19
-	db	3
-	db	37
-	db	58
-	db	11
-	db	59
-	db	11
-	db	0
-	db	0
-	db	6
-	db	36
-	db	0
-	db	3
-	db	37
-	db	62
-	db	11
-	db	11
-	db	11
-	db	0
-	db	0
-	db	7
-	db	46
-	db	1
-	db	17
-	db	27
-	db	18
-	db	6
-	db	64
-	db	24
-	db	122
-	db	25
-	db	3
-	db	37
-	db	58
-	db	11
-	db	59
-	db	11
-	db	39
-	db	25
-	db	63
-	db	25
-	db	0
-	db	0
-	db	8
-	db	5
-	db	0
-	db	2
-	db	34
-	db	3
-	db	37
-	db	58
-	db	11
-	db	59
-	db	11
-	db	73
-	db	19
-	db	0
-	db	0
-	db	9
-	db	52
-	db	0
-	db	2
-	db	34
-	db	3
-	db	37
-	db	58
-	db	11
-	db	59
-	db	11
-	db	73
-	db	19
-	db	0
-	db	0
-	db	10
-	db	11
-	db	1
-	db	17
-	db	27
-	db	18
-	db	6
-	db	0
-	db	0
-	db	11
-	db	72
-	db	0
-	db	127
-	db	19
-	db	125
-	db	27
-	db	0
-	db	0
-	db	12
-	db	46
-	db	1
-	db	17
-	db	27
-	db	18
-	db	6
-	db	64
-	db	24
-	db	122
-	db	25
-	db	3
-	db	37
-	db	58
-	db	11
-	db	59
-	db	11
-	db	39
-	db	25
-	db	73
-	db	19
-	db	63
-	db	25
-	db	0
-	db	0
-	db	13
-	db	5
-	db	0
-	db	3
-	db	37
-	db	58
-	db	11
-	db	59
-	db	11
-	db	73
-	db	19
-	db	0
-	db	0
-	db	14
-	db	46
-	db	1
-	db	3
-	db	37
-	db	58
-	db	11
-	db	59
-	db	5
-	db	39
-	db	25
-	db	60
-	db	25
-	db	63
-	db	25
-	db	0
-	db	0
-	db	15
-	db	5
-	db	0
-	db	73
-	db	19
-	db	0
-	db	0
-	db	16
-	db	46
-	db	1
-	db	3
-	db	37
-	db	58
-	db	11
-	db	59
-	db	11
-	db	39
-	db	25
-	db	73
-	db	19
-	db	60
-	db	25
-	db	63
-	db	25
-	db	0
-	db	0
-	db	17
-	db	38
-	db	0
-	db	73
-	db	19
-	db	0
-	db	0
-	db	18
-	db	52
-	db	0
-	db	28
-	db	15
-	db	3
-	db	37
-	db	58
-	db	11
-	db	59
-	db	11
-	db	73
-	db	19
-	db	0
-	db	0
-	db	19
-	db	11
-	db	1
-	db	85
-	db	35
-	db	0
-	db	0
-	db	20
-	db	46
-	db	0
-	db	3
-	db	37
-	db	58
-	db	11
-	db	59
-	db	5
-	db	39
-	db	25
-	db	73
-	db	19
-	db	60
-	db	25
-	db	63
-	db	25
-	db	0
-	db	0
-	db	21
-	db	46
-	db	1
-	db	3
-	db	37
-	db	58
-	db	11
-	db	59
-	db	5
-	db	39
-	db	25
-	db	73
-	db	19
-	db	60
-	db	25
-	db	63
-	db	25
-	db	0
-	db	0
-	db	22
-	db	52
-	db	0
-	db	2
-	db	24
-	db	3
-	db	37
-	db	58
-	db	11
-	db	59
-	db	11
-	db	73
-	db	19
-	db	0
-	db	0
-	db	23
-	db	52
-	db	0
-	db	3
-	db	37
-	db	58
-	db	11
-	db	59
-	db	11
-	db	73
-	db	19
-	db	0
-	db	0
-	db	24
-	db	38
-	db	0
-	db	0
-	db	0
-	db	25
-	db	19
-	db	1
-	db	11
-	db	11
-	db	58
-	db	11
-	db	59
-	db	11
-	db	0
-	db	0
-	db	26
-	db	13
-	db	0
-	db	3
-	db	37
-	db	73
-	db	19
-	db	58
-	db	11
-	db	59
-	db	11
-	db	56
-	db	11
-	db	0
-	db	0
-	db	27
-	db	1
-	db	1
-	db	73
-	db	19
-	db	0
-	db	0
-	db	28
-	db	33
-	db	0
-	db	73
-	db	19
-	db	0
-	db	0
-	db	29
-	db	36
-	db	0
-	db	3
-	db	37
-	db	11
-	db	11
-	db	62
-	db	11
-	db	0
-	db	0
-	db	30
-	db	21
-	db	1
-	db	73
-	db	19
-	db	39
-	db	25
-	db	0
-	db	0
-	db	31
-	db	19
-	db	1
-	db	3
-	db	37
-	db	11
-	db	11
-	db	58
-	db	11
-	db	59
-	db	11
-	db	0
-	db	0
-	db	32
-	db	13
-	db	0
-	db	3
-	db	37
-	db	73
-	db	19
-	db	58
-	db	11
-	db	59
-	db	11
-	db	11
-	db	11
-	db	13
-	db	11
-	db	12
-	db	11
-	db	56
-	db	11
-	db	0
-	db	0
-	db	33
-	db	33
-	db	0
-	db	73
-	db	19
-	db	55
-	db	11
-	db	0
-	db	0
-	db	0
-	section	.debug_info,"",@progbits
-	private	cu_begin0
-cu_begin0:
-	dd	debug_info_end0-debug_info_start0
-	private	debug_info_start0
-debug_info_start0:
-	dw	5
-	db	1
-	db	3
-	dd	abbrev_start236
-	db	1
-	db	0
-	dw	12
-	db	1
-	dd	str_offsets_base0
-	dd	line_table_start0
-	db	2
-	db	0
-	dd	func_end9-func_begin0
-	dd	addr_table_base0
-	dd	rnglists_table_base0
-	dd	loclists_table_base0
-	db	2
-	db	3
-	dd	49
-	db	4
-	dd	54
-	db	5
-	dd	62
-	db	4
-	db	1
-	db	39
-	db	6
-	db	3
-	db	7
-	db	2
-	db	3
-	dd	71
-	db	4
-	dd	76
-	db	5
-	dd	84
-	db	6
-	db	1
-	db	75
-	db	6
-	db	5
-	db	7
-	db	4
-	db	3
-	dd	54
-	db	3
-	dd	98
-	db	5
-	dd	106
-	db	8
-	db	1
-	db	15
-	db	6
-	db	7
-	db	8
-	db	1
-	db	7
-	db	0
-	dd	func_end0-func_begin0
-	db	1
-	db	84
-
-	db	30
-	db	2
-	db	9
-
-
-	db	8
-	db	1
-	db	66
-	db	2
-	db	9
-	dd	1629
-	db	9
-	db	0
-	db	65
-	db	2
-	db	11
-	dd	1624
-	db	9
-	db	2
-	db	74
-	db	2
-	db	13
-	dd	43
-	db	9
-	db	3
-	db	75
-	db	2
-	db	12
-	dd	630
-	db	9
-	db	4
-	db	76
-	db	2
-	db	17
-	dd	630
-	db	9
-	db	5
-	db	37
-	db	2
-	db	14
-	dd	389
-	db	9
-	db	6
-	db	36
-	db	2
-	db	15
-	dd	98
-	db	10
-	db	1
-	dd	tmp45-tmp17
-	db	9
-	db	7
-	db	57
-	db	2
-	db	22
-	dd	630
-	db	9
-	db	8
-	db	61
-	db	2
-	db	23
-	dd	1351
-	db	0
-	db	11
-	dd	264
-	db	2
-	db	11
-	dd	354
-	db	3
-	db	11
-	dd	365
-	db	4
-	db	11
-	dd	418
-	db	5
-	db	11
-	dd	497
-	db	6
-	db	11
-	dd	531
-	db	7
-	db	11
-	dd	609
-	db	8
-	db	11
-	dd	634
-	db	9
-	db	11
-	dd	654
-	db	10
-	db	0
-	db	12
-	db	11
-	dd	func_end1-func_begin1
-	db	1
-	db	84
-
-	db	31
-	db	2
-	db	184
-
-	dd	630
-
-	db	8
-	db	9
-	db	66
-	db	2
-	db	184
-	dd	1629
-	db	13
-	db	65
-	db	2
-	db	184
-	dd	1714
-	db	9
-	db	10
-	db	75
-	db	2
-	db	186
-	dd	630
-	db	10
-	db	12
-	dd	tmp70-tmp63
-	db	9
-	db	11
-	db	77
-	db	2
-	db	191
-	dd	630
-	db	0
-	db	10
-	db	14
-	dd	tmp90-tmp71
-	db	9
-	db	12
-	db	77
-	db	2
-	db	192
-	dd	630
-	db	10
-	db	13
-	dd	tmp88-tmp74
-	db	9
-	db	13
-	db	78
-	db	2
-	db	193
-	dd	630
-	db	0
-	db	0
-	db	0
-	db	14
-	db	9
-	db	3
-	dw	537
-
-
-
-	db	15
-	dd	106
-	db	0
-	db	16
-	db	10
-	db	4
-	db	166
-
-	dd	389
-
-
-	db	15
-	dd	398
-	db	15
-	dd	403
-	db	15
-	dd	413
-	db	0
-	db	3
-	dd	394
-	db	6
-	db	11
-	db	6
-	db	1
-	db	3
-	dd	43
-	db	3
-	dd	408
-	db	17
-	dd	394
-	db	3
-	dd	106
-	db	12
-	db	15
-	dd	func_end2-func_begin2
-	db	1
-	db	84
-
-	db	32
-	db	2
-	db	216
-
-	dd	630
-
-	db	13
-	db	37
-	db	2
-	db	216
-	dd	389
-	db	13
-	db	36
-	db	2
-	db	216
-	dd	98
-	db	13
-	db	65
-	db	2
-	db	216
-	dd	1624
-	db	8
-	db	14
-	db	75
-	db	2
-	db	216
-	dd	630
-	db	18
-	db	0
-	db	79
-	db	2
-	db	217
-	dd	1524
-	db	9
-	db	16
-	db	78
-	db	2
-	db	218
-	dd	630
-	db	19
-	db	0
-	db	9
-	db	15
-	db	77
-	db	2
-	db	221
-	dd	630
-	db	0
-	db	0
-	db	12
-	db	16
-	dd	func_end3-func_begin3
-	db	1
-	db	84
-
-	db	33
-	db	2
-	db	167
-
-	dd	1351
-
-	db	8
-	db	17
-	db	66
-	db	2
-	db	167
-	dd	1629
-	db	9
-	db	18
-	db	80
-	db	2
-	db	168
-	dd	630
-	db	0
-	db	7
-	db	17
-	dd	func_end4-func_begin4
-	db	1
-	db	84
-
-	db	53
-	db	2
-	db	105
-
-
-	db	8
-	db	19
-	db	61
-	db	2
-	db	105
-	dd	1351
-	db	9
-	db	20
-	db	81
-	db	2
-	db	106
-	dd	1719
-	db	11
-	dd	663
-	db	18
-	db	11
-	dd	687
-	db	19
-	db	11
-	dd	701
-	db	20
-	db	11
-	dd	716
-	db	21
-	db	11
-	dd	731
-	db	22
-	db	11
-	dd	716
-	db	23
-	db	11
-	dd	811
-	db	24
-	db	11
-	dd	847
-	db	25
-	db	0
-	db	14
-	db	12
-	db	3
-	dw	1027
-
-
-
-	db	15
-	dd	403
-	db	15
-	dd	630
-	db	15
-	dd	630
-	db	0
-	db	6
-	db	13
-	db	5
-	db	3
-	db	14
-	db	14
-	db	3
-	dw	1006
-
-
-
-	db	15
-	dd	650
-	db	15
-	dd	106
-	db	0
-	db	6
-	db	15
-	db	7
-	db	3
-	db	20
-	db	16
-	db	5
-	dw	1192
-
-	dd	106
-
-
-	db	16
-	db	17
-	db	4
-	db	94
-
-	dd	106
-
-
-	db	15
-	dd	403
-	db	15
-	dd	403
-	db	15
-	dd	106
-	db	0
-	db	16
-	db	18
-	db	4
-	db	251
-
-	dd	62
-
-
-	db	15
-	dd	106
-	db	0
-	db	21
-	db	19
-	db	4
-	dw	272
-
-	dd	630
-
-
-	db	15
-	dd	106
-	db	0
-	db	21
-	db	20
-	db	4
-	dw	328
-
-	dd	43
-
-
-	db	15
-	dd	106
-	db	0
-	db	7
-	db	52
-	dd	func_end9-func_begin9
-	db	1
-	db	84
-
-	db	64
-	db	2
-	db	146
-
-
-	db	13
-	db	61
-	db	2
-	db	146
-	dd	1351
-	db	13
-	db	28
-	db	2
-	db	146
-	dd	43
-	db	22
-	db	2
-	db	145
-	db	8
-	db	84
-	db	2
-	db	148
-	dd	1727
-	db	22
-	db	2
-	db	145
-	db	6
-	db	85
-	db	2
-	db	149
-	dd	1739
-	db	23
-	db	86
-	db	2
-	db	147
-	dd	1751
-	db	10
-	db	53
-	dd	tmp268-tmp262
-	db	9
-	db	37
-	db	77
-	db	2
-	db	156
-	dd	630
-	db	0
-	db	11
-	dd	1259
-	db	54
-	db	0
-	db	7
-	db	50
-	dd	func_end8-func_begin8
-	db	1
-	db	84
-
-	db	63
-	db	2
-	db	121
-
-
-	db	8
-	db	36
-	db	61
-	db	2
-	db	121
-	dd	1351
-	db	8
-	db	35
-	db	28
-	db	2
-	db	121
-	dd	43
-	db	11
-	dd	731
-	db	51
-	db	0
-	db	16
-	db	21
-	db	4
-	db	101
-
-	dd	630
-
-
-	db	15
-	dd	106
-	db	0
-	db	7
-	db	26
-	dd	func_end5-func_begin5
-	db	1
-	db	84
-
-	db	54
-	db	2
-	db	58
-
-
-	db	8
-	db	22
-	db	66
-	db	2
-	db	58
-	dd	1629
-	db	9
-	db	21
-	db	68
-	db	2
-	db	60
-	dd	630
-	db	9
-	db	23
-	db	81
-	db	2
-	db	59
-	dd	1719
-	db	10
-	db	27
-	dd	tmp170-tmp162
-	db	9
-	db	24
-	db	77
-	db	2
-	db	67
-	dd	630
-	db	0
-	db	10
-	db	28
-	dd	tmp178-tmp170
-	db	9
-	db	25
-	db	77
-	db	2
-	db	69
-	dd	630
-	db	0
-	db	11
-	dd	968
-	db	29
-	db	11
-	dd	987
-	db	30
-	db	11
-	dd	987
-	db	31
-	db	11
-	dd	987
-	db	32
-	db	11
-	dd	987
-	db	33
-	db	11
-	dd	847
-	db	34
-	db	0
-	db	16
-	db	22
-	db	4
-	db	76
-
-	dd	106
-
-
-	db	15
-	dd	403
-	db	15
-	dd	403
-	db	0
-	db	16
-	db	23
-	db	4
-	db	178
-
-	dd	650
-
-
-	db	15
-	dd	1016
-	db	15
-	dd	650
-	db	15
-	dd	650
-	db	15
-	dd	106
-	db	0
-	db	3
-	dd	1021
-	db	24
-	db	7
-	db	35
-	dd	func_end6-func_begin6
-	db	1
-	db	84
-
-	db	55
-	db	2
-	db	75
-
-
-	db	8
-	db	26
-	db	66
-	db	2
-	db	75
-	dd	1629
-	db	9
-	db	27
-	db	81
-	db	2
-	db	76
-	dd	1719
-	db	23
-	db	68
-	db	2
-	db	77
-	dd	630
-	db	10
-	db	40
-	dd	tmp217-tmp186
-	db	9
-	db	28
-	db	60
-	db	2
-	db	79
-	dd	630
-	db	9
-	db	29
-	db	69
-	db	2
-	db	80
-	dd	630
-	db	10
-	db	37
-	dd	tmp205-tmp196
-	db	9
-	db	30
-	db	77
-	db	2
-	db	91
-	dd	630
-	db	10
-	db	36
-	dd	tmp204-tmp200
-	db	9
-	db	31
-	db	61
-	db	2
-	db	92
-	dd	1351
-	db	0
-	db	0
-	db	10
-	db	39
-	dd	tmp215-tmp205
-	db	23
-	db	77
-	db	2
-	db	96
-	dd	630
-	db	10
-	db	38
-	dd	tmp214-tmp210
-	db	9
-	db	32
-	db	72
-	db	2
-	db	97
-	dd	1541
-	db	0
-	db	0
-	db	0
-	db	11
-	dd	968
-	db	41
-	db	11
-	dd	1196
-	db	42
-	db	11
-	dd	1196
-	db	43
-	db	11
-	dd	497
-	db	44
-	db	11
-	dd	1196
-	db	45
-	db	11
-	dd	1225
-	db	46
-	db	11
-	dd	1196
-	db	47
-	db	11
-	dd	847
-	db	48
-	db	0
-	db	16
-	db	24
-	db	4
-	db	190
-
-	dd	650
-
-
-	db	15
-	dd	43
-	db	15
-	dd	650
-	db	15
-	dd	650
-	db	15
-	dd	106
-	db	0
-	db	12
-	db	49
-	dd	func_end7-func_begin7
-	db	1
-	db	84
-
-	db	56
-	db	2
-	db	174
-
-	dd	1541
-
-	db	8
-	db	33
-	db	66
-	db	2
-	db	174
-	dd	1629
-	db	9
-	db	34
-	db	83
-	db	2
-	db	175
-	dd	630
-	db	0
-	db	16
-	db	25
-	db	3
-	db	137
-
-	dd	1283
-
-
-	db	15
-	dd	106
-	db	15
-	dd	106
-	db	15
-	dd	1335
-	db	0
-	db	3
-	dd	1288
-	db	25
-	db	2
-	db	3
-	db	74
-	db	26
-	db	26
-	dd	98
-	db	3
-	db	75
-	db	0
-	db	26
-	db	27
-	dd	98
-	db	3
-	db	76
-	db	1
-	db	26
-	db	28
-	dd	1320
-	db	3
-	db	77
-	db	2
-	db	0
-	db	27
-	dd	98
-	db	28
-	dd	1331
-	db	0
-	db	29
-	db	29
-	db	8
-	db	7
-	db	3
-	dd	1340
-	db	30
-	dd	43
-
-	db	15
-	dd	650
-	db	0
-	db	3
-	dd	1356
-	db	31
-	db	52
-	db	25
-	db	6
-	db	71
-	db	26
-	db	34
-	dd	1431
-	db	6
-	db	72
-	db	0
-	db	26
-	db	45
-	dd	1528
-	db	6
-	db	73
-	db	15
-	db	26
-	db	47
-	dd	98
-	db	6
-	db	75
-	db	18
-	db	26
-	db	48
-	dd	389
-	db	6
-	db	77
-	db	19
-	db	26
-	db	49
-	dd	54
-	db	6
-	db	78
-	db	22
-	db	32
-	db	50
-	dd	1524
-	db	6
-	db	80
-	db	1
-	db	1
-	db	7
-	db	24
-	db	32
-	db	51
-	dd	1524
-	db	6
-	db	81
-	db	1
-	db	1
-	db	6
-	db	24
-	db	0
-	db	31
-	db	44
-	db	15
-	db	6
-	db	63
-	db	26
-	db	35
-	dd	1479
-	db	6
-	db	64
-	db	0
-	db	26
-	db	40
-	dd	98
-	db	6
-	db	65
-	db	13
-	db	32
-	db	41
-	dd	1524
-	db	6
-	db	67
-	db	1
-	db	1
-	db	7
-	db	14
-	db	32
-	db	43
-	dd	1524
-	db	6
-	db	68
-	db	1
-	db	1
-	db	6
-	db	14
-	db	0
-	db	31
-	db	39
-	db	13
-	db	6
-	db	54
-	db	26
-	db	36
-	dd	98
-	db	6
-	db	56
-	db	0
-	db	26
-	db	37
-	dd	1512
-	db	6
-	db	57
-	db	1
-	db	26
-	db	38
-	dd	630
-	db	6
-	db	58
-	db	10
-	db	0
-	db	27
-	dd	394
-	db	33
-	dd	1331
-	db	9
-	db	0
-	db	6
-	db	42
-	db	2
-	db	1
-	db	3
-	dd	1533
-	db	5
-	dd	1288
-	db	46
-	db	3
-	db	78
-	db	3
-	dd	1546
-	db	31
-	db	62
-	db	26
-	db	6
-	db	94
-	db	26
-	db	34
-	dd	1588
-	db	6
-	db	95
-	db	0
-	db	26
-	db	45
-	dd	1528
-	db	6
-	db	96
-	db	17
-	db	26
-	db	60
-	dd	630
-	db	6
-	db	99
-	db	20
-	db	26
-	db	61
-	dd	1624
-	db	6
-	db	100
-	db	23
-	db	0
-	db	31
-	db	59
-	db	17
-	db	6
-	db	85
-	db	26
-	db	35
-	dd	1479
-	db	6
-	db	86
-	db	0
-	db	26
-	db	57
-	dd	630
-	db	6
-	db	90
-	db	13
-	db	32
-	db	58
-	dd	1524
-	db	6
-	db	91
-	db	1
-	db	1
-	db	7
-	db	16
-	db	0
-	db	3
-	dd	1351
-	db	3
-	dd	1634
-	db	31
-	db	73
-	db	18
-	db	7
-	db	22
-	db	26
-	db	67
-	dd	1667
-	db	7
-	db	23
-	db	0
-	db	26
-	db	61
-	dd	1624
-	db	7
-	db	25
-	db	12
-	db	26
-	db	72
-	dd	1709
-	db	7
-	db	26
-	db	15
-	db	0
-	db	31
-	db	71
-	db	12
-	db	7
-	db	14
-	db	26
-	db	68
-	dd	630
-	db	7
-	db	15
-	db	0
-	db	26
-	db	60
-	dd	630
-	db	7
-	db	16
-	db	3
-	db	26
-	db	69
-	dd	630
-	db	7
-	db	17
-	db	6
-	db	26
-	db	70
-	dd	630
-	db	7
-	db	19
-	db	9
-	db	0
-	db	3
-	dd	1541
-	db	3
-	dd	1624
-	db	5
-	dd	98
-	db	82
-	db	4
-	db	51
-	db	27
-	dd	98
-	db	33
-	dd	1331
-	db	6
-	db	0
-	db	27
-	dd	394
-	db	33
-	dd	1331
-	db	2
-	db	0
-	db	27
-	dd	98
-	db	33
-	dd	1331
-	db	16
-	db	0
-	db	0
-	private	debug_info_end0
-debug_info_end0:
-	section	.debug_rnglists,"",@progbits
-	dd	debug_list_header_end1-debug_list_header_start1
-	private	debug_list_header_start1
-debug_list_header_start1:
-	dw	5
-	db	3
-	db	0
-	dd	1
-	private	rnglists_table_base0
-rnglists_table_base0:
-	dd	debug_ranges0-rnglists_table_base0
-	private	debug_ranges0
-debug_ranges0:
-	db	4
-	uleb128	tmp98-func_begin0
-	uleb128	tmp101-func_begin0
-	db	4
-	uleb128	tmp103-func_begin0
-	uleb128	tmp113-func_begin0
-	db	0
-	private	debug_list_header_end1
-debug_list_header_end1:
-	section	.debug_str_offsets,"",@progbits
-	dd	352
-	dw	5
-	dw	0
-	private	str_offsets_base0
-str_offsets_base0:
-	section	.debug_str,"MS",@progbits,1
-	private	info_string0
-info_string0:
-	db	"clang version 12.0.0 (https://github.com/jacobly0/llvm-project 170be88120e3aa88c20eea5615ba76b8f1d6c647)",000o
-	private	info_string1
-info_string1:
-	db	"/media/michael/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/filesystem.c",000o
-	private	info_string2
-info_string2:
-	db	"/media/michael/Data/Data/Programming/TI/Projects/Main/VYSION_2",000o
-	private	info_string3
-info_string3:
-	db	"unsigned short",000o
-	private	info_string4
-info_string4:
-	db	"uint16_t",000o
-	private	info_string5
-info_string5:
-	db	"long unsigned int",000o
-	private	info_string6
-info_string6:
-	db	"uint32_t",000o
-	private	info_string7
-info_string7:
-	db	"unsigned char",000o
-	private	info_string8
-info_string8:
-	db	"uint8_t",000o
-	private	info_string9
-info_string9:
-	db	"gfx_FillScreen",000o
-	private	info_string10
-info_string10:
-	db	"ti_DetectAny",000o
-	private	info_string11
-info_string11:
-	db	"char",000o
-	private	info_string12
-info_string12:
-	db	"gfx_PrintStringXY",000o
-	private	info_string13
-info_string13:
-	db	"int",000o
-	private	info_string14
-info_string14:
-	db	"gfx_PrintUInt",000o
-	private	info_string15
-info_string15:
-	db	"unsigned int",000o
-	private	info_string16
-info_string16:
-	db	"os_GetCSC",000o
-	private	info_string17
-info_string17:
-	db	"ti_OpenVar",000o
-	private	info_string18
-info_string18:
-	db	"ti_GetSize",000o
-	private	info_string19
-info_string19:
-	db	"ti_IsArchived",000o
-	private	info_string20
-info_string20:
-	db	"ti_GetDataPtr",000o
-	private	info_string21
-info_string21:
-	db	"ti_Close",000o
-	private	info_string22
-info_string22:
-	db	"ti_Open",000o
-	private	info_string23
-info_string23:
-	db	"ti_Write",000o
-	private	info_string24
-info_string24:
-	db	"ti_Read",000o
-	private	info_string25
-info_string25:
-	db	"gfx_AllocSprite",000o
-	private	info_string26
-info_string26:
-	db	"width",000o
-	private	info_string27
-info_string27:
-	db	"height",000o
-	private	info_string28
-info_string28:
-	db	"data",000o
-	private	info_string29
-info_string29:
-	db	"__ARRAY_SIZE_TYPE__",000o
-	private	info_string30
-info_string30:
-	db	"vysion_DetectAllFiles",000o
-	private	info_string31
-info_string31:
-	db	"vysion_CreateFilesystemHashTable",000o
-	private	info_string32
-info_string32:
-	db	"vysion_FilesystemHashSearch",000o
-	private	info_string33
-info_string33:
-	db	"vysion_AddFile",000o
-	private	info_string34
-info_string34:
-	db	"save",000o
-	private	info_string35
-info_string35:
-	db	"widget",000o
-	private	info_string36
-info_string36:
-	db	"type",000o
-	private	info_string37
-info_string37:
-	db	"name",000o
-	private	info_string38
-info_string38:
-	db	"location",000o
-	private	info_string39
-info_string39:
-	db	"vysion_file_widget",000o
-	private	info_string40
-info_string40:
-	db	"ti_type",000o
-	private	info_string41
-info_string41:
-	db	"taskbar_pinned",000o
-	private	info_string42
-info_string42:
-	db	"_Bool",000o
-	private	info_string43
-info_string43:
-	db	"start_pinned",000o
-	private	info_string44
-info_string44:
-	db	"vysion_file_save",000o
-	private	info_string45
-info_string45:
-	db	"icon",000o
-	private	info_string46
-info_string46:
-	db	"gfx_sprite_t",000o
-	private	info_string47
-info_string47:
-	db	"vysion_type",000o
-	private	info_string48
-info_string48:
-	db	"description",000o
-	private	info_string49
-info_string49:
-	db	"size",000o
-	private	info_string50
-info_string50:
-	db	"protected",000o
-	private	info_string51
-info_string51:
-	db	"archived",000o
-	private	info_string52
-info_string52:
-	db	"vysion_file",000o
-	private	info_string53
-info_string53:
-	db	"vysion_GetFileInfo",000o
-	private	info_string54
-info_string54:
-	db	"vysion_SaveFilesystem",000o
-	private	info_string55
-info_string55:
-	db	"vysion_LoadFilesystem",000o
-	private	info_string56
-info_string56:
-	db	"vysion_AddFolder",000o
-	private	info_string57
-info_string57:
-	db	"index",000o
-	private	info_string58
-info_string58:
-	db	"requires_password",000o
-	private	info_string59
-info_string59:
-	db	"vysion_folder_save",000o
-	private	info_string60
-info_string60:
-	db	"num_files",000o
-	private	info_string61
-info_string61:
-	db	"file",000o
-	private	info_string62
-info_string62:
-	db	"vysion_folder",000o
-	private	info_string63
-info_string63:
-	db	"vysion_GetFileInfo_Asm",000o
-	private	info_string64
-info_string64:
-	db	"vysion_GetFileInfo_Basic",000o
-	private	info_string65
-info_string65:
-	db	"hash_table",000o
-	private	info_string66
-info_string66:
-	db	"context",000o
-	private	info_string67
-info_string67:
-	db	"filesystem_info_save",000o
-	private	info_string68
-info_string68:
-	db	"version",000o
-	private	info_string69
-info_string69:
-	db	"num_folders",000o
-	private	info_string70
-info_string70:
-	db	"num_folder_indices",000o
-	private	info_string71
-info_string71:
-	db	"vysion_filesystem_info_save",000o
-	private	info_string72
-info_string72:
-	db	"folder",000o
-	private	info_string73
-info_string73:
-	db	"vysion_context",000o
-	private	info_string74
-info_string74:
-	db	"search_pos",000o
-	private	info_string75
-info_string75:
-	db	"hash_table_size",000o
-	private	info_string76
-info_string76:
-	db	"count",000o
-	private	info_string77
-info_string77:
-	db	"i",000o
-	private	info_string78
-info_string78:
-	db	"target_index",000o
-	private	info_string79
-info_string79:
-	db	"found_file",000o
-	private	info_string80
-info_string80:
-	db	"new_num_files",000o
-	private	info_string81
-info_string81:
-	db	"slot",000o
-	private	info_string82
-info_string82:
-	db	"ti_var_t",000o
-	private	info_string83
-info_string83:
-	db	"new_num_folders",000o
-	private	info_string84
-info_string84:
-	db	"ti_basic_sequence",000o
-	private	info_string85
-info_string85:
-	db	"temp",000o
-	private	info_string86
-info_string86:
-	db	"palette",000o
-	section	.debug_str_offsets,"",@progbits
-	dd	info_string0
-	dd	info_string1
-	dd	info_string2
-	dd	info_string3
-	dd	info_string4
-	dd	info_string5
-	dd	info_string6
-	dd	info_string7
-	dd	info_string8
-	dd	info_string9
-	dd	info_string10
-	dd	info_string11
-	dd	info_string12
-	dd	info_string13
-	dd	info_string14
-	dd	info_string15
-	dd	info_string16
-	dd	info_string17
-	dd	info_string18
-	dd	info_string19
-	dd	info_string20
-	dd	info_string21
-	dd	info_string22
-	dd	info_string23
-	dd	info_string24
-	dd	info_string25
-	dd	info_string26
-	dd	info_string27
-	dd	info_string28
-	dd	info_string29
-	dd	info_string30
-	dd	info_string31
-	dd	info_string32
-	dd	info_string33
-	dd	info_string34
-	dd	info_string35
-	dd	info_string36
-	dd	info_string37
-	dd	info_string38
-	dd	info_string39
-	dd	info_string40
-	dd	info_string41
-	dd	info_string42
-	dd	info_string43
-	dd	info_string44
-	dd	info_string45
-	dd	info_string46
-	dd	info_string47
-	dd	info_string48
-	dd	info_string49
-	dd	info_string50
-	dd	info_string51
-	dd	info_string52
-	dd	info_string53
-	dd	info_string54
-	dd	info_string55
-	dd	info_string56
-	dd	info_string57
-	dd	info_string58
-	dd	info_string59
-	dd	info_string60
-	dd	info_string61
-	dd	info_string62
-	dd	info_string63
-	dd	info_string64
-	dd	info_string65
-	dd	info_string66
-	dd	info_string67
-	dd	info_string68
-	dd	info_string69
-	dd	info_string70
-	dd	info_string71
-	dd	info_string72
-	dd	info_string73
-	dd	info_string74
-	dd	info_string75
-	dd	info_string76
-	dd	info_string77
-	dd	info_string78
-	dd	info_string79
-	dd	info_string80
-	dd	info_string81
-	dd	info_string82
-	dd	info_string83
-	dd	info_string84
-	dd	info_string85
-	dd	info_string86
-	section	.debug_addr,"",@progbits
-	dd	debug_addr_end0-debug_addr_start0
-	private	debug_addr_start0
-debug_addr_start0:
-	dw	5
-	db	3
-	db	0
-	private	addr_table_base0
-addr_table_base0:
-	dl	func_begin0
-	dl	tmp17
-	dl	tmp6
-	dl	tmp9
-	dl	tmp15
-	dl	tmp27
-	dl	tmp30
-	dl	tmp44
-	dl	tmp47
-	dl	tmp49
-	dl	tmp51
-	dl	func_begin1
-	dl	tmp63
-	dl	tmp74
-	dl	tmp71
-	dl	func_begin2
-	dl	func_begin3
-	dl	func_begin4
-	dl	tmp132
-	dl	tmp136
-	dl	tmp137
-	dl	tmp141
-	dl	tmp142
-	dl	tmp145
-	dl	tmp146
-	dl	tmp148
-	dl	func_begin5
-	dl	tmp162
-	dl	tmp170
-	dl	tmp155
-	dl	tmp159
-	dl	tmp161
-	dl	tmp168
-	dl	tmp176
-	dl	tmp179
-	dl	func_begin6
-	dl	tmp200
-	dl	tmp196
-	dl	tmp210
-	dl	tmp205
-	dl	tmp186
-	dl	tmp183
-	dl	tmp187
-	dl	tmp190
-	dl	tmp201
-	dl	tmp203
-	dl	tmp211
-	dl	tmp213
-	dl	tmp216
-	dl	func_begin7
-	dl	func_begin8
-	dl	tmp237
-	dl	func_begin9
-	dl	tmp262
-	dl	tmp260
-	private	debug_addr_end0
-debug_addr_end0:
 	ident	"clang version 12.0.0 (https://github.com/jacobly0/llvm-project 170be88120e3aa88c20eea5615ba76b8f1d6c647)"
-	section	.debug_line,"",@progbits
-line_table_start0:
 	extern	_memcmp
-	extern	__ldivu
 	extern	__Unwind_SjLj_Register
 	extern	__frameset
 	extern	_malloc
@@ -4569,21 +1372,18 @@ line_table_start0:
 	extern	_memcpy
 	extern	_ti_Read
 	extern	__setflag
-	extern	_gfx_FillScreen
 	extern	__Unwind_SjLj_Unregister
 	extern	__irems
+	extern	__iremu
 	extern	_strcpy
 	extern	_gfx_AllocSprite
 	extern	__imulu
 	extern	_ti_Open
-	extern	_gfx_PrintUInt
 	extern	_ti_GetSize
 	extern	_ti_DetectAny
 	extern	_vysion_util_GetStringHash
 	extern	_strtol
 	extern	_ti_GetDataPtr
-	extern	_gfx_PrintStringXY
-	extern	_os_GetCSC
 	extern	_ti_IsArchived
 	extern	_realloc
 	extern	__frameset0

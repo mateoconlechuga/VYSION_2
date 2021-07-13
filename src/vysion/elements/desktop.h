@@ -6,4 +6,8 @@
 //is there another source control service
 //quick test please work
 
+void vysion_SuperButtonClickAction(void *args);
+void vysion_StartMenuClickAction(void *args);
+void vysion_Desktop(void);
+
 #endif

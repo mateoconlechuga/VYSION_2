@@ -11,7 +11,7 @@ void optix_InitializeGUIState(void) {
 }
 
 void optix_InitializeSettings(struct optix_settings *settings) {
-    settings->cursor_active = true;
+    settings->cursor_active = false;
     settings->constant_refresh = false;
 }
 

@@ -8,7 +8,7 @@
 #include <keypadc.h>
 #include <graphx.h>
 #include <debug.h>
-#include "gfx/gfx.h"
+#include "gfx/optix_gfx.h"
 #include "gui_control.h"
 #include "colors.h"
 #include "elements/window.h"
@@ -32,6 +32,7 @@
 #define OPTIX_CURSOR_LEFT          2
 #define OPTIX_CURSOR_RIGHT         3
 #define OPTIX_CURSOR_NO_DIR        4
+#define OPTIX_CURSOR_FORCE_UPDATE  5
 //cursor information
 //the normal width of the cursor (just that top left corner)
 #define OPTIX_CURSOR_WIDTH         1

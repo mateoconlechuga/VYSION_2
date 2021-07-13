@@ -30,6 +30,12 @@ void vysion_AddWindow(struct vysion_window_widget *widget) {
     //align everything
     optix_RecursiveAlign((struct optix_widget *) widget->window_title_bar);
     optix_CopyElement(&(*stack)[index], widget->window_title_bar);
+    //now switch the selection to it if in box-based mode
+    if (!current_context->settings->cursor_active) {
+        optix_SetCurrentSelection((*stack)[index]);
+        (*stack)[index]->state.selected = true;
+        current_context->cursor->direction = OPTIX_CURSOR_FORCE_UPDATE;
+    }
 }
 
 size_t vysion_GetWindowSize(uint8_t type) {

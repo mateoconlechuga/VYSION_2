@@ -35,7 +35,7 @@ converts:
 
 outputs:
   - type: c
-    include-file: gfx.h
+    include-file: vysion_gfx.h
     converts:
       - myimages
     palettes:

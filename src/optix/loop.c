@@ -93,18 +93,24 @@ void optix_UpdateStack_TopLevel(struct optix_widget *(*stack)[]) {
     //start with this, because why not
     if (current_context->data->gui_needs_full_redraw) optix_RecursiveSetNeedsRedraw(*stack);
     //cursor stuff
-    if (!current_context->settings->cursor_active && current_context->data->can_press && current_context->cursor->direction != OPTIX_CURSOR_NO_DIR) {
+    if (current_context->cursor->direction == OPTIX_CURSOR_FORCE_UPDATE || (!current_context->settings->cursor_active && current_context->data->can_press && current_context->cursor->direction != OPTIX_CURSOR_NO_DIR)) {
         //formerly another condition || curr_window_index + 1 != i)
+        dbg_sprintf(dbgout, "Please work.\n");
         struct optix_widget *possible_selection = NULL;
         struct optix_widget **temp = NULL;
         struct optix_widget **search_stack = NULL;
         if (curr_window) {
             if (curr_window->type == OPTIX_WINDOW_TYPE) search_stack = curr_window->child;
             else if (curr_window->type == OPTIX_WINDOW_TITLE_BAR_TYPE) search_stack = ((struct optix_window_title_bar *) curr_window)->window->widget.child;
-        } else search_stack = current_context->stack;
-        if (!current_context->cursor->current_selection) possible_selection = search_stack[0];
-        if (curr_window_index + 1 != i && found_window) possible_selection = search_stack[0];
-        else possible_selection = optix_FindNearestElement(current_context->cursor->direction, current_context->cursor->current_selection, search_stack);
+        } else {
+            dbg_sprintf(dbgout, "Fuck off Eric.\n");
+            search_stack = current_context->stack;
+        }
+        if (current_context->cursor->direction == OPTIX_CURSOR_FORCE_UPDATE || (!current_context->cursor->current_selection) || (curr_window_index + 1 != i && found_window)) {
+            int i = 0;
+            while (search_stack[i] && !search_stack[i]->state.selectable) i++;
+            possible_selection = search_stack[i];
+        } else possible_selection = optix_FindNearestElement(current_context->cursor->direction, current_context->cursor->current_selection, search_stack);
         //move the cursor to that position
         if (possible_selection) {
             current_context->data->can_press = false;
@@ -113,6 +119,7 @@ void optix_UpdateStack_TopLevel(struct optix_widget *(*stack)[]) {
             current_context->cursor->widget.transform.x = current_context->cursor->current_selection->transform.x;
             current_context->cursor->widget.transform.y = current_context->cursor->current_selection->transform.y;*/
         }
+        if (current_context->cursor->direction == OPTIX_CURSOR_FORCE_UPDATE) current_context->cursor->direction = OPTIX_CURSOR_NO_DIR;
     }
     //if it's already the last entry don't bother
     if (!found_window) return;

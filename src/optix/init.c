@@ -101,7 +101,7 @@ void optix_InitializeWidget(struct optix_widget *widget, uint8_t type) {
             menu->min = menu->last_selection = menu->selection = menu->num_options = 0;
             do menu->num_options++;
             while ((menu->spr && menu->spr[menu->num_options]) || (menu->text && menu->text[menu->num_options]));
-            menu->num_options--;
+            //menu->num_options--;
             break;
         case OPTIX_TEXT_TYPE:
             widget->child = NULL;

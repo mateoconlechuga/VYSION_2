@@ -144,7 +144,6 @@ void optix_UpdateText_default(struct optix_widget *widget) {
 void optix_RenderText_default(struct optix_widget *widget) {
     struct optix_text *text = (struct optix_text *) widget;
     if (widget->state.visible && widget->state.needs_redraw) {
-        dbg_sprintf(dbgout, "%s\n", text->text);
         if (current_context->data->font_valid) {
             int max_lines = widget->transform.height / TEXT_SPACING;
             int lines_to_render = max_lines < text->num_lines ? max_lines : text->num_lines;

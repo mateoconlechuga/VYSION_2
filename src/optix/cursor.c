@@ -58,11 +58,11 @@ void optix_UpdateCursor_default(struct optix_widget *widget) {
         else if (kb_Data[7] & kb_Down)  cursor->direction = OPTIX_CURSOR_DOWN;
         else if (kb_Data[7] & kb_Left)  cursor->direction = OPTIX_CURSOR_LEFT;
         else if (kb_Data[7] & kb_Right) cursor->direction = OPTIX_CURSOR_RIGHT;
-        else cursor->direction = OPTIX_CURSOR_NO_DIR;
+        else if (cursor->direction != OPTIX_CURSOR_FORCE_UPDATE) cursor->direction = OPTIX_CURSOR_NO_DIR;
         //the box-based GUI mode (implement later)
     } else {
         if (!kb_AnyKey()) current_context->data->can_press = true;
-        cursor->direction = OPTIX_CURSOR_NO_DIR;
+        if (cursor->direction != OPTIX_CURSOR_FORCE_UPDATE) cursor->direction = OPTIX_CURSOR_NO_DIR;
     }
 }  
 
@@ -82,7 +82,7 @@ void optix_RenderCursor_default(struct optix_widget *widget) {
     };
     if (current_context->settings->cursor_active) {
         if (!current_context->settings->constant_refresh) optix_RefreshCursorBackground(widget);
-        gfx_SetTransparentColor(255);
+        gfx_SetTransparentColor(0);
         gfx_TransparentSprite_NoClip(spr[cursor->state], cursor->widget.transform.x, cursor->widget.transform.y);
     } else {
         struct optix_transform *transform = &cursor->current_selection->transform;
@@ -133,7 +133,7 @@ struct optix_widget *optix_FindNearestElement(uint8_t direction, struct optix_wi
             continue;
         }*/
         //I only want to have buttons and window title bars be selectable at this moment
-        if (current == current_context->cursor->current_selection || !(current->state.selectable)) {
+        if (current == current_context->cursor->current_selection || !current->state.selectable || !current->state.visible) {
             i++;
             continue;
         }

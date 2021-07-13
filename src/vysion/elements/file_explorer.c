@@ -3,8 +3,9 @@
 #include "../window_manager.h"
 #include "../../optix/init.h"
 #include "../gfx/output/gfx.h"
+#include "../control.h"
 
-unsigned char *template_text_text = "Welcome to VYSION 2! Here is some more text, maybe that will change something.";
+unsigned char *template_text_text = "Welcome to VYSION 2!";
 unsigned char start_icon_rotated[1154];
 
 void vysion_AddFileExplorerWindow(void *config) {
@@ -66,4 +67,24 @@ void vysion_AddFileExplorerWindow(void *config) {
     window.window.widget.window_title_bar = &template_title_bar;
     //and now copy the element
     vysion_AddWindow(&window);
+}
+
+//a custom callback for a file explorer window
+void vysion_UpdateFileExplorerMenu(struct optix_widget *widget) {
+    struct vysion_file_explorer_menu *menu = (struct vysion_file_explorer_menu *) widget;
+    //still this as well
+    optix_UpdateMenu_default(widget);
+    //do this too (update the thing's stuff)
+    if (menu->needs_update || widget->state.needs_redraw) {
+        struct vysion_folder *folder = vysion_GetFolderByIndex(vysion_current_context, menu->index);
+        int num_options = optix_GetNumElementsInStack((struct optix_widget **) folder->contents);
+        //update it
+        //pretty easy, I think
+        menu->menu.text = realloc(menu->menu.text, menu->menu.rows * menu->menu.columns * sizeof(char *));
+        menu->menu.spr = realloc(menu->menu.spr, menu->menu.rows * menu->menu.columns * sizeof(char *));
+        for (int i = 0; i < num_options; i++) {
+            menu->menu.text[i] = folder->contents[i]->save.widget.name;
+            menu->menu.spr[i] = folder->contents[i]->icon;
+        }
+    }
 }
