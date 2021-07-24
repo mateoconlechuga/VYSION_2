@@ -5,9 +5,7 @@
 //returns true if window size has changed
 void optix_UpdateWindow_default(struct optix_widget *widget) {
     struct optix_window *window = (struct optix_window *) widget;
-    //dbg_sprintf(dbgout, "Updating window...");
     if (widget->state.visible) {
-        //dbg_sprintf(dbgout, "Updating stack...");
         if (widget->state.selected && widget->child) optix_UpdateStack(widget->child);
         if (kb_Data[6] & kb_Enter || kb_Data[1] & kb_2nd) {
             //rescale it if necessary
@@ -45,7 +43,6 @@ void optix_UpdateWindow_default(struct optix_widget *widget) {
             //(current_context->cursor->current_selection->type == OPTIX_WINDOW_TITLE_BAR_TYPE && ((struct optix_window_title_bar *) current_context->cursor->current_selection)->window == widget) ||
             (current_context->settings->cursor_active && optix_CheckTransformOverlap(&current_context->cursor->widget, widget))) {
                 if (!widget->state.selected) {
-                    dbg_sprintf(dbgout, "This may be the problem.\n");
                     //do this, which I think will be fine?
                     optix_SetCurrentSelection(widget);
                     current_context->cursor->direction = OPTIX_CURSOR_FORCE_UPDATE;
@@ -56,16 +53,13 @@ void optix_UpdateWindow_default(struct optix_widget *widget) {
         }
     } else widget->state.selected = false;
     //handle this, I guess
-    //dbg_sprintf(dbgout, "Finished.");
     if (widget->state.needs_redraw) optix_RecursiveSetNeedsRedraw(widget->child);
-    //dbg_sprintf(dbgout, "Success.");
 }
 
 void optix_RenderWindow_default(struct optix_widget *widget) {
     struct optix_window *window = (struct optix_window *) widget;
     int title_bar_side_padding = 2;
     int element_size = 10;
-    //dbg_sprintf(dbgout, "Visible: %d, Needs redraw: %d\n", widget->state.visible, widget->state.needs_redraw);
     if (widget->state.visible) {
         if (widget->state.needs_redraw) {
             optix_OutlinedRectangle_WithBevel(widget->transform.x - 1, widget->transform.y - 1, widget->transform.width + 2, widget->transform.height + 2, 

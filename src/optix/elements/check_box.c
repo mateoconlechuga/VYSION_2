@@ -11,7 +11,6 @@ void optix_CheckBoxValueXOR(void *widget) {
 void optix_RenderCheckBox_default(struct optix_widget *widget) {
     struct optix_check_box *check_box = (struct optix_check_box *) widget;
     if (widget->state.visible && widget->state.needs_redraw) {
-        //dbg_sprintf(dbgout, "Value: %d\n", *check_box->value);
         //outer circle thing
         optix_OutlinedRectangle_WithBevel(widget->transform.x, widget->transform.y, widget->transform.width, widget->transform.height, //transform
         BUTTON_BG_COLOR_UNSELECTED_INDEX, WINDOW_BORDER_BEVEL_DARK_INDEX, WINDOW_BORDER_BEVEL_LIGHT_INDEX);                            //color

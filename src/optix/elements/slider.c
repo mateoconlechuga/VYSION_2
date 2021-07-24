@@ -3,7 +3,6 @@
 //functions
 void optix_UpdateSlider_default(struct optix_widget *widget) {
     struct optix_slider *slider = (struct optix_slider *) widget;
-    ////dbg_sprintf(dbgout, "Updating slider...\n");
     if (widget->state.visible && optix_CheckTransformOverlap(&current_context->cursor->widget, widget)) {
         //too easy
         bool left_pressed = current_context->settings->cursor_active ? (kb_Data[6] & kb_Sub) : (kb_Data[7] & kb_Left);
@@ -17,9 +16,7 @@ void optix_UpdateSlider_default(struct optix_widget *widget) {
         //handle out of bounds
         if (*slider->value > slider->max) *slider->value = slider->max;
         if (*slider->value < slider->min) *slider->value = slider->min;
-        //dbg_sprintf(dbgout, "Current value: %d\n", *slider->value);
     }
-    ////dbg_sprintf(dbgout, "Finished.\n");
 }
 
 void optix_RenderSlider_default(struct optix_widget *widget) {

@@ -46,27 +46,24 @@ void vysion_SetWallpaper(char *name, struct optix_sprite *sprite[HD_WALLPAPER_RO
     if ((slot = ti_Open(name, "r"))) {
         void *lut_location = ti_GetDataPtr(slot) + strlen(HD_WALLAPER_HEADER_STRING);
         void *lut_data_location = lut_location + 3 * sizeof(uint16_t);
-        dbg_sprintf(dbgout, "Length of string: %d\n", strlen(HD_WALLAPER_HEADER_STRING));
         //so we have the LUT now
         //the offset to the first one (not including the header string) is the second byte of the LUT
         //this doesn't include the size
-        dbg_sprintf(dbgout, "First tile: %d\n", *((uint16_t *) lut_location + sizeof(uint16_t)));
         void *first_tile_location = lut_location + *((uint16_t *) lut_location + sizeof(uint16_t));
         //the size of the lut should be a constant 18 for 6 sprites, we'll have it be a define
         //that's 2 bytes for size, 4 bytes for god knows what, andd then 12 bytes for the actual offsets
         void *palette_location = lut_location + HD_WALLPAPER_LUT_SIZE;
         uint16_t palette_size = *((uint16_t *) palette_location);
-        dbg_sprintf(dbgout, "Palette size is %d\n", palette_size);
         //now set the palette
         gfx_SetPalette(palette_location + sizeof(uint16_t), palette_size, WALLPAPER_PALETTE_OFFSET);
         //and now for the actual things
         for (int i = 0; i < HD_WALLPAPER_ROWS; i++) {
             uint16_t *arr = lut_data_location;
-            dbg_sprintf(dbgout, "Offset: %d\n", (int) arr[i]);
             //we have to add sizeof(uint16_t) to this because there are 2 bytes indicating the size of the palette
             //that won't otherwise be included
             sprite[i]->spr = first_tile_location + arr[i] + sizeof(uint16_t);
         }
+        ti_Close(slot);
     }
 }
 
@@ -88,7 +85,6 @@ void vysion_InitializeWallpaper(struct optix_sprite *sprite[HD_WALLPAPER_ROWS]) 
             .y_scale = 1,
         };
         //template.widget.transform.y = i * HD_WALLPAPER_HEIGHT;
-        dbg_sprintf(dbgout, "Y: %d\n", template.widget.transform.y);
         optix_InitializeWidget(&template.widget, OPTIX_SPRITE_TYPE);
         template.widget.render = vysion_RenderWallpaper;
         memcpy((void *) sprite[i], (void *) &template, sizeof(struct optix_sprite));
@@ -101,9 +97,7 @@ void vysion_RenderWallpaper(struct optix_widget *widget) {
     struct optix_sprite *sprite = (struct optix_sprite *) widget;
     //then do the thing
     if (widget->state.visible && sprite->spr && widget->state.needs_redraw) {
-        dbg_sprintf(dbgout, "Rendering wallpaper...\n");
         //let's just not talk about this line alright
         zx7_Decompress((void *) &gfx_vbuffer[widget->transform.y][0], sprite->spr);
-        dbg_sprintf(dbgout, "Success.\n");
     }
 }

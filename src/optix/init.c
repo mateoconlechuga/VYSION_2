@@ -8,6 +8,7 @@ void optix_InitializeWidget(struct optix_widget *widget, uint8_t type) {
     struct optix_menu *menu = (struct optix_menu *) widget;
     struct optix_text *text = (struct optix_text *) widget;
     struct optix_check_box *check_box = (struct optix_check_box *) widget;
+    struct optix_sprite *sprite = (struct optix_sprite *) widget;
     void (*update[OPTIX_NUM_TYPES])(struct optix_widget *) = {
         //text
         optix_UpdateText_default,
@@ -99,22 +100,26 @@ void optix_InitializeWidget(struct optix_widget *widget, uint8_t type) {
     switch (type) {
         case OPTIX_MENU_TYPE:
             menu->min = menu->last_selection = menu->selection = menu->num_options = 0;
-            do menu->num_options++;
-            while ((menu->spr && menu->spr[menu->num_options]) || (menu->text && menu->text[menu->num_options]));
+            menu->spr_x_scale = menu->spr_y_scale = 1;
+            while ((menu->spr && menu->spr[menu->num_options]) || (menu->text && menu->text[menu->num_options])) 
+                menu->num_options++;
+            dbg_sprintf(dbgout, "Num options: %d\n", menu->num_options);
             //menu->num_options--;
             break;
         case OPTIX_TEXT_TYPE:
             widget->child = NULL;
             text->num_lines = 0;
             text->background_rectangle = true;
-            //text->min = 0;
-            //dbg_sprintf(dbgout, "Wrapping text...\n");
+            text->min = 0;
             optix_WrapText(widget);
-            //dbg_sprintf(dbgout, "Finished.\n");
-            //optix_InitializeTextTransform((struct optix_text *) widget);
             //no break here, we want it to fall through
         case OPTIX_BUTTON_TYPE:
         case OPTIX_SPRITE_TYPE:
+            //hopefully it's safe to assume these have been set properly
+            if (widget->type == OPTIX_SPRITE_TYPE) {
+                widget->transform.width = sprite->spr->width * sprite->x_scale;
+                widget->transform.height = sprite->spr->height * sprite->y_scale;
+            }
             widget->centering.x_centering = OPTIX_CENTERING_CENTERED;
             widget->centering.y_centering = OPTIX_CENTERING_CENTERED;
             break;
@@ -133,8 +138,10 @@ void optix_InitializeWidget(struct optix_widget *widget, uint8_t type) {
 }
 
 uint16_t optix_GetSize(struct optix_widget *widget) {
-    if (widget->state.override_size) return widget->state.size;
-    else {
+    if (widget->state.override_size) {
+        dbg_sprintf(dbgout, "Returning custom size of %d...\n", (int) widget->state.size);
+        return widget->state.size;
+    } else {
         switch (widget->type) {
             case OPTIX_TEXT_TYPE:
                 return sizeof(struct optix_text);
@@ -224,4 +231,29 @@ void optix_CopyElement(struct optix_widget **widget, struct optix_widget *refere
         i++;
     }
     //dbg_sprintf(dbgout, "Function finished.\n");
+}
+
+//this assumes it has been copied with optix_CopyElement, so keep that in mind please
+void optix_FreeElementHandleSpecialCase(struct optix_widget **widget) {
+    switch ((*widget)->type) {
+        case OPTIX_WINDOW_TITLE_BAR_TYPE:
+            optix_FreeElement(&((struct optix_window_title_bar *) (*widget))->window);
+            break;
+        default:
+            break;
+    }
+}
+
+
+void optix_FreeElement(struct optix_widget **widget) {
+    //so I think that all we have to really do is just free all the subelements, and then free the main one after that
+    int i = 0;
+    optix_FreeElementHandleSpecialCase(widget);
+    //then this part
+    while ((*widget)->child && (*widget)->child[i]) {
+        optix_FreeElement(&((*widget)->child[i]));
+        i++;
+    }
+    free(*widget);
+    *widget = NULL;
 }

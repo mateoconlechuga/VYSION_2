@@ -38,12 +38,12 @@ _vysion_SetOP1:
 	section	.text,"ax",@progbits
 	public	_main
 _main:
-	ld	hl, -184
+	ld	hl, -187
 	call	__frameset
 	ld	bc, -166
 	lea	iy, ix + 0
 	add	iy, bc
-	ld	bc, -172
+	ld	bc, -187
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	(hl), iy
@@ -74,7 +74,13 @@ _main:
 	ld	(ix + 0), bc
 	pop	ix
 	lea	bc, iy + 15
+	push	ix
 	ld	de, -184
+	add	ix, de
+	ld	(ix + 0), bc
+	pop	ix
+	lea	bc, iy + 0
+	ld	de, -172
 	lea	iy, ix + 0
 	add	iy, de
 	ld	(iy + 0), bc
@@ -88,7 +94,7 @@ _main:
 	pop	hl
 	pop	hl
 	pop	hl
-	ld	bc, -172
+	ld	bc, -187
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	iy, (hl)
@@ -158,6 +164,13 @@ _main:
 	ld	hl, (hl)
 	push	hl
 	call	_vysion_SaveFilesystem
+	pop	hl
+	ld	bc, -172
+	lea	hl, ix + 0
+	add	hl, bc
+	ld	hl, (hl)
+	push	hl
+	call	_vysion_CloseAllWindows
 	ld	sp, ix
 	pop	ix
 	ret
@@ -169,6 +182,7 @@ L___const.vysion_SetOP1.temp:
 	db	" ",000o,000o,000o,000o,000o,000o,000o,000o,000o
 
 	ident	"clang version 12.0.0 (https://github.com/jacobly0/llvm-project 170be88120e3aa88c20eea5615ba76b8f1d6c647)"
+	extern	_vysion_CloseAllWindows
 	extern	_memset
 	extern	__Unwind_SjLj_Register
 	extern	__frameset

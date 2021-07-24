@@ -64,7 +64,7 @@ BB0_2:
 	section	.text,"ax",@progbits
 	public	_vysion_SetWallpaper
 _vysion_SetWallpaper:
-	ld	hl, -9
+	ld	hl, -15
 	call	__frameset
 	call	_ti_CloseAll
 	ld	hl, L_.str
@@ -72,27 +72,23 @@ _vysion_SetWallpaper:
 	ld	hl, (ix + 6)
 	push	hl
 	call	_ti_Open
-	ld	l, a
-	pop	de
-	pop	de
+	ld	e, a
+	pop	hl
+	pop	hl
 	or	a, a
-	jq	nz, BB1_1
-BB1_4:
-	ld	sp, ix
-	pop	ix
-	ret
-BB1_1:
-	ld	de, (ix + 9)
-	ld	(ix + -3), de
-	push	hl
+	jq	z, BB1_5
+	ld	hl, (ix + 9)
+	ld	(ix + -6), hl
+	ld	(ix + -9), de
+	push	de
 	call	_ti_GetDataPtr
 	push	hl
 	pop	iy
 	pop	hl
 	lea	hl, iy + 9
-	ld	(ix + -6), hl
+	ld	(ix + -3), hl
 	lea	hl, iy + 15
-	ld	(ix + -9), hl
+	ld	(ix + -12), hl
 	ld	l, (iy + 13)
 	ld	h, (iy + 14)
 	ld	bc, 0
@@ -100,9 +96,9 @@ BB1_1:
 	pop	de
 	ld	e, l
 	ld	d, h
-	ld	hl, (ix + -6)
+	ld	hl, (ix + -3)
 	add	hl, de
-	ld	(ix + -6), hl
+	ld	(ix + -3), hl
 	ld	l, (iy + 27)
 	ld	h, (iy + 28)
 	push	bc
@@ -117,20 +113,18 @@ BB1_1:
 	pop	hl
 	pop	hl
 	pop	hl
-	ld	iy, (ix + -6)
+	ld	iy, (ix + -3)
 	lea	hl, iy + 2
-	ld	(ix + -6), hl
+	ld	(ix + -3), hl
 	ld	bc, 12
-	ld	de, 0
+	ld	iy, 0
 BB1_2:
-	push	de
-	pop	hl
+	lea	hl, iy + 0
 	or	a, a
 	sbc	hl, bc
-	jq	z, BB1_4
-	push	de
-	pop	bc
-	ld	hl, (ix + -9)
+	jq	z, BB1_3
+	lea	bc, iy + 0
+	ld	hl, (ix + -12)
 	add	hl, bc
 	push	de
 	ld	e, (hl)
@@ -142,22 +136,36 @@ BB1_2:
 	ld	bc, 0
 	ld	c, l
 	ld	b, h
-	ld	hl, (ix + -6)
+	ld	hl, (ix + -3)
 	add	hl, bc
 	push	hl
 	pop	bc
-	ld	hl, (ix + -3)
+	ld	(ix + -15), iy
+	ld	de, (ix + -6)
+	push	de
+	pop	hl
 	ld	iy, (hl)
 	ld	(iy + 30), bc
+	ld	hl, (ix + -15)
 	ld	bc, 2
-	ex	de, hl
 	add	hl, bc
 	ld	bc, 12
-	ld	iy, (ix + -3)
+	push	de
+	pop	iy
 	lea	iy, iy + 3
-	ld	(ix + -3), iy
-	ex	de, hl
+	ld	(ix + -6), iy
+	push	hl
+	pop	iy
 	jq	BB1_2
+BB1_3:
+	ld	hl, (ix + -9)
+	push	hl
+	call	_ti_Close
+	pop	hl
+BB1_5:
+	ld	sp, ix
+	pop	ix
+	ret
 	section	.text,"ax",@progbits
 
 	section	.text,"ax",@progbits
@@ -286,8 +294,8 @@ L_.str:
 	extern	__Unwind_SjLj_Register
 	extern	__frameset
 	extern	__Unwind_SjLj_Unregister
-	extern	_ti_Open
 	extern	_optix_InitializeWidget
+	extern	_ti_Open
 	extern	_gfx_SetPalette
 	extern	_zx7_Decompress
 	extern	_ti_GetDataPtr

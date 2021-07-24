@@ -41,26 +41,26 @@ _optix_RenderScrollBar_default:
 	cp	a, 3
 	jq	nz, BB1_20
 	ld	iy, (ix + -3)
-	ld	hl, (iy + 62)
-	ld	de, (iy + 68)
+	ld	hl, (iy + 65)
+	ld	de, (iy + 71)
 	ld	(ix + -15), de
 	ld	(ix + -6), hl
 	ld	de, 1
 	or	a, a
 	sbc	hl, de
 	jq	nz, BB1_6
-	ld	hl, (iy + 59)
+	ld	hl, (iy + 62)
 	ld	(ix + -21), hl
-	ld	hl, (iy + 65)
+	ld	hl, (iy + 68)
 	ld	(ix + -6), hl
 	jq	BB1_7
 BB1_6:
 	ld	a, c
-	ld	bc, (iy + 65)
+	ld	bc, (iy + 68)
 	ld	hl, (ix + -15)
 	call	__idivs
 	ld	(ix + -15), hl
-	ld	hl, (iy + 59)
+	ld	hl, (iy + 62)
 	call	__idivs
 	ld	c, a
 	ld	(ix + -21), hl

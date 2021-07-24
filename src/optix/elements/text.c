@@ -184,11 +184,8 @@ void optix_WrapText(struct optix_widget *widget) {
             input_box->current_line = num_lines - 1;
         }
         num_lines++;
-        //dbg_sprintf(dbgout, "Reallocating...%d\n", num_lines);
         if (num_lines > text->num_lines) text->offsets = realloc(text->offsets, sizeof(char *) * num_lines);
-        ////dbg_sprintf(dbgout, "Success.\n");
         text->offsets[num_lines - 1] = str;
-        //dbg_sprintf(dbgout, "%s\n", str);
     } while (multiple_lines && (*(str = optix_PrintStringWrapped_fontlibc(str, true)) != '\0') && str != text->text);
     //just do this again
     if (!found_current_line && widget->type == OPTIX_INPUT_BOX_TYPE && str >= text->text + input_box->cursor_offset) {

@@ -575,15 +575,32 @@ _optix_RenderGUI:
 	push	hl
 	call	_optix_RenderStack
 	pop	hl
+	ld	hl, (_current_context)
+	push	hl
+	pop	iy
+	ld	iy, (iy + 3)
+	ld	a, (iy + 1)
+	push	hl
+	pop	iy
+	ld	l, 1
+	xor	a, l
+	bit	0, a
+	jq	nz, BB3_2
+	ld	hl, 1
+	push	hl
+	call	_gfx_Blit
+	pop	hl
 	ld	iy, (_current_context)
+BB3_2:
 	ld	iy, (iy + 9)
 	ld	hl, (iy + 21)
 	push	iy
 	call	__indcallhl
 	pop	hl
 	ld	iy, (_current_context)
-	ld	hl, (iy + 3)
-	ld	(hl), 0
+	ld	iy, (iy + 3)
+	ld	(iy), 0
+	ld	(iy + 1), 0
 	ret
 	section	.text,"ax",@progbits
 
@@ -592,34 +609,60 @@ _optix_RenderGUI:
 _optix_RenderStack:
 	ld	hl, -3
 	call	__frameset
-	ld	iy, (ix + 6)
+	ld	hl, (ix + 6)
+	push	hl
+	pop	bc
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	jq	nz, BB4_1
+BB4_8:
+	pop	hl
+	pop	ix
+	ret
 BB4_1:
-	ld	(ix + -3), iy
+	ld	e, 1
+	push	bc
+	pop	iy
+BB4_2:
+	lea	bc, iy + 0
 	ld	iy, (iy)
 	lea	hl, iy + 0
 	add	hl, bc
 	or	a, a
 	sbc	hl, bc
-	jq	z, BB4_5
+	jq	z, BB4_8
 	ld	hl, (iy + 21)
 	add	hl, bc
 	or	a, a
 	sbc	hl, bc
-	jq	z, BB4_4
+	jq	z, BB4_7
+	ld	(ix + -3), bc
+	ld	a, (iy + 17)
+	xor	a, e
+	bit	0, a
+	jq	nz, BB4_6
+	lea	de, iy + 0
+	ld	iy, (_current_context)
+	ld	iy, (iy + 3)
+	ld	(iy + 1), 1
+	push	de
+	pop	iy
+BB4_6:
 	push	iy
 	call	__indcallhl
 	pop	hl
 	ld	hl, (ix + -3)
 	ld	iy, (hl)
 	ld	(iy + 17), 0
-BB4_4:
-	ld	iy, (ix + -3)
+	push	hl
+	pop	bc
+	ld	e, 1
+BB4_7:
+	push	bc
+	pop	iy
 	lea	iy, iy + 3
-	jq	BB4_1
-BB4_5:
-	pop	hl
-	pop	ix
-	ret
+	jq	BB4_2
 	section	.text,"ax",@progbits
 
 	ident	"clang version 12.0.0 (https://github.com/jacobly0/llvm-project 170be88120e3aa88c20eea5615ba76b8f1d6c647)"
@@ -632,6 +675,7 @@ BB4_5:
 	extern	_optix_HandleShortcuts
 	extern	_current_context
 	extern	__Unwind_SjLj_Unregister
+	extern	_gfx_Blit
 	extern	__imulu
 	extern	_optix_RenderCursorBackground
 	extern	_optix_RecursiveSetNeedsRedraw

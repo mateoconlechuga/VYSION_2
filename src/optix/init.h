@@ -22,5 +22,7 @@ void optix_InitializeWidget(struct optix_widget *widget, uint8_t type);
 uint16_t optix_GetSize(struct optix_widget *widget);
 void optix_CopyElementHandleSpecialCase(struct optix_widget **widget, struct optix_widget *reference);
 void optix_CopyElement(struct optix_widget **widget, struct optix_widget *reference);
+void optix_FreeElementHandleSpecialCase(struct optix_widget **widget);
+void optix_FreeElement(struct optix_widget **widget);
 
 #endif

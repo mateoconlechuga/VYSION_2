@@ -28,7 +28,6 @@ void optix_UpdateGUI(void) {
 void optix_UpdateStack(struct optix_widget *stack[]) {
     int i = 0;
     while (stack[i]) {
-        //dbg_sprintf(dbgout, "Level type: %d\n", stack[i]->type);
         if (stack[i]->update) stack[i]->update(stack[i]);
         if (stack[i]->state.needs_redraw && stack[i]->child) {
             optix_RecursiveSetNeedsRedraw(stack[i]->child);
@@ -47,6 +46,7 @@ void optix_UpdateStack(struct optix_widget *stack[]) {
 //use only for the top level stack, it will reorganize the windows in the render queue and things
 void optix_UpdateStack_TopLevel(struct optix_widget *(*stack)[]) {
     int i = 0;
+    int j = 0;
     struct optix_widget *curr_window = NULL;
     int curr_window_index = 0;
     bool found_window = false;
@@ -55,12 +55,10 @@ void optix_UpdateStack_TopLevel(struct optix_widget *(*stack)[]) {
     //start things out by doing the thing
     //the value of i at the end will also be the number of elements in the stack
     while ((*stack)[i]) {
-        //dbg_sprintf(dbgout, "Top level type: %d Updating...\n", (*stack)[i]->type);
         //if this has been selected, we want to loop through and make sure nothing else is selected
         //this is so that what's on top will be selected, or what is rendered last
-        //only one window can be selected at a time
         if ((*stack)[i]->update) (*stack)[i]->update((*stack)[i]);
-        //dbg_sprintf(dbgout, "Success.\n");
+        //only one window can be selected at a time
         //if it needs to be redrawn handle that
         if ((*stack)[i]->state.needs_redraw && (*stack)[i]->child) {
             optix_RecursiveSetNeedsRedraw((*stack)[i]->child);
@@ -89,23 +87,38 @@ void optix_UpdateStack_TopLevel(struct optix_widget *(*stack)[]) {
         }
         i++;
     }
+    //we handle this separately now
+    //basically items on the main stack should only be updated if no window is selected
+    //otherwise just update stuff
+    /*while ((*stack)[j]) {
+        switch ((*stack)[j]->type) {
+            case OPTIX_WINDOW_TITLE_BAR_TYPE:
+            case OPTIX_WINDOW_TYPE:
+                if ((*stack)[j]->update) (*stack)[j]->update((*stack)[j]);
+                break;
+            default:
+                //so I think this is how I'm going to handle it:
+                //objects on the master stack (things like the super button or desktop menu in VYSION)
+
+
+        }
+
+    }*/
+
+
     //handle this as well
     //start with this, because why not
     if (current_context->data->gui_needs_full_redraw) optix_RecursiveSetNeedsRedraw(*stack);
     //cursor stuff
     if (current_context->cursor->direction == OPTIX_CURSOR_FORCE_UPDATE || (!current_context->settings->cursor_active && current_context->data->can_press && current_context->cursor->direction != OPTIX_CURSOR_NO_DIR)) {
         //formerly another condition || curr_window_index + 1 != i)
-        dbg_sprintf(dbgout, "Please work.\n");
         struct optix_widget *possible_selection = NULL;
         struct optix_widget **temp = NULL;
         struct optix_widget **search_stack = NULL;
         if (curr_window) {
             if (curr_window->type == OPTIX_WINDOW_TYPE) search_stack = curr_window->child;
             else if (curr_window->type == OPTIX_WINDOW_TITLE_BAR_TYPE) search_stack = ((struct optix_window_title_bar *) curr_window)->window->widget.child;
-        } else {
-            dbg_sprintf(dbgout, "Fuck off Eric.\n");
-            search_stack = current_context->stack;
-        }
+        } else search_stack = current_context->stack;
         if (current_context->cursor->direction == OPTIX_CURSOR_FORCE_UPDATE || (!current_context->cursor->current_selection) || (curr_window_index + 1 != i && found_window)) {
             int i = 0;
             while (search_stack[i] && !search_stack[i]->state.selectable) i++;
@@ -141,25 +154,24 @@ void optix_UpdateStack_TopLevel(struct optix_widget *(*stack)[]) {
 void optix_RenderGUI(void) {
     //do this first
     optix_RenderCursorBackground((struct optix_widget *) current_context->cursor);
-    //dbg_sprintf(dbgout, "Rendering stack...\n");
     optix_RenderStack(current_context->stack);
-    //dbg_sprintf(dbgout, "Finished.\n");
+    //blit if necessary
+    if (current_context->data->needs_blit) gfx_BlitBuffer();
     //the cursor should be on top of everything else
     current_context->cursor->widget.render((struct optix_widget *) current_context->cursor);
     current_context->data->gui_needs_full_redraw = false;
+    current_context->data->needs_blit = false;
 }
 
 void optix_RenderStack(struct optix_widget *stack[]) {
     int i = 0;
-    while (stack[i]) {
-        //dbg_sprintf(dbgout, "Render type: %d\n", stack[i]->type);
+    while (stack && stack[i]) {
         if (stack[i]->render) {
-            //dbg_sprintf(dbgout, "Rendering...\n");
+            //make sure we blit when needed
+            if (stack[i]->state.needs_redraw) current_context->data->needs_blit = true;
             stack[i]->render(stack[i]);
-            //dbg_sprintf(dbgout, "We made it back.\n");
             stack[i]->state.needs_redraw = false;
         }
         i++;
     }
-    //dbg_sprintf(dbgout, "Finished rendering stack.\n");
 }

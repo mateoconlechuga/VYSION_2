@@ -83,7 +83,6 @@ void optix_RecursiveSetNeedsRedraw(struct optix_widget *stack[]) {
     int i = 0;
     if (!stack) return;
     while (stack[i]) {
-        //dbg_sprintf(dbgout, "i : %d Type: %d\n", i, stack[i]->type);
         stack[i]->state.needs_redraw = true;
         if (stack[i]->child) optix_RecursiveSetNeedsRedraw(stack[i]->child);
         if (stack[i]->type == OPTIX_WINDOW_TITLE_BAR_TYPE) {
@@ -99,8 +98,10 @@ void optix_IntelligentRecursiveSetNeedsRedraw(struct optix_widget *stack[], stru
     int i = 0;
     if (!stack) return;
     while (stack[i]) {
-        //dbg_sprintf(dbgout, "i : %d Type: %d\n", i, stack[i]->type);
-        if (optix_CheckTransformOverlap(stack[i], reference)) stack[i]->state.needs_redraw = true;
+        if (!stack[i]->state.needs_redraw && optix_CheckTransformOverlap(stack[i], reference)) {
+            stack[i]->state.needs_redraw = true;
+            optix_IntelligentRecursiveSetNeedsRedraw(stack, stack[i]);
+        }
         if (stack[i]->child) optix_IntelligentRecursiveSetNeedsRedraw(stack[i]->child, reference);
         if (stack[i]->type == OPTIX_WINDOW_TITLE_BAR_TYPE) {
             ((struct optix_window_title_bar *) stack[i])->window->widget.state.needs_redraw = true;
@@ -162,9 +163,6 @@ void optix_CycleSelectedElement(struct optix_widget *stack[]) {
 
 uint16_t optix_GetNumElementsInStack(struct optix_widget *stack[]) {
     int i = 0;
-    while (stack && stack[i]) {
-        //dbg_sprintf(dbgout, "%d\n", i);
-        i++;
-    }
+    while (stack && stack[i]) i++;
     return i;
 }

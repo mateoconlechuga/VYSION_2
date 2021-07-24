@@ -101,10 +101,7 @@ void optix_RenderInputBox_default(struct optix_widget *widget) {
         //binary search maybe
         if (input_box->text.text && input_box->text.widget.render) {
             struct optix_text *text = (struct optix_text *) widget;
-            //dbg_sprintf(dbgout, "Rendering text...\n");
             optix_RenderText_default(widget);
-            //text->widget.render((struct optix_widget *) text);
-            //dbg_sprintf(dbgout, "It worked.\n");
             //do the blinking line thing I guess
             if (widget->state.selected) {
                 gfx_SetColor(BUTTON_TEXT_FG_COLOR_UNSELECTED_INDEX);
@@ -121,16 +118,12 @@ void optix_RenderInputBox_default(struct optix_widget *widget) {
 //also recursive so that's cool
 size_t optix_GetStringIndexByOffset(char *str, int offset, size_t length) {
     int start_index = 0, end_index = length;
-    if (optix_GetStringWidthL(str, length) < offset) {
-        dbg_sprintf(dbgout, "Returning...\n");
-        return length;
-    }
+    if (optix_GetStringWidthL(str, length) < offset) return length;
     while (start_index <= end_index) {
         int middle = start_index + (end_index - start_index ) / 2;
         if (abs(optix_GetStringWidthL(str, middle) - offset) <= INPUT_BOX_CURSOR_TOLERANCE) return middle;
         if (optix_GetStringWidthL(str, middle) < offset) start_index = middle + 1;
         else end_index = middle - 1;
     }
-    dbg_sprintf(dbgout, "Finished.\n");
     return -1;
 }

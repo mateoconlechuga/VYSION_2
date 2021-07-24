@@ -73,4 +73,5 @@ void main(void) {
     vysion_InitializeOPTIX(&context);
     vysion_Desktop();
     vysion_SaveFilesystem(&vysion_context);
+    vysion_CloseAllWindows(&context);
 }

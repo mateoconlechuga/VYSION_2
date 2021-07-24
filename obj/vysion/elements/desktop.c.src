@@ -77,115 +77,131 @@ BB2_2:
 	section	.text,"ax",@progbits
 	public	_vysion_Desktop
 _vysion_Desktop:
-	ld	hl, -684
+	ld	hl, -790
 	call	__frameset
-	ld	de, -373
+	ld	de, -344
 	lea	iy, ix + 0
 	add	iy, de
-	ld	de, -503
+	ld	de, -472
 	lea	hl, ix + 0
 	add	hl, de
 	push	ix
-	ld	de, -633
+	ld	de, -603
 	add	ix, de
 	lea	bc, ix + 0
 	pop	ix
 	ld	(ix + -3), bc
 	push	ix
-	ld	bc, -228
+	ld	bc, -733
 	add	ix, bc
 	lea	de, ix + 0
 	pop	ix
 	push	ix
-	ld	bc, -678
+	ld	bc, -736
 	add	ix, bc
 	ld	(ix + 0), de
 	pop	ix
-	lea	de, iy + 127
+	lea	de, iy + 116
 	push	ix
-	ld	bc, -657
+	ld	bc, -781
 	add	ix, bc
 	ld	(ix + 0), de
 	pop	ix
-	lea	de, iy + 90
+	lea	de, iy + 98
 	push	ix
-	ld	bc, -663
-	add	ix, bc
-	ld	(ix + 0), de
-	pop	ix
-	lea	de, iy + 69
-	push	ix
-	ld	bc, -672
+	ld	bc, -754
 	add	ix, bc
 	ld	(ix + 0), de
 	pop	ix
 	push	ix
-	ld	bc, -651
+	ld	bc, -766
 	add	ix, bc
 	ld	(ix + 0), iy
 	pop	ix
-	lea	de, iy + 48
-	ld	bc, -675
+	lea	de, iy + 4
+	ld	bc, -757
 	lea	iy, ix + 0
 	add	iy, bc
 	ld	(iy + 0), de
 	push	hl
 	pop	iy
-	lea	de, iy + 97
-	ld	bc, -654
+	lea	de, iy + 95
+	ld	bc, -763
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	(hl), de
-	lea	de, iy + 54
+	lea	de, iy + 74
 	push	ix
-	ld	bc, -645
-	add	ix, bc
-	ld	(ix + 0), de
-	pop	ix
-	lea	de, iy + 45
-	push	ix
-	ld	bc, -684
+	ld	bc, -775
 	add	ix, bc
 	ld	(ix + 0), de
 	pop	ix
 	push	ix
-	ld	bc, -636
+	ld	bc, -748
 	add	ix, bc
 	ld	(ix + 0), iy
 	pop	ix
-	lea	de, iy + 8
-	ld	bc, -648
+	lea	de, iy + 53
+	ld	bc, -778
 	lea	iy, ix + 0
 	add	iy, bc
 	ld	(iy + 0), de
 	ld	bc, (ix + -3)
 	push	bc
 	pop	iy
+	lea	de, iy + 98
+	push	ix
+	ld	bc, -751
+	add	ix, bc
+	ld	(ix + 0), de
+	pop	ix
+	lea	de, iy + 55
+	push	ix
+	ld	bc, -742
+	add	ix, bc
+	ld	(ix + 0), de
+	pop	ix
+	lea	de, iy + 46
+	push	ix
+	ld	bc, -790
+	add	ix, bc
+	ld	(ix + 0), de
+	pop	ix
+	push	ix
+	ld	bc, -739
+	add	ix, bc
+	ld	(ix + 0), iy
+	pop	ix
+	lea	de, iy + 9
+	ld	bc, -760
+	lea	iy, ix + 0
+	add	iy, bc
+	ld	(iy + 0), de
+	push	ix
+	ld	bc, -736
+	add	ix, bc
+	ld	iy, (ix + 0)
+	pop	ix
 	lea	de, iy + 100
 	push	ix
-	ld	bc, -642
+	ld	bc, -745
 	add	ix, bc
 	ld	(ix + 0), de
 	pop	ix
 	lea	de, iy + 94
 	push	ix
-	ld	bc, -681
+	ld	bc, -787
 	add	ix, bc
 	ld	(ix + 0), de
 	pop	ix
 	lea	de, iy + 48
 	push	ix
-	ld	bc, -660
+	ld	bc, -772
 	add	ix, bc
 	ld	(ix + 0), de
 	pop	ix
-	push	ix
-	ld	bc, -639
-	add	ix, bc
-	ld	(ix + 0), iy
-	pop	ix
 	lea	de, iy + 0
-	ld	bc, -669
+	ld	bc, -784
 	lea	iy, ix + 0
 	add	iy, bc
 	ld	(iy + 0), de
@@ -198,52 +214,52 @@ BB3_1:
 	jq	z, BB3_3
 	lea	bc, iy + 0
 	ld	(ix + -3), de
-	ld	de, -657
+	ld	de, -754
 	lea	hl, ix + 0
 	add	hl, de
 	ld	hl, (hl)
 	add	hl, bc
 	push	ix
-	ld	de, -666
+	ld	de, -769
 	add	ix, de
 	ld	(ix + 0), iy
 	pop	ix
-	ld	de, -678
+	ld	de, -781
 	lea	iy, ix + 0
 	add	iy, de
 	ld	iy, (iy + 0)
 	ld	(hl), iy
 	ld	bc, 3
-	ld	de, -666
+	ld	de, -769
 	lea	hl, ix + 0
 	add	hl, de
 	ld	hl, (hl)
 	add	hl, bc
 	push	ix
-	ld	bc, -666
+	ld	bc, -769
 	add	ix, bc
 	ld	(ix + 0), hl
 	pop	ix
 	lea	iy, iy + 37
-	ld	bc, -678
+	ld	bc, -781
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	(hl), iy
-	ld	bc, -666
+	ld	bc, -769
 	lea	iy, ix + 0
 	add	iy, bc
 	ld	iy, (iy + 0)
 	ld	de, (ix + -3)
 	jq	BB3_1
 BB3_3:
-	ld	bc, -657
+	ld	bc, -754
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
 	push	hl
 	call	_vysion_InitializeWallpaper
 	pop	hl
-	ld	bc, -657
+	ld	bc, -754
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
@@ -253,12 +269,51 @@ BB3_3:
 	call	_vysion_SetWallpaper
 	pop	hl
 	pop	hl
+	ld	hl, 94
+	push	hl
+	ld	hl, L___const.vysion_Desktop.desktop_file_menu
+	push	hl
+	ld	bc, -757
+	lea	hl, ix + 0
+	add	hl, bc
+	ld	hl, (hl)
+	push	hl
+	call	_memcpy
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	bc, -757
+	lea	hl, ix + 0
+	add	hl, bc
+	ld	hl, (hl)
+	push	hl
+	call	_vysion_UpdateFileExplorerMenu
+	pop	hl
+	ld	hl, 3
+	push	hl
+	ld	bc, -757
+	lea	hl, ix + 0
+	add	hl, bc
+	ld	hl, (hl)
+	push	hl
+	call	_optix_InitializeWidget
+	pop	hl
+	pop	hl
+	ld	bc, -766
+	lea	hl, ix + 0
+	add	hl, bc
+	ld	iy, (hl)
+	ld	hl, _vysion_UpdateFileExplorerMenu
+	ld	(iy + 28), hl
+	ld	(iy + 61), 2
+	ld	(iy + 60), 2
+	ld	(iy + 89), 1
 	ld	hl, 37
 	push	hl
 	or	a, a
 	sbc	hl, hl
 	push	hl
-	ld	bc, -663
+	ld	bc, -763
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
@@ -270,22 +325,26 @@ BB3_3:
 	ld	a, (_start_icon_data)
 	ld	l, a
 	ld	h, 0
-	ld	bc, -651
+	ld	bc, -748
 	lea	iy, ix + 0
 	add	iy, bc
 	ld	iy, (iy + 0)
-	ld	(iy + 97), l
-	ld	(iy + 98), h
+	ld	(iy + 102), l
+	ld	(iy + 103), h
 	ld	a, (_start_icon_data+1)
-	ld	(iy + 99), a
-	ld	(iy + 101), 1
+	ld	(iy + 104), a
+	ld	(iy + 106), 1
 	ld	hl, _start_icon_data
-	ld	(iy + 120), hl
-	ld	(iy + 123), 1
-	ld	(iy + 124), 1
+	ld	(iy + 125), hl
+	ld	bc, -766
+	lea	hl, ix + 0
+	add	hl, bc
+	ld	iy, (hl)
+	ld	(iy + 0), 1
+	ld	(iy + 1), 1
 	ld	hl, 1
 	push	hl
-	ld	bc, -663
+	ld	bc, -763
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
@@ -293,16 +352,16 @@ BB3_3:
 	call	_optix_InitializeWidget
 	pop	hl
 	pop	hl
-	ld	bc, -651
+	ld	bc, -766
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	iy, (hl)
-	ld	(iy + 100), 0
+	ld	(iy + -23), 0
 	ld	hl, 21
 	push	hl
 	ld	hl, L___const.vysion_Desktop.start_menu_text
 	push	hl
-	ld	bc, -672
+	ld	bc, -775
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
@@ -315,7 +374,7 @@ BB3_3:
 	push	hl
 	ld	hl, L___const.vysion_Desktop.start_menu_icon
 	push	hl
-	ld	bc, -675
+	ld	bc, -778
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
@@ -329,7 +388,7 @@ BB3_3:
 	or	a, a
 	sbc	hl, hl
 	push	hl
-	ld	bc, -654
+	ld	bc, -751
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
@@ -338,20 +397,20 @@ BB3_3:
 	pop	hl
 	pop	hl
 	pop	hl
-	ld	bc, -636
+	ld	bc, -739
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	iy, (hl)
 	ld.sis	hl, 78
-	ld	(iy + 104), l
-	ld	(iy + 105), h
-	ld	(iy + 106), 96
-	ld	bc, -654
+	ld	(iy + 105), l
+	ld	(iy + 106), h
+	ld	(iy + 107), 96
+	ld	bc, -751
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	iy, (hl)
 	push	ix
-	ld	bc, -666
+	ld	bc, -766
 	add	ix, bc
 	ld	(ix + 0), iy
 	pop	ix
@@ -365,9 +424,9 @@ BB3_3:
 	pop	hl
 	pop	hl
 	ld	hl, 0
-	ld	de, -651
+	ld	bc, -748
 	lea	iy, ix + 0
-	add	iy, de
+	add	iy, bc
 	ld	iy, (iy + 0)
 	ld	(iy + 0), hl
 	ld	(iy + 3), hl
@@ -383,40 +442,60 @@ BB3_3:
 	ld	(iy + 14), 1
 	ld	(iy + 15), 4
 	ld	(iy + 16), 0
-	ld	de, -672
+	ld	bc, -775
 	lea	hl, ix + 0
-	add	hl, de
+	add	hl, bc
 	ld	hl, (hl)
 	ld	(iy + 17), hl
-	ld	de, -675
+	ld	bc, -778
 	lea	hl, ix + 0
-	add	hl, de
+	add	hl, bc
 	ld	hl, (hl)
 	ld	(iy + 20), hl
-	lea	bc, iy + 0
-	ld	de, -666
+	ld	bc, -766
 	lea	hl, ix + 0
-	add	hl, de
+	add	hl, bc
 	ld	iy, (hl)
-	lea	hl, iy + 56
-	ld	de, 0
-	push	bc
-	pop	iy
-	ld	(iy + 23), de
-	ld	(iy + 26), de
-	ld	bc, 6
-	ld	(iy + 29), bc
-	ld	bc, 1
-	ld	(iy + 32), bc
-	ld	(iy + 35), de
-	ld	(iy + 38), de
-	ld	(iy + 41), 0
-	ld	de, _vysion_StartMenuClickAction
-	ld	(iy + 42), de
+	lea	hl, iy + 58
+	push	ix
+	ld	bc, -769
+	add	ix, bc
+	ld	(ix + 0), hl
+	pop	ix
+	ld	hl, 9
+	push	hl
+	or	a, a
+	sbc	hl, hl
+	push	hl
+	pea	iy + 56
+	call	_memset
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	hl, 6
+	ld	bc, -748
+	lea	iy, ix + 0
+	add	iy, bc
+	ld	iy, (iy + 0)
+	ld	(iy + 32), hl
+	ld	hl, 1
+	ld	(iy + 35), hl
+	dec	hl
+	ld	(iy + 38), hl
+	ld	(iy + 41), hl
+	ld	(iy + 44), 0
+	ld	hl, _vysion_StartMenuClickAction
 	ld	(iy + 45), hl
+	ld	(iy + 51), 0
+	ld	(iy + 52), 0
+	ld	bc, -769
+	lea	hl, ix + 0
+	add	hl, bc
+	ld	hl, (hl)
+	ld	(iy + 48), hl
 	ld	hl, 3
 	push	hl
-	ld	bc, -654
+	ld	bc, -751
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
@@ -424,31 +503,31 @@ BB3_3:
 	call	_optix_InitializeWidget
 	pop	hl
 	pop	hl
-	ld	bc, -651
+	ld	bc, -748
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	iy, (hl)
 	ld	(iy + -23), 2
 	ld	(iy + -22), 0
-	ld	bc, -636
+	ld	bc, -739
 	lea	iy, ix + 0
 	add	iy, bc
 	ld	iy, (iy + 0)
-	ld	(iy + 54), 0
+	ld	(iy + 55), 0
 	ld	hl, 1
-	ld	(iy + 55), hl
+	ld	(iy + 56), hl
 	ld	hl, 127
-	ld	(iy + 58), hl
+	ld	(iy + 59), hl
 	ld.sis	hl, 90
-	ld	(iy + 61), l
-	ld	(iy + 62), h
-	ld	(iy + 63), 96
-	ld	bc, -645
+	ld	(iy + 62), l
+	ld	(iy + 63), h
+	ld	(iy + 64), 96
+	ld	bc, -742
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	iy, (hl)
 	push	ix
-	ld	bc, -651
+	ld	bc, -748
 	add	ix, bc
 	ld	(ix + 0), iy
 	pop	ix
@@ -462,33 +541,33 @@ BB3_3:
 	pop	hl
 	pop	hl
 	pop	hl
-	ld	bc, -663
+	ld	bc, -763
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
-	ld	bc, -636
+	ld	bc, -739
 	lea	iy, ix + 0
 	add	iy, bc
 	ld	iy, (iy + 0)
-	ld	(iy + 45), hl
-	ld	bc, -654
+	ld	(iy + 46), hl
+	ld	bc, -751
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
-	ld	(iy + 48), hl
+	ld	(iy + 49), hl
 	ld	hl, 0
-	ld	(iy + 51), hl
-	ld	bc, -684
+	ld	(iy + 52), hl
+	ld	bc, -790
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
-	ld	(iy + 81), hl
+	ld	(iy + 82), hl
 	ld	hl, 13
 	push	hl
 	or	a, a
 	sbc	hl, hl
 	push	hl
-	ld	bc, -651
+	ld	bc, -748
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	iy, (hl)
@@ -499,7 +578,7 @@ BB3_3:
 	pop	hl
 	ld	hl, 4
 	push	hl
-	ld	bc, -645
+	ld	bc, -742
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
@@ -507,68 +586,34 @@ BB3_3:
 	call	_optix_InitializeWidget
 	pop	hl
 	pop	hl
-	ld	bc, -645
+	ld	bc, -742
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
 	push	hl
 	call	_optix_RecursiveAlign
 	pop	hl
-	ld	bc, -636
+	ld	bc, -739
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	iy, (hl)
-	ld	(iy + 69), 0
-	ld	hl, 30
+	ld	(iy + 70), 0
+	ld	hl, 37
 	push	hl
-	or	a, a
-	sbc	hl, hl
+	ld	hl, L___const.vysion_Desktop.super_icon
 	push	hl
-	ld	bc, -648
+	ld	bc, -760
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
 	push	hl
-	call	_memset
+	call	_memcpy
 	pop	hl
 	pop	hl
 	pop	hl
-	ld	a, (_taskbar_icon_data)
-	ld	l, a
-	ld	h, 0
-	ld	bc, -636
-	lea	iy, ix + 0
-	add	iy, bc
-	ld	iy, (iy + 0)
-	ld	(iy + 15), l
-	ld	(iy + 16), h
-	ld	a, (_taskbar_icon_data+1)
-	ld	(iy + 17), a
-	ld	(iy + 18), 1
-	ld	(iy + 19), 1
-	ld	hl, _taskbar_icon_data
-	ld	(iy + 38), hl
-	ld	bc, -648
-	lea	hl, ix + 0
-	add	hl, bc
-	ld	iy, (hl)
-	ld	hl, 3
-	push	hl
 	ld	hl, 1
 	push	hl
-	pea	iy + 33
-	call	_memset
-	pop	hl
-	pop	hl
-	pop	hl
-	ld	bc, -636
-	lea	hl, ix + 0
-	add	hl, bc
-	ld	iy, (hl)
-	ld	(iy + 44), -96
-	ld	hl, 1
-	push	hl
-	ld	bc, -648
+	ld	bc, -760
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
@@ -576,7 +621,7 @@ BB3_3:
 	call	_optix_InitializeWidget
 	pop	hl
 	pop	hl
-	ld	bc, -639
+	ld	bc, -736
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	iy, (hl)
@@ -589,7 +634,7 @@ BB3_3:
 	ld	(iy + 107), l
 	ld	(iy + 108), h
 	ld	(iy + 109), 16
-	ld	bc, -642
+	ld	bc, -745
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	iy, (hl)
@@ -601,38 +646,40 @@ BB3_3:
 	pop	hl
 	pop	hl
 	pop	hl
-	ld	bc, -648
+	ld	bc, -736
 	lea	hl, ix + 0
 	add	hl, bc
-	ld	hl, (hl)
-	ld	bc, -639
-	lea	iy, ix + 0
-	add	iy, bc
-	ld	iy, (iy + 0)
+	ld	iy, (hl)
+	push	ix
+	ld	bc, -760
+	add	ix, bc
+	ld	hl, (ix + 0)
+	pop	ix
 	ld	(iy + 94), hl
 	ld	hl, 0
 	ld	(iy + 97), hl
-	ld	bc, -681
+	ld	bc, -787
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
 	ld	(iy + 127), hl
 	ld	hl, _vysion_SuperButtonClickAction
-	ld	bc, -636
+	ld	bc, -739
 	lea	iy, ix + 0
 	add	iy, bc
 	ld	iy, (iy + 0)
 	ld	(iy + 0), hl
-	ld	bc, -645
+	ld	bc, -742
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
 	ld	(iy + 3), hl
 	ld	(iy + 6), 0
 	ld	(iy + 7), 53
+	ld	(iy + 8), 1
 	ld	hl, 2
 	push	hl
-	ld	bc, -642
+	ld	bc, -745
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
@@ -645,7 +692,7 @@ BB3_3:
 	or	a, a
 	sbc	hl, hl
 	push	hl
-	ld	bc, -660
+	ld	bc, -772
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
@@ -655,7 +702,7 @@ BB3_3:
 	pop	hl
 	pop	hl
 	ld	hl, 274
-	ld	bc, -639
+	ld	bc, -736
 	lea	iy, ix + 0
 	add	iy, bc
 	ld	iy, (iy + 0)
@@ -672,7 +719,7 @@ BB3_3:
 	or	a, a
 	sbc	hl, hl
 	push	hl
-	ld	bc, -660
+	ld	bc, -772
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
@@ -680,52 +727,19 @@ BB3_3:
 	call	_optix_InitializeWidget
 	pop	hl
 	pop	hl
-	ld	bc, -639
+	ld	bc, -736
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	iy, (hl)
 	ld	(iy + 93), 0
-	ld	bc, -642
+	ld	bc, -745
 	lea	iy, ix + 0
 	add	iy, bc
 	ld	hl, (iy + 0)
 	push	hl
 	call	_optix_RecursiveAlign
-	pop	hl
-	ld	bc, -669
-	lea	hl, ix + 0
-	add	hl, bc
-	ld	iy, (hl)
-	ld	hl, 39
-	push	hl
-	or	a, a
-	sbc	hl, hl
-	push	hl
-	pea	iy + 9
-	call	_memset
 	ld	bc, 0
 	pop	hl
-	pop	hl
-	pop	hl
-	ld	de, -642
-	lea	hl, ix + 0
-	add	hl, de
-	ld	hl, (hl)
-	ld	de, -639
-	lea	iy, ix + 0
-	add	iy, de
-	ld	iy, (iy + 0)
-	ld	(iy + 0), hl
-	ld	de, -645
-	lea	hl, ix + 0
-	add	hl, de
-	ld	hl, (hl)
-	ld	(iy + 3), hl
-	ld	de, -660
-	lea	hl, ix + 0
-	add	hl, de
-	ld	hl, (hl)
-	ld	(iy + 6), hl
 	ld	de, 16
 	push	bc
 	pop	iy
@@ -743,24 +757,24 @@ BB3_4:
 	jq	nc, BB3_7
 	lea	de, iy + 0
 	ld	(ix + -3), bc
-	ld	bc, -657
+	ld	bc, -754
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
 	add	hl, de
 	push	ix
-	ld	bc, -636
+	ld	bc, -739
 	add	ix, bc
 	ld	(ix + 0), iy
 	pop	ix
 	ld	iy, (hl)
-	ld	bc, -669
+	ld	bc, -784
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
 	add	hl, de
 	ld	(hl), iy
-	ld	de, -636
+	ld	de, -739
 	lea	hl, ix + 0
 	add	hl, de
 	ld	iy, (hl)
@@ -768,61 +782,86 @@ BB3_4:
 BB3_7:
 	push	bc
 	pop	hl
+	ld	de, 6
 	or	a, a
 	sbc	hl, de
-	jq	nz, BB3_9
+	push	ix
+	ld	de, -739
+	add	ix, de
+	ld	(ix + 0), hl
+	pop	ix
+	ld	de, 4
+	or	a, a
+	sbc	hl, de
+	jq	nc, BB3_15
+	ld	hl, LJTI3_0
+	ld	(ix + -3), bc
+	push	ix
+	ld	bc, -739
+	add	ix, bc
+	ld	de, (ix + 0)
+	pop	ix
+	add	hl, de
+	add	hl, de
+	add	hl, de
+	ld	hl, (hl)
+	ld	bc, (ix + -3)
+	jp	(hl)
+BB3_9:
 	lea	de, iy + 0
 	ld	(ix + -3), bc
-	ld	bc, -639
+	ld	bc, -736
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	iy, (hl)
 	push	ix
-	ld	bc, -642
+	ld	bc, -757
 	add	ix, bc
 	ld	hl, (ix + 0)
 	pop	ix
 	ld	(iy + 18), hl
 	jq	BB3_13
-BB3_9:
-	push	bc
-	pop	hl
-	ld	de, 7
-	or	a, a
-	sbc	hl, de
-	jq	nz, BB3_11
+BB3_10:
 	lea	de, iy + 0
 	ld	(ix + -3), bc
-	ld	bc, -639
+	ld	bc, -736
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	iy, (hl)
 	push	ix
-	ld	bc, -645
-	add	ix, bc
-	ld	hl, (ix + 0)
-	pop	ix
-	ld	(iy + 21), hl
-	jq	BB3_13
-BB3_11:
-	push	bc
-	pop	hl
-	ld	de, 8
-	or	a, a
-	sbc	hl, de
-	jq	nz, BB3_15
-	lea	de, iy + 0
-	ld	(ix + -3), bc
-	ld	bc, -639
-	lea	hl, ix + 0
-	add	hl, bc
-	ld	iy, (hl)
-	push	ix
-	ld	bc, -660
+	ld	bc, -742
 	add	ix, bc
 	ld	hl, (ix + 0)
 	pop	ix
 	ld	(iy + 24), hl
+	jq	BB3_13
+BB3_11:
+	lea	de, iy + 0
+	ld	(ix + -3), bc
+	ld	bc, -736
+	lea	hl, ix + 0
+	add	hl, bc
+	ld	iy, (hl)
+	push	ix
+	ld	bc, -772
+	add	ix, bc
+	ld	hl, (ix + 0)
+	pop	ix
+	ld	(iy + 27), hl
+	jq	BB3_13
+BB3_12:
+	lea	de, iy + 0
+	ld	(ix + -3), bc
+	ld	bc, -736
+	lea	hl, ix + 0
+	add	hl, bc
+	ld	iy, (hl)
+	push	ix
+	ld	bc, -745
+	add	ix, bc
+	ld	hl, (ix + 0)
+	pop	ix
+	ld	(iy + 21), hl
 BB3_13:
 	push	de
 	pop	iy
@@ -836,12 +875,12 @@ BB3_15:
 	jq	BB3_4
 BB3_16:
 	ld	iy, (_current_context)
-	ld	bc, -669
+	ld	bc, -784
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
 	ld	(iy + 12), hl
-	ld	bc, -642
+	ld	bc, -745
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
@@ -856,10 +895,6 @@ BB3_16:
 BB3_17:
 	call	_optix_UpdateGUI
 	call	_optix_RenderGUI
-	ld	hl, 1
-	push	hl
-	call	_gfx_Blit
-	pop	hl
 	ld	hl, -720868
 	push	de
 	ld	e, (hl)
@@ -871,16 +906,78 @@ BB3_17:
 	ld	a, l
 	bit	6, a
 	jq	z, BB3_17
+	ld	hl, -720878
+	push	de
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	l, e
+	ld	h, d
+	pop	de
+	ld	a, l
+	bit	4, a
+	jq	z, BB3_17
 	call	_gfx_End
 	ld	sp, ix
 	pop	ix
 	ret
 	section	.text,"ax",@progbits
+	section	.rodata,"a",@progbits
+lJTI3_0:
+	private	LJTI3_0
+LJTI3_0:
+	dl	BB3_9
+	dl	BB3_12
+	dl	BB3_10
+	dl	BB3_11
 
 	section	.rodata,"a",@progbits
 	private	L_.str
 L_.str:
-	db	"R32",000o
+	db	"RICK",000o
+
+	section	.rodata,"a",@progbits
+	private	L___const.vysion_Desktop.desktop_file_menu
+L___const.vysion_Desktop.desktop_file_menu:
+	db	0
+	dl	0
+	dl	0
+	dw	320
+	db	224
+	db	4 dup 0
+	db	7 dup 0
+	dl	0
+	dl	0
+	dl	0
+	db	12 dup 0
+	db	1
+	db	2
+	db	0
+	db	251
+	db	1
+	db	0
+	db	0
+	db	5
+	dl	0
+	dl	0
+	db	0
+	db	0
+	dl	0
+	db	0
+	dl	0
+	dl	4
+	dl	5
+	dl	0
+	dl	0
+	db	0
+	dl	_vysion_FileExplorerMenuClickAction
+	dl	0
+	db	1
+	db	0
+	db	1
+	dl	1
+	db	1
+	dl	0
 
 	section	.rodata,"a",@progbits
 	private	L_.str.1
@@ -935,6 +1032,25 @@ L___const.vysion_Desktop.start_menu_icon:
 	dl	0
 
 	section	.rodata,"a",@progbits
+	private	L___const.vysion_Desktop.super_icon
+L___const.vysion_Desktop.super_icon:
+	db	0
+	db	9 dup 0
+	db	1
+	db	1
+	db	0
+	db	0
+	db	7 dup 0
+	dl	0
+	dl	0
+	dl	0
+	dl	_taskbar_icon_data
+	db	1
+	db	1
+	db	1
+	db	160
+
+	section	.rodata,"a",@progbits
 	private	L_.str.7
 L_.str.7:
 	db	"12:00 AM",000o
@@ -946,6 +1062,7 @@ L_.str.7:
 	extern	_start_files_data
 	extern	_vysion_SetWallpaper
 	extern	_optix_InitializeWidget
+	extern	_vysion_UpdateFileExplorerMenu
 	extern	_optix_SetCurrentSelection
 	extern	_taskbar_icon_data
 	extern	_start_settings_data
@@ -955,13 +1072,13 @@ L_.str.7:
 	extern	_start_search_data
 	extern	_current_context
 	extern	__Unwind_SjLj_Unregister
-	extern	_gfx_Blit
+	extern	_vysion_FileExplorerMenuClickAction
 	extern	_exit
 	extern	_start_exit_data
 	extern	_optix_RefreshCursorBackground
 	extern	_vysion_InitializeWallpaper
-	extern	_optix_UpdateGUI
 	extern	_start_about_data
+	extern	_optix_UpdateGUI
 	extern	_optix_RenderGUI
 	extern	_gfx_End
 	extern	__frameset0

@@ -20,9 +20,13 @@ struct optix_menu {
     struct optix_centering text_centering;
     struct optix_centering sprite_centering;
     char **text;
+    //sprite things
     gfx_sprite_t **spr;
+    uint8_t spr_x_scale;
+    uint8_t spr_y_scale;
     //things to use internally
     int selection;
+    bool needs_partial_redraw;
     //option we start from (used for scrolling, mainly)
     int min;
     int rows;
@@ -38,8 +42,11 @@ struct optix_menu {
     //up to the programmer, yay
     void (*click_action)(void *);
     void *click_args;
-    //whether sprite background should be transparent or not
-    
+    //if enabled, it will pass a pointer to itself instead of click_args
+    bool pass_self;
+    //whether background of menu should be transparent or not (literally just toggles transparent_background
+    //in the produced button)
+    bool transparent_background;
 };
 
 //functions

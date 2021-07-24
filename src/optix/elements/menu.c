@@ -23,17 +23,17 @@ void optix_UpdateMenu_default(struct optix_widget *widget) {
     struct optix_menu *menu = (struct optix_menu *) widget;
     //if we should check if we want to jump out of the menu (tries to access inapplicable option, like too far up or down or left or right)
     bool needs_jump = false;
+    dbg_sprintf(dbgout, "Updating menu...\n");
     if (menu->selection != MENU_NO_SELECTION) menu->last_selection = menu->selection;
     //check if it overlaps with the cursor
-    if (optix_CheckTransformOverlap(&current_context->cursor->widget, widget)) {
+    if (current_context->cursor->current_selection == widget || (optix_CheckTransformOverlap(&current_context->cursor->widget, widget) && current_context->settings->cursor_active)) {
         //handle if it was pressed
+        menu->needs_partial_redraw = false;
         if (kb_Data[6] & kb_Enter || kb_Data[1] & kb_2nd) {
             if (!menu->pressed && widget->state.selected) {
-                dbg_sprintf(dbgout, "Running function...\n");
-                if (menu->click_action) menu->click_action(menu->click_args);
+                if (menu->click_action) menu->click_action(menu->pass_self ? widget : menu->click_args);
                 //button->state.color = 224;
                 menu->pressed = true;
-                dbg_sprintf(dbgout, "Fuck\n");
             }
         } else {
             if (menu->pressed) widget->state.needs_redraw = true;
@@ -62,7 +62,7 @@ void optix_UpdateMenu_default(struct optix_widget *widget) {
             current_context->data->can_press = !kb_AnyKey();
             menu->selection = menu->min + (((current_context->cursor->widget.transform.y - widget->transform.y) / option_height) * menu->columns + 
             ((current_context->cursor->widget.transform.x - widget->transform.x) / option_width));
-        } else {
+        } else if (current_context->cursor->current_selection == widget) {
             if (current_context->data->can_press && kb_Data[7]) {
                 if (current_context->data->can_press && kb_Data[7] & kb_Up) {
                     menu->selection = (needs_jump = (menu->selection == 0)) ? 0 : menu->selection - menu->columns;
@@ -79,12 +79,14 @@ void optix_UpdateMenu_default(struct optix_widget *widget) {
                     menu->selection++;
                     current_context->data->can_press = false;
                 }
+                //if it's a transparent background we're going to need to redraw things
+                if (menu->transparent_background) optix_IntelligentRecursiveSetNeedsRedraw(current_context->stack, widget);
                 if (needs_jump) current_context->data->can_press = true;
             } //else current_context->data->can_press = !kb_AnyKey();
-            //handle out of bounds
-            menu->selection = menu->selection < 0 ? 0 : ((menu->selection >= menu->num_options) ? menu->num_options - 1 : menu->selection);
         }
         //scroll if we need to
+        //handle out of bounds
+        menu->selection = menu->selection < 0 ? 0 : ((menu->selection >= menu->num_options) ? menu->num_options - 1 : menu->selection);
         if (menu->selection < menu->min) {
             menu->min = ((int) menu->selection / menu->columns) * menu->columns;
             widget->state.needs_redraw = true;
@@ -93,6 +95,8 @@ void optix_UpdateMenu_default(struct optix_widget *widget) {
             widget->state.needs_redraw = true;
         }
     } else {
+        //if it was selected the last loop, signal for the last selection to be redrawn as unselected
+        if (widget->state.selected) menu->needs_partial_redraw = true;
         menu->selection = MENU_NO_SELECTION;
         widget->state.selected = false;
         //make sure we don't run into issues with this
@@ -110,24 +114,29 @@ void optix_RenderMenu_default(struct optix_widget *widget) {
     struct optix_button button = {.widget = {.child = button_children}};
     optix_InitializeWidget(&button.widget, OPTIX_BUTTON_TYPE);
     //return if we don't have to do anything
-    if (!widget->state.needs_redraw && menu->selection == menu->last_selection) return;
+    dbg_sprintf(dbgout, "Huh\n");
+    if (!(widget->state.needs_redraw || (menu->selection != menu->last_selection && widget->state.selected) || menu->needs_partial_redraw)) return;
+    //if ((!(widget->state.needs_redraw || menu->selection != menu->last_selection))) return;
     //just draw it
+    dbg_sprintf(dbgout, "\nRendering menu...%d\n", menu->num_options);
     for (int i = menu->min; i < menu->min + menu->rows * menu->columns; i++) {
-        //dbg_sprintf(dbgout, "Menu loop: %d/%d\n", i, menu->num_options);
         if (widget->state.needs_redraw || i == menu->selection || i == menu->last_selection) {
-            button.widget.child = button_children;
+            if (!widget->state.needs_redraw && !widget->state.selected) continue;
+            button.widget.child = (i < menu->num_options) ? button_children : NULL;
             button.pressed = (i == menu->selection && menu->pressed);
+            button.transparent_background = menu->transparent_background;
             //create that button widget
             //text
-            //dbg_sprintf(dbgout, "Initializing...\n");
-            //dbg_sprintf(dbgout, "Initializing text...\n");
-            if (menu->text && menu->text[i]) {
+            dbg_sprintf(dbgout, "Loop: %d\n", i);
+            dbg_sprintf(dbgout, "Text...\n");
+            if (button.widget.child && menu->text && menu->text[i]) {
                 text.text = menu->text[i];
-                //dbg_sprintf(dbgout, "Initializing text transform...\n");
+                dbg_sprintf(dbgout, "String: %s\n", text.text);
+                dbg_sprintf(dbgout, "Text length: %d\n", strlen(text.text));
+                dbg_sprintf(dbgout, "Initializing text transform...\n");
                 optix_InitializeTextTransform(&text);
-                //dbg_sprintf(dbgout, "Initializing widget...\n");
+                dbg_sprintf(dbgout, "Initializing widget...\n");
                 optix_InitializeWidget(&text.widget, OPTIX_TEXT_TYPE);
-                //dbg_sprintf(dbgout, "Setting other stuff...\n");
                 text.background_rectangle = false;
                 text.widget.centering.x_centering = menu->text_centering.x_centering;
                 text.widget.centering.y_centering = menu->text_centering.y_centering;
@@ -135,12 +144,13 @@ void optix_RenderMenu_default(struct optix_widget *widget) {
                 text.widget.centering.y_offset = menu->text_centering.y_offset;
                 //text.widget.state.needs_redraw = true;
             } else text.text = NULL;
-            //dbg_sprintf(dbgout, "Initializing sprite...\n");
+            dbg_sprintf(dbgout, "Text done.\n");
             //same for sprites
-            if (menu->spr && menu->spr[i]) {
+            dbg_sprintf(dbgout, "Sprite...\n");
+            if (button.widget.child && menu->spr && menu->spr[i]) {
                 sprite.spr = menu->spr[i];
-                sprite.widget.transform.width = sprite.spr->width;
-                sprite.widget.transform.height = sprite.spr->height;
+                sprite.x_scale = menu->spr_x_scale;
+                sprite.y_scale = menu->spr_y_scale;
                 optix_InitializeWidget(&sprite.widget, OPTIX_SPRITE_TYPE);
                 sprite.widget.centering.x_centering = menu->sprite_centering.x_centering;
                 sprite.widget.centering.y_centering = menu->sprite_centering.y_centering;
@@ -148,8 +158,9 @@ void optix_RenderMenu_default(struct optix_widget *widget) {
                 sprite.widget.centering.y_offset = menu->sprite_centering.y_offset;
                 //sprite.widget.state.needs_redraw = true;
             } else sprite.spr = NULL;
+            dbg_sprintf(dbgout, "Sprite done.\n");
             //place the null
-            button.widget.child[(text.text != NULL) + (sprite.spr != NULL)] = NULL;
+            if (button.widget.child) button.widget.child[(text.text != NULL) + (sprite.spr != NULL)] = NULL;
             //align everything (please don't stab me)
             //x
             button.widget.transform.x = widget->transform.x + (i % menu->columns * 
@@ -157,15 +168,17 @@ void optix_RenderMenu_default(struct optix_widget *widget) {
             //y
             button.widget.transform.y = widget->transform.y + ((i - menu->min) / menu->columns * 
             (button.widget.transform.height = optix_GetMenuOptionHeight(menu->selection, menu->rows, menu->columns, widget->transform.width, widget->transform.height)));
-            //dbg_sprintf(dbgout, "Aligning...\n");
             optix_RecursiveAlign(&button.widget);
             //set whether it's selected
             button.widget.state.selected = widget->state.selected && i == menu->selection;
-            //dbg_sprintf(dbgout, "Setting redraw on menu.\n");
             optix_RecursiveSetNeedsRedraw(button.widget.child);
+            dbg_sprintf(dbgout, "Rendering button...\n");
             button.widget.render(&button.widget);
-            //dbg_sprintf(dbgout, "Finished rendering button.\n");
+            dbg_sprintf(dbgout, "Finished.\n");
         }
     }
-    //dbg_sprintf(dbgout, "Finished rendering menu.\n");
+    //this is true, I think?
+    current_context->data->needs_blit = true;
+    menu->needs_partial_redraw = false;
+    dbg_sprintf(dbgout, "Finished rendering menu.\n");
 }

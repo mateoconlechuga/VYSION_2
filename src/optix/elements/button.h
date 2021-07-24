@@ -16,7 +16,24 @@ struct optix_button {
     bool pressed;
     //will be activated if this key is pressed too
     uint8_t alternate_key;
+    //if this option is enabled, there will not be a rectangle drawn in the unselected BG color when unselected
+    //so the background will show behind it
+    bool transparent_background;
 };
+
+struct optix_click_action {
+    void (*click_action)(void *);
+    void *click_args;
+};
+
+//so this will probably be in an array within the button/menu, and every loop, if it is selected,
+//the button/menu will check to see if any of these were pressed and if so run the action
+//should be fairly fast, I hope
+struct optix_alternate_key_click_action {
+    struct optix_click_action click_action;
+    uint8_t alternate_key;
+};
+
 
 //functions
 //default update/render functions for the buttons

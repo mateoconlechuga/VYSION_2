@@ -140,15 +140,20 @@ _optix_RenderButton_default:
 	ld	l, 1
 	xor	a, l
 	bit	0, a
-	jq	nz, BB1_11
+	jq	nz, BB1_14
 	ld	a, (iy + 17)
 	xor	a, l
 	bit	0, a
-	jq	nz, BB1_11
+	jq	nz, BB1_14
 	ld	a, (iy + 14)
 	xor	a, l
 	bit	0, a
-	jq	z, BB1_4
+	jq	z, BB1_6
+	ld	a, (iy + 38)
+	xor	a, l
+	xor	a, l
+	bit	0, a
+	jq	nz, BB1_5
 	ld	hl, 14
 	push	hl
 	call	_gfx_SetColor
@@ -179,16 +184,12 @@ _optix_RenderButton_default:
 	pop	hl
 	pop	hl
 	pop	hl
+BB1_5:
 	ld	hl, 21
 	push	hl
 	ld	hl, 18
-	push	hl
-	call	_optix_SetTextColor
-	ld	iy, (ix + 6)
-	pop	hl
-	pop	hl
-	jq	BB1_8
-BB1_4:
+	jq	BB1_10
+BB1_6:
 	ld	a, (iy + 36)
 	xor	a, l
 	ld	l, (iy + 1)
@@ -199,7 +200,7 @@ BB1_4:
 	ld	b, (iy + 8)
 	ld	d, (iy + 9)
 	bit	0, a
-	jq	z, BB1_6
+	jq	z, BB1_8
 	ld	hl, 8
 	push	hl
 	dec	hl
@@ -218,8 +219,8 @@ BB1_4:
 	add	hl, sp
 	ld	sp, hl
 	ld	hl, 21
-	jq	BB1_7
-BB1_6:
+	jq	BB1_9
+BB1_8:
 	ld	hl, 7
 	push	hl
 	inc	hl
@@ -238,17 +239,15 @@ BB1_6:
 	add	hl, sp
 	ld	sp, hl
 	ld	hl, 23
-BB1_7:
+BB1_9:
 	push	hl
 	dec	hl
+BB1_10:
 	push	hl
 	call	_optix_SetTextColor
 	pop	hl
 	pop	hl
-	ld	hl, (ix + 6)
-	push	hl
-	pop	iy
-BB1_8:
+	ld	iy, (ix + 6)
 	ld	hl, (iy + 27)
 	add	hl, bc
 	or	a, a
@@ -263,7 +262,7 @@ BB1_8:
 	call	_optix_SetTextColor
 	pop	hl
 	pop	hl
-BB1_11:
+BB1_14:
 	ld	sp, ix
 	pop	ix
 	ret
@@ -275,9 +274,9 @@ BB1_11:
 	extern	__Unwind_SjLj_Register
 	extern	__Unwind_SjLj_Unregister
 	extern	__frameset
+	extern	_optix_RenderStack
 	extern	__indcallhl
 	extern	_gfx_SetColor
-	extern	_optix_RenderStack
 	extern	_gfx_FillRectangle
 	extern	_optix_RecursiveSetNeedsRedraw
 	extern	_optix_OutlinedRectangle_WithBevel

@@ -13,42 +13,46 @@ void vysion_AddFileExplorerWindow(void *config) {
     struct vysion_file_explorer_window window = {
         .window = {.widget = {.type = WINDOW_FILE_EXPLORER}},
     };
-    gfx_RotateSpriteC(start_icon, start_icon_rotated);
     //now for the actual window
     //window text (just a test)
-    struct optix_text template_text = {
-        .widget = {.transform = {.width = 94, .height = 14}},
-        .text = template_text_text,
-        .alignment = OPTIX_CENTERING_CENTERED,
-        .x_offset = 1,
-        .min = 0,
-        .needs_offset_update = true,
-        .background_rectangle = false,
-    };
-    optix_InitializeWidget(&template_text.widget, OPTIX_TEXT_TYPE);
-    template_text.background_rectangle = false;
-    template_text.widget.centering.y_centering = OPTIX_CENTERING_BOTTOM;
-    struct optix_sprite template_sprite = {
-        .widget = {
-            .transform = {.width = start_icon->height, .height = start_icon->width},
-            .centering = {.x_centering = OPTIX_CENTERING_LEFT, .y_centering = OPTIX_CENTERING_CENTERED},
+    struct vysion_file_explorer_menu template_file_menu = {
+        .menu = {
+            .widget = {
+                .transform = {
+                    .width = 100,
+                    .height = 100,
+                },
+                .state = {
+                    .override_size = true,
+                    .size = sizeof(struct vysion_file_explorer_menu),
+                },
+            },
+            .text = NULL,
+            .spr = NULL,
+            .text_centering = {.y_centering = OPTIX_CENTERING_CENTERED, .x_centering = OPTIX_CENTERING_LEFT, .x_offset = 24},
+            .sprite_centering = {.y_centering = OPTIX_CENTERING_CENTERED, .x_centering = OPTIX_CENTERING_LEFT, .x_offset = 4},
+            .rows = 5,
+            .columns = 1,
+            .click_action = vysion_FileExplorerMenuClickAction,
+            .pass_self = true,
         },
-        .spr = start_icon_rotated,
-        .transparent = false,
-        .x_scale = 1,
-        .y_scale = 1,
+        .index = VYSION_ROOT,
+        .needs_update = true,
+        .nest = true,
     };
-    optix_InitializeWidget(&template_sprite.widget, OPTIX_SPRITE_TYPE);
-    template_sprite.widget.centering.y_centering = OPTIX_CENTERING_TOP;
+    vysion_UpdateFileExplorerMenu(&template_file_menu.menu.widget);
+    optix_InitializeWidget(&template_file_menu.menu.widget, OPTIX_MENU_TYPE);
+    template_file_menu.menu.widget.update = vysion_UpdateFileExplorerMenu;
+    //vysion_UpdateFileExplorerMenu(&template_file_menu.menu.widget);
     struct optix_window template = {
         .widget = {
             .transform = {
                 .x = 110,
                 .y = 70,
-                .width = 96,
-                .height = 28,
+                .width = 100,
+                .height = 100,
             },
-            .child = (struct optix_widget *[]) {&template_sprite, &template_text, NULL},
+            .child = (struct optix_widget *[]) {&template_file_menu, NULL},
         },
         .resize_info = {
             .resizable = true,
@@ -72,19 +76,58 @@ void vysion_AddFileExplorerWindow(void *config) {
 //a custom callback for a file explorer window
 void vysion_UpdateFileExplorerMenu(struct optix_widget *widget) {
     struct vysion_file_explorer_menu *menu = (struct vysion_file_explorer_menu *) widget;
-    //still this as well
-    optix_UpdateMenu_default(widget);
     //do this too (update the thing's stuff)
+    //start out by changing the index if necessary
+    if (menu->menu.widget.state.selected && current_context->data->key == sk_Mode) {
+        menu->index = menu->folder->save.widget.location;
+        menu->needs_update = true;
+        menu->menu.widget.state.needs_redraw = true;
+        if (menu->menu.transparent_background) optix_IntelligentRecursiveSetNeedsRedraw(current_context->stack, widget);
+        menu->menu.min = menu->menu.selection = menu->menu.last_selection = 0;
+    }
     if (menu->needs_update || widget->state.needs_redraw) {
-        struct vysion_folder *folder = vysion_GetFolderByIndex(vysion_current_context, menu->index);
+        struct vysion_folder *folder = menu->folder = vysion_GetFolderByIndex(vysion_current_context, menu->index);
+        dbg_sprintf(dbgout, "Getting num options...\n");
         int num_options = optix_GetNumElementsInStack((struct optix_widget **) folder->contents);
+        menu->menu.num_options = num_options;
+        dbg_sprintf(dbgout, "Number options: %d\n", num_options);
         //update it
         //pretty easy, I think
-        menu->menu.text = realloc(menu->menu.text, menu->menu.rows * menu->menu.columns * sizeof(char *));
-        menu->menu.spr = realloc(menu->menu.spr, menu->menu.rows * menu->menu.columns * sizeof(char *));
+        menu->menu.text = realloc(menu->menu.text, (num_options + 1) * sizeof(char *));
+        menu->menu.spr = realloc(menu->menu.spr, (num_options + 1) * sizeof(char *));
+        menu->menu.text[num_options] = menu->menu.spr[num_options] = NULL;
         for (int i = 0; i < num_options; i++) {
+            struct vysion_file *file_widget = (struct vysion_file *) folder->contents[i];
             menu->menu.text[i] = folder->contents[i]->save.widget.name;
-            menu->menu.spr[i] = folder->contents[i]->icon;
+            if (file_widget->save.widget.type == VYSION_FILE) menu->menu.spr[i] = file_widget->icon;
+            else if (file_widget->save.widget.type == VYSION_FOLDER) menu->menu.spr[i] = ((struct vysion_folder *) file_widget)->icon;
         }
+        menu->needs_update = false;
+    }
+    //still this as well
+    optix_UpdateMenu_default(widget);
+}
+
+void vysion_FileExplorerMenuClickAction(struct optix_widget *widget) {
+    struct vysion_file_explorer_menu *menu = (struct vysion_file_explorer_menu *) widget;
+    struct vysion_file_widget *file_widget = (struct vysion_file_widget *) menu->folder->contents[menu->menu.selection];
+    //so if it was a folder and was clicked, it should move to the next level if applicable
+    dbg_sprintf(dbgout, "File explorer menu click action\n");
+    switch (file_widget->type) {
+        case VYSION_FOLDER:
+            if (menu->nest) {
+                if (menu->menu.transparent_background) optix_IntelligentRecursiveSetNeedsRedraw(current_context->stack, widget);
+                menu->index = ((struct vysion_folder *) file_widget)->save.index;
+                dbg_sprintf(dbgout, "New index: %d\n", menu->index);
+                menu->needs_update = true;
+                //just set the index and min to 0
+                menu->menu.min = menu->menu.selection = 0;
+                //otherwise it'll immediately switch to the new one
+                menu->menu.pressed = true;
+            }
+            break;
+        default:
+            //run it I guess
+            break;
     }
 }

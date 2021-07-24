@@ -32,7 +32,6 @@ void optix_UpdateCursor_default(struct optix_widget *widget) {
     struct optix_transform *transform = &widget->transform;
     struct optix_cursor *cursor = (struct optix_cursor *) widget;
     //start by updating the last x and y position of the cursor
-    //dbg_sprintf(dbgout, "Ticks: %d Counter: %d\n", (int) current_context->data->ticks, (int) timer_3_Counter);
     cursor->last_x = transform->x;
     cursor->last_y = transform->y;
     if (current_context->settings->cursor_active) {
@@ -40,7 +39,6 @@ void optix_UpdateCursor_default(struct optix_widget *widget) {
             float seconds_elapsed = ((float) current_context->data->ticks) / ((float) TIMER_FREQUENCY);
             cursor->current_speed += OPTIX_CURSOR_ACCELERATION * seconds_elapsed;
             cursor->current_speed = cursor->current_speed > OPTIX_CURSOR_MAX_SPEED ? OPTIX_CURSOR_MAX_SPEED : cursor->current_speed;
-            dbg_sprintf(dbgout, "Speed: %d\n", (int) cursor->current_speed);
             if (kb_Data[7] & kb_Up)    cursor->true_y -= cursor->current_speed;
             if (kb_Data[7] & kb_Down)  cursor->true_y += cursor->current_speed;
             if (kb_Data[7] & kb_Left)  cursor->true_x -= cursor->current_speed;
@@ -84,6 +82,9 @@ void optix_RenderCursor_default(struct optix_widget *widget) {
         if (!current_context->settings->constant_refresh) optix_RefreshCursorBackground(widget);
         gfx_SetTransparentColor(0);
         gfx_TransparentSprite_NoClip(spr[cursor->state], cursor->widget.transform.x, cursor->widget.transform.y);
+        //blit it
+        gfx_BlitRectangle(gfx_buffer, widget->transform.x, widget->transform.y, OPTIX_CURSOR_SPRITE_WIDTH, OPTIX_CURSOR_SPRITE_HEIGHT);
+        gfx_BlitRectangle(gfx_buffer, cursor->last_x, cursor->last_y, OPTIX_CURSOR_SPRITE_WIDTH, OPTIX_CURSOR_SPRITE_HEIGHT);
     } else {
         struct optix_transform *transform = &cursor->current_selection->transform;
         draw_location = gfx_GetDraw();

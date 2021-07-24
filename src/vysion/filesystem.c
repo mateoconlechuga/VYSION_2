@@ -1,6 +1,7 @@
 #include "filesystem.h"
 #include "util.h"
 #include "control.h"
+#include "gfx/output/gfx.h"
 #include <fileioc.h>
 #include <graphx.h>
 #include <debug.h>
@@ -15,7 +16,6 @@ void vysion_DetectAllFiles(struct vysion_context *context) {
     uint8_t type;
     //count, remove this later
     int count = 0;
-    dbg_sprintf(dbgout, "tf is going on\n");
     timer_Control = TIMER1_ENABLE | TIMER1_32K | TIMER1_UP;
     timer_1_Counter = 0;
     while ((name = ti_DetectAny(&search_pos, NULL, &type)) != NULL) {
@@ -66,16 +66,20 @@ void vysion_DetectAllFolders(struct vysion_context *context) {
             }
         }
         for (int j = 0; j < context->filesystem_info_save.num_folders; j++) {
-            if (context->folder[j]->save.widget.location == context->folder[i]->save.index) {
+            //basically folder can't be inside itself
+            if (context->folder[j]->save.widget.location == context->folder[i]->save.index && context->folder[j]->save.widget.location != context->folder[j]->save.index) {
                 temp[count] = context->folder[j];
                 count++;
             }
         }
+        dbg_sprintf(dbgout, "Count was %d\n", count);
         //now copy everything into the folder1
         //we want a NULL at the end
         context->folder[i]->contents = malloc((count + 1) * sizeof(struct vysion_file_widget *));
         context->folder[i]->contents[count] = NULL;
         memcpy(context->folder[i]->contents, temp, count * sizeof(struct vysion_file_widget *));
+        //handle the folder icon too
+        context->folder[i]->icon = icon_folder;
     }
     dbg_sprintf(dbgout, "Success.\n");
 }
@@ -106,6 +110,7 @@ void vysion_LoadFilesystem(struct vysion_context *context) {
     if ((slot = ti_Open(VYSION_FILESYSTEM_APPVAR, "r"))) {
         int num_files;
         int num_folders;
+        int num_folder_indices;
         //read the version first
         ti_Read(&version, sizeof(int), 1, slot);
         //read the filesystem info
@@ -113,6 +118,7 @@ void vysion_LoadFilesystem(struct vysion_context *context) {
         //preserve these, which will be destroyed by the AddFile() and AddFolder() methods
         num_files = context->filesystem_info_save.num_files;
         num_folders = context->filesystem_info_save.num_folders;
+        num_folder_indices = context->filesystem_info_save.num_folder_indices;
         //loop through and read everything, adding files as we go
         //set them both to 0
         context->filesystem_info_save.num_files = context->filesystem_info_save.num_folders = 0;
@@ -126,6 +132,7 @@ void vysion_LoadFilesystem(struct vysion_context *context) {
             ti_Read(folder, sizeof(struct vysion_folder_save), 1, slot);
             dbg_sprintf(dbgout, "Loaded index: %d\n", folder->save.index);
         }
+        context->filesystem_info_save.num_folder_indices = num_folder_indices;
         ti_Close(slot);
     } else vysion_InitializeFilesystem(context);
 }
@@ -140,17 +147,18 @@ void vysion_InitializeFilesystem(struct vysion_context *context) {
         VYSION_APPVARS_NAME,
         //desktop
         VYSION_DESKTOP_NAME,
+        //test
+        VYSION_TEST_NAME,
     };
     //then do this
-    dbg_sprintf(dbgout, "Initializing filesystem...\n");
     for (int i = 0; i < DEFAULT_LOCATIONS; i++) {
         struct vysion_folder *folder;
         folder = vysion_AddFolder(context);
-        dbg_sprintf(dbgout, "That worked apparently.\n");
         strcpy(folder->save.widget.name, name[i]);
         folder->save.index = i;
-        folder->save.widget.location = VYSION_ROOT;
+        folder->save.widget.location = (i == 4) ? VYSION_DESKTOP : VYSION_ROOT;
         folder->save.widget.type = VYSION_FOLDER;
+        folder->icon = icon_folder;
     }
 }
 
@@ -158,6 +166,24 @@ void vysion_InitializeFilesystem(struct vysion_context *context) {
 //get the file info (size, archived/unarchived, locked, icon, etc.)
 void vysion_GetFileInfo(struct vysion_file *file) {
     ti_var_t slot;
+    //default file icons
+    gfx_sprite_t *default_icon[] = {
+        //basic
+        icon_basic,
+        //protected basic
+        icon_basic,
+        //ICE source
+        icon_ices,
+        //assembly
+        icon_ez80,
+        //C
+        icon_c,
+        //ICE
+        icon_ice,
+        //appvar
+        icon_appvar,
+    };
+    ti_CloseAll();
     if ((slot = ti_OpenVar(file->save.widget.name, "r", file->save.ti_type))) {
         //generic things
         file->icon = NULL;
@@ -166,6 +192,9 @@ void vysion_GetFileInfo(struct vysion_file *file) {
         //now get more information
         if (file->save.ti_type == TI_PPRGM_TYPE) vysion_GetFileInfo_Asm(file, ti_GetDataPtr(slot));
         else if (file->save.ti_type == TI_PRGM_TYPE) vysion_GetFileInfo_Basic(file, ti_GetDataPtr(slot));
+        else if (file->save.ti_type == TI_APPVAR_TYPE) file->vysion_type = VYSION_APPVAR_TYPE;
+        //if the file icon hasn't been set then assign it one of the default ones
+        if (!file->icon) file->icon = default_icon[file->vysion_type];
         //close that slot
         ti_Close(slot);
     }
@@ -228,7 +257,6 @@ struct vysion_file *vysion_AddFile(struct vysion_context *context) {
 struct vysion_folder *vysion_AddFolder(struct vysion_context *context) {
     int new_num_folders = ++context->filesystem_info_save.num_folders;
     context->folder = realloc(context->folder, new_num_folders * sizeof(struct vysion_folder *));
-    dbg_sprintf(dbgout, "That's probably the line that breaks it. %d\n", new_num_folders);
     context->folder[new_num_folders - 1] = malloc(sizeof(struct vysion_folder));
     context->folder[new_num_folders - 1]->save.index = context->filesystem_info_save.num_folder_indices++;
     dbg_sprintf(dbgout, "Index: %d Indices: %d Folders: %d\n", context->folder[new_num_folders - 1]->save.index, context->filesystem_info_save.num_folder_indices, context->filesystem_info_save.num_folders);

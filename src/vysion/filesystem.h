@@ -29,16 +29,18 @@
 #define VYSION_WALLPAPER_TYPE       7
 
 //default locations
-#define DEFAULT_LOCATIONS           4
+#define DEFAULT_LOCATIONS           5
 #define VYSION_ROOT                 0
 #define VYSION_PROGRAMS             1
 #define VYSION_APPVARS              2
 #define VYSION_DESKTOP              3
+#define VYSION_TEST                 4
 //their names
 #define VYSION_ROOT_NAME            "Root"
 #define VYSION_PROGRAMS_NAME        "Programs"
 #define VYSION_APPVARS_NAME         "Appvars"
 #define VYSION_DESKTOP_NAME         "Desktop"
+#define VYSION_TEST_NAME            "Test"
 
 //things for saving
 #define VYSION_FILESYSTEM_APPVAR    "VYSFILES"

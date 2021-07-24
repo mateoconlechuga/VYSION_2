@@ -455,7 +455,9 @@ BB2_3:
 	push	hl
 	call	_gfx_SetTransparentColor
 	pop	hl
-	ld	iy, (ix + 6)
+	ld	hl, (ix + 6)
+	push	hl
+	pop	iy
 	ld	hl, (iy + 48)
 	ld	bc, 3
 	call	__imulu
@@ -471,6 +473,40 @@ BB2_3:
 	push	de
 	push	hl
 	call	_gfx_TransparentSprite_NoClip
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	iy, (ix + 6)
+	ld	hl, (iy + 1)
+	ld	a, (iy + 4)
+	ld	de, 16
+	push	de
+	push	de
+	ld	e, a
+	push	de
+	push	hl
+	ld	hl, 1
+	push	hl
+	call	_gfx_BlitRectangle
+	pop	hl
+	pop	hl
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	iy, (ix + 6)
+	ld	hl, (iy + 30)
+	ld	a, (iy + 33)
+	ld	de, 16
+	push	de
+	push	de
+	ld	e, a
+	push	de
+	push	hl
+	ld	hl, 1
+	push	hl
+	call	_gfx_BlitRectangle
+	pop	hl
+	pop	hl
 	pop	hl
 	pop	hl
 	jq	BB2_9
@@ -913,6 +949,7 @@ L___const.optix_RenderCursor_default.spr:
 
 	ident	"clang version 12.0.0 (https://github.com/jacobly0/llvm-project 170be88120e3aa88c20eea5615ba76b8f1d6c647)"
 	extern	_cursor_resize_vertical_data
+	extern	_gfx_BlitRectangle
 	extern	__Unwind_SjLj_Register
 	extern	__frameset
 	extern	_malloc

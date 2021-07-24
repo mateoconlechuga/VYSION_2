@@ -19,16 +19,13 @@ void optix_UpdateButton_default(struct optix_widget *widget) {
     //kb_Scan will be called elsewhere
     if (current_context->data->key == button->alternate_key || kb_Data[6] & kb_Enter || kb_Data[1] & kb_2nd) {
         if (current_context->data->key == button->alternate_key || (!button->pressed && widget->state.selected)) {
-            dbg_sprintf(dbgout, "Running function...\n");
             if (button->click_action) button->click_action(button->click_args);
-            //button->state.color = 224;
             button->pressed = true;
         }
     } else {
         if (button->pressed) needs_redraw = true;
         button->pressed = false;
         //the color should change back
-        //button->state.color = 255;
     }
     if (optix_CheckTransformOverlap(&current_context->cursor->widget, widget)) {
         if (!widget->state.selected) needs_redraw = true;
@@ -62,8 +59,10 @@ void optix_RenderButton_default(struct optix_widget *widget) {
             }
         } else {
             //for partial redraw later on
-            gfx_SetColor(BUTTON_BG_COLOR_UNSELECTED_INDEX);
-            gfx_FillRectangle(widget->transform.x, widget->transform.y, widget->transform.width, widget->transform.height);
+            if (!button->transparent_background) {
+                gfx_SetColor(BUTTON_BG_COLOR_UNSELECTED_INDEX);
+                gfx_FillRectangle(widget->transform.x, widget->transform.y, widget->transform.width, widget->transform.height);
+            }
             optix_SetTextColor(BUTTON_TEXT_FG_COLOR_UNSELECTED_INDEX, BUTTON_TEXT_BG_COLOR_SELECTED_INDEX);
         }
         //cool, recursion
