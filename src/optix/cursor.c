@@ -57,6 +57,7 @@ void optix_UpdateCursor_default(struct optix_widget *widget) {
         else if (kb_Data[7] & kb_Left)  cursor->direction = OPTIX_CURSOR_LEFT;
         else if (kb_Data[7] & kb_Right) cursor->direction = OPTIX_CURSOR_RIGHT;
         else if (cursor->direction != OPTIX_CURSOR_FORCE_UPDATE) cursor->direction = OPTIX_CURSOR_NO_DIR;
+        if (cursor->direction != OPTIX_CURSOR_NO_DIR) current_context->data->needs_blit = true;
         //the box-based GUI mode (implement later)
     } else {
         if (!kb_AnyKey()) current_context->data->can_press = true;
@@ -93,6 +94,25 @@ void optix_RenderCursor_default(struct optix_widget *widget) {
         if (cursor->current_selection->type == OPTIX_WINDOW_TITLE_BAR_TYPE) {
             struct optix_window *window = ((struct optix_window_title_bar *) cursor->current_selection)->window;
             gfx_Rectangle(transform->x, transform->y, transform->width, transform->height + window->widget.transform.height);
+        } else if (cursor->current_selection->type == OPTIX_MENU_TYPE) {
+            struct optix_widget *widget = (struct optix_widget *) cursor->current_selection;
+            struct optix_menu *menu = (struct optix_menu *) cursor->current_selection;
+            uint16_t width;
+            uint8_t height;
+            int x = widget->transform.x + (menu->selection % menu->columns * 
+            (width = optix_GetMenuOptionWidth(menu->selection, menu->rows, menu->columns, widget->transform.width, widget->transform.height)));
+            //y
+            int y = widget->transform.y + ((menu->selection - menu->min) / menu->columns * 
+            (height = optix_GetMenuOptionHeight(menu->selection, menu->rows, menu->columns, widget->transform.width, widget->transform.height)));
+            /*if (x && x < LCD_WIDTH) {
+                x--;
+                width += 2;
+            }
+            if (y && y < LCD_HEIGHT) {
+                y--;
+                width += 2;
+            }*/
+            gfx_Rectangle(x, y, width, height);
         } else gfx_Rectangle(transform->x, transform->y, transform->width, transform->height);
         gfx_SetDraw(draw_location);
     }

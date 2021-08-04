@@ -1,6 +1,7 @@
 #include "check_box.h"
 //includes
 #include "../colors.h"
+#include "../shapes.h"
 
 void optix_CheckBoxValueXOR(void *widget) {
     struct optix_check_box *check_box = (struct optix_check_box *) widget;

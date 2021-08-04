@@ -3,26 +3,32 @@
 
 //includes
 #include <stdint.h>
+#include <graphx.h>
 #include "../optix/elements/window.h"
 #include "../optix/elements/menu.h"
+#include "gfx/output/gfx.h"
 
-#define MAX_NUM_WINDOWS 10
+#define MAX_NUM_WINDOWS                10
+#define WINDOW_MANAGER_MENU_ROW_HEIGHT 16
+#define WINDOW_MANANGER_MENU_WIDTH     50
 
 //window types
-#define WINDOW_FILE_EXPLORER      0
-#define WINDOW_SETTINGS           1
-#define WINDOW_ABOUT              2
+#define WINDOW_FILE_EXPLORER           0
+#define WINDOW_SETTINGS                1
+#define WINDOW_ABOUT                   2
 //names
-#define WINDOW_FILE_EXPLORER_NAME "Files"
-#define WINDOW_SETTINGS_NAME      "Settings"
-#define WINDOW_ABOUT_NAME         "About"
-
+#define WINDOW_FILE_EXPLORER_NAME      "Files"
+#define WINDOW_SETTINGS_NAME           "Settings"
+#define WINDOW_ABOUT_NAME              "About"
+//icons (should be 12 x 12)
+#define WINDOW_FILE_EXPLORER_ICON      start_files
 //how many elements are in the stack
-#define WINDOW_TITLE_BAR_ELEMENTS 2
+#define WINDOW_TITLE_BAR_ELEMENTS      2
 //other things
-#define WINDOW_CLOSE_STRING       "X"
-#define WINDOW_MAXIMIZE_STRING    "^"
-#define WINDOW_MINIMIZE_STRING    "-"
+#define WINDOW_TITLE_BAR_MENU_OPTIONS  3
+#define WINDOW_CLOSE_STRING            "X"
+#define WINDOW_MAXIMIZE_STRING         "^"
+#define WINDOW_MINIMIZE_STRING         "-"
 
 //generic struct that will be used to start ALL windows
 //this is mostly important so that their core arguments are saved, and can be restored later
@@ -50,11 +56,21 @@ struct vysion_window_manager_menu {
     //so we know when to update?
     int last_num_windows;
     bool needs_update;
+    //since this will sometimes be visible, and sometimes not
+    char **text_save;
 };
+
+//a global
+extern char *window_title_bar_menu_text[WINDOW_TITLE_BAR_MENU_OPTIONS + 1];
+extern char *window_name[];
+extern gfx_sprite_t *window_icon[];
 
 //functions
 void vysion_AddWindow(struct vysion_window_widget *widget);
 size_t vysion_GetWindowSize(uint8_t type);
 void vysion_FormatWindowTitleBar(struct optix_window_title_bar *window_title_bar);
+void vysion_UpdateWindowManagerMenu(struct optix_widget *widget);
+void vysion_RenderWindowManagerMenu(struct optix_widget *widget);
+void vysion_WindowManagerMenuClickAction(void *args);
 
 #endif

@@ -1,6 +1,7 @@
 #include "text.h"
 #include <debug.h>
 #include "input_box.h"
+#include "../shapes.h"
 
 //sets a text object's width and height according to the text's width and height
 void optix_InitializeTextTransform(struct optix_text *text) {
@@ -27,7 +28,7 @@ size_t optix_GetStringWidthL(char *str, size_t max_chars) {
     else {
         char temp = str[max_chars + 1];
         size_t size;
-        str[max_chars + 1] = NULL;
+        str[max_chars + 1] = '\0';
         size = gfx_GetStringWidth(str);
         str[max_chars + 1] = temp;
         return size;
@@ -115,7 +116,7 @@ char *optix_PrintStringWrapped_fontlibc(const char *string, bool fake_print) {
     } while (true);
     if (!fake_print) fontlib_ClearEOL();
     fontlib_SetAlternateStopCode(old_stop);
-    return string;
+    return (char *) string;
 }
 
 void optix_UpdateText_default(struct optix_widget *widget) {
@@ -138,7 +139,7 @@ void optix_UpdateText_default(struct optix_widget *widget) {
     }
     //all we need to do here is to update the wrap if necessary
     if (current_context->settings->cursor_active) current_context->data->can_press = !kb_AnyKey();
-    if (text->needs_offset_update) optix_WrapText(text);
+    if (text->needs_offset_update) optix_WrapText((struct optix_widget *) text);
 }
 
 void optix_RenderText_default(struct optix_widget *widget) {
@@ -153,7 +154,7 @@ void optix_RenderText_default(struct optix_widget *widget) {
                 BUTTON_BG_COLOR_UNSELECTED_INDEX, WINDOW_BORDER_BEVEL_DARK_INDEX, WINDOW_BORDER_BEVEL_LIGHT_INDEX);                                      //bevel (make it look depressed)
             for (int i = text->min; i < text->min + lines_to_render; i++) {
                 size_t num_chars = i == text->num_lines - 1 ? strlen(text->text) : (size_t) (text->offsets[i + 1] - text->offsets[i]);
-                size_t line_width = optix_GetStringWidthL(text->offsets[i], num_chars);
+                //size_t line_width = optix_GetStringWidthL(text->offsets[i], num_chars);
                 //fontlib_SetCursorPosition((widget->transform.x + line_width / 2) * text->alignment + text->x_offset, widget->transform.y + i * TEXT_SPACING);
                 fontlib_SetCursorPosition(widget->transform.x + text->x_offset, widget->transform.y + (i - text->min) * TEXT_SPACING);
                 if (i < text->num_lines) fontlib_DrawStringL(text->offsets[i], num_chars);
@@ -205,7 +206,7 @@ void optix_WrapText(struct optix_widget *widget) {
 //sets the default font, which is in an appvar
 bool optix_InitializeFont(void) {
     fontlib_font_t *font_pack;
-    if (font_pack = fontlib_GetFontByIndex(DEFAULT_FONT_PACK_NAME, 0)) {
+    if ((font_pack = fontlib_GetFontByIndex(DEFAULT_FONT_PACK_NAME, 0))) {
         fontlib_SetFont(font_pack, 0);
         fontlib_SetColors(TEXT_FG_COLOR_INDEX, TEXT_BG_COLOR_INDEX);
         fontlib_SetTransparency(true);

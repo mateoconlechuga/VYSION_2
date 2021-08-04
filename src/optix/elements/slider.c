@@ -1,4 +1,5 @@
 #include "slider.h"
+#include "../shapes.h"
 
 //functions
 void optix_UpdateSlider_default(struct optix_widget *widget) {

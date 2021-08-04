@@ -3,6 +3,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <stdlib.h>
+#include <tice.h>
 #include "gui_control.h"
 #include "elements/window.h"
 #include "elements/input_box.h"
@@ -47,7 +48,11 @@ void optix_SetPosition(struct optix_widget *widget, int x, int y) {
 
 //Aligns a transform to another transform. Use OPTIX_CENTERING_LEFT, RIGHT, etc.
 //transform is aligned to reference based on its width and height
-void optix_AlignTransformToTransform(struct optix_widget *transform, struct optix_widget *reference, uint8_t x_centering, uint8_t y_centering) {
+void optix_AlignTransformToTransform(struct optix_widget *transform, struct optix_widget *reference) {
+    //if reference is NULL, use the screen
+    struct optix_widget temp = {.transform = {.x = 0, .y = 0, .width = LCD_WIDTH, .height = LCD_HEIGHT}};
+    if (!reference) reference = &temp;
+    uint8_t x_centering = transform->centering.x_centering, y_centering = transform->centering.y_centering;
     transform->transform.x = reference->transform.x + ((reference->transform.width - transform->transform.width) / 2) * x_centering + transform->centering.x_offset;
     if (x_centering == OPTIX_CENTERING_RIGHT) transform->transform.x += ((reference->transform.width - transform->transform.width) % 2);
     transform->transform.y = reference->transform.y + ((reference->transform.height - transform->transform.height) / 2) * y_centering + transform->centering.y_offset;
@@ -62,12 +67,12 @@ bool optix_CheckTransformOverlap(struct optix_widget *test, struct optix_widget 
 //pass it in a widget, and it will recursively align all of its children
 void optix_RecursiveAlign(struct optix_widget *widget) {
     //we need to align this as well
-    if (widget->type == OPTIX_WINDOW_TITLE_BAR_TYPE) optix_RecursiveAlign(((struct optix_window_title_bar *) widget)->window);
+    if (widget->type == OPTIX_WINDOW_TITLE_BAR_TYPE) optix_RecursiveAlign((struct optix_widget *) ((struct optix_window_title_bar *) widget)->window);
     if (widget->child) {
         int i = 0;
         while (widget->child[i]) {
             struct optix_widget *child = widget->child[i];
-            optix_AlignTransformToTransform(child, widget, child->centering.x_centering, child->centering.y_centering);
+            optix_AlignTransformToTransform(child, widget);
             if (child->child) {
                 //if (child->type == OPTIX_MENU_TYPE) optix_AlignMenu((struct optix_menu *) child, 0);
                 //else optix_RecursiveAlign(child);

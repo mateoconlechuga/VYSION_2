@@ -19,6 +19,8 @@ struct optix_menu {
     //centerings for the sprites and text
     struct optix_centering text_centering;
     struct optix_centering sprite_centering;
+    //if this is set, the text and sprite arrays will be freed on optix_FreeElement
+    bool dynamic;
     char **text;
     //sprite things
     gfx_sprite_t **spr;
@@ -47,6 +49,8 @@ struct optix_menu {
     //whether background of menu should be transparent or not (literally just toggles transparent_background
     //in the produced button)
     bool transparent_background;
+    //whether we should draw the selection box
+    bool hide_selection_box;
 };
 
 //functions

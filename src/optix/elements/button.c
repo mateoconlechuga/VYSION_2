@@ -18,9 +18,10 @@ void optix_UpdateButton_default(struct optix_widget *widget) {
     if (!widget->state.visible) return;
     //kb_Scan will be called elsewhere
     if (current_context->data->key == button->alternate_key || kb_Data[6] & kb_Enter || kb_Data[1] & kb_2nd) {
-        if (current_context->data->key == button->alternate_key || (!button->pressed && widget->state.selected)) {
+        if (current_context->data->key == button->alternate_key || (!button->pressed && widget->state.selected && current_context->data->can_press)) {
             if (button->click_action) button->click_action(button->click_args);
             button->pressed = true;
+            if (!current_context->settings->cursor_active) current_context->data->can_press = false;
         }
     } else {
         if (button->pressed) needs_redraw = true;

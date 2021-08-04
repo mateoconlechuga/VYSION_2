@@ -1,6 +1,7 @@
 #include "window.h"
 #include <debug.h>
 #include "../gui_control.h"
+#include "../shapes.h"
 
 //returns true if window size has changed
 void optix_UpdateWindow_default(struct optix_widget *widget) {
@@ -14,8 +15,8 @@ void optix_UpdateWindow_default(struct optix_widget *widget) {
             gfx_CheckRectangleHotspot(widget->transform.x, widget->transform.y, widget->transform.width, widget->transform.height,         //the window
             current_context->cursor->widget.transform.x, current_context->cursor->widget.transform.y, OPTIX_CURSOR_RESIZE_WIDTH, OPTIX_CURSOR_RESIZE_HEIGHT) &&    //the cursor
             (current_context->cursor->last_x != current_context->cursor->widget.transform.x || current_context->cursor->last_y != current_context->cursor->widget.transform.y)) {
-                int center_x = widget->transform.x + widget->transform.width / 2;
-                int center_y = widget->transform.y + widget->transform.height / 2;
+                //int center_x = widget->transform.x + widget->transform.width / 2;
+                //int center_y = widget->transform.y + widget->transform.height / 2;
                 int x_size_change = 0, y_size_change = 0;
                 int x_shift = 0, y_shift = 0;
                 //if we're colliding with the left or right edges of the window
@@ -37,7 +38,7 @@ void optix_UpdateWindow_default(struct optix_widget *widget) {
                 if (x_size_change || y_size_change || x_shift || y_shift) {
                     current_context->data->gui_needs_full_redraw = true;
                     optix_SetPosition(widget, widget->transform.x += x_shift, widget->transform.y += y_shift);
-                    optix_ResizeWindow(window, widget->transform.width += x_size_change, widget->transform.height += y_size_change);
+                    optix_ResizeWindow((struct optix_widget *) window, widget->transform.width += x_size_change, widget->transform.height += y_size_change);
                 }
             } else if ((!current_context->settings->cursor_active && widget == current_context->cursor->current_selection) ||
             //(current_context->cursor->current_selection->type == OPTIX_WINDOW_TITLE_BAR_TYPE && ((struct optix_window_title_bar *) current_context->cursor->current_selection)->window == widget) ||
@@ -57,9 +58,9 @@ void optix_UpdateWindow_default(struct optix_widget *widget) {
 }
 
 void optix_RenderWindow_default(struct optix_widget *widget) {
-    struct optix_window *window = (struct optix_window *) widget;
-    int title_bar_side_padding = 2;
-    int element_size = 10;
+    //struct optix_window *window = (struct optix_window *) widget;
+    //int title_bar_side_padding = 2;
+    //int element_size = 10;
     if (widget->state.visible) {
         if (widget->state.needs_redraw) {
             optix_OutlinedRectangle_WithBevel(widget->transform.x - 1, widget->transform.y - 1, widget->transform.width + 2, widget->transform.height + 2, 
@@ -74,7 +75,7 @@ void optix_UpdateWindowTitleBar_default(struct optix_widget *widget) {
     struct optix_window_title_bar *window_title_bar = (struct optix_window_title_bar *) widget;
     struct optix_window *window = window_title_bar->window;
     bool window_selected = window_title_bar->window->widget.state.selected;
-    bool needs_redraw;
+    //bool needs_redraw;
     widget->state.visible = window_title_bar->window->widget.state.visible;
     if (widget->state.visible) {
         if (widget->state.selected && widget->child) optix_UpdateStack(widget->child);
@@ -142,10 +143,10 @@ void optix_UpdateWindowTitleBar_default(struct optix_widget *widget) {
                         gfx_Rectangle(x_pos, y_pos + 1, new_width, new_height + widget->transform.height - 1);
                         gfx_SetDraw(1);
                         while (kb_AnyKey()) kb_Scan();
-                        optix_ResizeWindow(window_title_bar->window, new_width, new_height);
+                        optix_ResizeWindow((struct optix_widget *) window_title_bar->window, new_width, new_height);
                     }
                     optix_SetPosition(widget, x_pos, y_pos);
-                    optix_SetPosition(window_title_bar->window, x_pos, y_pos + widget->transform.height);
+                    optix_SetPosition((struct optix_widget *) window_title_bar->window, x_pos, y_pos + widget->transform.height);
                     current_context->data->gui_needs_full_redraw = true;
                 } else {
                     //we may need a redraws
@@ -169,7 +170,7 @@ void optix_RenderWindowTitleBar_default(struct optix_widget *widget) {
     //those settextcolors are in there in case there's a title, which should change color on select
     if (widget->state.visible) {
         if (window_title_bar->window) {
-            window_title_bar->window->widget.render(window_title_bar->window);
+            window_title_bar->window->widget.render((struct optix_widget *) window_title_bar->window);
             window_title_bar->window->widget.state.needs_redraw = false;
         }
         if (widget->state.needs_redraw) {

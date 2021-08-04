@@ -26,7 +26,9 @@ void vysion_AddFileExplorerWindow(void *config) {
                     .override_size = true,
                     .size = sizeof(struct vysion_file_explorer_menu),
                 },
+                .child = NULL,
             },
+            .dynamic = true,
             .text = NULL,
             .spr = NULL,
             .text_centering = {.y_centering = OPTIX_CENTERING_CENTERED, .x_centering = OPTIX_CENTERING_LEFT, .x_offset = 24},
@@ -40,6 +42,7 @@ void vysion_AddFileExplorerWindow(void *config) {
         .needs_update = true,
         .nest = true,
     };
+    //do this now, or there will be a slight delay until the correct options are shown
     vysion_UpdateFileExplorerMenu(&template_file_menu.menu.widget);
     optix_InitializeWidget(&template_file_menu.menu.widget, OPTIX_MENU_TYPE);
     template_file_menu.menu.widget.update = vysion_UpdateFileExplorerMenu;
@@ -53,6 +56,7 @@ void vysion_AddFileExplorerWindow(void *config) {
                 .height = 100,
             },
             .child = (struct optix_widget *[]) {&template_file_menu, NULL},
+            //.child = NULL,
         },
         .resize_info = {
             .resizable = true,
@@ -87,10 +91,8 @@ void vysion_UpdateFileExplorerMenu(struct optix_widget *widget) {
     }
     if (menu->needs_update || widget->state.needs_redraw) {
         struct vysion_folder *folder = menu->folder = vysion_GetFolderByIndex(vysion_current_context, menu->index);
-        dbg_sprintf(dbgout, "Getting num options...\n");
         int num_options = optix_GetNumElementsInStack((struct optix_widget **) folder->contents);
         menu->menu.num_options = num_options;
-        dbg_sprintf(dbgout, "Number options: %d\n", num_options);
         //update it
         //pretty easy, I think
         menu->menu.text = realloc(menu->menu.text, (num_options + 1) * sizeof(char *));
@@ -112,13 +114,11 @@ void vysion_FileExplorerMenuClickAction(struct optix_widget *widget) {
     struct vysion_file_explorer_menu *menu = (struct vysion_file_explorer_menu *) widget;
     struct vysion_file_widget *file_widget = (struct vysion_file_widget *) menu->folder->contents[menu->menu.selection];
     //so if it was a folder and was clicked, it should move to the next level if applicable
-    dbg_sprintf(dbgout, "File explorer menu click action\n");
     switch (file_widget->type) {
         case VYSION_FOLDER:
             if (menu->nest) {
                 if (menu->menu.transparent_background) optix_IntelligentRecursiveSetNeedsRedraw(current_context->stack, widget);
                 menu->index = ((struct vysion_folder *) file_widget)->save.index;
-                dbg_sprintf(dbgout, "New index: %d\n", menu->index);
                 menu->needs_update = true;
                 //just set the index and min to 0
                 menu->menu.min = menu->menu.selection = 0;
