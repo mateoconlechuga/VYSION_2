@@ -42,8 +42,7 @@ struct optix_menu {
     //you could do some hacky thing with passing the struct to itself or something here
     //or even pointer to the currently selected element
     //up to the programmer, yay
-    void (*click_action)(void *);
-    void *click_args;
+    struct optix_click_action click_action;
     //if enabled, it will pass a pointer to itself instead of click_args
     bool pass_self;
     //whether background of menu should be transparent or not (literally just toggles transparent_background

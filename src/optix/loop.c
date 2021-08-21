@@ -23,6 +23,7 @@ void optix_UpdateGUI(void) {
     current_context->cursor->widget.update((struct optix_widget *) current_context->cursor);
     optix_HandleShortcuts(*current_context->stack);
     optix_UpdateStack_TopLevel(current_context->stack);
+    dbg_sprintf(dbgout, "Successful update.\n");
 }
 
 void optix_UpdateStack(struct optix_widget *stack[]) {
@@ -50,7 +51,9 @@ void optix_UpdateStack_TopLevel(struct optix_widget *(*stack)[]) {
     int curr_window_index = 0;
     bool found_window = false;
     bool window_needs_focus = false;
+    bool window_selected = false;
     bool found_window_with_focus = false;
+    bool found_selected_window = false;
     //start things out by doing the thing
     //the value of i at the end will also be the number of elements in the stack
     while ((*stack)[i]) {
@@ -72,14 +75,17 @@ void optix_UpdateStack_TopLevel(struct optix_widget *(*stack)[]) {
         if ((*stack)[i]->type == OPTIX_WINDOW_TITLE_BAR_TYPE) {
             struct optix_window_title_bar *window_title_bar = (struct optix_window_title_bar *) (*stack)[i];
             window_needs_focus = window_title_bar->window->needs_focus;
+            window_selected = window_title_bar->window->widget.state.selected;
             window_title_bar->window->needs_focus = false;
         } else if ((*stack)[i]->type == OPTIX_WINDOW_TYPE) {
             struct optix_window *window = (struct optix_window *) (*stack)[i];
             window_needs_focus = window->needs_focus;
+            window_selected = window->widget.state.selected;
             window->needs_focus = false;
         }
-        if (window_needs_focus || ((*stack)[i]->state.selected && ((*stack)[i]->type == OPTIX_WINDOW_TITLE_BAR_TYPE || (*stack)[i]->type == OPTIX_WINDOW_TYPE))) {
+        if (window_needs_focus || window_selected) {
             if (window_needs_focus) found_window_with_focus = true;
+            if (window_selected) found_selected_window = true;
             found_window = true;
             curr_window_index = i;
             curr_window = (*stack)[i];
@@ -137,8 +143,8 @@ void optix_UpdateStack_TopLevel(struct optix_widget *(*stack)[]) {
     //set everything in the array to unselected, except for the current window
     for (int j = 0; j < i; j++) {
         struct optix_window_title_bar *window_title_bar = (struct optix_window_title_bar *) (*stack)[j];
-        if ((*stack)[j]->type == OPTIX_WINDOW_TITLE_BAR_TYPE) (*stack)[j]->state.selected = window_title_bar->window->widget.state.selected = (j == curr_window_index);
-        else if ((*stack)[j]->type == OPTIX_WINDOW_TYPE) (*stack)[j]->state.selected = (j == curr_window_index);
+        if ((*stack)[j]->type == OPTIX_WINDOW_TITLE_BAR_TYPE) (*stack)[j]->state.selected = window_title_bar->window->widget.state.selected = (j == curr_window_index && (!found_window_with_focus || found_selected_window));
+        else if ((*stack)[j]->type == OPTIX_WINDOW_TYPE) (*stack)[j]->state.selected = (j == curr_window_index && (!found_window_with_focus || found_selected_window));
     }
     if (i == curr_window_index + 1) return;
     memmove((void *) stack + (curr_window_index * sizeof(struct optix_widget ***)), (void *) stack + ((curr_window_index + 1) * sizeof(struct optix_widget ***)),
@@ -159,16 +165,19 @@ void optix_RenderGUI(void) {
     current_context->cursor->widget.render((struct optix_widget *) current_context->cursor);
     current_context->data->gui_needs_full_redraw = false;
     current_context->data->needs_blit = false;
+    dbg_sprintf(dbgout, "Successful render.\n");
 }
 
 void optix_RenderStack(struct optix_widget *stack[]) {
     int i = 0;
     while (stack && stack[i]) {
         if (stack[i]->render) {
+            dbg_sprintf(dbgout, "Type: %d\n", stack[i]->type);
             //make sure we blit when needed
             if (stack[i]->state.needs_redraw) current_context->data->needs_blit = true;
             stack[i]->render(stack[i]);
             stack[i]->state.needs_redraw = false;
+            dbg_sprintf(dbgout, "Successful.\n");
         }
         i++;
     }

@@ -6,7 +6,7 @@
 #include <graphx.h>
 #include "../optix/elements/window.h"
 #include "../optix/elements/menu.h"
-#include "gfx/output/gfx.h"
+#include "gfx/output/vysion_gfx.h"
 
 #define MAX_NUM_WINDOWS                10
 #define WINDOW_MANAGER_MENU_ROW_HEIGHT 16
@@ -34,6 +34,8 @@
 //this is mostly important so that their core arguments are saved, and can be restored later
 //we'll start with a basic file explorer window
 
+//Idiot epsilon: This is why the program is breaking, you need to free the whole window, not just the window title bar
+//okay?
 struct vysion_window_widget {
     //it's easier this way, just a cast or something
     struct optix_window_title_bar *window_title_bar;
@@ -66,11 +68,14 @@ extern char *window_name[];
 extern gfx_sprite_t *window_icon[];
 
 //functions
+//note: this function automatically calls optix_RecursiveAlign, so you don't have to
 void vysion_AddWindow(struct vysion_window_widget *widget);
 size_t vysion_GetWindowSize(uint8_t type);
 void vysion_FormatWindowTitleBar(struct optix_window_title_bar *window_title_bar);
 void vysion_UpdateWindowManagerMenu(struct optix_widget *widget);
 void vysion_RenderWindowManagerMenu(struct optix_widget *widget);
 void vysion_WindowManagerMenuClickAction(void *args);
+void vysion_CloseWindow(struct vysion_window **window);
+void vysion_CloseAllWindows(struct optix_context *context);
 
 #endif

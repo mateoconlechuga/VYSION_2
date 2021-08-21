@@ -3,6 +3,7 @@
         "filesystem.h": "c",
         "vargfx.h": "c",
         "wallpaper.h": "c",
-        "main.h": "c"
+        "main.h": "c",
+        "util.h": "c"
     }
 }

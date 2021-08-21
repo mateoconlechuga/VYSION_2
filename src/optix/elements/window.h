@@ -17,7 +17,8 @@
 #define WINDOW_SNAP_HEIGHT 240
 #define WINDOW_SNAP_MIN_Y  0
 
-
+//few quick notes: setting needs_focus without selecting will simply move the window to the top without selecting it
+//selecting it and setting needs_focus will do both
 struct optix_window {
     struct optix_widget widget;
     struct optix_resize_info resize_info;

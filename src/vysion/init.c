@@ -2,7 +2,7 @@
 //includes
 #include <stdint.h>
 #include <graphx.h>
-#include "vysion/gfx/output/gfx.h"
+#include "vysion/gfx/output/vysion_gfx.h"
 
 //functions
 void vysion_InitializeGraphics(void) {
@@ -10,6 +10,8 @@ void vysion_InitializeGraphics(void) {
     gfx_SetDraw(gfx_buffer);
     //set up the palette
     gfx_SetPalette(palette, sizeof_palette, myimages_palette_offset);
+    gfx_SetPalette(xlibc_condensed_palette, sizeof_xlibc_condensed_palette, xlibc_condensed_palette_offset);
+
 }
 
 void vysion_InitializeOPTIX(struct optix_context *context) {

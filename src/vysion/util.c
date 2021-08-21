@@ -1,4 +1,6 @@
 #include "util.h"
+#include <graphx.h>
+#include "gfx/output/vysion_gfx.h"
 
 //hashing functions (add an option to choose the desired one eventually)
 //djb2
@@ -25,4 +27,9 @@ uint24_t vysion_util_GetStringHash_fnv(char *str) {
         hash *= 0x01000193;
     }
     return hash;
+}
+
+void vysion_ConvertXlibcToPalette(gfx_sprite_t *spr) {
+    //I think this is pretty smart
+    for (int i = 0; i < spr->width * spr->height; i++) spr->data[i] = xlibc_condensed_data[spr->data[i] + 2];
 }

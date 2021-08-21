@@ -5,6 +5,8 @@
 #include <stdint.h>
 #include <graphx.h>
 #include "control.h"
+#include "window_manager.h"
+
 
 //version
 #define VYSION_FILESYSTEM_VERSION   2
@@ -25,7 +27,7 @@
 //other types (just appvars for now)
 //maybe could include config files or something later
 #define VYSION_APPVAR_TYPE          6
-//maybe have this be detected?
+//maybe have this be detected?click_action
 #define VYSION_WALLPAPER_TYPE       7
 
 //default locations
@@ -72,6 +74,7 @@ struct vysion_context {
     //array of files and folders
     struct vysion_file **file;
     struct vysion_folder **folder;
+    struct vysion_window *window[MAX_NUM_WINDOWS];
 };
 
 //used for files and folders
@@ -95,6 +98,8 @@ struct vysion_file_save {
 struct vysion_file {
     struct vysion_file_save save;
     gfx_sprite_t *icon;
+    //in case this is needed (which is might be)
+    char icon_alternate[258];
     //the VYSION type for the variable
     uint8_t vysion_type;
     //the description

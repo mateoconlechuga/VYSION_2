@@ -129,15 +129,17 @@ void optix_InitializeWidget(struct optix_widget *widget, uint8_t type) {
             widget->transform.height = TITLE_BAR_HEIGHT;
             break;
         case OPTIX_CHECK_BOX_TYPE:
-            check_box->button.click_action = optix_CheckBoxValueXOR;
-            check_box->button.click_args = (void *) widget;
+            check_box->button.click_action.click_action = optix_CheckBoxValueXOR;
+            check_box->button.click_action.click_args = (void *) widget;
             break;
     }
 }
 
 uint16_t optix_GetSize(struct optix_widget *widget) {
-    if (widget->state.override_size) return widget->state.size;
-    else {
+    if (widget->state.override_size) {
+        dbg_sprintf(dbgout, "Has custom size.\n");
+        return widget->state.size;
+    } else {
         switch (widget->type) {
             case OPTIX_TEXT_TYPE:
                 return sizeof(struct optix_text);
@@ -200,43 +202,43 @@ void optix_CopyElementHandleSpecialCase(struct optix_widget **widget, struct opt
 //copy all of the things within a given stack, allocating out as needed
 void optix_CopyElement(struct optix_widget **widget, struct optix_widget *reference) {
     int i = 0;
-    dbg_sprintf(dbgout, "Getting size...\n");
+    //dbg_sprintf(dbgout, "Getting size...\n");
     uint16_t reference_size = optix_GetSize(reference);
     //we need a + 1 here because the NULL at the end has to be included as well
-    dbg_sprintf(dbgout, "Getting num elements in stack...\n");
+    //dbg_sprintf(dbgout, "Getting num elements in stack...\n");
     uint16_t num_children = optix_GetNumElementsInStack(reference->child);
-    dbg_sprintf(dbgout, "Fnished that part.\n");
+    //dbg_sprintf(dbgout, "Fnished that part.\n");
     //we'll start by allocating out the given size of the element and copying it
     *widget = malloc(reference_size);
     memcpy(*widget, reference, reference_size);
-    dbg_sprintf(dbgout, "Maybe it breaks here\n");
+    //dbg_sprintf(dbgout, "Maybe it breaks here\n");
     //there are a few special cases we have to handle, unfortunately
     optix_CopyElementHandleSpecialCase(widget, reference);
     //alloc out the array, including the null at the end
-    dbg_sprintf(dbgout, "Type: %d\n", reference->type);
+    //dbg_sprintf(dbgout, "Type: %d\n", reference->type);
     if (num_children) {
-        dbg_sprintf(dbgout, "Num children: %d\n", num_children);
+        //dbg_sprintf(dbgout, "Num children: %d\n", num_children);
         (*widget)->child = malloc((num_children + 1) * sizeof(struct optix_widget *));
         //memcpy((*widget)->child, reference->child, num_children * sizeof(struct optix_widget *));
         (*widget)->child[num_children] = NULL;
     } else (*widget)->child = NULL;
-    dbg_sprintf(dbgout, "Beginning loop.\n");
+    //dbg_sprintf(dbgout, "Beginning loop.\n");
     while (num_children && i < num_children) {
         //uint16_t child_size = optix_GetSize(reference->child[i]);
         optix_CopyElement(&((*widget)->child[i]), reference->child[i]);
-        dbg_sprintf(dbgout, "Child type: %d\n", (*widget)->child[i]->type);
+        //dbg_sprintf(dbgout, "Child type: %d\n", (*widget)->child[i]->type);
         //that's it, I think?
         //optix_CopyElementHandleSpecialCase(&((*widget)->child[i]), reference->child[i]);
         //don't forget this
         i++;
     }
-    dbg_sprintf(dbgout, "Function finished.\n");
+    //dbg_sprintf(dbgout, "Function finished.\n");
 }
 
 //this assumes it has been copied with optix_CopyElement, so keep that in mind please
 void optix_FreeElementHandleSpecialCase(struct optix_widget **widget) {
+    struct optix_menu *menu = (struct optix_menu *) (*widget);
     switch ((*widget)->type) {
-        struct optix_menu *menu = (struct optix_menu *) (*widget);
         case OPTIX_WINDOW_TITLE_BAR_TYPE:
             optix_FreeElement((struct optix_widget **) &((struct optix_window_title_bar *) (*widget))->window);
             break;

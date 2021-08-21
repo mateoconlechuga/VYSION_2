@@ -1,0 +1,113 @@
+	section	.text,"ax",@progbits
+	assume	adl = 1
+	section	.text,"ax",@progbits
+	public	_vysion_SetOP1
+_vysion_SetOP1:
+	ld	hl, -13
+	call	__frameset
+	ld	hl, L___const.vysion_SetOP1.temp
+	ld	de, 10
+	lea	bc, ix + -10
+	ld	(ix + -13), bc
+	push	de
+	push	hl
+	push	bc
+	call	_memcpy
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	a, (ix + 6)
+	ld	(ix + -10), a
+	ld	hl, (ix + 9)
+	push	hl
+	ld	hl, (ix + -13)
+	push	hl
+	call	_strcat
+	pop	hl
+	pop	hl
+	ld	hl, (ix + -13)
+	push	hl
+	ld	hl, -3144200
+	push	hl
+	call	_strcpy
+	ld	sp, ix
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_vysion_RunProgram
+_vysion_RunProgram:
+	ld	hl, -3
+	call	__frameset
+	call	_gfx_End
+	ld	iy, -3145600
+	call	_os_ClrLCD
+	call	_os_HomeUp
+	call	_os_DrawStatusBar
+	ld	iy, (ix + 6)
+	ld	a, (iy + 13)
+	lea	hl, iy + 0
+	inc	hl
+	ld	(ix + -3), hl
+	push	hl
+	ld	l, a
+	push	hl
+	call	_vysion_SetOP1
+	pop	hl
+	pop	hl
+	ld	de, 276
+	ld	iy, (ix + 6)
+	lea	bc, iy + 0
+	add	iy, de
+	ld	a, (iy)
+	cp	a, 2
+	jq	nc, BB1_1
+	call	_vysion_asm_InstallFixStopHook
+	call	_vysion_asm_RunBasicProgram
+	jq	BB1_5
+BB1_1:
+	ld	hl, L_.str
+	push	bc
+	pop	iy
+	ld	a, (iy + 13)
+	cp	a, 6
+	push	hl
+	call	z, _os_PutStrFull
+	pop	hl
+	ld	hl, (ix + -3)
+	push	hl
+	call	_os_PutStrFull
+	pop	hl
+	call	_vysion_asm_RunAsmProgram
+BB1_5:
+	pop	hl
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	section	.rodata,"a",@progbits
+	private	L___const.vysion_SetOP1.temp
+L___const.vysion_SetOP1.temp:
+	db	" ",000o,000o,000o,000o,000o,000o,000o,000o,000o
+
+	section	.rodata,"a",@progbits
+	private	L_.str
+L_.str:
+	db	"So that did work.",000o
+
+	ident	"clang version 12.0.0 (https://github.com/jacobly0/llvm-project 170be88120e3aa88c20eea5615ba76b8f1d6c647)"
+	extern	__Unwind_SjLj_Register
+	extern	__Unwind_SjLj_Unregister
+	extern	__frameset
+	extern	_strcpy
+	extern	_os_PutStrFull
+	extern	_strcat
+	extern	_vysion_asm_RunAsmProgram
+	extern	_vysion_asm_RunBasicProgram
+	extern	_vysion_asm_InstallFixStopHook
+	extern	_gfx_End
+	extern	_os_ClrLCD
+	extern	_os_DrawStatusBar
+	extern	_memcpy
+	extern	_os_HomeUp

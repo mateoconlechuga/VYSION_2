@@ -171,3 +171,12 @@ uint16_t optix_GetNumElementsInStack(struct optix_widget *stack[]) {
     while (stack && stack[i]) i++;
     return i;
 }
+
+//returns the index of the found element
+uint16_t optix_GetElementInStackByAddress(struct optix_widget *stack[], struct optix_widget *ptr) {
+    int i = 0;
+    while (stack[i] != ptr) {
+        i++;
+    }
+    return i;
+}

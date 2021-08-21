@@ -85,6 +85,20 @@ struct optix_widget {
     struct optix_widget **child;
 };
 
+//for buttons and menus, and maybe others later as well
+struct optix_click_action {
+    void (*click_action)(void *);
+    void *click_args;
+};
+
+//so this will probably be in an array within the button/menu, and every loop, if it is selected,
+//the button/menu will check to see if any of these were pressed and if so run the action
+//should be fairly fast, I hope
+struct optix_alternate_key_click_action {
+    struct optix_click_action click_action;
+    uint8_t alternate_key;
+};
+
 //other structs
 struct optix_settings {
     //whether or not we should use the Windows-style cursor instead of the box-based navigation mode

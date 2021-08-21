@@ -29,8 +29,10 @@ void optix_UpdateMenu_default(struct optix_widget *widget) {
         //handle if it was pressed
         menu->needs_partial_redraw = false;
         if (kb_Data[6] & kb_Enter || kb_Data[1] & kb_2nd) {
+            dbg_sprintf(dbgout, "Please no.\n");
             if (!menu->pressed && (current_context->settings->cursor_active || (widget->state.selected && current_context->data->can_press))) {
-                if (menu->click_action) menu->click_action(menu->pass_self ? widget : menu->click_args);
+                dbg_sprintf(dbgout, "Menu click action...\n");
+                if (menu->click_action.click_action) menu->click_action.click_action(menu->pass_self ? widget : menu->click_action.click_args);
                 //button->state.color = 224;
                 menu->pressed = true;
                 if (!current_context->settings->cursor_active) current_context->data->can_press = false;
@@ -164,7 +166,6 @@ void optix_RenderMenu_default(struct optix_widget *widget) {
             optix_RecursiveAlign(&button.widget);
             //set whether it's selected
             button.widget.state.selected = widget->state.selected && i == menu->selection && !menu->hide_selection_box;
-            dbg_sprintf(dbgout, "Selected: %d\n", button.widget.state.selected);
             optix_RecursiveSetNeedsRedraw(button.widget.child);
             button.widget.render(&button.widget);
         }

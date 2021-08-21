@@ -39,7 +39,7 @@ void vysion_UpdateFileExplorerMenu(struct optix_widget *widget);
 void vysion_FileExplorerMenuClickAction(struct optix_widget *widget);
 
 //global stuff
-extern unsigned char start_icon_rotated[1154];
-extern unsigned char *template_text_text;
+//extern unsigned char start_icon_rotated[1154];
+//extern unsigned char *template_text_text;
 
 #endif

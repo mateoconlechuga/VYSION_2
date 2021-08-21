@@ -2,11 +2,12 @@
 #include <graphx.h>
 #include "../window_manager.h"
 #include "../../optix/init.h"
-#include "../gfx/output/gfx.h"
+#include "../gfx/output/vysion_gfx.h"
 #include "../control.h"
+#include "../os.h"
 
-unsigned char *template_text_text = "Welcome to VYSION 2!";
-unsigned char start_icon_rotated[1154];
+//unsigned char *template_text_text = "Welcome to VYSION 2!";
+//unsigned char start_icon_rotated[1154];
 
 void vysion_AddFileExplorerWindow(void *config) {
     struct vysion_file_explorer_window_config *file_explorer_window_config = (struct vysion_file_explorer_window_config *) config; 
@@ -35,7 +36,7 @@ void vysion_AddFileExplorerWindow(void *config) {
             .sprite_centering = {.y_centering = OPTIX_CENTERING_CENTERED, .x_centering = OPTIX_CENTERING_LEFT, .x_offset = 4},
             .rows = 5,
             .columns = 1,
-            .click_action = vysion_FileExplorerMenuClickAction,
+            .click_action = {.click_action = vysion_FileExplorerMenuClickAction},
             .pass_self = true,
         },
         .index = VYSION_ROOT,
@@ -114,9 +115,11 @@ void vysion_FileExplorerMenuClickAction(struct optix_widget *widget) {
     struct vysion_file_explorer_menu *menu = (struct vysion_file_explorer_menu *) widget;
     struct vysion_file_widget *file_widget = (struct vysion_file_widget *) menu->folder->contents[menu->menu.selection];
     //so if it was a folder and was clicked, it should move to the next level if applicable
+    dbg_sprintf(dbgout, "This function called.\n");
     switch (file_widget->type) {
         case VYSION_FOLDER:
             if (menu->nest) {
+                menu->menu.widget.state.needs_redraw = true;
                 if (menu->menu.transparent_background) optix_IntelligentRecursiveSetNeedsRedraw(current_context->stack, widget);
                 menu->index = ((struct vysion_folder *) file_widget)->save.index;
                 menu->needs_update = true;
@@ -128,6 +131,7 @@ void vysion_FileExplorerMenuClickAction(struct optix_widget *widget) {
             break;
         default:
             //run it I guess
+            vysion_RunProgram((struct vysion_file_save *) file_widget);
             break;
     }
 }

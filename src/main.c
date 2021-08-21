@@ -13,7 +13,7 @@
 #include <fileioc.h>
 #include <graphx.h>
 #include <debug.h>
-#include "vysion/gfx/output/gfx.h"
+#include "vysion/gfx/output/vysion_gfx.h"
 #include "vysion/elements/file_explorer.h"
 #include "vysion/elements/desktop.h"
 
@@ -72,6 +72,7 @@ void main(void) {
     vysion_InitializeGraphics();
     vysion_InitializeOPTIX(&context);
     vysion_Desktop();
+    gfx_FillScreen(0);
     vysion_SaveFilesystem(&vysion_context);
     vysion_CloseAllWindows(&context);
 }

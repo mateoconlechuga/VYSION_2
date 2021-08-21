@@ -1,10 +1,11 @@
 #include "filesystem.h"
 #include "util.h"
 #include "control.h"
-#include "gfx/output/gfx.h"
+#include "gfx/output/vysion_gfx.h"
 #include <fileioc.h>
 #include <graphx.h>
 #include <debug.h>
+#include "defines.h"
 
 //NOTE: This should be called AFTER vysion_LoadFilesystem or bad things could happen
 void vysion_DetectAllFiles(struct vysion_context *context) {
@@ -46,7 +47,10 @@ void vysion_DetectAllFiles(struct vysion_context *context) {
         }
         dbg_sprintf(dbgout, "Location: %d\n", file->save.widget.location);
         //get the file's information
+        timer_Control = TIMER1_ENABLE | TIMER1_32K | TIMER1_UP;
+        timer_1_Counter = 0;
         vysion_GetFileInfo(file);
+        dbg_sprintf(dbgout, "File info took %d ms.\n", timer_1_Counter);
         //increment the count
         ++count;
     }
@@ -194,7 +198,15 @@ void vysion_GetFileInfo(struct vysion_file *file) {
         else if (file->save.ti_type == TI_PRGM_TYPE) vysion_GetFileInfo_Basic(file, ti_GetDataPtr(slot));
         else if (file->save.ti_type == TI_APPVAR_TYPE) file->vysion_type = VYSION_APPVAR_TYPE;
         //if the file icon hasn't been set then assign it one of the default ones
-        if (!file->icon) file->icon = default_icon[file->vysion_type];
+        if (!file->icon)
+            file->icon = default_icon[file->vysion_type];
+        else {
+            //convert it
+            //memcpy(file->icon_alternate, file->icon, 258);
+            file->icon_alternate[0] = file->icon_alternate[1] = 0x10;
+            vysion_ConvertXlibcToPalette(file->icon_alternate);
+            file->icon = (gfx_sprite_t *) file->icon_alternate;
+        }
         //close that slot
         ti_Close(slot);
     }
@@ -224,6 +236,7 @@ void vysion_GetFileInfo_Asm(struct vysion_file *file, void *data) {
     //this will be indicated by the width x height bytes, which are 16 x 16
     //will also make it null if none is found, so thanks C
     file->icon = memchr(data, 0x10, MAX_ICON_SEARCH_LEN);
+    memcpy(file->icon_alternate, file->icon, 258);
 }
 
 void vysion_GetFileInfo_Basic(struct vysion_file *file, void *data) {
@@ -235,10 +248,10 @@ void vysion_GetFileInfo_Basic(struct vysion_file *file, void *data) {
     else file->vysion_type = VYSION_PROTECTED_BASIC_TYPE;
     if (memcmp(ti_basic_sequence, data, TI_BASIC_SEQUENCE_LEN) == 0) {
         //get the icon
-        file->icon = gfx_MallocSprite(ICON_WIDTH, ICON_HEIGHT);
+        //file->icon = gfx_MallocSprite(ICON_WIDTH, ICON_HEIGHT);
         for (int i = 0; i < ICON_WIDTH * ICON_HEIGHT; i++) {
             temp[0] = *((uint8_t *) data + i + TI_BASIC_SEQUENCE_LEN);
-            file->icon->data[i] = palette[strtol(temp, NULL, 16)];
+            file->icon_alternate[i + 2] = palette[strtol(temp, NULL, 16)];
         }
     }
 }

@@ -15,7 +15,7 @@
 #include "../../optix/util.h"
 #include "../../optix/init.h"
 #include "../control.h"
-#include "../gfx/output/gfx.h"
+#include "../gfx/output/vysion_gfx.h"
 #include "../wallpaper.h"
 #include "../window_manager.h"
 #include "file_explorer.h"
@@ -70,7 +70,7 @@ void vysion_Desktop(void) {
     struct optix_sprite *wallpaper_ptr[HD_WALLPAPER_ROWS];
     for (int i = 0; i < HD_WALLPAPER_ROWS; i++) wallpaper_ptr[i] = &wallpaper[i];
     vysion_InitializeWallpaper(wallpaper_ptr);
-    vysion_SetWallpaper("RICK", wallpaper_ptr);
+    vysion_SetWallpaper("DEFAULT4", wallpaper_ptr);
     //a window
     //window manager thing
     struct vysion_window_manager_menu desktop_window_manager = {
@@ -91,7 +91,7 @@ void vysion_Desktop(void) {
             .transparent_background = true,
             .hide_selection_box = true,
             //click args
-            .click_action = vysion_WindowManagerMenuClickAction,
+            .click_action = {.click_action = vysion_WindowManagerMenuClickAction},
             .pass_self = true,
         },
         .last_num_windows = 0,
@@ -123,7 +123,7 @@ void vysion_Desktop(void) {
             .sprite_centering = {.y_centering = OPTIX_CENTERING_TOP, .y_offset = 5, .x_centering = OPTIX_CENTERING_CENTERED},
             .rows = 4,
             .columns = 5,
-            .click_action = vysion_FileExplorerMenuClickAction,
+            .click_action = {.click_action = vysion_FileExplorerMenuClickAction},
             .pass_self = true,
             .hide_selection_box = true,
         },
@@ -170,17 +170,16 @@ void vysion_Desktop(void) {
         .sprite_centering = {.y_centering = OPTIX_CENTERING_CENTERED, .x_centering = OPTIX_CENTERING_LEFT, .x_offset = 4},
         .rows = 6,
         .columns = 1,
-        //.text = start_menu_text,
-        .text = NULL,
+        .text = start_menu_text,
         .spr = start_menu_icon,
-        .click_action = vysion_StartMenuClickAction,
+        .click_action = {.click_action = vysion_StartMenuClickAction},
     };
-    start_menu.click_args = (void *) &start_menu.selection;
+    start_menu.click_action.click_args = (void *) &start_menu.selection;
     optix_InitializeWidget(&start_menu.widget, OPTIX_MENU_TYPE);
     start_menu.widget.centering.x_centering = OPTIX_CENTERING_RIGHT;
     start_menu.widget.centering.y_centering = OPTIX_CENTERING_TOP;
     struct optix_window start_window = {
-        .widget = {.transform = {.x = 1, .y = 223 - 96, .width = 90, .height = 96}, .child = (struct optix_widget *[]) {&start_sidebar_icon.widget, &start_menu.widget, NULL, DESKTOP_ELEMENT_MAGIC_SIGNIFIER}},
+        .widget = {.transform = {.x = 1, .y = 223 - 96, .width = 90, .height = 96}, .child = (struct optix_widget *[]) {&start_sidebar_icon.widget, &start_menu.widget, NULL}},
     };
     optix_InitializeWidget(&start_window.widget, OPTIX_WINDOW_TYPE);
     optix_RecursiveAlign(&start_window.widget);
@@ -206,8 +205,10 @@ void vysion_Desktop(void) {
             },
             .child = (struct optix_widget *[]) {&super_icon.widget, NULL},
         },
-        .click_action = vysion_SuperButtonClickAction,
-        .click_args = (void *) &start_window.widget,
+        .click_action = {
+            .click_action = vysion_SuperButtonClickAction,
+            .click_args = (void *) &start_window.widget,
+        },
         .alternate_key = sk_Yequ,
         .transparent_background = true,
     };
@@ -228,7 +229,7 @@ void vysion_Desktop(void) {
     optix_InitializeWidget(&clock_text.widget, OPTIX_TEXT_TYPE);
     clock_text.background_rectangle = false;
     optix_RecursiveAlign(&super_button.widget);
-    struct optix_widget *master_stack[HD_WALLPAPER_ROWS + MAX_NUM_WINDOWS];
+    struct optix_widget *master_stack[DESKTOP_ELEMENTS + MAX_NUM_WINDOWS];
     //inititialize that too
     for (int i = 0; i < HD_WALLPAPER_ROWS + MAX_NUM_WINDOWS; i++) {
         if (i < HD_WALLPAPER_ROWS) master_stack[i] = wallpaper_ptr[i];
@@ -254,24 +255,18 @@ void vysion_Desktop(void) {
     }
     //add it to the context
     current_context->stack = &master_stack;
-    optix_SetCurrentSelection(&super_button.widget);
+    optix_SetCurrentSelection(&desktop_file_menu.menu.widget);
     optix_RefreshCursorBackground((struct optix_widget *) current_context->cursor);
     //we'll see
     /*int i = 0;
     for (;;) {
-        dbg_sprintf(dbgout, "\ni = %d\n", i++);
+        dbg_sprintf(dbgout, "%d\n", i++);
         vysion_AddFileExplorerWindow(NULL);
-        optix_FreeElement(&master_stack[DESKTOP_ELEMENTS]);
-        dbg_sprintf(dbgout, "Address: %d\n", (int) &master_stack[DESKTOP_ELEMENTS]);
+        vysion_CloseWindow(&master_stack[DESKTOP_ELEMENTS]);
     }*/
     do {
         optix_UpdateGUI();
         optix_RenderGUI();
     } while (!((kb_Data[6] & kb_Clear) && kb_Data[1] & kb_Yequ));
-    //ti_CloseAll();
-    //vysion_LoadFilesystem(&context);
-    //vysion_DetectAllFiles(&context);
-    //end, saving everything
-    //vysion_SaveFilesystem(&context);
     gfx_End();
 }
