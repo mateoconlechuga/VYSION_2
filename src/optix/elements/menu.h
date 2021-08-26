@@ -24,6 +24,9 @@ struct optix_menu {
     char **text;
     //sprite things
     gfx_sprite_t **spr;
+    //if this is set, then these widgets will be updated with the menu and rendered
+    //within the menu boxes (so element[0] would be rendered within the box for the 0th menu option)
+    struct optix_widget **element;
     uint8_t spr_x_scale;
     uint8_t spr_y_scale;
     //things to use internally

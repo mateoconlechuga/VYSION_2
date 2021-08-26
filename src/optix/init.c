@@ -137,7 +137,7 @@ void optix_InitializeWidget(struct optix_widget *widget, uint8_t type) {
 
 uint16_t optix_GetSize(struct optix_widget *widget) {
     if (widget->state.override_size) {
-        dbg_sprintf(dbgout, "Has custom size.\n");
+        dbg_sprintf(dbgout, "Has custom size of %d.\n", widget->state.size);
         return widget->state.size;
     } else {
         switch (widget->type) {

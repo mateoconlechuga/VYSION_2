@@ -417,13 +417,13 @@ _optix_RenderCursor_default:
 	jq	nz, BB2_6
 	ld	hl, (iy + 1)
 	ld	(ix + -9), hl
-	ld	de, (iy + 59)
-	ld	bc, (iy + 69)
+	ld	de, (iy + 62)
+	ld	bc, (iy + 72)
 	push	de
 	pop	hl
 	call	__irems
 	ld	(ix + -12), hl
-	ld	hl, (iy + 66)
+	ld	hl, (iy + 69)
 	ld	(ix + -6), hl
 	ld	l, (iy + 7)
 	ld	h, (iy + 8)
@@ -456,16 +456,16 @@ _optix_RenderCursor_default:
 	ld	iy, (ix + -15)
 	ld	hl, (iy + 4)
 	ld	(ix + -12), hl
-	ld	de, (iy + 59)
-	ld	bc, (iy + 63)
+	ld	de, (iy + 62)
+	ld	bc, (iy + 66)
 	push	de
 	pop	hl
 	or	a, a
 	sbc	hl, bc
-	ld	bc, (iy + 69)
+	ld	bc, (iy + 72)
 	call	__idivs
 	ld	(ix + -18), hl
-	ld	hl, (iy + 66)
+	ld	hl, (iy + 69)
 	ld	(ix + -21), hl
 	ld	l, (iy + 7)
 	ld	h, (iy + 8)

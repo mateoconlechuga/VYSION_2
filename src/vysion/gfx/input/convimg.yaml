@@ -36,6 +36,9 @@ converts:
       - start_refresh.png
       - start_settings.png
       - start_search.png
+      - window_minimize.png
+      - window_maximize.png
+      - window_close.png
       - taskbar_icon.png
   - name: xlibc_condensed
     palette: xlibc_condensed_palette

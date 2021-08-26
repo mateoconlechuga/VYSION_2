@@ -3,48 +3,48 @@
 	section	.text,"ax",@progbits
 	public	_vysion_AddFileExplorerWindow
 _vysion_AddFileExplorerWindow:
-	ld	hl, -209
+	ld	hl, -242
 	call	__frameset
-	ld	bc, -191
+	ld	bc, -224
 	lea	iy, ix + 0
 	add	iy, bc
-	ld	bc, -203
+	ld	bc, -236
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	(hl), iy
 	or	a, a
 	sbc	hl, hl
-	lea	de, ix + -13
+	lea	de, ix + -43
 	push	ix
-	ld	bc, -206
+	ld	bc, -239
 	add	ix, bc
 	ld	(ix + 0), de
 	pop	ix
-	lea	bc, ix + -109
+	lea	bc, iy + 82
 	ld	(ix + -3), de
 	push	ix
-	ld	de, -194
+	ld	de, -227
 	add	ix, de
 	ld	(ix + 0), bc
 	pop	ix
 	lea	bc, iy + 39
 	push	ix
-	ld	de, -200
+	ld	de, -233
 	add	ix, de
 	ld	(ix + 0), bc
 	pop	ix
 	lea	bc, iy + 33
 	push	ix
-	ld	de, -209
+	ld	de, -242
 	add	ix, de
 	ld	(ix + 0), bc
 	pop	ix
 	lea	bc, iy + 0
-	ld	de, -197
+	ld	de, -230
 	lea	iy, ix + 0
 	add	iy, de
 	ld	(iy + 0), bc
-	ld	bc, 7
+	ld	bc, 37
 	push	bc
 	push	hl
 	ld	de, (ix + -3)
@@ -53,11 +53,11 @@ _vysion_AddFileExplorerWindow:
 	pop	hl
 	pop	hl
 	pop	hl
-	ld	hl, 96
+	ld	hl, 99
 	push	hl
 	ld	hl, L___const.vysion_AddFileExplorerWindow.template_file_menu
 	push	hl
-	ld	bc, -194
+	ld	bc, -227
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
@@ -66,7 +66,7 @@ _vysion_AddFileExplorerWindow:
 	pop	hl
 	pop	hl
 	pop	hl
-	ld	bc, -194
+	ld	bc, -227
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
@@ -75,7 +75,7 @@ _vysion_AddFileExplorerWindow:
 	pop	hl
 	ld	hl, 3
 	push	hl
-	ld	bc, -194
+	ld	bc, -227
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
@@ -84,8 +84,8 @@ _vysion_AddFileExplorerWindow:
 	pop	hl
 	pop	hl
 	ld	hl, _vysion_UpdateFileExplorerMenu
-	ld	(ix + -85), hl
-	ld	bc, -203
+	ld	(ix + -118), hl
+	ld	bc, -236
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	iy, (hl)
@@ -98,7 +98,7 @@ _vysion_AddFileExplorerWindow:
 	ld	(iy + 46), l
 	ld	(iy + 47), h
 	ld	(iy + 48), 100
-	ld	bc, -200
+	ld	bc, -233
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	iy, (hl)
@@ -112,37 +112,38 @@ _vysion_AddFileExplorerWindow:
 	pop	hl
 	pop	hl
 	pop	hl
-	ld	bc, -194
+	ld	bc, -236
 	lea	hl, ix + 0
 	add	hl, bc
-	ld	hl, (hl)
-	ld	bc, -203
-	lea	iy, ix + 0
-	add	iy, bc
-	ld	iy, (iy + 0)
+	ld	iy, (hl)
+	push	ix
+	ld	bc, -227
+	add	ix, bc
+	ld	hl, (ix + 0)
+	pop	ix
 	ld	(iy + 33), hl
 	ld	hl, 0
 	ld	(iy + 36), hl
-	ld	bc, -209
+	ld	bc, -242
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
-	ld	(ix + -125), hl
-	ld	(ix + -122), 1
+	ld	(iy + 66), hl
+	ld	(iy + 69), 1
 	or	a, a
 	sbc	hl, hl
-	ld	(ix + -121), hl
-	ld	(ix + -118), hl
-	ld	(ix + -115), l
-	ld	(ix + -114), h
+	ld	(iy + 70), hl
+	ld	(iy + 73), hl
+	ld	(iy + 76), l
+	ld	(iy + 77), h
 	ld.sis	hl, 50
-	ld	(ix + -113), l
-	ld	(ix + -112), h
-	ld	(ix + -111), 50
-	ld	(ix + -110), 0
+	ld	(iy + 78), l
+	ld	(iy + 79), h
+	ld	(iy + 80), 50
+	ld	(iy + 81), 0
 	ld	hl, 4
 	push	hl
-	ld	bc, -200
+	ld	bc, -233
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
@@ -155,7 +156,7 @@ _vysion_AddFileExplorerWindow:
 	or	a, a
 	sbc	hl, hl
 	push	hl
-	ld	bc, -197
+	ld	bc, -230
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
@@ -164,18 +165,18 @@ _vysion_AddFileExplorerWindow:
 	pop	hl
 	pop	hl
 	pop	hl
-	ld	bc, -200
+	ld	bc, -233
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
-	ld	bc, -203
+	ld	bc, -236
 	lea	iy, ix + 0
 	add	iy, bc
 	ld	iy, (iy + 0)
 	ld	(iy + 30), hl
 	ld	hl, 5
 	push	hl
-	ld	bc, -197
+	ld	bc, -230
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
@@ -183,12 +184,23 @@ _vysion_AddFileExplorerWindow:
 	call	_optix_InitializeWidget
 	pop	hl
 	pop	hl
-	ld	bc, -197
+	ld	hl, 33
+	push	hl
+	ld	bc, -230
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
-	ld	(ix + -13), hl
-	ld	bc, -206
+	push	hl
+	ld	bc, -239
+	lea	hl, ix + 0
+	add	hl, bc
+	ld	hl, (hl)
+	push	hl
+	call	_memcpy
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	bc, -239
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
@@ -207,12 +219,12 @@ _vysion_FileExplorerMenuClickAction:
 	ld	hl, (ix + 6)
 	push	hl
 	pop	iy
-	ld	iy, (iy + 93)
-	ld	de, (iy + 20)
+	ld	iy, (iy + 96)
+	ld	de, (iy + 21)
 	ld	(ix + -3), de
 	push	hl
 	pop	iy
-	ld	hl, (iy + 59)
+	ld	hl, (iy + 62)
 	ld	bc, 3
 	call	__imulu
 	push	hl
@@ -225,13 +237,13 @@ _vysion_FileExplorerMenuClickAction:
 	jq	nz, BB1_5
 	ld	(ix + -3), hl
 	ld	iy, (ix + 6)
-	ld	a, (iy + 92)
+	ld	a, (iy + 95)
 	ld	l, 1
 	xor	a, l
 	bit	0, a
 	jq	nz, BB1_6
 	ld	(iy + 17), 1
-	ld	a, (iy + 86)
+	ld	a, (iy + 89)
 	xor	a, l
 	bit	0, a
 	jq	nz, BB1_4
@@ -250,13 +262,13 @@ BB1_4:
 	ld	hl, (iy + 13)
 	push	de
 	pop	iy
-	ld	(iy + 89), hl
-	ld	(iy + 88), 1
+	ld	(iy + 92), hl
+	ld	(iy + 91), 1
 	or	a, a
 	sbc	hl, hl
-	ld	(iy + 59), hl
-	ld	(iy + 63), hl
-	ld	(iy + 78), 1
+	ld	(iy + 62), hl
+	ld	(iy + 66), hl
+	ld	(iy + 81), 1
 	jq	BB1_6
 BB1_5:
 	push	hl
@@ -292,15 +304,15 @@ _vysion_UpdateFileExplorerMenu:
 	pop	bc
 	push	bc
 	pop	iy
-	ld	iy, (iy + 93)
+	ld	iy, (iy + 96)
 	ld	hl, (iy + 10)
 	push	bc
 	pop	iy
-	ld	(iy + 89), hl
+	ld	(iy + 92), hl
 	ld	l, 1
-	ld	(iy + 88), 1
+	ld	(iy + 91), 1
 	ld	(iy + 17), 1
-	ld	a, (iy + 86)
+	ld	a, (iy + 89)
 	xor	a, l
 	bit	0, a
 	jq	nz, BB2_4
@@ -317,13 +329,13 @@ BB2_4:
 	push	de
 	pop	iy
 	ld	bc, 0
-	ld	(iy + 75), bc
-	ld	(iy + 59), bc
-	ld	(iy + 63), bc
+	ld	(iy + 78), bc
+	ld	(iy + 62), bc
+	ld	(iy + 66), bc
 BB2_5:
 	push	de
 	pop	iy
-	ld	a, (iy + 88)
+	ld	a, (iy + 91)
 	xor	a, l
 	xor	a, l
 	bit	0, a
@@ -339,7 +351,7 @@ BB2_7:
 	push	de
 	pop	iy
 	ld	(ix + -3), iy
-	ld	de, (iy + 89)
+	ld	de, (iy + 92)
 	push	de
 	push	hl
 	call	_vysion_GetFolderByIndex
@@ -348,11 +360,11 @@ BB2_7:
 	push	hl
 	pop	de
 	ld	iy, (ix + -3)
-	ld	(iy + 93), de
+	ld	(iy + 96), de
 	push	hl
 	pop	iy
 	ld	(ix + -18), iy
-	ld	hl, (iy + 20)
+	ld	hl, (iy + 21)
 	push	hl
 	call	_optix_GetNumElementsInStack
 	pop	de
@@ -361,7 +373,7 @@ BB2_7:
 	ld	b, h
 	ld	(ix + -12), bc
 	ld	iy, (ix + -3)
-	ld	(iy + 72), bc
+	ld	(iy + 75), bc
 	ld	de, (iy + 51)
 	push	bc
 	pop	hl
@@ -415,7 +427,7 @@ BB2_8:
 	jq	z, BB2_16
 	lea	de, iy + 0
 	ld	iy, (ix + -18)
-	ld	hl, (iy + 20)
+	ld	hl, (iy + 21)
 	ld	(ix + -3), de
 	add	hl, de
 	ld	bc, (hl)
@@ -434,7 +446,7 @@ BB2_8:
 	ld	a, l
 	or	a, a
 	jq	nz, BB2_11
-	lea	hl, iy + 15
+	lea	hl, iy + 16
 	jq	BB2_13
 BB2_11:
 	lea	de, iy + 0
@@ -444,7 +456,7 @@ BB2_11:
 	jq	nz, BB2_15
 	push	de
 	pop	iy
-	lea	hl, iy + 17
+	lea	hl, iy + 18
 BB2_13:
 	ld	iy, (ix + -6)
 	ld	de, (hl)
@@ -462,7 +474,7 @@ BB2_16:
 	ld	de, (ix + -6)
 	push	de
 	pop	iy
-	ld	(iy + 88), 0
+	ld	(iy + 91), 0
 BB2_17:
 	ld	(ix + 6), de
 	ld	sp, ix
@@ -484,7 +496,7 @@ L___const.vysion_AddFileExplorerWindow.template_file_menu:
 	db	0
 	db	0
 	db	1
-	dw	96
+	dw	99
 	dl	0
 	dl	0
 	dl	0
@@ -498,6 +510,7 @@ L___const.vysion_AddFileExplorerWindow.template_file_menu:
 	db	4
 	db	0
 	db	1
+	dl	0
 	dl	0
 	dl	0
 	db	0

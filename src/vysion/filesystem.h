@@ -42,6 +42,7 @@
 #define VYSION_PROGRAMS_NAME        "Programs"
 #define VYSION_APPVARS_NAME         "Appvars"
 #define VYSION_DESKTOP_NAME         "Desktop"
+#define VYSION_WALLPAPERS_NAME      "Bckgrnds"
 #define VYSION_TEST_NAME            "Test"
 
 //things for saving
@@ -97,6 +98,8 @@ struct vysion_file_save {
 //the struct that will be used at runtime
 struct vysion_file {
     struct vysion_file_save save;
+    //same as for folders-set to false to make the file not be written to the appvar on exit
+    bool deleted;
     gfx_sprite_t *icon;
     //in case this is needed (which is might be)
     char icon_alternate[258];
@@ -123,9 +126,12 @@ struct vysion_folder_save {
 //the actual folder
 struct vysion_folder {
     struct vysion_folder_save save;
+    //if this is set to true then the file won't be saved
+    bool deleted;
     gfx_sprite_t *icon;
     //this should speed things up a bit, have the folders keep track of which files and folders they have in them
     //this will be detected at the beginning
+    //we need to free this
     struct vysion_file **contents;
 };
 

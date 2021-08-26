@@ -8,8 +8,8 @@
 #include <compression.h>
 #include "../optix/gui_control.h"
 #include "../optix/elements/sprite.h"
+#include "../optix/elements/menu.h"
 
-//defines
 #define WALLPAPER_HEADER_STRING   "VYSWALL"
 #define HD_WALLAPER_HEADER_STRING "VYSWALLHD"
 #define WALLPAPER_WIDTH           160
@@ -23,11 +23,16 @@
 //this should maybe be somewhere else
 #define GFX_VBUFFER               0xE30014
 
-
-//functions
 void vysion_TestWallpaper(char *name);
 void vysion_SetWallpaper(char *name, struct optix_sprite *sprite[HD_WALLPAPER_ROWS]);
 void vysion_InitializeWallpaper(struct optix_sprite *sprite[HD_WALLPAPER_ROWS]);
 void vysion_RenderWallpaper(struct optix_widget *widget);
+void vysion_WallpaperPicker(void);
+
+struct vysion_wallpaper_picker_menu {
+    struct optix_menu menu;
+    //this is the wallpaper that is currently being displayed (saved for when we exit)
+    int selection;
+};
 
 #endif

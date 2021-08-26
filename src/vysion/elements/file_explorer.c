@@ -73,7 +73,7 @@ void vysion_AddFileExplorerWindow(void *config) {
         .window = &template,
     };
     optix_InitializeWidget(&template_title_bar.widget, OPTIX_WINDOW_TITLE_BAR_TYPE);
-    window.window.widget.window_title_bar = &template_title_bar;
+    memcpy(&window.window.widget.window_title_bar, &template_title_bar, sizeof (struct optix_window_title_bar));
     //and now copy the element
     vysion_AddWindow(&window);
 }

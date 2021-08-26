@@ -491,7 +491,7 @@ BB1_7:
 	ld	bc, 0
 	ld	c, l
 	ld	b, h
-	ld	(iy + 69), bc
+	ld	(iy + 72), bc
 	ld	b, a
 	ld	c, 1
 	ld	(iy + 7), e
@@ -509,7 +509,7 @@ BB1_11:
 	or	a, a
 	sbc	hl, hl
 	ld	l, a
-	ld	(iy + 66), hl
+	ld	(iy + 69), hl
 	jq	BB1_14
 BB1_13:
 	ld	l, (ix + -2)

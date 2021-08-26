@@ -19,6 +19,7 @@
 #include "../wallpaper.h"
 #include "../window_manager.h"
 #include "file_explorer.h"
+#include "settings.h"
 
 //so this file is where all of the main loop stuff is going to be
 //the desktop, which probably makes sense if you can read
@@ -50,6 +51,13 @@ void vysion_StartMenuClickAction(void *args) {
         case 5:
             gfx_End();
             exit(0);
+            break;
+        case 1:
+            vysion_AddSettingsWindow(NULL);
+            break;
+        case 2:
+            dbg_sprintf(dbgout, "What");
+            vysion_WallpaperPicker();
             break;
         default:
             vysion_AddFileExplorerWindow(NULL);
@@ -231,7 +239,7 @@ void vysion_Desktop(void) {
     optix_RecursiveAlign(&super_button.widget);
     struct optix_widget *master_stack[DESKTOP_ELEMENTS + MAX_NUM_WINDOWS];
     //inititialize that too
-    for (int i = 0; i < HD_WALLPAPER_ROWS + MAX_NUM_WINDOWS; i++) {
+    for (int i = 0; i < DESKTOP_ELEMENTS + MAX_NUM_WINDOWS; i++) {
         if (i < HD_WALLPAPER_ROWS) master_stack[i] = wallpaper_ptr[i];
         else {
             switch (i - HD_WALLPAPER_ROWS) {
@@ -249,6 +257,9 @@ void vysion_Desktop(void) {
                     break;
                 case 4:
                     master_stack[i] = &desktop_window_manager.menu.widget;
+                    break;
+                default:
+                    master_stack[i] = NULL;
                     break;
             }
         }

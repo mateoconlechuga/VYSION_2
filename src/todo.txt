@@ -1,0 +1,5 @@
+[x] VAT sorting (copy from Cesium)
+[ ] optional filesystem binary searching
+[ ] settings menu:
+    [ ] OPTIX option to align elements to menus
+    [ ] some kind of tabbed menu struct

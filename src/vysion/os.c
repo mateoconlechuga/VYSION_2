@@ -20,11 +20,13 @@ void vysion_RunProgram(struct vysion_file_save *save) {
     os_ClrHome();
     vysion_SetOP1(save->ti_type, save->widget.name);
     if (file->vysion_type != VYSION_BASIC_TYPE && file->vysion_type != VYSION_PROTECTED_BASIC_TYPE) {
-        if (save->ti_type == TI_PPRGM_TYPE) os_PutStrFull("So that did work.");
-        os_PutStrFull(save->widget.name);
+        os_PutStrFull("Running...");
         vysion_asm_RunAsmProgram();
     } else {
+        os_PutStrFull("Installing stop hook...");
+        os_NewLine();
         vysion_asm_InstallFixStopHook();
+        os_PutStrFull("Running...");
         vysion_asm_RunBasicProgram();
     }
 }

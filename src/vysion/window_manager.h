@@ -22,6 +22,7 @@
 #define WINDOW_ABOUT_NAME              "About"
 //icons (should be 12 x 12)
 #define WINDOW_FILE_EXPLORER_ICON      start_files
+#define WINDOW_SETTINGS_ICON           start_settings
 //how many elements are in the stack
 #define WINDOW_TITLE_BAR_ELEMENTS      2
 //other things
@@ -38,7 +39,7 @@
 //okay?
 struct vysion_window_widget {
     //it's easier this way, just a cast or something
-    struct optix_window_title_bar *window_title_bar;
+    struct optix_window_title_bar window_title_bar;
     uint8_t type;
     gfx_sprite_t *icon;
     //I think this is true?
@@ -66,6 +67,7 @@ struct vysion_window_manager_menu {
 extern char *window_title_bar_menu_text[WINDOW_TITLE_BAR_MENU_OPTIONS + 1];
 extern char *window_name[];
 extern gfx_sprite_t *window_icon[];
+extern gfx_sprite_t *window_title_bar_action_icon[];
 
 //functions
 //note: this function automatically calls optix_RecursiveAlign, so you don't have to

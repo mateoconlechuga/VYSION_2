@@ -29,9 +29,7 @@ void optix_UpdateMenu_default(struct optix_widget *widget) {
         //handle if it was pressed
         menu->needs_partial_redraw = false;
         if (kb_Data[6] & kb_Enter || kb_Data[1] & kb_2nd) {
-            dbg_sprintf(dbgout, "Please no.\n");
             if (!menu->pressed && (current_context->settings->cursor_active || (widget->state.selected && current_context->data->can_press))) {
-                dbg_sprintf(dbgout, "Menu click action...\n");
                 if (menu->click_action.click_action) menu->click_action.click_action(menu->pass_self ? widget : menu->click_action.click_args);
                 //button->state.color = 224;
                 menu->pressed = true;
@@ -96,6 +94,9 @@ void optix_UpdateMenu_default(struct optix_widget *widget) {
             menu->min = ((int) menu->selection / menu->columns - (menu->rows - 1)) * menu->columns;
             widget->state.needs_redraw = true;
         }
+        //so if there is an element, only the one within the currently selected box will be updated
+        //I think this makes sense?
+        if (menu->element && menu->element[menu->selection]) menu->element[menu->selection]->update(menu->element[menu->selection]);
     } else {
         //if it was selected the last loop, signal for the last selection to be redrawn as unselected
         if (widget->state.selected) menu->needs_partial_redraw = true;
@@ -112,7 +113,7 @@ void optix_RenderMenu_default(struct optix_widget *widget) {
     //each has some text and some sprite
     struct optix_text text = {.text = NULL};
     struct optix_sprite sprite = {.spr = NULL, .x_scale = 1, .y_scale = 1};
-    struct optix_widget *button_children[] = {&text.widget, &sprite.widget, NULL};
+    struct optix_widget *button_children[] = {&text.widget, &sprite.widget, NULL, NULL};
     struct optix_button button = {.widget = {.child = button_children}};
     optix_InitializeWidget(&button.widget, OPTIX_BUTTON_TYPE);
     //return if we don't have to do anything
@@ -154,7 +155,10 @@ void optix_RenderMenu_default(struct optix_widget *widget) {
             if (button.widget.child) {
                 button.widget.child[0] = &text.widget;
                 button.widget.child[(text.text != NULL)] = &sprite.widget;
-                button.widget.child[(text.text != NULL) + (sprite.spr != NULL)] = NULL;
+                //put the element in there to be rendered as well
+                if (menu->element && menu->element[menu->selection])
+                    button.widget.child[(text.text != NULL && sprite.spr != NULL)] = menu->element[menu->selection];
+                button.widget.child[(text.text != NULL) + (sprite.spr != NULL) + (menu->element != NULL && menu->element[menu->selection] != NULL)] = NULL;
             }
             //align everything (please don't stab me)
             //x

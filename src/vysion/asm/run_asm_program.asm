@@ -98,8 +98,7 @@ run_asm_prgm:
    ld hl,0
 .returnaddr := $-3
    push hl
-   ;jq   ti.ParseInp
-   jq ti.userMem
+   jp ti.userMem
 .getsize:
    push    de
    ex  de,hl

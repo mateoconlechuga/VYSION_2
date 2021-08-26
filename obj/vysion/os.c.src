@@ -38,8 +38,7 @@ _vysion_SetOP1:
 	section	.text,"ax",@progbits
 	public	_vysion_RunProgram
 _vysion_RunProgram:
-	ld	hl, -3
-	call	__frameset
+	call	__frameset0
 	call	_gfx_End
 	ld	iy, -3145600
 	call	_os_ClrLCD
@@ -47,41 +46,40 @@ _vysion_RunProgram:
 	call	_os_DrawStatusBar
 	ld	iy, (ix + 6)
 	ld	a, (iy + 13)
-	lea	hl, iy + 0
-	inc	hl
-	ld	(ix + -3), hl
-	push	hl
+	ld	iy, (ix + 6)
+	inc	iy
+	push	iy
 	ld	l, a
 	push	hl
 	call	_vysion_SetOP1
 	pop	hl
 	pop	hl
-	ld	de, 276
-	ld	iy, (ix + 6)
-	lea	bc, iy + 0
-	add	iy, de
-	ld	a, (iy)
+	ld	de, 277
+	ld	hl, (ix + 6)
+	add	hl, de
+	ld	a, (hl)
 	cp	a, 2
 	jq	nc, BB1_1
+	ld	hl, L_.str.1
+	push	hl
+	call	_os_PutStrFull
+	pop	hl
+	ld	iy, -3145600
+	call	_os_NewLine
 	call	_vysion_asm_InstallFixStopHook
+	ld	hl, L_.str
+	push	hl
+	call	_os_PutStrFull
+	pop	hl
 	call	_vysion_asm_RunBasicProgram
-	jq	BB1_5
+	jq	BB1_3
 BB1_1:
 	ld	hl, L_.str
-	push	bc
-	pop	iy
-	ld	a, (iy + 13)
-	cp	a, 6
-	push	hl
-	call	z, _os_PutStrFull
-	pop	hl
-	ld	hl, (ix + -3)
 	push	hl
 	call	_os_PutStrFull
 	pop	hl
 	call	_vysion_asm_RunAsmProgram
-BB1_5:
-	pop	hl
+BB1_3:
 	pop	ix
 	ret
 	section	.text,"ax",@progbits
@@ -94,7 +92,12 @@ L___const.vysion_SetOP1.temp:
 	section	.rodata,"a",@progbits
 	private	L_.str
 L_.str:
-	db	"So that did work.",000o
+	db	"Running...",000o
+
+	section	.rodata,"a",@progbits
+	private	L_.str.1
+L_.str.1:
+	db	"Installing stop hook...",000o
 
 	ident	"clang version 12.0.0 (https://github.com/jacobly0/llvm-project 170be88120e3aa88c20eea5615ba76b8f1d6c647)"
 	extern	__Unwind_SjLj_Register
@@ -103,11 +106,13 @@ L_.str:
 	extern	_strcpy
 	extern	_os_PutStrFull
 	extern	_strcat
+	extern	_os_NewLine
 	extern	_vysion_asm_RunAsmProgram
-	extern	_vysion_asm_RunBasicProgram
 	extern	_vysion_asm_InstallFixStopHook
+	extern	_vysion_asm_RunBasicProgram
 	extern	_gfx_End
 	extern	_os_ClrLCD
+	extern	__frameset0
 	extern	_os_DrawStatusBar
 	extern	_memcpy
 	extern	_os_HomeUp

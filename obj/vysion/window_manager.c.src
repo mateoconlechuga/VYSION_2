@@ -5,51 +5,39 @@
 _vysion_AddWindow:
 	ld	hl, -9
 	call	__frameset
-	ld	de, 7
+	ld.sis	bc, 37
 	ld	iy, (_current_context)
 	ld	iy, (iy + 12)
-	lea	bc, iy + -3
+	lea	de, iy + -3
 BB0_1:
-	push	bc
+	push	de
 	pop	iy
-	lea	bc, iy + 3
+	lea	de, iy + 3
 	ld	hl, (iy + 3)
 	add	hl, bc
 	or	a, a
 	sbc	hl, bc
 	jq	nz, BB0_1
-	ld	(ix + -6), bc
-	ld	(ix + -3), iy
+	ld	(ix + -6), de
 	ld	hl, 0
+	ld	(ix + -3), iy
 	ld	(iy + 6), hl
 	ld	iy, (ix + 6)
-	ld	a, (iy + 3)
-	or	a, a
-	jq	z, BB0_4
-	ld	de, 0
+	ld	(iy + 18), 1
+	ld	a, (iy + 33)
+	cp	a, 2
+	jq	c, BB0_4
+	ld.sis	bc, 0
 BB0_4:
-	push	de
-	call	_malloc
-	pop	de
-	push	hl
-	pop	de
-	push	hl
-	pop	bc
-	ld	iy, (ix + -3)
-	ld	(iy + 3), de
 	ld	hl, (ix + 6)
 	push	hl
 	pop	iy
-	ld	a, (iy + 3)
-	push	bc
-	pop	iy
-	ld	(iy + 3), a
-	ld	hl, (hl)
-	push	hl
+	ld	(iy + 19), c
+	ld	(iy + 20), b
+	push	iy
 	call	_optix_RecursiveAlign
 	pop	hl
 	ld	hl, (ix + 6)
-	ld	hl, (hl)
 	push	hl
 	ld	hl, (ix + -6)
 	push	hl
@@ -58,7 +46,12 @@ BB0_4:
 	pop	hl
 	ld	iy, (ix + -3)
 	ld	hl, (iy + 3)
+	ld	iy, (ix + 6)
+	ld	a, (iy + 33)
 	push	hl
+	pop	iy
+	ld	(iy + 33), a
+	push	iy
 	call	_vysion_FormatWindowTitleBar
 	pop	hl
 	ld	hl, (_current_context)
@@ -133,11 +126,11 @@ _vysion_GetWindowSize:
 	ld	a, (ix + 6)
 	or	a, a
 	sbc	hl, hl
-	or	a, a
-	jq	z, BB1_1
+	cp	a, 2
+	jq	c, BB1_1
 	jq	BB1_3
 BB1_1:
-	ld	hl, 7
+	ld	hl, 37
 BB1_3:
 	pop	ix
 	ret
@@ -146,45 +139,45 @@ BB1_3:
 	section	.text,"ax",@progbits
 	public	_vysion_FormatWindowTitleBar
 _vysion_FormatWindowTitleBar:
-	ld	hl, -161
+	ld	hl, -164
 	call	__frameset
-	ld	bc, -146
+	ld	bc, -149
 	lea	iy, ix + 0
 	add	iy, bc
-	ld	bc, -161
+	ld	bc, -164
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	(hl), iy
 	ld	de, 0
 	lea	hl, ix + -52
 	push	ix
-	ld	bc, -152
+	ld	bc, -155
 	add	ix, bc
 	ld	(ix + 0), hl
 	pop	ix
 	lea	hl, iy + 6
 	push	ix
-	ld	bc, -155
+	ld	bc, -158
 	add	ix, bc
 	ld	(ix + 0), hl
 	pop	ix
 	lea	hl, iy + 0
-	ld	bc, -158
+	ld	bc, -161
 	lea	iy, ix + 0
 	add	iy, bc
 	ld	(iy + 0), hl
-	ld	bc, 3
 	ld	iy, (ix + 6)
-	ld	a, (iy + 3)
+	ld	a, (iy + 33)
 	ex	de, hl
 	ld	l, a
+	ld	bc, 3
 	call	__imulu
 	push	hl
 	pop	de
 	ld	hl, _window_name
 	add	hl, de
 	ld	hl, (hl)
-	ld	de, -149
+	ld	de, -152
 	lea	iy, ix + 0
 	add	iy, de
 	ld	(iy + 0), hl
@@ -193,7 +186,7 @@ _vysion_FormatWindowTitleBar:
 	or	a, a
 	sbc	hl, hl
 	push	hl
-	ld	de, -152
+	ld	de, -155
 	lea	hl, ix + 0
 	add	hl, de
 	ld	hl, (hl)
@@ -203,13 +196,13 @@ _vysion_FormatWindowTitleBar:
 	pop	hl
 	pop	hl
 	ld	(ix + -22), 1
-	ld	de, -149
+	ld	de, -152
 	lea	hl, ix + 0
 	add	hl, de
 	ld	hl, (hl)
 	ld	(ix + -20), hl
 	ld	(ix + -8), 1
-	ld	de, -152
+	ld	de, -155
 	lea	hl, ix + 0
 	add	hl, de
 	ld	hl, (hl)
@@ -219,12 +212,12 @@ _vysion_FormatWindowTitleBar:
 	or	a, a
 	sbc	hl, hl
 	push	ix
-	ld	de, -149
+	ld	de, -152
 	add	ix, de
 	ld	(ix + 0), hl
 	pop	ix
 	push	hl
-	ld	de, -152
+	ld	de, -155
 	lea	hl, ix + 0
 	add	hl, de
 	ld	hl, (hl)
@@ -236,11 +229,11 @@ _vysion_FormatWindowTitleBar:
 	ld	(ix + -42), 0
 	ld	(ix + -40), 4
 	ld	(ix + -41), 1
-	ld	hl, 88
+	ld	hl, 91
 	push	hl
 	ld	hl, L___const.vysion_FormatWindowTitleBar.template_menu
 	push	hl
-	ld	de, -155
+	ld	de, -158
 	lea	hl, ix + 0
 	add	hl, de
 	ld	hl, (hl)
@@ -251,7 +244,7 @@ _vysion_FormatWindowTitleBar:
 	pop	hl
 	ld	hl, 3
 	push	hl
-	ld	de, -155
+	ld	de, -158
 	lea	hl, ix + 0
 	add	hl, de
 	ld	hl, (hl)
@@ -259,7 +252,7 @@ _vysion_FormatWindowTitleBar:
 	call	_optix_InitializeWidget
 	pop	hl
 	pop	hl
-	ld	de, -130
+	ld	de, -133
 	lea	hl, ix + 0
 	add	hl, de
 	ld	(hl), 2
@@ -269,17 +262,17 @@ _vysion_FormatWindowTitleBar:
 	ld	(ix + 0), 1
 	pop	ix
 	push	ix
-	ld	de, -161
+	ld	de, -164
 	add	ix, de
 	ld	iy, (ix + 0)
 	pop	ix
 	push	ix
-	ld	de, -152
+	ld	de, -155
 	add	ix, de
 	ld	hl, (ix + 0)
 	pop	ix
 	ld	(iy + 0), hl
-	ld	de, -155
+	ld	de, -158
 	lea	hl, ix + 0
 	add	hl, de
 	ld	hl, (hl)
@@ -293,20 +286,20 @@ _vysion_FormatWindowTitleBar:
 	ld	de, 6
 BB2_1:
 	ld	iy, (iy + 27)
-	ld	bc, -149
+	ld	bc, -152
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
 	or	a, a
 	sbc	hl, de
 	jq	z, BB2_2
-	ld	bc, -149
+	ld	bc, -152
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	de, (hl)
 	add	iy, de
 	push	ix
-	ld	bc, -158
+	ld	bc, -161
 	add	ix, bc
 	ld	hl, (ix + 0)
 	pop	ix
@@ -318,7 +311,7 @@ BB2_1:
 	pop	hl
 	pop	hl
 	ld	de, 3
-	ld	bc, -149
+	ld	bc, -152
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
@@ -392,7 +385,7 @@ _vysion_WindowManagerMenuClickAction:
 	ld	hl, -8
 	call	__frameset
 	ld	iy, (ix + 6)
-	ld	hl, (iy + 59)
+	ld	hl, (iy + 62)
 	ld	(ix + -6), hl
 	ld	iy, (_current_context)
 	ld	hl, (iy + 12)
@@ -505,12 +498,12 @@ _vysion_UpdateWindowManagerMenu:
 	add	hl, de
 	ld	a, (iy + 14)
 	ld	(ix + -10), a
-	ld	de, (iy + 88)
+	ld	de, (iy + 91)
 	ld	(ix + -3), hl
 	or	a, a
 	sbc	hl, de
 	jq	nz, BB6_2
-	ld	a, (iy + 91)
+	ld	a, (iy + 94)
 	ld	l, 1
 	xor	a, l
 	bit	0, a
@@ -521,7 +514,7 @@ BB6_2:
 	ld	de, -10
 	ld	hl, (_vysion_current_context)
 	ld	(ix + -9), hl
-	ld	bc, (iy + 92)
+	ld	bc, (iy + 95)
 	ld	hl, (ix + -6)
 	add	hl, de
 	ld	(ix + -6), hl
@@ -533,7 +526,7 @@ BB6_2:
 	pop	hl
 	pop	hl
 	ld	iy, (ix + 6)
-	ld	(iy + 92), de
+	ld	(iy + 95), de
 	ld	hl, (ix + -3)
 	ld	bc, 3
 	call	__imulu
@@ -584,7 +577,7 @@ BB6_5:
 	or	a, a
 	sbc	hl, bc
 	jq	z, BB6_7
-	ld	a, (iy + 3)
+	ld	a, (iy + 33)
 	or	a, a
 	sbc	hl, hl
 	ld	l, a
@@ -596,14 +589,14 @@ BB6_5:
 	add	hl, de
 	ld	bc, (hl)
 	ld	iy, (ix + 6)
-	ld	hl, (iy + 92)
+	ld	hl, (iy + 95)
 	ld	de, (ix + -9)
 	add	hl, de
 	ld	(hl), bc
 	ld	hl, (ix + -6)
 	add	hl, de
 	ld	iy, (hl)
-	ld	a, (iy + 3)
+	ld	a, (iy + 33)
 	or	a, a
 	sbc	hl, hl
 	ld	l, a
@@ -627,7 +620,7 @@ BB6_7:
 	push	hl
 	pop	iy
 	ld	hl, (ix + -3)
-	ld	(iy + 72), hl
+	ld	(iy + 75), hl
 	ld	a, l
 	ld	b, 4
 	call	__bshl
@@ -640,7 +633,7 @@ BB6_7:
 	pop	hl
 	pop	hl
 	ld	hl, (ix + -3)
-	ld	(iy + 66), hl
+	ld	(iy + 69), hl
 	ld	(iy + 17), 1
 	ld.sis	de, 12
 	ld	l, (ix + -12)
@@ -664,9 +657,9 @@ BB6_10:
 	ld	iy, (ix + 6)
 	pop	hl
 	pop	hl
-	ld	(iy + 91), 0
+	ld	(iy + 94), 0
 	ld	hl, (ix + -3)
-	ld	(iy + 88), hl
+	ld	(iy + 91), hl
 BB6_11:
 	push	iy
 	call	_optix_UpdateMenu_default
@@ -690,8 +683,8 @@ BB6_11:
 	jq	z, BB6_13
 	ld	hl, 0
 	ld	(iy + 51), hl
-	ld	(iy + 86), 1
-	ld	(iy + 87), 1
+	ld	(iy + 89), 1
+	ld	(iy + 90), 1
 	ld	iy, (_current_context)
 	ld	hl, (iy + 12)
 	ld	de, (ix + 6)
@@ -707,10 +700,10 @@ BB6_11:
 BB6_13:
 	ld.sis	bc, 50
 	ld	de, 1
-	ld	hl, (iy + 92)
+	ld	hl, (iy + 95)
 	ld	(iy + 51), hl
-	ld	(iy + 86), 0
-	ld	(iy + 87), 0
+	ld	(iy + 89), 0
+	ld	(iy + 90), 0
 BB6_15:
 	ld	(iy + 7), c
 	ld	(iy + 8), b
@@ -810,15 +803,30 @@ _window_title_bar_menu_text:
 L_.str.3:
 	db	"Files",000o
 
+	section	.rodata,"a",@progbits
+	private	L_.str.4
+L_.str.4:
+	db	"Settings",000o
+
 	section	.data,"aw",@progbits
 	public	_window_name
 _window_name:
 	dl	L_.str.3
+	dl	L_.str.4
 
 	section	.data,"aw",@progbits
 	public	_window_icon
 _window_icon:
 	dl	_start_files_data
+	dl	_start_settings_data
+
+	section	.data,"aw",@progbits
+	public	_window_title_bar_action_icon
+_window_title_bar_action_icon:
+	dl	_window_minimize_data
+	dl	_window_maximize_data
+	dl	_window_close_data
+	dl	0
 
 	section	.rodata,"a",@progbits
 	private	L___const.vysion_FormatWindowTitleBar.template_menu
@@ -834,13 +842,14 @@ L___const.vysion_FormatWindowTitleBar.template_menu:
 	dl	0
 	dl	0
 	db	12 dup 0
-	db	1
-	db	1
-	db	0
-	db	0
 	db	4 dup 0
+	db	1
+	db	1
 	db	0
-	dl	_window_title_bar_menu_text
+	db	0
+	db	0
+	dl	0
+	dl	_window_title_bar_action_icon
 	dl	0
 	db	0
 	db	0
@@ -854,7 +863,7 @@ L___const.vysion_FormatWindowTitleBar.template_menu:
 	db	0
 	db	6 dup 0
 	db	0
-	db	0
+	db	1
 	db	0
 
 	ident	"clang version 12.0.0 (https://github.com/jacobly0/llvm-project 170be88120e3aa88c20eea5615ba76b8f1d6c647)"
@@ -871,16 +880,20 @@ L___const.vysion_FormatWindowTitleBar.template_menu:
 	extern	_optix_InitializeTextTransform
 	extern	_optix_SetCurrentSelection
 	extern	_vysion_current_context
+	extern	_start_settings_data
 	extern	_optix_OutlinedRectangle_WithBevel
+	extern	_window_minimize_data
 	extern	_memcpy
 	extern	_optix_RecursiveAlign
 	extern	_current_context
 	extern	__Unwind_SjLj_Unregister
 	extern	_optix_CopyElement
+	extern	_window_close_data
 	extern	__imulu
 	extern	_optix_GetNumElementsInStack
 	extern	_optix_AlignTransformToTransform
 	extern	__bshl
+	extern	_window_maximize_data
 	extern	_realloc
 	extern	__frameset0
 	extern	_optix_RenderMenu_default

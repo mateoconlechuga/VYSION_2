@@ -23,7 +23,6 @@ void optix_UpdateGUI(void) {
     current_context->cursor->widget.update((struct optix_widget *) current_context->cursor);
     optix_HandleShortcuts(*current_context->stack);
     optix_UpdateStack_TopLevel(current_context->stack);
-    dbg_sprintf(dbgout, "Successful update.\n");
 }
 
 void optix_UpdateStack(struct optix_widget *stack[]) {
@@ -165,19 +164,16 @@ void optix_RenderGUI(void) {
     current_context->cursor->widget.render((struct optix_widget *) current_context->cursor);
     current_context->data->gui_needs_full_redraw = false;
     current_context->data->needs_blit = false;
-    dbg_sprintf(dbgout, "Successful render.\n");
 }
 
 void optix_RenderStack(struct optix_widget *stack[]) {
     int i = 0;
     while (stack && stack[i]) {
         if (stack[i]->render) {
-            dbg_sprintf(dbgout, "Type: %d\n", stack[i]->type);
             //make sure we blit when needed
             if (stack[i]->state.needs_redraw) current_context->data->needs_blit = true;
             stack[i]->render(stack[i]);
             stack[i]->state.needs_redraw = false;
-            dbg_sprintf(dbgout, "Successful.\n");
         }
         i++;
     }

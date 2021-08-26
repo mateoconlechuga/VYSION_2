@@ -1,6 +1,10 @@
 #include "wallpaper.h"
 #include <debug.h>
 #include "../optix/elements/sprite.h"
+#include "../optix/elements/divider.h"
+#include "../optix/gui_control.h"
+#include "../optix/cursor.h"
+#include "filesystem.h"
 
 /*Some quick notes on the wallpaper system and format:
     -all high definition wallpapers will be prepended with VYSWALLHD
@@ -100,4 +104,91 @@ void vysion_RenderWallpaper(struct optix_widget *widget) {
         //let's just not talk about this line alright
         zx7_Decompress((void *) &gfx_vbuffer[widget->transform.y][0], sprite->spr);
     }
+}
+
+//this assumes that the wallpaper is going to be the first entry in the stack
+//please don't have it be somewhere else or it will probably break in a very impressive fashion
+void vysion_WallpaperPickerMenu_ClickAction(void *args) {
+    struct vysion_wallpaper_picker_menu *menu = (struct optix_menu *) args;
+    char *name = menu->menu.text[menu->menu.selection];
+    menu->selection = menu->menu.selection;
+    vysion_SetWallpaper(name, *(current_context->stack));
+    current_context->data->gui_needs_full_redraw = true;
+}
+
+
+
+//this is going to run independently of OPTIX (maybe make it its own context later)
+//this will set the wallpaper name in the settings struct
+void vysion_WallpaperPicker(void) {
+    //first, we'll get a list of the available wallpapers
+    //just assume that this is the number of files for the sake of argument
+    int i = 0;
+    int wallpapers_found = 0;
+    struct optix_widget *last_selection = current_context->cursor->current_selection;
+    struct optix_widget *stack[9];
+    struct optix_widget ***old_stack = current_context->stack;
+    char *wallpaper_name[vysion_current_context->filesystem_info_save.num_files];
+    struct optix_sprite wallpaper[HD_WALLPAPER_ROWS];
+    struct optix_sprite *wallpaper_ptr[HD_WALLPAPER_ROWS];
+    struct vysion_wallpaper_picker_menu wallpaper_menu = {
+        .menu = {
+            .widget = {
+                .transform = {
+                    .width = 90 - 12,
+                    .height = LCD_HEIGHT,
+                },
+                .child = NULL,
+            },
+            .text_centering = {.y_centering = OPTIX_CENTERING_CENTERED, .x_centering = OPTIX_CENTERING_LEFT, .x_offset = 4},
+            .rows = LCD_HEIGHT / 16,
+            .columns = 1,
+            .text = wallpaper_name,
+            .click_action = {
+                .click_action = vysion_WallpaperPickerMenu_ClickAction,
+            },
+            .pass_self = true,
+        },
+    };
+    struct optix_divider wallpaper_menu_divider = {
+        .alignment = DIVIDER_ALIGNMENT_RIGHT,
+        .reference = &wallpaper_menu.menu.widget,
+    };
+    optix_InitializeWidget(&wallpaper_menu_divider.widget, OPTIX_DIVIDER_TYPE);
+    for (i = 0; i < HD_WALLPAPER_ROWS; i++) stack[i] = wallpaper_ptr[i] = &wallpaper[i];
+    vysion_InitializeWallpaper(wallpaper_ptr);
+    ti_CloseAll();
+    for (i = 0; i < vysion_current_context->filesystem_info_save.num_files; i++) {
+        struct vysion_file *file = vysion_current_context->file[i];
+        if (file->save.ti_type == TI_APPVAR_TYPE) {
+            ti_var_t slot;
+            slot = ti_Open(file->save.widget.name, "r");
+            if (!(memcmp(ti_GetDataPtr(slot), HD_WALLAPER_HEADER_STRING, strlen(HD_WALLAPER_HEADER_STRING)))) {
+                wallpaper_name[wallpapers_found] = file->save.widget.name;
+                //another if statement here eventually that compares the name to the active wallpaper's name and sets
+                //the menu selection accordingly if it is
+                wallpapers_found++;
+            }
+            ti_Close(slot);
+        } else continue;
+    }
+    wallpaper_name[wallpapers_found] = NULL;
+    optix_InitializeWidget(&wallpaper_menu.menu.widget, OPTIX_MENU_TYPE);
+    //OPTIX things
+    stack[6] = &wallpaper_menu.menu.widget;
+    stack[7] = &wallpaper_menu_divider.widget;
+    stack[8] = NULL;
+    current_context->stack = &stack;
+    current_context->data->gui_needs_full_redraw = true;
+    vysion_SetWallpaper("DEFAULT4", wallpaper_ptr);
+    optix_SetCurrentSelection(&wallpaper_menu.menu.widget);
+    do {
+        optix_UpdateGUI();
+        optix_RenderGUI();
+    } while (!(kb_Data[6] & kb_Clear));
+    //restore the old stack
+    current_context->stack = old_stack;
+    wallpaper_menu.menu.selection = wallpaper_menu.selection;
+    vysion_WallpaperPickerMenu_ClickAction(&wallpaper_menu.menu.widget);
+    optix_SetCurrentSelection(last_selection);
 }

@@ -13,7 +13,7 @@ copy_to_saferam:
    ld   (hl),a
    call   $04F0
    ld hl, run_basic_prgm_addr
-   ld de, ti.vRam
+   ld de, ti.cursorImage
    ld bc, lengthof code
    ldir
    call ti.PushOP1
@@ -33,8 +33,8 @@ program_name:
    db ti.ProtProgObj, "VYSION2", 0
  
 run_basic_prgm_addr:
-   ;org   ti.vRam
-   virtual at ti.vRam
+   ;org   ti.cursorImage
+   virtual at ti.cursorImage
 run_basic_prgm:
    extern __exitsp
    ld   de,(ti.asm_prgm_size)
@@ -71,7 +71,7 @@ run_basic_prgm:
    ld hl,0
 .returnaddr := $-3
    push hl
-   jq   ti.ParseInp
+   jp   ti.ParseInp
  
 reloader_start:
    call    ti.PopErrorHandler

@@ -49,6 +49,7 @@ void vysion_DetectAllFiles(struct vysion_context *context) {
         //get the file's information
         timer_Control = TIMER1_ENABLE | TIMER1_32K | TIMER1_UP;
         timer_1_Counter = 0;
+        file->deleted = false;
         vysion_GetFileInfo(file);
         dbg_sprintf(dbgout, "File info took %d ms.\n", timer_1_Counter);
         //increment the count
@@ -64,7 +65,7 @@ void vysion_DetectAllFolders(struct vysion_context *context) {
         //start by getting how many files there are, and then allocate accordingly
         int count = 0;
         for (int j = 0; j < context->filesystem_info_save.num_files; j++) {
-            if (context->file[j]->save.widget.location == context->folder[i]->save.index) {
+            if (context->file[j]->save.widget.location == context->folder[i]->save.index && !context->file[j]->deleted) {
                 temp[count] = context->file[j];
                 count++;
             }
@@ -99,7 +100,7 @@ void vysion_SaveFilesystem(struct vysion_context *context) {
         //just look through and do the files first
         //the save struct is the first entry in the struct, we already established that
         for (int i = 0; i < context->filesystem_info_save.num_files; i++)
-            ti_Write(context->file[i], sizeof(struct vysion_file_save), 1, slot);
+            if (!context->file[i]->deleted) ti_Write(context->file[i], sizeof(struct vysion_file_save), 1, slot);
         //same for the folders
         for (int i = 0; i < context->filesystem_info_save.num_folders; i++)
             ti_Write(context->folder[i], sizeof(struct vysion_folder_save), 1, slot);
@@ -111,6 +112,8 @@ void vysion_SaveFilesystem(struct vysion_context *context) {
 void vysion_LoadFilesystem(struct vysion_context *context) {
     ti_var_t slot;
     int version;
+    //sort the VAT before we do anything else
+    vysion_asm_SortVAT();
     if ((slot = ti_Open(VYSION_FILESYSTEM_APPVAR, "r"))) {
         int num_files;
         int num_folders;
@@ -129,12 +132,15 @@ void vysion_LoadFilesystem(struct vysion_context *context) {
         for (int i = 0; i < num_files; i++) {
             struct vysion_file *file = vysion_AddFile(context);
             ti_Read(file, sizeof(struct vysion_file_save), 1, slot);
+            //let's do this here
+            file->deleted = true;
         }
         //FOLDERS TOO
         for (int i = 0; i < num_folders; i++) {
             struct vysion_folder *folder = vysion_AddFolder(context);
             ti_Read(folder, sizeof(struct vysion_folder_save), 1, slot);
             dbg_sprintf(dbgout, "Loaded index: %d\n", folder->save.index);
+            folder->deleted = true;
         }
         context->filesystem_info_save.num_folder_indices = num_folder_indices;
         ti_Close(slot);
@@ -204,7 +210,8 @@ void vysion_GetFileInfo(struct vysion_file *file) {
             //convert it
             //memcpy(file->icon_alternate, file->icon, 258);
             file->icon_alternate[0] = file->icon_alternate[1] = 0x10;
-            vysion_ConvertXlibcToPalette(file->icon_alternate);
+            if (file->vysion_type != VYSION_BASIC_TYPE && file->vysion_type != VYSION_PROTECTED_BASIC_TYPE)
+                vysion_ConvertXlibcToPalette(file->icon_alternate);
             file->icon = (gfx_sprite_t *) file->icon_alternate;
         }
         //close that slot
@@ -243,6 +250,7 @@ void vysion_GetFileInfo_Basic(struct vysion_file *file, void *data) {
     uint8_t palette[] = {223, 24, 224, 0, 248, 6, 228, 96, 16, 29, 231, 255, 222, 189, 148, 74};
     uint8_t ti_basic_sequence[] = {0x3E, 0x44, 0x43, 0x53, 0x3F, 0x2A};
     char temp[] = " ";
+    for (int i = 0; i < 16; i++) palette[i] = xlibc_condensed->data[palette[i]];
     //start with an easy check to see if it is protected or not
     if (file->save.ti_type == TI_PRGM_TYPE) file->vysion_type = VYSION_BASIC_TYPE;
     else file->vysion_type = VYSION_PROTECTED_BASIC_TYPE;
@@ -253,6 +261,7 @@ void vysion_GetFileInfo_Basic(struct vysion_file *file, void *data) {
             temp[0] = *((uint8_t *) data + i + TI_BASIC_SEQUENCE_LEN);
             file->icon_alternate[i + 2] = palette[strtol(temp, NULL, 16)];
         }
+        file->icon = file->icon_alternate;
     }
 }
 

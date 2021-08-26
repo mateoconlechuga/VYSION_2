@@ -8,12 +8,14 @@
 #include <graphx.h>
 //window structs
 #include "elements/file_explorer.h"
+#include "elements/settings.h"
 #include "elements/desktop.h"
 
 
 char *window_title_bar_menu_text[WINDOW_TITLE_BAR_MENU_OPTIONS + 1] = {WINDOW_MINIMIZE_STRING, WINDOW_MAXIMIZE_STRING, WINDOW_CLOSE_STRING, NULL};
-char *window_name[] = {WINDOW_FILE_EXPLORER_NAME};
-gfx_sprite_t *window_icon[] = {WINDOW_FILE_EXPLORER_ICON};
+char *window_name[] = {WINDOW_FILE_EXPLORER_NAME, WINDOW_SETTINGS_NAME};
+gfx_sprite_t *window_icon[] = {WINDOW_FILE_EXPLORER_ICON, WINDOW_SETTINGS_ICON};
+gfx_sprite_t *window_title_bar_action_icon[WINDOW_TITLE_BAR_MENU_OPTIONS + 1] = {window_minimize, window_maximize, window_close, NULL};
 
 //actual code
 void vysion_AddWindow(struct vysion_window_widget *widget) {
@@ -28,13 +30,15 @@ void vysion_AddWindow(struct vysion_window_widget *widget) {
     //make the stack one bigger
     //vysion_current_context->stack = realloc(vysion_current_context->stack, sizeof(struct optix_widget *) * (index + 2));
     (*stack)[index + 1] = NULL;
-    new_window_ptr = (*stack)[index] = malloc(vysion_GetWindowSize(widget->type));
-    new_window_ptr->type = widget->type;
+    widget->window_title_bar.widget.state.override_size = true;
+    widget->window_title_bar.widget.state.size = vysion_GetWindowSize(widget->type);
     //new_window_ptr->icon = widget->icon;
     //let's do this here
     //align everything
-    optix_RecursiveAlign((struct optix_widget *) widget->window_title_bar);
-    optix_CopyElement(&((*stack)[index]), widget->window_title_bar);
+    optix_RecursiveAlign((struct optix_widget *) &widget->window_title_bar);
+    optix_CopyElement(&(*stack)[index], &widget->window_title_bar);
+    new_window_ptr = (*stack)[index];
+    new_window_ptr->type = widget->type;
     vysion_FormatWindowTitleBar((*stack)[index]);
     //now switch the selection to it if in box-based mode
     if (!current_context->settings->cursor_active) {
@@ -45,7 +49,7 @@ void vysion_AddWindow(struct vysion_window_widget *widget) {
     //also add it to the other struct because it'll break otherwise
     //get the next open slot
     while (vysion_current_context->window[index_b] && index_b < MAX_NUM_WINDOWS) index_b++;
-    dbg_sprintf(dbgout, "Index: %d Type: %d\n", index, (*stack)[index]->type);
+    dbg_sprintf(dbgout, "Index: %d Type: %d Window type: %d\n", index, (*stack)[index]->type, widget->type);
     //so now we have the first null one
     vysion_current_context->window[index_b] = (*stack)[index];
     vysion_current_context->window[index_b + 1] = NULL;
@@ -56,6 +60,9 @@ size_t vysion_GetWindowSize(uint8_t type) {
     switch (type) {
         case WINDOW_FILE_EXPLORER:
             return sizeof(struct vysion_file_explorer_window);
+            break;
+        case WINDOW_SETTINGS:
+            return sizeof(struct vysion_settings_window);
             break;
         default:
             return 0;
@@ -91,11 +98,13 @@ void vysion_FormatWindowTitleBar(struct optix_window_title_bar *window_title_bar
                 .height = 12,
             },
         },
-        .text_centering = {.y_centering = OPTIX_CENTERING_CENTERED, .x_centering = OPTIX_CENTERING_CENTERED},
+        //.text_centering = {.y_centering = OPTIX_CENTERING_CENTERED, .x_centering = OPTIX_CENTERING_CENTERED},
+        .sprite_centering = {.y_centering = OPTIX_CENTERING_CENTERED, .x_centering = OPTIX_CENTERING_CENTERED},
         .rows = 1,
         .columns = 3,
-        .text = window_title_bar_menu_text,
-        .spr = NULL,
+        //.text = window_title_bar_menu_text,
+        .spr = window_title_bar_action_icon,
+        .transparent_background = true,
     };
     dbg_sprintf(dbgout, "Who knows what's going on\n");
     optix_InitializeWidget(&template_menu.widget, OPTIX_MENU_TYPE);
@@ -164,7 +173,6 @@ void vysion_WindowManagerMenuClickAction(void *args) {
 
 //the graphical window manager stuff
 void vysion_UpdateWindowManagerMenu(struct optix_widget *widget) {
-    dbg_sprintf(dbgout, "Updating...\n");
     struct vysion_window_manager_menu *window_manager_menu = (struct vysion_window_manager_menu *) widget;
     struct optix_menu *menu = (struct optix_menu *) widget;
     int num_windows = optix_GetNumElementsInStack(*(current_context->stack)) - DESKTOP_ELEMENTS;
@@ -178,7 +186,6 @@ void vysion_UpdateWindowManagerMenu(struct optix_widget *widget) {
         menu->text = widget->state.selected ? window_manager_menu->text_save : NULL;
         menu->spr = realloc(menu->spr, num_windows + 1);
         menu->spr[num_windows] = NULL;
-        dbg_sprintf(dbgout, "Num windows: %d\n", num_windows);
         while (stack[i]) {
             dbg_sprintf(dbgout, "%d\n", ((struct vysion_window_widget *) stack[i])->type);
             window_manager_menu->text_save[i] = window_name[((struct vysion_window_widget *) stack[i])->type];
@@ -219,7 +226,6 @@ void vysion_UpdateWindowManagerMenu(struct optix_widget *widget) {
             widget->transform.x = 0;
         }
     }
-    dbg_sprintf(dbgout, "Finished.\n");
 }
 
 void vysion_RenderWindowManagerMenu(struct optix_widget *widget) {

@@ -1,0 +1,19 @@
+[KEY]
+[ ] unfixed
+[x] fixed
+[w] working as intended
+[c] can't/don't want to fix
+
+[0.0.15 | 2021-08-24]
+[ ] slow program info fetching for TI-Basic programs with icons
+[ ] stop token hook not cleared on program start
+[ ] error messages not cleared on program exit
+[ ] potentially unstable window closing
+[ ] menus behind a window can be selected when in cursor-based mode
+[ ] current selection could be invisible in box-based mode
+[ ] last key pressed could be registered in a run TI-Basic program
+[ ] renaming VYSION2 to something else breaks reloader
+[ ] filesystem loading could break with insufficient RAM
+[ ] temporary incorrect palette display when changing wallpapers 
+[x] [0.0.15] stop token hook not working (fixed with 0.0.16)
+[x] [0.0.16] window type could be stored incorrectly

@@ -1,8 +1,8 @@
 	section	.text,"ax",@progbits
 	assume	adl = 1
 	section	.text,"ax",@progbits
-	public	_vysion_util_GetStringHash
-_vysion_util_GetStringHash:
+	public	_vysion_util_GetStringHash_djb2
+_vysion_util_GetStringHash_djb2:
 	ld	hl, -3
 	call	__frameset
 	ld	hl, (ix + 6)
@@ -37,8 +37,8 @@ BB0_3:
 	section	.text,"ax",@progbits
 
 	section	.text,"ax",@progbits
-	public	_vysion_util_GetStringHash_default
-_vysion_util_GetStringHash_default:
+	public	_vysion_util_GetStringHash
+_vysion_util_GetStringHash:
 	ld	hl, -3
 	call	__frameset
 	ld	hl, (ix + 6)
@@ -74,8 +74,8 @@ BB1_3:
 	section	.text,"ax",@progbits
 
 	section	.text,"ax",@progbits
-	public	_vysion_util_GetStringHash_fnv
-_vysion_util_GetStringHash_fnv:
+	public	_vysion_util_GetStringHash_default
+_vysion_util_GetStringHash_default:
 	ld	hl, -3
 	call	__frameset
 	ld	iy, (ix + 6)

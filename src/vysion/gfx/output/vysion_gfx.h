@@ -30,6 +30,9 @@ extern "C" {
 #include "start_refresh.h"
 #include "start_settings.h"
 #include "start_search.h"
+#include "window_minimize.h"
+#include "window_maximize.h"
+#include "window_close.h"
 #include "taskbar_icon.h"
 #define xlibc_condensed_palette_offset 224
 #include "xlibc_condensed.h"
