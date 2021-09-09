@@ -183,7 +183,8 @@ void vysion_UpdateWindowManagerMenu(struct optix_widget *widget) {
         //we need to update it
         window_manager_menu->text_save = realloc(window_manager_menu->text_save, num_windows + 1);
         window_manager_menu->text_save[num_windows] = NULL;
-        menu->text = widget->state.selected ? window_manager_menu->text_save : NULL;
+        //menu->text = widget->state.selected ? window_manager_menu->text_save : NULL;
+        menu->text = window_manager_menu->text_save;
         menu->spr = realloc(menu->spr, num_windows + 1);
         menu->spr[num_windows] = NULL;
         while (stack[i]) {
@@ -195,9 +196,9 @@ void vysion_UpdateWindowManagerMenu(struct optix_widget *widget) {
         //update the transform
         menu->num_options = num_windows;
         //we'll set the x position to be just above the taskbar
-        widget->transform.height = num_windows * WINDOW_MANAGER_MENU_ROW_HEIGHT;
+        widget->transform.width = num_windows * WINDOW_MANANGER_MENU_WIDTH;
         optix_AlignTransformToTransform(widget, NULL);
-        menu->rows = num_windows;
+        menu->columns = num_windows;
         widget->state.needs_redraw = true;
         widget->state.selectable = num_windows > 0;
         optix_IntelligentRecursiveSetNeedsRedraw(*(current_context->stack), widget);
@@ -207,7 +208,7 @@ void vysion_UpdateWindowManagerMenu(struct optix_widget *widget) {
     //we need to do this too
     optix_UpdateMenu_default(widget);
     //in this part, we'll handle the expanding/collapsing of the menu when the menu is selected/unselected
-    if (widget->state.selected != selected_save) {
+    /*if (widget->state.selected != selected_save) {
         widget->state.needs_redraw = true;
         if (widget->state.selected) {
             //we'll expand the menu
@@ -225,15 +226,15 @@ void vysion_UpdateWindowManagerMenu(struct optix_widget *widget) {
             widget->transform.width = WINDOW_MANAGER_MENU_ROW_HEIGHT;
             widget->transform.x = 0;
         }
-    }
+    }*/
 }
 
 void vysion_RenderWindowManagerMenu(struct optix_widget *widget) {
     //essentially what I want this to do is turn into a window when it is selected (otherwise it will be transparent)
     if (widget->state.selected && widget->state.needs_redraw) {
         //draw the background for it (the update function should handle everything else, setting the width and so on)
-        optix_OutlinedRectangle_WithBevel(widget->transform.x - 1, widget->transform.y - 1, widget->transform.width + 2, widget->transform.height + 2, 
-            WINDOW_BG_COLOR_INDEX, WINDOW_BORDER_BEVEL_LIGHT_INDEX, WINDOW_BORDER_BEVEL_DARK_INDEX);
+        /*optix_OutlinedRectangle_WithBevel(widget->transform.x - 1, widget->transform.y - 1, widget->transform.width + 2, widget->transform.height + 2, 
+            WINDOW_BG_COLOR_INDEX, WINDOW_BORDER_BEVEL_LIGHT_INDEX, WINDOW_BORDER_BEVEL_DARK_INDEX);*/
     }
     optix_RenderMenu_default(widget);
 }

@@ -534,7 +534,7 @@ L_switch.table.optix_GetSize:
 	dw	46
 	dw	37
 	dw	39
-	dw	91
+	dw	90
 	dw	43
 	dw	33
 	dw	36

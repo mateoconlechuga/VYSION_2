@@ -11,37 +11,28 @@ _optix_UpdateGUI:
 	ld	l, (hl)
 	ld	iy, (_current_context)
 	ld	iy, (iy + 3)
-	ld	(iy + 5), de
-	ld	(iy + 8), l
+	ld	(iy + 4), de
+	ld	(iy + 7), l
 	ld	iy, -917472
 	ld	(iy), bc
 	ld	(iy + 3), a
-	call	_os_GetCSC
-	ld	hl, (_current_context)
-	push	hl
-	pop	iy
-	ld	iy, (iy + 3)
-	ld	(iy + 4), a
-	push	hl
-	pop	iy
+	call	_optix_UpdateInput
+	ld	iy, (_current_context)
 	ld	iy, (iy + 9)
 	or	a, a
 	sbc	hl, hl
 	ld	(iy + 48), hl
-	call	_kb_Scan
-	ld	iy, (_current_context)
-	ld	iy, (iy + 9)
 	ld	hl, (iy + 24)
 	push	iy
 	call	__indcallhl
 	pop	hl
 	ld	iy, (_current_context)
-	ld	hl, (iy + 12)
+	ld	hl, (iy + 15)
 	push	hl
 	call	_optix_HandleShortcuts
 	pop	hl
 	ld	iy, (_current_context)
-	ld	hl, (iy + 12)
+	ld	hl, (iy + 15)
 	push	hl
 	call	_optix_UpdateStack_TopLevel
 	pop	hl
@@ -51,50 +42,47 @@ _optix_UpdateGUI:
 	section	.text,"ax",@progbits
 	public	_optix_UpdateStack_TopLevel
 _optix_UpdateStack_TopLevel:
-	ld	hl, -36
+	ld	hl, -32
 	call	__frameset
 	ld	hl, (ix + 6)
-	ld	bc, 0
+	ld	iy, 0
 	xor	a, a
 	ld	de, 0
-	ld	(ix + -6), hl
-	push	de
-	pop	iy
-	ld	(ix + -34), a
-	ld	(ix + -35), a
+	ld	(ix + -9), hl
+	ld	(ix + -15), de
+	ld	(ix + -30), a
+	ld	(ix + -31), a
 	ld	l, a
-	ld	(ix + -25), a
-	ld	(ix + -36), a
+	ld	(ix + -28), a
+	ld	(ix + -32), a
 	push	de
 	pop	hl
-	ld	(ix + -24), bc
+	ld	(ix + -3), de
 	ld	bc, 3
-	ld	(ix + -12), de
 BB1_1:
-	ld	(ix + -31), a
+	ld	(ix + -27), iy
+	ld	(ix + -29), a
 	and	a, 1
-	ld	(ix + -18), a
-	ld	(ix + -15), hl
+	ld	(ix + -21), a
+	ld	(ix + -18), hl
 	call	__imulu
 	push	hl
 	pop	de
-	ld	(ix + -28), iy
-	lea	hl, iy + 0
+	ld	hl, (ix + -15)
 	or	a, a
 	sbc	hl, de
-	ld	(ix + -21), hl
-	ld	iy, (ix + -6)
-	ld	de, (ix + -12)
+	ld	(ix + -24), hl
+	ld	iy, (ix + -9)
+	ld	de, (ix + -3)
 	ld	c, 1
-	ld	b, c
 BB1_2:
-	ld	(ix + -3), iy
+	ld	(ix + -6), iy
 	ld	iy, (iy)
 	lea	hl, iy + 0
 	add	hl, bc
 	or	a, a
 	sbc	hl, bc
-	ld	(ix + -9), de
+	ld	(ix + -12), de
 	jq	z, BB1_25
 	ld	hl, (iy + 24)
 	add	hl, bc
@@ -104,14 +92,13 @@ BB1_2:
 	push	iy
 	call	__indcallhl
 	ld	c, 1
-	ld	b, c
-	ld	de, (ix + -9)
+	ld	de, (ix + -12)
 	pop	hl
-	ld	hl, (ix + -3)
+	ld	hl, (ix + -6)
 	ld	iy, (hl)
 BB1_6:
 	ld	a, (iy + 17)
-	xor	a, b
+	xor	a, c
 	bit	0, a
 	jq	nz, BB1_10
 	ld	hl, (iy + 27)
@@ -122,10 +109,9 @@ BB1_6:
 	push	hl
 	call	_optix_RecursiveSetNeedsRedraw
 	ld	c, 1
-	ld	b, c
-	ld	de, (ix + -9)
+	ld	de, (ix + -12)
 	pop	hl
-	ld	hl, (ix + -3)
+	ld	hl, (ix + -6)
 	ld	iy, (hl)
 	ld	a, (iy)
 	cp	a, 5
@@ -135,367 +121,364 @@ BB1_6:
 	push	hl
 	call	_optix_RecursiveSetNeedsRedraw
 	ld	c, 1
-	ld	b, c
-	ld	de, (ix + -9)
+	ld	de, (ix + -12)
 	pop	hl
 BB1_10:
-	ld	a, (ix + -18)
-	xor	a, b
+	ld	a, (ix + -21)
+	xor	a, c
 	bit	0, a
 	jq	nz, BB1_12
 	inc	de
-	ld	hl, (ix + -21)
-	ld	a, b
+	ld	hl, (ix + -24)
 	ld	bc, 3
 	add	hl, bc
-	ld	b, a
-	ld	(ix + -21), hl
-	ld	iy, (ix + -3)
+	ld	c, 1
+	ld	(ix + -24), hl
+	ld	iy, (ix + -6)
 	lea	iy, iy + 3
 	jq	BB1_2
 BB1_12:
-	ld	hl, (ix + -3)
+	ld	hl, (ix + -6)
 	ld	iy, (hl)
 	ld	a, (iy)
 	cp	a, 4
-	ld	(ix + -3), iy
+	ld	(ix + -6), iy
 	jq	nz, BB1_14
 	lea	hl, iy + 42
-	lea	iy, iy + 14
-	ld	de, (ix + -12)
+	ld	(ix + -21), hl
+	lea	de, iy + 14
+	ld	(ix + -12), de
+	ld	bc, 3
 	jq	BB1_16
 BB1_14:
 	cp	a, 5
-	ld	de, (ix + -12)
-	ld	c, (ix + -34)
-	ld	a, (ix + -35)
+	ld	bc, 3
+	ld	hl, (ix + -3)
+	ld	e, (ix + -30)
+	ld	d, (ix + -31)
 	jq	nz, BB1_17
+	ld	(ix + -3), hl
+	ld	iy, (ix + -6)
 	ld	iy, (iy + 30)
 	lea	hl, iy + 42
-	lea	iy, iy + 14
+	ld	(ix + -21), hl
+	lea	hl, iy + 14
+	ld	(ix + -12), hl
 BB1_16:
-	ld	c, (hl)
-	ld	a, (iy)
+	ld	hl, (ix + -21)
+	ld	e, (hl)
+	ld	iy, (ix + -12)
+	ld	d, (iy)
 	ld	(hl), 0
-	ld	iy, (ix + -3)
+	ld	hl, (ix + -3)
 BB1_17:
-	ld	l, a
-	or	a, c
-	and	a, 1
-	xor	a, b
-	bit	0, a
-	ld	(ix + -34), c
-	ld	(ix + -35), l
-	jq	z, BB1_19
-	ld	hl, (ix + -24)
 	ld	(ix + -3), hl
-	ld	hl, (ix + -15)
-	ld	bc, 3
-	ld	a, (ix + -31)
+	ld	a, d
+	or	a, e
+	and	a, 1
+	ld	h, e
+	ld	e, 1
+	xor	a, e
+	bit	0, a
+	ld	(ix + -30), h
+	ld	(ix + -31), d
+	jq	z, BB1_19
+	ld	hl, (ix + -27)
+	ld	(ix + -6), hl
+	ld	hl, (ix + -18)
+	ld	a, (ix + -29)
+	ld	de, (ix + -3)
 	jq	BB1_24
 BB1_19:
-	ld	a, l
+	ld	a, d
 	and	a, 1
-	xor	a, b
+	xor	a, e
 	ld	l, a
-	ld	a, c
+	ld	a, h
 	and	a, 1
-	xor	a, b
+	xor	a, e
 	bit	0, a
-	ld	a, (ix + -31)
+	ld	iy, (ix + -9)
+	ld	a, (ix + -29)
 	jq	nz, BB1_21
-	ld	a, b
+	ld	a, 1
 BB1_21:
 	bit	0, l
-	ld	iy, (ix + -6)
+	ld	de, (ix + -3)
 	jq	nz, BB1_23
-	ld	(ix + -36), b
+	ld	l, 1
+	ld	(ix + -32), l
 BB1_23:
-	ld	(ix + -25), b
+	ld	l, 1
+	ld	(ix + -28), l
 	push	de
 	pop	hl
-	ld	bc, 3
-	ld	(ix + -6), iy
+	ld	(ix + -9), iy
 BB1_24:
 	inc	de
-	ld	(ix + -12), de
-	ld	iy, (ix + -28)
+	ld	(ix + -3), de
+	ld	iy, (ix + -15)
 	add	iy, bc
-	lea	de, iy + 0
-	ld	iy, (ix + -6)
+	ld	(ix + -15), iy
+	ld	iy, (ix + -9)
 	lea	iy, iy + 3
-	ld	(ix + -6), iy
-	push	de
-	pop	iy
-	ld	de, (ix + -3)
-	ld	(ix + -24), de
+	ld	(ix + -9), iy
+	ld	iy, (ix + -6)
 	jq	BB1_1
 BB1_25:
 	ld	iy, (_current_context)
 	ld	hl, (iy + 3)
 	ld	a, (hl)
-	ld	c, 1
-	xor	a, c
+	ld	l, 1
+	xor	a, l
 	bit	0, a
 	jq	nz, BB1_27
 	ld	hl, (ix + 6)
 	push	hl
 	call	_optix_RecursiveSetNeedsRedraw
-	ld	c, 1
 	pop	hl
 	ld	iy, (_current_context)
 BB1_27:
-	ld	(ix + -6), iy
-	ld	iy, (ix + -6)
+	ld	(ix + -3), iy
 	ld	iy, (iy + 9)
-	ld	(ix + -34), iy
-	ld	hl, (iy + 51)
-	ld	iy, (ix + -6)
-	ld	de, 5
-	ld	(ix + -28), hl
+	ld	(ix + -9), iy
+	ld	de, (iy + 51)
+	ld	bc, 5
+	push	de
+	pop	hl
 	or	a, a
-	sbc	hl, de
-	ld	hl, (ix + -15)
+	sbc	hl, bc
+	ld	hl, (ix + -18)
 	inc	hl
-	ld	(ix + -31), hl
-	jq	nz, BB1_30
-BB1_28:
-	ld	hl, (ix + -24)
+	ld	(ix + -15), hl
+	jq	z, BB1_30
+	ld	bc, 4
+	push	de
+	pop	hl
+	or	a, a
+	sbc	hl, bc
+	inc	bc
+	jq	z, BB1_48
+	ld	hl, (ix + -3)
+	ld	hl, (hl)
+	bit	0, (hl)
+	jq	nz, BB1_48
+BB1_30:
+	ld	hl, (ix + -27)
 	add	hl, bc
 	or	a, a
 	sbc	hl, bc
-	jq	nz, BB1_33
-	ld	hl, (iy + 12)
-	jq	BB1_38
-BB1_30:
-	ld	hl, (iy)
-	ld	a, (hl)
-	xor	a, c
-	xor	a, c
-	bit	0, a
-	jq	nz, BB1_52
-	ld	a, c
-	ld	bc, 4
-	ld	hl, (ix + -28)
-	or	a, a
-	sbc	hl, bc
-	ld	c, a
-	jq	z, BB1_52
-	ld	iy, (ix + -6)
-	ld	iy, (iy + 3)
-	ld	a, (iy + 3)
-	ld	iy, (ix + -6)
-	xor	a, c
-	bit	0, a
-	jq	z, BB1_28
-	jq	BB1_52
-BB1_33:
+	jq	nz, BB1_32
+	ld	iy, (ix + -3)
+	ld	iy, (iy + 15)
+	jq	BB1_37
+BB1_32:
 	ld	a, (hl)
 	cp	a, 4
-	jq	nz, BB1_35
+	jq	nz, BB1_34
 	push	hl
 	pop	iy
-	jq	BB1_37
-BB1_35:
+	jq	BB1_36
+BB1_34:
 	cp	a, 5
-	ld	hl, 0
-	ld	(ix + -12), hl
-	jq	nz, BB1_39
-	ld	iy, (ix + -24)
+	push	bc
+	pop	hl
+	ld	bc, 0
+	push	bc
+	pop	iy
+	push	hl
+	pop	bc
+	jq	nz, BB1_37
+	ld	iy, (ix + -27)
 	ld	iy, (iy + 30)
+BB1_36:
+	ld	iy, (iy + 27)
 BB1_37:
-	ld	hl, (iy + 27)
-BB1_38:
-	ld	(ix + -12), hl
-BB1_39:
-	ld	hl, (ix + -28)
-	ld	de, 5
-	or	a, a
-	sbc	hl, de
-	jq	z, BB1_42
-	ld	iy, (ix + -34)
-	ld	de, (iy + 54)
 	push	de
 	pop	hl
+	or	a, a
+	sbc	hl, bc
+	jq	z, BB1_40
+	ld	(ix + -3), iy
+	ld	iy, (ix + -9)
+	ld	hl, (iy + 54)
+	ld	iy, (ix + -3)
+	ld	(ix + -9), hl
 	add	hl, bc
 	or	a, a
 	sbc	hl, bc
-	jq	nz, BB1_45
-BB1_42:
-	ld	hl, (ix + -12)
-	ld	iy, (hl)
-	lea	hl, iy + 0
+	jq	nz, BB1_42
+BB1_40:
+	ld	hl, (iy)
+	push	hl
+	pop	de
 	add	hl, bc
 	or	a, a
 	sbc	hl, bc
-	jq	z, BB1_50
+	jq	z, BB1_46
 	lea	hl, iy + 0
+	push	de
+	pop	iy
 	ld	a, (iy + 16)
-	xor	a, c
-	ld	iy, (ix + -12)
+	push	hl
+	pop	iy
+	ld	l, 1
+	xor	a, l
 	lea	iy, iy + 3
-	ld	(ix + -12), iy
 	bit	0, a
-	jq	nz, BB1_42
-	ld	iy, (ix + -6)
-	jq	BB1_49
-BB1_45:
-	ld	a, (ix + -25)
+	jq	nz, BB1_40
+	jq	BB1_45
+BB1_42:
+	ld	a, (ix + -28)
 	and	a, 1
-	xor	a, c
+	ld	l, 1
+	xor	a, l
 	bit	0, a
-	jq	nz, BB1_47
-	ld	hl, (ix + -31)
-	ld	a, c
-	ld	bc, (ix + -9)
+	jq	nz, BB1_44
+	ld	hl, (ix + -15)
+	ld	bc, (ix + -12)
 	or	a, a
 	sbc	hl, bc
-	ld	c, a
-	jq	nz, BB1_42
-BB1_47:
-	ld	hl, (ix + -12)
+	ld	bc, 5
+	jq	nz, BB1_40
+BB1_44:
+	push	iy
+	ld	hl, (ix + -9)
 	push	hl
 	push	de
-	ld	hl, (ix + -28)
-	push	hl
 	call	_optix_FindNearestElement
-	ld	c, 1
+	ld	bc, 5
 	pop	de
 	pop	de
+	pop	de
+	push	hl
 	pop	de
 	add	hl, bc
 	or	a, a
 	sbc	hl, bc
-	jq	z, BB1_50
-	ld	iy, (_current_context)
-BB1_49:
-	ld	iy, (iy + 3)
-	ld	(iy + 3), 0
-	push	hl
+	jq	z, BB1_46
+BB1_45:
+	push	de
 	call	_optix_SetCurrentSelection
+	ld	bc, 5
 	pop	hl
-	ld	c, 1
-BB1_50:
+BB1_46:
 	ld	iy, (_current_context)
 	ld	iy, (iy + 9)
 	ld	hl, (iy + 51)
-	ld	de, 5
 	or	a, a
-	sbc	hl, de
-	jq	nz, BB1_52
+	sbc	hl, bc
+	jq	nz, BB1_48
 	ld	hl, 4
 	ld	(iy + 51), hl
-BB1_52:
-	ld	a, (ix + -25)
+BB1_48:
+	ld	a, (ix + -28)
 	and	a, 1
-	xor	a, c
+	ld	l, 1
+	xor	a, l
 	bit	0, a
-	jq	nz, BB1_67
-	ld	a, (ix + -18)
-	xor	a, c
+	jq	nz, BB1_63
+	ld	a, (ix + -21)
+	xor	a, l
 	ld	l, a
-	ld	a, (ix + -36)
+	ld	a, (ix + -32)
 	and	a, 1
 	ld	e, a
 	ld	a, l
 	or	a, e
-	ld	(ix + -6), a
+	ld	(ix + -21), a
 	ld	iy, (ix + 6)
+	ld	(ix + -3), iy
 	ld	bc, 0
-	ld	de, (ix + -9)
-BB1_54:
+BB1_50:
+	ld	de, (ix + -12)
 	push	de
 	pop	hl
+	ld	(ix + -9), bc
 	or	a, a
 	sbc	hl, bc
-	jq	z, BB1_65
-	push	bc
-	pop	de
-	ld	hl, (iy)
-	ld	(ix + -12), hl
+	jq	z, BB1_61
+	ld	hl, (ix + -3)
+	ld	hl, (hl)
+	push	hl
+	pop	iy
 	ld	a, (hl)
 	cp	a, 4
-	jq	nz, BB1_59
-	ld	(ix + -18), iy
-	ld	hl, (ix + -15)
-	push	de
-	pop	bc
+	jq	nz, BB1_55
+	ld	hl, (ix + -18)
+	ld	bc, (ix + -9)
+	or	a, a
+	sbc	hl, bc
+	ld	l, 1
+	jq	z, BB1_54
+	ld	l, 0
+BB1_54:
+	ld	a, (ix + -21)
+	and	a, l
+	and	a, 1
+	jq	BB1_59
+BB1_55:
+	cp	a, 5
+	jq	nz, BB1_60
+	ld	hl, (ix + -18)
+	ld	bc, (ix + -9)
 	or	a, a
 	sbc	hl, bc
 	ld	l, 1
 	jq	z, BB1_58
 	ld	l, 0
 BB1_58:
-	ld	a, (ix + -6)
+	ld	a, (ix + -21)
 	and	a, l
+	ld	hl, (iy + 30)
+	lea	de, iy + 0
 	and	a, 1
-	ld	iy, (ix + -12)
-	jq	BB1_63
+	push	hl
+	pop	iy
+	ld	(iy + 14), a
+	push	de
+	pop	iy
 BB1_59:
-	cp	a, 5
-	jq	nz, BB1_64
-	ld	(ix + -18), iy
-	ld	hl, (ix + -15)
-	push	de
-	pop	bc
-	or	a, a
-	sbc	hl, bc
-	ld	l, 1
-	jq	z, BB1_62
-	ld	l, 0
-BB1_62:
-	ld	a, (ix + -6)
-	and	a, l
-	ld	hl, (ix + -12)
-	push	hl
-	pop	iy
-	ld	iy, (iy + 30)
-	and	a, 1
 	ld	(iy + 14), a
-	push	hl
-	pop	iy
-BB1_63:
-	ld	(iy + 14), a
-	ld	iy, (ix + -18)
-BB1_64:
-	push	de
-	pop	bc
+BB1_60:
+	ld	bc, (ix + -9)
 	inc	bc
+	ld	iy, (ix + -3)
 	lea	iy, iy + 3
-	ld	de, (ix + -9)
-	jq	BB1_54
-BB1_65:
-	ld	hl, (ix + -31)
+	ld	(ix + -3), iy
+	jq	BB1_50
+BB1_61:
+	ld	hl, (ix + -15)
 	or	a, a
 	sbc	hl, de
-	jq	z, BB1_67
+	jq	z, BB1_63
 	ld	bc, 3
-	ld	hl, (ix + -15)
+	ld	hl, (ix + -18)
 	call	__imulu
 	push	hl
 	pop	de
 	ld	iy, (ix + 6)
 	lea	hl, iy + 0
 	add	hl, de
-	ld	(ix + -6), hl
-	ld	hl, (ix + -31)
+	ld	(ix + -3), hl
+	ld	hl, (ix + -15)
 	call	__imulu
 	push	hl
 	pop	de
 	add	iy, de
-	ld	hl, (ix + -21)
+	ld	hl, (ix + -24)
 	push	hl
 	push	iy
-	ld	hl, (ix + -6)
+	ld	hl, (ix + -3)
 	push	hl
 	call	_memmove
 	pop	hl
 	pop	hl
 	pop	hl
-	ld	hl, (ix + -24)
-	ld	iy, (ix + -3)
+	ld	hl, (ix + -27)
+	ld	iy, (ix + -6)
 	ld	(iy + -3), hl
-BB1_67:
+BB1_63:
 	ld	sp, ix
 	pop	ix
 	ret
@@ -607,7 +590,7 @@ _optix_RenderGUI:
 	call	_optix_RenderCursorBackground
 	pop	hl
 	ld	iy, (_current_context)
-	ld	hl, (iy + 12)
+	ld	hl, (iy + 15)
 	push	hl
 	call	_optix_RenderStack
 	pop	hl
@@ -704,8 +687,8 @@ BB4_7:
 	ident	"clang version 12.0.0 (https://github.com/jacobly0/llvm-project 170be88120e3aa88c20eea5615ba76b8f1d6c647)"
 	extern	__Unwind_SjLj_Register
 	extern	__frameset
+	extern	_optix_UpdateInput
 	extern	__indcallhl
-	extern	_kb_Scan
 	extern	_memmove
 	extern	_optix_SetCurrentSelection
 	extern	_optix_HandleShortcuts
@@ -716,4 +699,3 @@ BB4_7:
 	extern	_optix_RenderCursorBackground
 	extern	_optix_RecursiveSetNeedsRedraw
 	extern	_optix_FindNearestElement
-	extern	_os_GetCSC

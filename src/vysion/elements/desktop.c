@@ -85,17 +85,17 @@ void vysion_Desktop(void) {
         .menu = {
             .widget = {
                 .transform = {
-                    .x = 0,
-                    .y = 0,
-                    .width = WINDOW_MANAGER_MENU_ROW_HEIGHT,
+                    .x = 32,
+                    .y = LCD_HEIGHT - TASKBAR_HEIGHT,
+                    .height = WINDOW_MANAGER_MENU_ROW_HEIGHT,
                 },
-                .centering = {.x_centering = OPTIX_CENTERING_LEFT, .y_centering = OPTIX_CENTERING_CENTERED},
+                .centering = {.x_centering = OPTIX_CENTERING_LEFT, .x_offset = 34, .y_centering = OPTIX_CENTERING_BOTTOM},
             },
             .text_centering = {.y_centering = OPTIX_CENTERING_CENTERED, .x_centering = OPTIX_CENTERING_LEFT, .x_offset = 16},
             .sprite_centering = {.x_centering = OPTIX_CENTERING_LEFT, .x_offset = 2, .y_centering = OPTIX_CENTERING_CENTERED},
             .text = NULL,
             .spr = NULL,
-            .columns = 1,
+            .rows = 1,
             .transparent_background = true,
             .hide_selection_box = true,
             //click args

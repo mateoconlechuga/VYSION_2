@@ -125,20 +125,18 @@ void optix_UpdateText_default(struct optix_widget *widget) {
         int max_lines = widget->transform.height / TEXT_SPACING;
         int lines_to_render = max_lines < text->num_lines ? max_lines : text->num_lines;
         //handle the scrolling of the text
-        bool up_pressed = current_context->settings->cursor_active ? (kb_Data[6] & kb_Sub) : (kb_Data[7] & kb_Up);
-        bool down_pressed = current_context->settings->cursor_active ? (kb_Data[6] & kb_Add) : (kb_Data[7] & kb_Down);
-        if (current_context->data->can_press && down_pressed) {
+        bool up_pressed = current_context->settings->cursor_active ? optix_DefaultKeyIsDown(KEY_SUB) & KEY_PRESSED : optix_DefaultKeyIsDown(KEY_UP) & KEY_PRESSED;
+        bool down_pressed = current_context->settings->cursor_active ? optix_DefaultKeyIsDown(KEY_ADD) & KEY_PRESSED : optix_DefaultKeyIsDown(KEY_DOWN) & KEY_PRESSED;
+        if (down_pressed) {
             text->min = text->min < text->num_lines - lines_to_render ? text->min + 1 : text->min;
-            current_context->data->can_press = false;
             widget->state.needs_redraw = true;
-        } else if (current_context->data->can_press && up_pressed) {
+        }
+        if (up_pressed) {
             text->min = text->min > 0 ? text->min - 1 : 0;
-            current_context->data->can_press = false;
             widget->state.needs_redraw = true;
         }
     }
     //all we need to do here is to update the wrap if necessary
-    if (current_context->settings->cursor_active) current_context->data->can_press = !kb_AnyKey();
     if (text->needs_offset_update) optix_WrapText((struct optix_widget *) text);
 }
 

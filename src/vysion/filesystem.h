@@ -102,7 +102,8 @@ struct vysion_file {
     bool deleted;
     gfx_sprite_t *icon;
     //in case this is needed (which is might be)
-    char icon_alternate[258];
+    //char icon_alternate[258];
+    char *icon_alternate;
     //the VYSION type for the variable
     uint8_t vysion_type;
     //the description

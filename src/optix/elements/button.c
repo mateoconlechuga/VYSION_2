@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include <graphx.h>
 #include "../gui_control.h"
+#include "../input.h"
 #include "../shapes.h"
 #include "../cursor.h"
 #include "../util.h"
@@ -17,30 +18,21 @@ void optix_UpdateButton_default(struct optix_widget *widget) {
     //check if the cursor overlaps with it
     if (!widget->state.visible) return;
     //kb_Scan will be called elsewhere
-    if (current_context->data->key == button->alternate_key || kb_Data[6] & kb_Enter || kb_Data[1] & kb_2nd) {
-        if (current_context->data->key == button->alternate_key || (!button->pressed && widget->state.selected && current_context->data->can_press)) {
+    if (current_context->data->key == button->alternate_key || ((optix_DefaultKeyIsDown(KEY_ENTER) & KEY_PRESSED) && widget->state.selected)) {
             if (button->click_action.click_action) button->click_action.click_action(button->click_action.click_args);
-            button->pressed = true;
-            if (!current_context->settings->cursor_active) current_context->data->can_press = false;
-        }
-    } else {
-        if (button->pressed) needs_redraw = true;
-        button->pressed = false;
-        //the color should change back
-    }
+            needs_redraw = true;
+    } else if (optix_DefaultKeyIsDown(KEY_ENTER) & KEY_PRESSED) needs_redraw = true;
     if (optix_CheckTransformOverlap(&current_context->cursor->widget, widget)) {
         if (!widget->state.selected) needs_redraw = true;
         widget->state.selected = true;
         current_context->cursor->state = OPTIX_CURSOR_OVER_ITEM;
     } else {
         if (widget->state.selected) needs_redraw = true;
-        widget->state.selected = button->pressed = false;
+        widget->state.selected = false;
     }
     if (needs_redraw) {
         widget->state.needs_redraw = true;
         optix_RecursiveSetNeedsRedraw(widget->child);
-        //this could cause some issues apparently
-        //optix_RefreshCursorBackground();
     }
 }
 

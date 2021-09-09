@@ -57,6 +57,11 @@ _vysion_InitializeOPTIX:
 	push	hl
 	call	_optix_InitializeData
 	pop	hl
+	ld	iy, (ix + -3)
+	ld	hl, (iy + 12)
+	push	hl
+	call	_optix_InitializeInput
+	pop	hl
 	ld	hl, (ix + -3)
 	push	hl
 	call	_optix_SetContext
@@ -81,5 +86,6 @@ _vysion_InitializeOPTIX:
 	extern	_optix_InitializeColors
 	extern	_optix_InitializeFont
 	extern	_palette
+	extern	_optix_InitializeInput
 	extern	_optix_InitializeSettings
 	extern	_gfx_SetDraw

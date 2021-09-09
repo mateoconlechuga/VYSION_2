@@ -94,9 +94,11 @@ BB1_2:
 	section	.text,"ax",@progbits
 	public	_optix_UpdateMenu_default
 _optix_UpdateMenu_default:
-	ld	hl, -21
+	ld	hl, -15
 	call	__frameset
 	ld	iy, (ix + 6)
+	xor	a, a
+	ld	(ix + -3), a
 	ld	de, (iy + 62)
 	ld	bc, -1
 	push	de
@@ -108,264 +110,157 @@ _optix_UpdateMenu_default:
 BB2_2:
 	lea	de, iy + 0
 	ld	iy, (_current_context)
-	lea	bc, iy + 0
 	ld	iy, (iy + 9)
-	ld	(ix + -3), iy
 	ld	hl, (iy + 54)
 	or	a, a
 	sbc	hl, de
-	jq	z, BB2_8
+	jq	nz, BB2_5
+BB2_3:
+	ld	iy, (ix + 6)
+	ld	(iy + 65), 0
+	or	a, a
+	sbc	hl, hl
+	push	hl
+	call	_optix_DefaultKeyIsDown
+	pop	hl
+	and	a, 1
+	ld	c, 1
+	xor	a, c
+	bit	0, a
+	jq	z, BB2_10
+	or	a, a
+	sbc	hl, hl
+	push	hl
+	call	_optix_DefaultKeyIsDown
+	ld	c, 1
+	pop	hl
+	bit	2, a
+	ld	iy, (ix + 6)
+	jq	nz, BB2_14
+	jq	BB2_15
+BB2_5:
 	ld	hl, (ix + 6)
 	push	hl
-	ld	hl, (ix + -3)
-	push	hl
+	push	iy
 	call	_optix_CheckTransformOverlap
 	pop	hl
 	pop	hl
-	ld	e, 1
-	xor	a, e
-	bit	0, a
-	jq	nz, BB2_5
-	ld	hl, (_current_context)
-	push	hl
-	pop	bc
-	ld	hl, (hl)
-	ld	a, (hl)
-	xor	a, e
-	bit	0, a
-	jq	z, BB2_8
-BB2_5:
-	ld	hl, -1
-	ld	iy, (ix + 6)
-	ld	a, (iy + 14)
-	xor	a, e
+	ld	c, 1
+	xor	a, c
 	bit	0, a
 	jq	nz, BB2_7
-	ld	(iy + 65), 1
-BB2_7:
-	ld	(iy + 62), hl
-	ld	(iy + 14), 0
-	jq	BB2_87
-BB2_8:
-	ld	(ix + -3), bc
-	ld	hl, -720868
-	ld.sis	bc, 1
-	ld	iy, (ix + 6)
-	ld	(iy + 65), 0
-	push	de
-	ld	e, (hl)
-	inc	hl
-	ld	d, (hl)
-	ld	l, e
-	ld	h, d
-	pop	de
-	call	__sand
-	ld	a, l
-	xor	a, c
-	xor	a, c
-	bit	0, a
-	jq	nz, BB2_13
-	ld	hl, -720878
-	push	de
-	ld	e, (hl)
-	inc	hl
-	ld	d, (hl)
-	ld	l, e
-	ld	h, d
-	pop	de
-	ld	a, l
-	bit	5, a
-	jq	nz, BB2_13
-	ld	a, (iy + 81)
-	xor	a, c
-	bit	0, a
-	jq	nz, BB2_12
-	ld	(iy + 17), 1
-BB2_12:
-	ld	(iy + 81), 0
-	jq	BB2_23
-BB2_13:
-	ld	a, (iy + 81)
-	xor	a, c
-	xor	a, c
-	bit	0, a
-	jq	nz, BB2_23
-	ld	hl, (ix + -3)
+	ld	hl, (_current_context)
 	ld	hl, (hl)
-	ld	e, (hl)
-	ld	a, e
-	xor	a, c
+	ld	a, (hl)
 	xor	a, c
 	bit	0, a
-	jq	nz, BB2_17
+	jq	z, BB2_3
+BB2_7:
+	ld	de, -1
+	ld	iy, (ix + 6)
 	ld	a, (iy + 14)
 	xor	a, c
 	bit	0, a
-	jq	nz, BB2_23
-	ld	iy, (ix + -3)
-	ld	iy, (iy + 3)
-	ld	a, (iy + 3)
+	jq	nz, BB2_9
+	ld	(iy + 65), 1
+BB2_9:
+	ld	(iy + 62), de
+	ld	(iy + 14), 0
+	jq	BB2_77
+BB2_10:
 	ld	iy, (ix + 6)
-	xor	a, c
-	bit	0, a
-	jq	nz, BB2_23
-BB2_17:
-	ld	hl, (iy + 82)
+	ld	hl, (iy + 81)
 	add	hl, bc
 	or	a, a
 	sbc	hl, bc
-	jq	z, BB2_21
-	ld	a, (iy + 88)
+	jq	z, BB2_14
+	ld	a, (iy + 87)
 	xor	a, c
 	bit	0, a
 	lea	de, iy + 0
-	jq	z, BB2_20
-	ld	de, (iy + 85)
-BB2_20:
+	jq	z, BB2_13
+	ld	de, (iy + 84)
+BB2_13:
 	push	de
 	call	__indcallhl
 	ld	iy, (ix + 6)
 	pop	hl
-	ld	hl, (_current_context)
-	ld	(ix + -3), hl
-	ld	hl, (hl)
-	ld	e, (hl)
 	ld	c, 1
-BB2_21:
-	ld	(iy + 81), 1
-	ld	a, e
-	xor	a, c
-	xor	a, c
-	bit	0, a
-	jq	nz, BB2_23
-	ld	iy, (ix + -3)
-	ld	iy, (iy + 3)
-	ld	(iy + 3), 0
-	ld	iy, (ix + 6)
-BB2_23:
+BB2_14:
+	ld	(iy + 17), 1
+BB2_15:
 	ld	a, (iy + 14)
 	xor	a, c
-	ld	hl, (ix + -3)
+	lea	de, iy + 0
+	ld	hl, (_current_context)
+	ld	(ix + -6), hl
 	ld	hl, (hl)
 	ld	l, (hl)
 	xor	a, c
 	bit	0, a
-	jq	nz, BB2_26
+	jq	nz, BB2_18
 	ld	a, l
 	xor	a, c
 	bit	0, a
-	jq	z, BB2_37
+	jq	z, BB2_23
+	ld	hl, (ix + 6)
+	push	hl
+	pop	bc
+	push	bc
+	pop	iy
 	ld	hl, (iy + 78)
 	ld	(iy + 62), hl
 	ld	(iy + 17), 1
+	push	bc
+	pop	de
 	ld	(iy + 14), 1
-	jq	BB2_27
-BB2_26:
-	ld	(iy + 14), 1
-	ld	a, l
-	xor	a, c
-	bit	0, a
-	jq	z, BB2_38
-BB2_27:
-	lea	de, iy + 0
-	ld	iy, (ix + -3)
-	ld	iy, (iy + 9)
-	ld	hl, (iy + 54)
-	or	a, a
-	sbc	hl, de
-	jq	nz, BB2_74
-	ld	iy, (ix + -3)
-	ld	iy, (iy + 3)
-	ld	a, (iy + 3)
-	xor	a, c
-	bit	0, a
-	jq	nz, BB2_74
-	ld	hl, -720866
-	push	hl
-	pop	de
-	push	de
-	ld	e, (hl)
-	inc	hl
-	ld	d, (hl)
-	ld	l, e
-	ld	h, d
-	pop	de
-	ld	a, l
-	or	a, a
-	jq	z, BB2_74
-	push	de
-	pop	hl
-	push	de
-	ld	e, (hl)
-	inc	hl
-	ld	d, (hl)
-	ld	l, e
-	ld	h, d
-	pop	de
-	ld	a, l
-	bit	3, a
-	ld	(ix + -6), iy
-	jq	nz, BB2_56
-	push	de
-	pop	hl
-	push	de
-	ld	e, (hl)
-	inc	hl
-	ld	d, (hl)
-	ld	l, e
-	ld	h, d
-	pop	de
-	ld.sis	bc, 1
-	call	__sand
-	ld	a, l
-	xor	a, c
-	bit	0, a
-	jq	z, BB2_58
-	ld	a, 1
+	jq	BB2_19
+BB2_18:
 	push	de
 	pop	iy
-	ld	l, (iy)
-	ld	h, (iy + 1)
-	bit	1, l
-	ld	b, 0
-	jq	z, BB2_34
+	ld	(iy + 14), 1
+	ld	a, l
+	xor	a, c
+	bit	0, a
+	jq	z, BB2_24
+BB2_19:
+	ld	iy, (ix + -6)
+	ld	iy, (iy + 9)
+	ld	hl, (iy + 54)
+	push	de
+	pop	iy
+	or	a, a
+	sbc	hl, de
+	jq	nz, BB2_64
+	ld	hl, 1
+	push	hl
+	call	_optix_DefaultKeyIsDown
+	pop	hl
+	ld	hl, 2
+	and	a, 1
+	ld	e, 1
+	xor	a, e
+	bit	0, a
+	ld	a, 0
+	ld	c, a
+	jq	nz, BB2_43
+	ld	iy, (ix + 6)
+	ld	hl, (iy + 62)
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	jq	z, BB2_38
+	ld	c, 0
+	jq	BB2_39
+BB2_23:
 	ld	hl, (ix + 6)
 	push	hl
 	pop	iy
-	ld	de, (iy + 62)
-	ld	bc, (iy + 72)
-	ld	iy, -720866
-	push	de
-	pop	hl
-	call	__irems
-	ld	c, 1
-	add	hl, bc
-	or	a, a
-	sbc	hl, bc
-	ld	b, a
-	jq	nz, BB2_88
-BB2_34:
-	ld	l, (iy)
-	ld	h, (iy + 1)
-	bit	2, l
-	ld	iy, (ix + 6)
-	jq	z, BB2_69
-	ld	de, (iy + 62)
-	inc	de
-	ld	bc, (iy + 72)
-	push	de
-	pop	hl
-	call	__irems
-	ld	c, 1
-	add	hl, bc
-	or	a, a
-	sbc	hl, bc
-	ld	b, a
-	jq	z, BB2_69
-	jq	BB2_36
-BB2_37:
+	lea	de, iy + 0
 	ld	(iy + 14), 1
-BB2_38:
+BB2_24:
+	push	de
+	pop	iy
 	ld	bc, (iy + 72)
 	ld	l, (iy + 7)
 	ld	h, (iy + 8)
@@ -379,10 +274,9 @@ BB2_38:
 	pop	iy
 	ld	hl, 1
 	call	__irems
-	ld	(ix + -9), hl
-	ld	(ix + -6), iy
+	ld	(ix + -6), hl
+	ld	(ix + -3), iy
 	lea	hl, iy + 0
-	ld	(ix + -12), bc
 	call	__imulu
 	push	hl
 	pop	bc
@@ -391,161 +285,127 @@ BB2_38:
 	sbc	hl, bc
 	push	hl
 	pop	de
-	ld	hl, (ix + -9)
+	ld	hl, (ix + -6)
 	add	hl, bc
 	or	a, a
 	sbc	hl, bc
 	ex	de, hl
-	jq	z, BB2_40
+	jq	z, BB2_26
 	or	a, a
 	sbc	hl, hl
-BB2_40:
-	ld	de, (ix + -6)
+BB2_26:
+	ld	de, (ix + -3)
 	add	hl, de
-	ld	(ix + -6), hl
+	ld	(ix + -3), hl
 	ld	iy, (ix + 6)
 	ld	bc, (iy + 69)
 	ld	a, (iy + 9)
-	ld	de, 0
-	ld	e, a
-	push	de
-	pop	hl
+	or	a, a
+	sbc	hl, hl
+	ld	l, a
 	call	__idivs
-	push	bc
+	ld	(ix + -6), hl
+	ld	hl, 5
+	push	hl
+	call	_optix_DefaultKeyIsDown
+	pop	hl
+	and	a, 1
+	ld	e, 1
+	ld	l, e
+	xor	a, l
+	bit	0, a
+	jq	z, BB2_29
+	ld	hl, 6
+	push	hl
+	call	_optix_DefaultKeyIsDown
+	pop	hl
+	and	a, 1
+	ld	l, 1
+	xor	a, l
+	ld	iy, (ix + 6)
+	ld	hl, (iy + 66)
+	ld	de, (iy + 72)
+	bit	0, a
+	jq	z, BB2_32
+	ld	(ix + -12), hl
+	ld	(ix + -15), de
+	lea	de, iy + 0
+	ld	bc, 255
+	jq	BB2_37
+BB2_29:
+	ld	hl, (ix + 6)
+	push	hl
 	pop	iy
-	dec	iy
+	ld	de, (iy + 66)
+	ld	bc, (iy + 72)
+	push	bc
+	pop	hl
+	ld	(ix + -12), de
+	add	hl, de
+	ex	de, hl
+	ld	iy, (ix + 6)
+	ld	hl, (iy + 75)
 	ld	(ix + -9), hl
+	ld	iy, (ix + 6)
+	ld	hl, (iy + 69)
+	dec	hl
+	ld	(ix + -15), bc
 	call	__imulu
 	push	hl
 	pop	bc
-	ex	de, hl
-	lea	de, iy + 0
+	ld	hl, (ix + -9)
 	or	a, a
 	sbc	hl, bc
 	push	hl
-	pop	iy
+	pop	bc
 	push	de
 	pop	hl
-	add	hl, bc
 	or	a, a
 	sbc	hl, bc
-	jq	z, BB2_42
-	ld	iy, 0
-BB2_42:
-	ld	bc, (ix + -9)
-	add	iy, bc
-	ld	(ix + -9), iy
-	ld	iy, (ix + -3)
-	ld	iy, (iy + 3)
-	ld	a, (iy + 3)
-	ld	l, 1
-	xor	a, l
-	bit	0, a
-	jq	nz, BB2_52
-	ld	(ix + -3), iy
-	ld	iy, -720868
-	ld	l, (iy)
-	ld	h, (iy + 1)
-	ld	a, l
-	bit	1, a
-	jq	nz, BB2_48
-	ld	l, (iy)
-	ld	h, (iy + 1)
-	ld	a, l
-	bit	2, a
-	jq	z, BB2_52
-	ld	iy, (ix + 6)
-	ld	hl, (iy + 66)
+	call	__setflag
+	jq	m, BB2_31
 	ld	de, (ix + -12)
+BB2_31:
+	ld	(ix + -12), de
+	ld	hl, (ix + 6)
+	push	hl
+	pop	iy
+	ld	(iy + 66), de
+	jq	BB2_35
+BB2_32:
 	or	a, a
 	sbc	hl, de
+	ld	(ix + -9), de
 	push	hl
 	pop	de
 	ld	bc, 1
 	or	a, a
 	sbc	hl, bc
 	call	__setflag
-	jq	p, BB2_47
+	jq	p, BB2_34
 	ld	de, 0
-BB2_47:
+BB2_34:
+	ld	(ix + -12), de
 	ld	(iy + 66), de
-	lea	hl, iy + 0
-	jq	BB2_51
-BB2_48:
-	ld	hl, (ix + 6)
-	push	hl
-	pop	iy
-	ld	iy, (iy + 66)
-	ld	(ix + -21), iy
-	ld	bc, (ix + -12)
-	add	iy, bc
-	ld	(ix + -18), iy
-	push	hl
-	pop	iy
-	ld	hl, (iy + 75)
+	ld	hl, (ix + -9)
 	ld	(ix + -15), hl
-	ex	de, hl
-	call	__imulu
-	push	hl
-	pop	de
-	ld	hl, (ix + -15)
-	or	a, a
-	sbc	hl, de
-	push	hl
-	pop	de
-	ld	iy, (ix + -18)
-	lea	hl, iy + 0
-	or	a, a
-	sbc	hl, de
-	call	__setflag
-	lea	de, iy + 0
-	jq	m, BB2_50
-	ld	de, (ix + -21)
-BB2_50:
-	ld	hl, (ix + 6)
-	push	hl
-	pop	iy
-	ld	(iy + 66), de
-BB2_51:
-	ld	iy, (ix + -3)
-	ld	(iy + 3), 0
-	push	hl
-	pop	iy
-	ld	(iy + 17), 1
-BB2_52:
-	call	_kb_AnyKey
-	or	a, a
-	jq	z, BB2_54
-	ld	a, 0
-	jq	BB2_55
-BB2_54:
-	ld	a, 1
-BB2_55:
+BB2_35:
 	ld	bc, 255
-	ld	iy, (_current_context)
-	ld	hl, (iy + 3)
+	ld	(iy + 17), 1
 	lea	de, iy + 0
-	and	a, 1
-	push	hl
-	pop	iy
-	ld	(iy + 3), a
-	ld	hl, (ix + 6)
-	push	hl
-	pop	iy
-	ld	hl, (iy + 66)
-	ld	(ix + -3), hl
+BB2_37:
+	ld	iy, (_current_context)
+	ld	iy, (iy + 9)
+	ld	(ix + -9), iy
+	ld	hl, (iy + 4)
 	push	de
 	pop	iy
-	ld	iy, (iy + 9)
-	ld	(ix + -12), iy
-	ld	hl, (iy + 4)
-	ld	iy, (ix + 6)
 	ld	de, (iy + 4)
 	or	a, a
 	sbc	hl, de
 	push	hl
 	pop	de
-	ld	hl, (ix + -9)
+	ld	hl, (ix + -6)
 	call	__iand
 	push	hl
 	pop	bc
@@ -553,10 +413,10 @@ BB2_55:
 	call	__idivs
 	push	hl
 	pop	bc
-	ld	hl, (iy + 72)
+	ld	hl, (ix + -15)
 	call	__imulu
-	ld	(ix + -9), hl
-	ld	iy, (ix + -12)
+	ld	(ix + -6), hl
+	ld	iy, (ix + -9)
 	ld	hl, (iy + 1)
 	ld	iy, (ix + 6)
 	ld	de, (iy + 1)
@@ -564,7 +424,7 @@ BB2_55:
 	sbc	hl, de
 	push	hl
 	pop	de
-	ld	hl, (ix + -6)
+	ld	hl, (ix + -3)
 	ld	bc, 65535
 	call	__iand
 	push	hl
@@ -573,26 +433,41 @@ BB2_55:
 	call	__idivs
 	push	hl
 	pop	de
-	ld	bc, (ix + -3)
-	ld	hl, (ix + -9)
+	ld	bc, (ix + -12)
+	ld	hl, (ix + -6)
 	add	hl, bc
 	add	hl, de
 	push	hl
 	pop	bc
-	jq	BB2_75
-BB2_56:
-	ld	iy, (ix + 6)
-	ld	hl, (iy + 62)
-	add	hl, bc
+	jq	BB2_65
+BB2_38:
+	ld	c, 1
+BB2_39:
+	ld	de, 0
+	bit	0, c
+	jq	nz, BB2_42
+	ld	de, (iy + 72)
 	or	a, a
-	sbc	hl, bc
-	jq	z, BB2_60
-	ld	e, 0
-	jq	BB2_61
-BB2_58:
-	ld	hl, (ix + 6)
+	sbc	hl, de
 	push	hl
-	pop	iy
+	pop	de
+BB2_42:
+	ld	(iy + 62), de
+	ld	a, 1
+	ld	(ix + -3), a
+	ld	hl, 2
+BB2_43:
+	ld	(ix + -6), c
+	push	hl
+	call	_optix_DefaultKeyIsDown
+	pop	hl
+	and	a, 1
+	ld	l, 1
+	xor	a, l
+	ld	hl, 3
+	bit	0, a
+	jq	nz, BB2_51
+	ld	iy, (ix + 6)
 	ld	de, (iy + 62)
 	ld	bc, (iy + 75)
 	dec	bc
@@ -600,83 +475,129 @@ BB2_58:
 	pop	hl
 	or	a, a
 	sbc	hl, bc
-	jq	z, BB2_64
-	ld	l, 0
-	jq	BB2_65
-BB2_60:
-	ld	e, 1
-BB2_61:
-	ld	a, e
-	and	a, 1
-	ld	b, a
-	bit	0, e
-	ld	de, 0
-	jq	nz, BB2_63
-	ld	iy, (ix + 6)
-	ld	de, (iy + 72)
-	or	a, a
-	sbc	hl, de
-	push	hl
-	pop	de
-	jq	BB2_63
-BB2_64:
-	ld	l, 1
-BB2_65:
-	ld	a, l
-	and	a, 1
-	ld	b, a
-	bit	0, l
-	ld	c, 1
-	jq	z, BB2_67
-BB2_63:
-	ld	iy, (ix + 6)
-BB2_68:
+	jq	z, BB2_46
+	ld	a, 0
+	jq	BB2_47
+BB2_46:
+	ld	a, 1
+BB2_47:
+	bit	0, a
+	ld	(ix + -6), a
+	jq	nz, BB2_50
+	ld	hl, (iy + 72)
+	add	hl, de
+	ex	de, hl
+BB2_50:
 	ld	(iy + 62), de
-	lea	hl, iy + 0
-	ld	iy, (ix + -6)
-	ld	(iy + 3), 0
+	ld	a, 1
+	ld	(ix + -3), a
+	ld	hl, 3
+BB2_51:
+	push	hl
+	call	_optix_DefaultKeyIsDown
+	pop	hl
+	and	a, 1
+	ld	l, 1
+	xor	a, l
+	bit	0, a
+	jq	nz, BB2_55
+	ld	hl, (ix + 6)
 	push	hl
 	pop	iy
-BB2_69:
+	ld	de, (iy + 62)
+	ld	bc, (iy + 72)
+	push	de
+	pop	hl
+	call	__irems
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	ld	a, 1
+	ld	(ix + -6), a
+	jq	z, BB2_55
+	dec	de
+	ld	iy, (ix + 6)
+	ld	(iy + 62), de
+	xor	a, a
+	ld	(ix + -6), a
+	ld	a, 1
+	ld	(ix + -3), a
+BB2_55:
+	ld	hl, 4
+	push	hl
+	call	_optix_DefaultKeyIsDown
+	pop	hl
+	and	a, 1
+	ld	c, 1
+	xor	a, c
+	bit	0, a
+	ld	iy, (ix + 6)
+	ld	b, (ix + -6)
+	jq	nz, BB2_57
+	ld	de, (iy + 62)
+	inc	de
+	ld	bc, (iy + 72)
+	push	de
+	pop	hl
+	call	__irems
+	ld	c, 1
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	ld	b, 1
+	jq	nz, BB2_58
+BB2_57:
+	ld	a, (ix + -3)
+	xor	a, c
+	bit	0, a
+	jq	z, BB2_59
+	jq	BB2_62
+BB2_58:
+	ld	(iy + 62), de
+	xor	a, a
+	ld	b, a
+BB2_59:
+	ld	a, (iy + 88)
+	xor	a, c
+	bit	0, a
+	jq	nz, BB2_62
 	ld	a, (iy + 89)
 	xor	a, c
-	bit	0, a
-	jq	nz, BB2_72
-	ld	a, (iy + 90)
-	xor	a, c
 	xor	a, c
 	bit	0, a
-	jq	nz, BB2_72
-	lea	de, iy + 0
-	ld	iy, (ix + -3)
-	ld	hl, (iy + 12)
+	jq	nz, BB2_62
+	ld	iy, (_current_context)
+	ld	hl, (iy + 15)
+	ld	de, (ix + 6)
 	push	de
 	push	hl
-	ld	(ix + -3), b
+	ld	(ix + -6), b
 	call	_optix_IntelligentRecursiveSetNeedsRedraw
-	ld	b, (ix + -3)
-	ld	c, 1
-	pop	hl
-	pop	hl
-BB2_72:
-	ld	a, b
-	xor	a, c
-	bit	0, a
-	jq	nz, BB2_74
-	ld	iy, (_current_context)
-	ld	iy, (iy + 3)
-	ld	(iy + 3), 1
-BB2_74:
 	ld	iy, (ix + 6)
+	pop	hl
+	pop	hl
+	bit	0, (ix + -6)
+	jq	nz, BB2_64
+	jq	BB2_63
+BB2_62:
+	bit	0, b
+	jq	nz, BB2_64
+BB2_63:
+	ld	iy, (_current_context)
+	ld	iy, (iy + 9)
+	ld	hl, 4
+	ld	(iy + 51), hl
+	ld	iy, (ix + 6)
+BB2_64:
 	ld	bc, (iy + 62)
-BB2_75:
+BB2_65:
 	ld	de, 0
 	push	bc
 	pop	hl
 	or	a, a
 	sbc	hl, de
 	call	__setflag
-	jq	m, BB2_79
+	jq	m, BB2_69
 	ld	iy, (ix + 6)
 	ld	de, (iy + 75)
 	push	bc
@@ -684,14 +605,14 @@ BB2_75:
 	or	a, a
 	sbc	hl, de
 	call	__setflag
-	jq	m, BB2_78
+	jq	m, BB2_68
 	dec	de
 	push	de
 	pop	bc
-BB2_78:
+BB2_68:
 	push	bc
 	pop	de
-BB2_79:
+BB2_69:
 	ld	iy, (ix + 6)
 	ld	(iy + 62), de
 	ld	bc, (iy + 66)
@@ -700,7 +621,7 @@ BB2_79:
 	or	a, a
 	sbc	hl, bc
 	call	__setflag
-	jq	p, BB2_81
+	jq	p, BB2_71
 	ld	bc, (iy + 72)
 	push	de
 	pop	hl
@@ -711,8 +632,8 @@ BB2_79:
 	pop	hl
 	or	a, a
 	sbc	hl, bc
-	jq	BB2_83
-BB2_81:
+	jq	BB2_73
+BB2_71:
 	ld	hl, (iy + 69)
 	dec	hl
 	ld	(ix + -3), bc
@@ -725,7 +646,7 @@ BB2_81:
 	or	a, a
 	sbc	hl, de
 	call	__setflag
-	jq	p, BB2_84
+	jq	p, BB2_74
 	push	de
 	pop	hl
 	ld	bc, (ix + -9)
@@ -736,16 +657,16 @@ BB2_81:
 	sbc	hl, de
 	ld	de, (ix + -3)
 	call	__imulu
-BB2_83:
+BB2_73:
 	ld	(iy + 66), hl
 	ld	(iy + 17), 1
-BB2_84:
+BB2_74:
 	ld	iy, (iy + 57)
 	lea	hl, iy + 0
 	add	hl, bc
 	or	a, a
 	sbc	hl, bc
-	jq	z, BB2_87
+	jq	z, BB2_77
 	ld	bc, 3
 	ex	de, hl
 	call	__imulu
@@ -757,33 +678,15 @@ BB2_84:
 	add	hl, bc
 	or	a, a
 	sbc	hl, bc
-	jq	z, BB2_87
+	jq	z, BB2_77
 	ld	hl, (iy + 24)
 	push	iy
 	call	__indcallhl
 	pop	hl
-BB2_87:
+BB2_77:
 	ld	sp, ix
 	pop	ix
 	ret
-BB2_67:
-	ld	iy, (ix + 6)
-	ld	hl, (iy + 72)
-	add	hl, de
-	ex	de, hl
-	jq	BB2_68
-BB2_88:
-	dec	de
-	ld	iy, (ix + 6)
-BB2_36:
-	ld	(iy + 62), de
-	lea	hl, iy + 0
-	ld	iy, (ix + -6)
-	ld	(iy + 3), 0
-	push	hl
-	pop	iy
-	ld	b, 0
-	jq	BB2_69
 	section	.text,"ax",@progbits
 
 	section	.text,"ax",@progbits
@@ -914,7 +817,7 @@ BB3_3:
 	ld	l, 1
 	xor	a, l
 	bit	0, a
-	jq	nz, BB3_56
+	jq	nz, BB3_58
 BB3_4:
 	ld	bc, 3
 	ld	de, (iy + 66)
@@ -1001,14 +904,14 @@ BB3_5:
 	pop	af
 	ld	de, (hl)
 	ld	bc, (ix + -3)
-	jq	nz, BB3_58
+	jq	nz, BB3_59
 BB3_10:
 	ld	a, (iy + 14)
 	ld	l, 1
 	xor	a, l
 	bit	0, a
 	ex	de, hl
-	jq	nz, BB3_55
+	jq	nz, BB3_57
 BB3_11:
 	push	ix
 	ld	de, -152
@@ -1021,125 +924,137 @@ BB3_11:
 	or	a, a
 	sbc	hl, de
 	call	__setflag
-	ld	(ix + -3), bc
-	ld	bc, -158
+	ld	de, -158
 	lea	hl, ix + 0
 	push	af
-	add	hl, bc
+	add	hl, de
 	pop	af
-	ld	de, (hl)
-	ld	bc, (ix + -3)
+	ld	hl, (hl)
 	jq	m, BB3_13
-	ld	de, 0
+	ld	hl, 0
 BB3_13:
-	ld	(ix + -113), de
+	ld	(ix + -113), hl
 	push	bc
 	pop	hl
-	ld	(ix + -3), de
 	push	ix
-	ld	de, -152
-	add	ix, de
-	ld	bc, (ix + 0)
+	ld	bc, -152
+	add	ix, bc
+	ld	de, (ix + 0)
 	pop	ix
 	or	a, a
-	sbc	hl, bc
+	sbc	hl, de
 	ld	a, 0
-	ld	de, (ix + -3)
-	jq	nz, BB3_15
-	ld	a, (iy + 81)
-BB3_15:
-	ld	(ix + -104), a
-	ld	a, (iy + 89)
-	bit	0, a
-	jq	z, BB3_16
-	jq	BB3_18
+	jq	nz, BB3_17
+	or	a, a
+	sbc	hl, hl
+	push	hl
+	call	_optix_DefaultKeyIsDown
+	pop	hl
+	bit	1, a
+	ld	a, 1
+	jq	nz, BB3_16
+	ld	a, 0
 BB3_16:
-	ld	(ix + -3), de
-	ld	de, -143
+	ld	iy, (ix + 6)
+BB3_17:
+	and	a, 1
+	ld	(ix + -104), a
+	ld	a, (iy + 88)
+	ld	l, 1
+	xor	a, l
+	xor	a, l
+	bit	0, a
+	ld	a, 1
+	jq	nz, BB3_20
+	ld	de, (iy + 62)
+	ld	bc, -143
 	lea	hl, ix + 0
+	add	hl, bc
+	ld	hl, (hl)
+	or	a, a
+	sbc	hl, de
+	ld	a, 0
+	jq	nz, BB3_20
+	ld	a, (iy + 89)
+BB3_20:
+	ld	(ix + -102), a
+	ld	iy, (ix + -113)
+	lea	hl, iy + 0
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	jq	z, BB3_24
+	lea	de, iy + 0
+	ld	iy, (ix + 6)
+	ld	hl, (iy + 51)
+	push	de
+	pop	iy
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	jq	z, BB3_24
+	push	ix
+	ld	bc, -155
+	add	ix, bc
+	ld	de, (ix + 0)
+	pop	ix
 	add	hl, de
 	ld	hl, (hl)
-	or	a, a
-	sbc	hl, bc
-	ld	de, (ix + -3)
-	jq	nz, BB3_18
-	ld	a, (iy + 90)
-BB3_18:
-	ld	(ix + -102), a
-	push	de
-	pop	hl
 	add	hl, bc
 	or	a, a
 	sbc	hl, bc
-	jq	z, BB3_22
-	ld	hl, (iy + 51)
-	add	hl, bc
-	or	a, a
-	sbc	hl, bc
-	jq	z, BB3_22
-	ld	(ix + -3), de
-	push	ix
-	ld	de, -155
-	add	ix, de
-	ld	bc, (ix + 0)
-	pop	ix
-	add	hl, bc
-	ld	hl, (hl)
-	add	hl, bc
-	or	a, a
-	sbc	hl, bc
-	ld	de, (ix + -3)
-	jq	nz, BB3_21
-BB3_22:
+	jq	nz, BB3_23
+BB3_24:
 	ld	hl, 0
 	ld	(ix + -20), hl
-BB3_23:
-	push	de
-	pop	hl
+BB3_25:
+	lea	hl, iy + 0
 	add	hl, bc
 	or	a, a
 	sbc	hl, bc
-	jq	z, BB3_27
+	jq	z, BB3_29
+	lea	de, iy + 0
+	ld	iy, (ix + 6)
 	ld	hl, (iy + 54)
+	push	de
+	pop	iy
 	add	hl, bc
 	or	a, a
 	sbc	hl, bc
-	jq	z, BB3_27
-	ld	(ix + -3), de
+	jq	z, BB3_29
 	push	ix
-	ld	de, -155
-	add	ix, de
-	ld	bc, (ix + 0)
+	ld	bc, -155
+	add	ix, bc
+	ld	de, (ix + 0)
 	pop	ix
-	add	hl, bc
+	add	hl, de
 	ld	hl, (hl)
 	add	hl, bc
 	or	a, a
 	sbc	hl, bc
-	ld	de, (ix + -3)
-	jq	nz, BB3_26
-BB3_27:
+	jq	nz, BB3_28
+BB3_29:
 	ld	hl, 0
 	ld	(ix + -59), hl
-	ex	de, hl
-BB3_28:
+BB3_30:
+	lea	hl, iy + 0
 	add	hl, bc
 	or	a, a
 	sbc	hl, bc
-	jq	z, BB3_47
+	jq	z, BB3_49
 	ld	bc, -161
-	lea	iy, ix + 0
-	add	iy, bc
-	ld	de, (iy + 0)
-	ld	(hl), de
+	lea	hl, ix + 0
+	add	hl, bc
+	ld	hl, (hl)
+	ld	(iy), hl
 	ld	hl, (ix + -20)
 	add	hl, bc
 	or	a, a
 	sbc	hl, bc
 	ld	a, 1
-	jq	nz, BB3_31
+	jq	nz, BB3_33
 	ld	a, 0
-BB3_31:
+BB3_33:
 	ld	iy, (ix + -113)
 	and	a, 1
 	or	a, a
@@ -1164,7 +1079,7 @@ BB3_31:
 	or	a, a
 	sbc	hl, bc
 	ld	hl, 0
-	jq	z, BB3_38
+	jq	z, BB3_40
 	ld	iy, (ix + 6)
 	ld	hl, (iy + 62)
 	ld	bc, 3
@@ -1181,7 +1096,7 @@ BB3_31:
 	or	a, a
 	sbc	hl, bc
 	ex	de, hl
-	jq	z, BB3_38
+	jq	z, BB3_40
 	push	bc
 	pop	de
 	ld	hl, (ix + -20)
@@ -1190,17 +1105,17 @@ BB3_31:
 	sbc	hl, bc
 	ld	c, 1
 	ld	a, c
-	jq	nz, BB3_35
+	jq	nz, BB3_37
 	ld	a, 0
-BB3_35:
+BB3_37:
 	ld	hl, (ix + -59)
 	add	hl, bc
 	or	a, a
 	sbc	hl, bc
 	ld	l, c
-	jq	nz, BB3_37
+	jq	nz, BB3_39
 	ld	l, 0
-BB3_37:
+BB3_39:
 	ld	iy, (ix + -113)
 	and	a, l
 	ld	l, a
@@ -1214,7 +1129,7 @@ BB3_37:
 	ld	(iy), de
 	ld	iy, (ix + 6)
 	ld	hl, (iy + 57)
-BB3_38:
+BB3_40:
 	push	hl
 	pop	bc
 	ld	hl, (ix + -113)
@@ -1228,9 +1143,9 @@ BB3_38:
 	sbc	hl, bc
 	ld	e, 1
 	ld	a, e
-	jq	nz, BB3_40
+	jq	nz, BB3_42
 	ld	a, 0
-BB3_40:
+BB3_42:
 	and	a, 1
 	ld	hl, (ix + -59)
 	add	hl, bc
@@ -1238,9 +1153,9 @@ BB3_40:
 	sbc	hl, bc
 	ld	l, e
 	ld	iy, 0
-	jq	nz, BB3_42
+	jq	nz, BB3_44
 	ld	l, 0
-BB3_42:
+BB3_44:
 	lea	de, iy + 0
 	ld	e, a
 	ld	a, l
@@ -1256,7 +1171,7 @@ BB3_42:
 	sbc	hl, bc
 	ld	a, 0
 	ld	l, a
-	jq	z, BB3_46
+	jq	z, BB3_48
 	ld	bc, -167
 	lea	hl, ix + 0
 	add	hl, bc
@@ -1275,15 +1190,15 @@ BB3_42:
 	sbc	hl, bc
 	ld	a, 1
 	ld	l, a
-	jq	nz, BB3_45
+	jq	nz, BB3_47
 	ld	a, 0
 	ld	l, a
-BB3_45:
+BB3_47:
 	ld	bc, -167
 	lea	iy, ix + 0
 	add	iy, bc
 	ld	iy, (iy + 0)
-BB3_46:
+BB3_48:
 	ld	bc, 1
 	call	__iand
 	push	hl
@@ -1302,9 +1217,11 @@ BB3_46:
 	add	iy, de
 	ld	hl, 0
 	ld	(iy), hl
-	ld	iy, (ix + 6)
 	ld	bc, (ix + -3)
-BB3_47:
+BB3_49:
+	ld	hl, (ix + 6)
+	push	hl
+	pop	iy
 	ld	hl, (iy + 1)
 	push	ix
 	ld	de, -170
@@ -1378,9 +1295,9 @@ BB3_47:
 	add	hl, bc
 	or	a, a
 	sbc	hl, bc
-	jq	z, BB3_49
+	jq	z, BB3_51
 	ld	iy, 0
-BB3_49:
+BB3_51:
 	ld	bc, -176
 	lea	hl, ix + 0
 	add	hl, bc
@@ -1417,7 +1334,9 @@ BB3_49:
 	ld	iy, (ix + 0)
 	pop	ix
 	ld	(iy + 1), hl
-	ld	iy, (ix + 6)
+	ld	hl, (ix + 6)
+	push	hl
+	pop	iy
 	ld	hl, (iy + 4)
 	push	ix
 	ld	bc, -170
@@ -1449,6 +1368,7 @@ BB3_49:
 	add	ix, de
 	ld	(ix + 0), hl
 	pop	ix
+	lea	hl, iy + 0
 	ld	de, (iy + 69)
 	ld	a, (iy + 9)
 	or	a, a
@@ -1512,9 +1432,9 @@ BB3_49:
 	ld	de, (ix + -3)
 	or	a, a
 	sbc	hl, de
-	jq	z, BB3_51
+	jq	z, BB3_53
 	ld	iy, 0
-BB3_51:
+BB3_53:
 	ld	bc, -152
 	lea	hl, ix + 0
 	add	hl, bc
@@ -1561,7 +1481,7 @@ BB3_51:
 	xor	a, l
 	bit	0, a
 	ld	a, 0
-	jq	nz, BB3_54
+	jq	nz, BB3_56
 	ld	de, (iy + 62)
 	ld	bc, -143
 	lea	hl, ix + 0
@@ -1570,10 +1490,10 @@ BB3_51:
 	or	a, a
 	sbc	hl, de
 	ld	a, 0
-	jq	nz, BB3_54
-	ld	a, (iy + 90)
+	jq	nz, BB3_56
+	ld	a, (iy + 89)
 	xor	a, 1
-BB3_54:
+BB3_56:
 	ld	(ix + -126), a
 	ld	hl, (ix + -113)
 	push	hl
@@ -1598,7 +1518,7 @@ BB3_54:
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
-BB3_55:
+BB3_57:
 	inc	hl
 	push	ix
 	ld	de, -143
@@ -1621,10 +1541,10 @@ BB3_55:
 	add	hl, bc
 	ld	de, (hl)
 	jq	BB3_5
-BB3_58:
+BB3_59:
 	ex	de, hl
-	jq	BB3_55
-BB3_21:
+	jq	BB3_57
+BB3_23:
 	ld	(ix + -20), hl
 	ld	bc, -161
 	lea	hl, ix + 0
@@ -1642,10 +1562,10 @@ BB3_21:
 	ld	hl, (hl)
 	push	hl
 	call	_optix_InitializeWidget
-	ld	iy, (ix + 6)
 	pop	hl
 	pop	hl
 	ld	(ix + -7), 0
+	ld	iy, (ix + 6)
 	ld	a, (iy + 42)
 	ld	(ix + -42), a
 	ld	a, (iy + 43)
@@ -1654,10 +1574,13 @@ BB3_21:
 	ld	(ix + -40), a
 	ld	a, (iy + 45)
 	ld	(ix + -39), a
-	ld	de, (ix + -113)
-	jq	BB3_23
-BB3_26:
+	ld	iy, (ix + -113)
+	jq	BB3_25
+BB3_28:
 	ld	(ix + -59), hl
+	ld	hl, (ix + 6)
+	push	hl
+	pop	iy
 	ld	a, (iy + 60)
 	ld	(ix + -56), a
 	ld	a, (iy + 61)
@@ -1670,9 +1593,9 @@ BB3_26:
 	ld	hl, (hl)
 	push	hl
 	call	_optix_InitializeWidget
+	pop	hl
+	pop	hl
 	ld	iy, (ix + 6)
-	pop	hl
-	pop	hl
 	ld	a, (iy + 46)
 	ld	(ix + -79), a
 	ld	a, (iy + 47)
@@ -1681,8 +1604,8 @@ BB3_26:
 	ld	(ix + -77), a
 	ld	a, (iy + 49)
 	ld	(ix + -76), a
-	ld	hl, (ix + -113)
-	jq	BB3_28
+	ld	iy, (ix + -113)
+	jq	BB3_30
 BB3_6:
 	lea	hl, iy + 0
 	ld	iy, (_current_context)
@@ -1691,7 +1614,7 @@ BB3_6:
 	push	hl
 	pop	iy
 	ld	(iy + 65), 0
-BB3_56:
+BB3_58:
 	ld	sp, ix
 	pop	ix
 	ret
@@ -1702,12 +1625,10 @@ BB3_56:
 	extern	_memset
 	extern	__Unwind_SjLj_Register
 	extern	__frameset
-	extern	_kb_AnyKey
 	extern	_optix_InitializeWidget
 	extern	__indcallhl
 	extern	_optix_IntelligentRecursiveSetNeedsRedraw
 	extern	_optix_InitializeTextTransform
-	extern	__sand
 	extern	_optix_RecursiveAlign
 	extern	__idivs
 	extern	__setflag
@@ -1717,3 +1638,4 @@ BB3_56:
 	extern	__irems
 	extern	__imulu
 	extern	_optix_RecursiveSetNeedsRedraw
+	extern	_optix_DefaultKeyIsDown

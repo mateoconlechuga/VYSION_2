@@ -28,17 +28,11 @@ void optix_UpdateMenu_default(struct optix_widget *widget) {
     if (current_context->cursor->current_selection == widget || (optix_CheckTransformOverlap(&current_context->cursor->widget, widget) && current_context->settings->cursor_active)) {
         //handle if it was pressed
         menu->needs_partial_redraw = false;
-        if (kb_Data[6] & kb_Enter || kb_Data[1] & kb_2nd) {
-            if (!menu->pressed && (current_context->settings->cursor_active || (widget->state.selected && current_context->data->can_press))) {
-                if (menu->click_action.click_action) menu->click_action.click_action(menu->pass_self ? widget : menu->click_action.click_args);
-                //button->state.color = 224;
-                menu->pressed = true;
-                if (!current_context->settings->cursor_active) current_context->data->can_press = false;
-            }
-        } else {
-            if (menu->pressed) widget->state.needs_redraw = true;
-            menu->pressed = false;
-        }
+        if (optix_DefaultKeyIsDown(KEY_ENTER) & KEY_PRESSED) {
+            if (menu->click_action.click_action) menu->click_action.click_action(menu->pass_self ? widget : menu->click_action.click_args);
+            widget->state.needs_redraw = true;
+        } else if (optix_DefaultKeyIsDown(KEY_ENTER) & KEY_RELEASED)
+            widget->state.needs_redraw = true;
         //restore the previous selection if cursor was off
         if (!widget->state.selected && !current_context->settings->cursor_active) {
             menu->selection = menu->last_selection;
@@ -50,39 +44,39 @@ void optix_UpdateMenu_default(struct optix_widget *widget) {
             uint16_t option_width = optix_GetMenuOptionWidth(0, menu->rows, menu->columns, widget->transform.width, widget->transform.height);
             uint8_t option_height = optix_GetMenuOptionHeight(0, menu->rows, menu->columns, widget->transform.width, widget->transform.height);
             //handle scrolling
-            if (current_context->data->can_press && kb_Data[6] & kb_Add) {
+            if (optix_DefaultKeyIsDown(KEY_ADD) & KEY_PRESSED) {
                 menu->min = menu->min + menu->columns < menu->num_options - (menu->rows - 1) * menu->columns ? menu->min + menu->columns : menu->min;
-                current_context->data->can_press = false;
                 widget->state.needs_redraw = true;
-            } else if (current_context->data->can_press && kb_Data[6] & kb_Sub) {
+            } else if (optix_DefaultKeyIsDown(KEY_SUB) & KEY_PRESSED) {
                 menu->min = menu->min - menu->columns > 0 ? menu->min - menu->columns : 0;
-                current_context->data->can_press = false;
                 widget->state.needs_redraw = true;
             }
-            current_context->data->can_press = !kb_AnyKey();
             menu->selection = menu->min + (((current_context->cursor->widget.transform.y - widget->transform.y) / option_height) * menu->columns + 
             ((current_context->cursor->widget.transform.x - widget->transform.x) / option_width));
         } else if (current_context->cursor->current_selection == widget) {
-            if (current_context->data->can_press && kb_Data[7]) {
-                if (current_context->data->can_press && kb_Data[7] & kb_Up) {
-                    menu->selection = (needs_jump = (menu->selection == 0)) ? 0 : menu->selection - menu->columns;
-                    current_context->data->can_press = false;
-                //we'll initialize the num_options field in the InitializeWidget method, probably
-                } else if (current_context->data->can_press && kb_Data[7] & kb_Down) {
-                    menu->selection = (needs_jump = (menu->selection == menu->num_options - 1)) ? menu->num_options - 1 : menu->selection + menu->columns;
-                    current_context->data->can_press = false;
-                //for both of these, don't do it if at the edge
-                } else if (current_context->data->can_press && kb_Data[7] & kb_Left && !(needs_jump = menu->selection % menu->columns == 0)) {
-                    menu->selection--;
-                    current_context->data->can_press = false;
-                } else if (current_context->data->can_press && kb_Data[7] & kb_Right && !(needs_jump = (((menu->selection + 1) % menu->columns) == 0))) {
-                    menu->selection++;
-                    current_context->data->can_press = false;
-                }
-                //if it's a transparent background we're going to need to redraw things
+            bool key_pressed = false;
+            if (optix_DefaultKeyIsDown(KEY_UP) & KEY_PRESSED) {
+                menu->selection = (needs_jump = (menu->selection == 0)) ? 0 : menu->selection - menu->columns;
+                key_pressed = true;
+            }
+            if (optix_DefaultKeyIsDown(KEY_DOWN) & KEY_PRESSED) {
+                menu->selection = (needs_jump = (menu->selection == menu->num_options - 1)) ? menu->num_options - 1 : menu->selection + menu->columns;
+                key_pressed = true;
+            }
+            //for both of these, don't do it if at the edge
+            if (optix_DefaultKeyIsDown(KEY_LEFT) & KEY_PRESSED && !(needs_jump = menu->selection % menu->columns == 0)) {
+                menu->selection--;
+                key_pressed = true;
+            }
+            if (optix_DefaultKeyIsDown(KEY_RIGHT) & KEY_PRESSED && !(needs_jump = (((menu->selection + 1) % menu->columns) == 0))) {
+                menu->selection++;
+                key_pressed = true;
+            }
+            //if it's a transparent background we're going to need to redraw things
+            if (key_pressed)
                 if (menu->transparent_background && !menu->hide_selection_box) optix_IntelligentRecursiveSetNeedsRedraw(current_context->stack, widget);
-                if (needs_jump) current_context->data->can_press = true;
-            } //else current_context->data->can_press = !kb_AnyKey();
+            //make sure we don't jump out of the menu where applicable
+            if (!needs_jump) current_context->cursor->direction = OPTIX_CURSOR_NO_DIR;
         }
         //scroll if we need to
         //handle out of bounds
@@ -103,7 +97,6 @@ void optix_UpdateMenu_default(struct optix_widget *widget) {
         menu->selection = MENU_NO_SELECTION;
         widget->state.selected = false;
         //make sure we don't run into issues with this
-        //current_context->data->can_press = true;
     }
 }
 
@@ -124,7 +117,7 @@ void optix_RenderMenu_default(struct optix_widget *widget) {
         if (widget->state.needs_redraw || i == menu->selection || i == menu->last_selection) {
             if (!widget->state.needs_redraw && !widget->state.selected) continue;
             button.widget.child = (i < menu->num_options) ? button_children : NULL;
-            button.pressed = (i == menu->selection && menu->pressed);
+            button.pressed = (i == menu->selection && optix_DefaultKeyIsDown(KEY_ENTER) & KEY_HELD);
             button.transparent_background = menu->transparent_background || (i == menu->selection && menu->hide_selection_box);
             //create that button widget
             //text

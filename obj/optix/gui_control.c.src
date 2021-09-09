@@ -27,10 +27,9 @@ _optix_InitializeSettings:
 _optix_InitializeData:
 	call	__frameset0
 	ld	iy, (ix + 6)
-	ld	(iy + 3), 1
 	ld	(iy + 2), 0
 	ld	(iy), 1
-	ld	(iy + 4), 0
+	ld	(iy + 3), 0
 	pop	ix
 	ret
 	section	.text,"ax",@progbits

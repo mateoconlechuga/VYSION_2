@@ -40,8 +40,6 @@ struct optix_menu {
     //for partial redraw (overridden if the needs_redraw thing is set)
     int last_selection;
     //array of strings and sprites
-    //press action things
-    bool pressed;
     //you could do some hacky thing with passing the struct to itself or something here
     //or even pointer to the currently selected element
     //up to the programmer, yay

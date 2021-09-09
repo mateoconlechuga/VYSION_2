@@ -3,110 +3,59 @@
 	section	.text,"ax",@progbits
 	public	_optix_UpdateButton_default
 _optix_UpdateButton_default:
-	ld	hl, -6
+	ld	hl, -1
 	call	__frameset
 	ld	iy, (ix + 6)
-	ld	d, 0
+	ld	de, 0
 	ld	a, (iy + 15)
-	ld	e, 1
-	xor	a, e
+	ld	l, 1
+	xor	a, l
 	bit	0, a
-	jq	nz, BB0_23
-	lea	hl, iy + 0
+	jq	nz, BB0_14
 	ld	iy, (_current_context)
-	ld	(ix + -3), iy
 	ld	iy, (iy + 3)
-	ld	(ix + -6), iy
-	ld	a, (iy + 4)
-	push	hl
-	pop	iy
+	ld	a, (iy + 3)
+	ld	iy, (ix + 6)
 	ld	l, (iy + 37)
 	cp	a, l
-	jq	nz, BB0_6
-BB0_2:
-	ld	(ix + -6), d
+	jq	z, BB0_5
+	push	de
+	call	_optix_DefaultKeyIsDown
+	ld	bc, 0
+	ld	e, 1
+	ld	iy, (ix + 6)
+	pop	hl
+	and	a, 1
+	xor	a, e
+	bit	0, a
+	jq	nz, BB0_4
+	ld	a, (iy + 14)
+	xor	a, e
+	bit	0, a
+	jq	z, BB0_5
+BB0_4:
+	push	bc
+	call	_optix_DefaultKeyIsDown
+	pop	hl
+	and	a, 1
+	ld	(ix + -1), a
+	jq	BB0_8
+BB0_5:
+	ld	a, 1
+	ld	(ix + -1), a
 	ld	hl, (iy + 30)
 	add	hl, bc
 	or	a, a
 	sbc	hl, bc
-	jq	z, BB0_4
+	jq	z, BB0_8
 	ld	de, (iy + 33)
 	push	de
 	call	__indcallhl
-	ld	e, 1
-	ld	iy, (ix + 6)
 	pop	hl
-	ld	hl, (_current_context)
-	ld	(ix + -3), hl
-BB0_4:
-	ld	(iy + 36), 1
-	ld	hl, (ix + -3)
-	ld	hl, (hl)
-	ld	a, (hl)
-	xor	a, e
-	xor	a, e
-	bit	0, a
-	jq	nz, BB0_16
-	ld	iy, (ix + -3)
-	ld	iy, (iy + 3)
-	ld	(iy + 3), 0
-	ld	iy, (ix + 6)
-	jq	BB0_16
-BB0_6:
-	ld	hl, -720868
-	ld.sis	bc, 1
-	push	de
-	ld	e, (hl)
-	inc	hl
-	ld	d, (hl)
-	ld	l, e
-	ld	h, d
-	pop	de
-	call	__sand
-	ld	a, l
-	xor	a, e
-	xor	a, e
-	bit	0, a
-	jq	nz, BB0_9
-	ld	hl, -720878
-	push	de
-	ld	e, (hl)
-	inc	hl
-	ld	d, (hl)
-	ld	l, e
-	ld	h, d
-	pop	de
-	ld	a, l
-	bit	5, a
-	jq	nz, BB0_9
-	ld	a, (iy + 36)
-	ld	(ix + -6), a
-	ld	(iy + 36), 0
-	jq	BB0_16
-BB0_9:
-	ld	a, (iy + 36)
-	xor	a, e
-	xor	a, e
-	bit	0, a
-	jq	nz, BB0_15
-	ld	a, (iy + 14)
-	xor	a, e
-	bit	0, a
-	jq	nz, BB0_15
-	lea	hl, iy + 0
-	ld	iy, (ix + -6)
-	ld	a, (iy + 3)
-	push	hl
-	pop	iy
-	xor	a, e
-	bit	0, a
-	jq	z, BB0_2
-BB0_15:
-	ld	(ix + -6), d
-BB0_16:
-	lea	de, iy + 0
-	ld	iy, (ix + -3)
+BB0_8:
+	ld	iy, (_current_context)
 	ld	hl, (iy + 9)
+	ld	de, (ix + 6)
 	push	de
 	push	hl
 	call	_optix_CheckTransformOverlap
@@ -114,10 +63,10 @@ BB0_16:
 	pop	hl
 	pop	hl
 	ld	l, (iy + 14)
-	ld	e, 1
-	xor	a, e
+	ld	c, 1
+	xor	a, c
 	bit	0, a
-	jq	nz, BB0_20
+	jq	nz, BB0_11
 	ld	de, 1
 	ld	(iy + 14), 1
 	ld	iy, (_current_context)
@@ -125,28 +74,27 @@ BB0_16:
 	ld	(iy + 48), de
 	ld	iy, (ix + 6)
 	ld	a, l
-	xor	a, e
+	xor	a, c
 	bit	0, a
-	ld	a, (ix + -6)
-	jq	z, BB0_21
-	jq	BB0_22
-BB0_20:
-	ld	(iy + 36), 0
+	jq	nz, BB0_13
+	ld	a, (ix + -1)
+	jq	BB0_12
+BB0_11:
 	ld	(iy + 14), 0
 	ld	a, l
-	or	a, (ix + -6)
-BB0_21:
-	xor	a, e
+	or	a, (ix + -1)
+BB0_12:
+	xor	a, c
 	bit	0, a
-	jq	nz, BB0_23
-BB0_22:
+	jq	nz, BB0_14
+BB0_13:
 	ld	(iy + 17), 1
 	ld	hl, (iy + 27)
 	push	hl
 	call	_optix_RecursiveSetNeedsRedraw
 	pop	hl
-BB0_23:
-	ld	sp, ix
+BB0_14:
+	inc	sp
 	pop	ix
 	ret
 	section	.text,"ax",@progbits
@@ -293,6 +241,7 @@ BB1_14:
 	extern	_optix_CheckTransformOverlap
 	extern	_current_context
 	extern	__Unwind_SjLj_Register
+	extern	_optix_OutlinedRectangle_WithBevel
 	extern	__Unwind_SjLj_Unregister
 	extern	__frameset
 	extern	_gfx_FillRectangle
@@ -300,6 +249,5 @@ BB1_14:
 	extern	__indcallhl
 	extern	_gfx_SetColor
 	extern	_optix_RecursiveSetNeedsRedraw
-	extern	_optix_OutlinedRectangle_WithBevel
+	extern	_optix_DefaultKeyIsDown
 	extern	_optix_SetTextColor
-	extern	__sand

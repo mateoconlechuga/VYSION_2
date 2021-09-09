@@ -48,12 +48,14 @@ void main(void) {
     struct optix_colors colors;
     struct optix_settings settings;
     struct optix_gui_data data;
+    struct optix_input input;
     //the final context (we'll add the stack last)
     struct optix_context context = {
         .settings = &settings,
         .cursor = &cursor,
         .data = &data,
         .colors = &colors,
+        .input = &input,
     };
     vysion_SetContext(&vysion_context);
     //do filesystem things

@@ -36,6 +36,20 @@ _vysion_SetOP1:
 	section	.text,"ax",@progbits
 
 	section	.text,"ax",@progbits
+	public	_vysion_RunProgramReturn
+_vysion_RunProgramReturn:
+	ld	hl, L_.str
+	push	hl
+	call	_os_PutStrFull
+	pop	hl
+BB1_1:
+	call	_os_GetCSC
+	or	a, a
+	jq	z, BB1_1
+	jp	_main
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
 	public	_vysion_RunProgram
 _vysion_RunProgram:
 	call	__frameset0
@@ -45,41 +59,31 @@ _vysion_RunProgram:
 	call	_os_HomeUp
 	call	_os_DrawStatusBar
 	ld	iy, (ix + 6)
-	ld	a, (iy + 13)
-	ld	iy, (ix + 6)
-	inc	iy
-	push	iy
-	ld	l, a
-	push	hl
-	call	_vysion_SetOP1
-	pop	hl
-	pop	hl
-	ld	de, 277
-	ld	hl, (ix + 6)
-	add	hl, de
-	ld	a, (hl)
+	ld	a, (iy + 22)
 	cp	a, 2
-	jq	nc, BB1_1
-	ld	hl, L_.str.1
+	jq	nc, BB2_2
+	ld	hl, L_.str.2
 	push	hl
 	call	_os_PutStrFull
 	pop	hl
 	ld	iy, -3145600
 	call	_os_NewLine
 	call	_vysion_asm_InstallFixStopHook
-	ld	hl, L_.str
+BB2_2:
+	ld	hl, L_.str.1
 	push	hl
 	call	_os_PutStrFull
 	pop	hl
-	call	_vysion_asm_RunBasicProgram
-	jq	BB1_3
-BB1_1:
-	ld	hl, L_.str
+	ld	hl, (ix + 6)
+	inc	hl
+	ld	de, _vysion_RunProgramReturn
+	push	de
+	ld	de, 0
+	push	de
+	push	de
 	push	hl
-	call	_os_PutStrFull
-	pop	hl
-	call	_vysion_asm_RunAsmProgram
-BB1_3:
+	call	_os_RunPrgm
+	ld	sp, ix
 	pop	ix
 	ret
 	section	.text,"ax",@progbits
@@ -92,11 +96,16 @@ L___const.vysion_SetOP1.temp:
 	section	.rodata,"a",@progbits
 	private	L_.str
 L_.str:
-	db	"Running...",000o
+	db	"Successfully returned.",000o
 
 	section	.rodata,"a",@progbits
 	private	L_.str.1
 L_.str.1:
+	db	"Running...",000o
+
+	section	.rodata,"a",@progbits
+	private	L_.str.2
+L_.str.2:
 	db	"Installing stop hook...",000o
 
 	ident	"clang version 12.0.0 (https://github.com/jacobly0/llvm-project 170be88120e3aa88c20eea5615ba76b8f1d6c647)"
@@ -105,12 +114,13 @@ L_.str.1:
 	extern	__frameset
 	extern	_strcpy
 	extern	_os_PutStrFull
+	extern	_os_RunPrgm
 	extern	_strcat
 	extern	_os_NewLine
-	extern	_vysion_asm_RunAsmProgram
 	extern	_vysion_asm_InstallFixStopHook
-	extern	_vysion_asm_RunBasicProgram
+	extern	_main
 	extern	_gfx_End
+	extern	_os_GetCSC
 	extern	_os_ClrLCD
 	extern	__frameset0
 	extern	_os_DrawStatusBar

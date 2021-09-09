@@ -413,7 +413,7 @@ _vysion_AddFile:
 	pop	de
 	ld	iy, (ix + 6)
 	ld	(iy + 12), hl
-	ld	hl, 284
+	ld	hl, 29
 	push	hl
 	call	_malloc
 	push	hl
@@ -437,7 +437,7 @@ _vysion_AddFile:
 	section	.text,"ax",@progbits
 	public	_vysion_GetFileInfo
 _vysion_GetFileInfo:
-	ld	hl, -6
+	ld	hl, -3
 	call	__frameset
 	call	_ti_CloseAll
 	ld	iy, (ix + 6)
@@ -456,7 +456,7 @@ _vysion_GetFileInfo:
 	pop	hl
 	pop	hl
 	or	a, a
-	jq	z, BB4_16
+	jq	z, BB4_17
 	ld	hl, 0
 	ld	bc, (ix + 6)
 	push	bc
@@ -466,19 +466,15 @@ _vysion_GetFileInfo:
 	ld	(ix + -3), de
 	call	_ti_GetSize
 	pop	de
-	ld	de, 281
 	ld	iy, (ix + 6)
-	add	iy, de
-	ld	(iy), l
-	ld	(iy + 1), h
+	ld	(iy + 26), l
+	ld	(iy + 27), h
 	ld	hl, (ix + -3)
 	push	hl
 	call	_ti_IsArchived
 	pop	de
-	ld	de, 283
 	ld	iy, (ix + 6)
-	add	iy, de
-	ld	a, (iy)
+	ld	a, (iy + 28)
 	add	hl, bc
 	or	a, a
 	sbc	hl, bc
@@ -488,11 +484,9 @@ _vysion_GetFileInfo:
 BB4_3:
 	and	a, -3
 	add	a, l
-	ld	(iy), a
-	ld	iy, (ix + 6)
+	ld	(iy + 28), a
 	ld	a, (iy + 13)
 	cp	a, 5
-	ld	de, 277
 	jq	nz, BB4_5
 	ld	hl, (ix + -3)
 	push	hl
@@ -515,7 +509,6 @@ BB4_5:
 	push	hl
 	call	_vysion_GetFileInfo_Asm
 BB4_7:
-	ld	de, 277
 	ld	iy, (ix + 6)
 	pop	hl
 	pop	hl
@@ -525,10 +518,7 @@ BB4_10:
 	or	a, a
 	sbc	hl, bc
 	jq	nz, BB4_12
-	ld	iy, (ix + 6)
-	add	iy, de
-	ld	a, (iy)
-	ld	iy, (ix + 6)
+	ld	a, (iy + 22)
 	or	a, a
 	sbc	hl, hl
 	ld	l, a
@@ -538,39 +528,40 @@ BB4_10:
 	pop	de
 	ld	hl, L___const.vysion_GetFileInfo.default_icon
 	add	hl, de
-	ld	de, (hl)
-	ld	hl, (ix + -3)
 	jq	BB4_15
 BB4_12:
-	ld	(iy + 20), 16
-	lea	hl, iy + 19
-	ld	(iy + 19), 16
-	add	iy, de
-	ld	a, (iy)
-	cp	a, 2
-	ld	(ix + -6), hl
-	push	hl
-	call	nc, _vysion_ConvertXlibcToPalette
-	pop	hl
 	ld	iy, (ix + 6)
-	ld	hl, (ix + -3)
-	ld	de, (ix + -6)
-BB4_15:
-	ld	(iy + 16), de
+	ld	iy, (iy + 19)
+	ld	(iy + 1), 16
+	ld	iy, (ix + 6)
+	ld	hl, (iy + 19)
+	ld	(hl), 16
+	ld	a, (iy + 22)
+	cp	a, 2
+	jq	c, BB4_14
+	ld	hl, (iy + 19)
 	push	hl
+	call	_vysion_ConvertXlibcToPalette
+	ld	iy, (ix + 6)
+	pop	hl
+BB4_14:
+	lea	hl, iy + 19
+BB4_15:
+	ld	de, (ix + -3)
+	ld	hl, (hl)
+	ld	iy, (ix + 6)
+	ld	(iy + 16), hl
+	push	de
 	call	_ti_Close
 	pop	hl
-BB4_16:
-	ld	sp, ix
+BB4_17:
+	pop	hl
 	pop	ix
 	ret
 BB4_8:
 	cp	a, 21
 	jq	nz, BB4_10
-	ld	iy, (ix + 6)
-	add	iy, de
-	ld	(iy), 6
-	ld	iy, (ix + 6)
+	ld	(iy + 22), 6
 	jq	BB4_10
 	section	.text,"ax",@progbits
 
@@ -1244,27 +1235,27 @@ BB10_5:
 	jq	nz, BB10_8
 	ld	l, 4
 BB10_8:
-	ld	de, 277
-	push	bc
+	ld	de, (ix + 6)
+	lea	bc, iy + 0
+	push	de
 	pop	iy
-	add	iy, de
-	ld	(iy), l
+	ld	(iy + 22), l
 	ld	hl, 20
 	push	hl
 	ld	hl, 16
 	push	hl
-	ld	hl, (ix + 9)
-	push	hl
+	push	bc
 	call	_memchr
 	pop	de
 	pop	de
 	pop	de
 	ld	iy, (ix + 6)
 	ld	(iy + 16), hl
-	ld	de, 258
-	push	de
+	ld	de, (iy + 19)
+	ld	bc, 258
+	push	bc
 	push	hl
-	pea	iy + 19
+	push	de
 	call	_memcpy
 	pop	hl
 BB10_9:
@@ -1277,7 +1268,7 @@ BB10_9:
 	section	.text,"ax",@progbits
 	public	_vysion_GetFileInfo_Basic
 _vysion_GetFileInfo_Basic:
-	ld	hl, -36
+	ld	hl, -33
 	call	__frameset
 	ld	iy, L___const.vysion_GetFileInfo_Basic.palette
 	ld	de, 16
@@ -1336,9 +1327,8 @@ BB11_3:
 	ld	a, 1
 BB11_5:
 	and	a, 1
-	ld	de, 277
-	add	iy, de
-	ld	(iy), a
+	ld	iy, (ix + 6)
+	ld	(iy + 22), a
 	ld	hl, 6
 	push	hl
 	ld	hl, (ix + 9)
@@ -1356,9 +1346,6 @@ BB11_5:
 	ld	iy, (ix + 9)
 	lea	hl, iy + 6
 	ld	(ix + -33), hl
-	ld	iy, (ix + 6)
-	lea	hl, iy + 21
-	ld	(ix + -36), hl
 	ld	de, 256
 	ld	bc, 0
 BB11_8:
@@ -1379,7 +1366,6 @@ BB11_8:
 	ld	(ix + -27), bc
 	call	_strtol
 	ld	bc, (ix + -27)
-	ld	iy, (ix + 6)
 	push	hl
 	pop	de
 	pop	hl
@@ -1389,13 +1375,17 @@ BB11_8:
 	add	hl, de
 	ld	de, 256
 	ld	a, (hl)
-	ld	hl, (ix + -36)
-	add	hl, bc
-	ld	(hl), a
+	ld	iy, (ix + 6)
+	ld	iy, (iy + 19)
+	add	iy, bc
+	ld	(iy + 2), a
 	inc	bc
 	jq	BB11_8
 BB11_9:
-	lea	hl, iy + 19
+	ld	hl, (ix + 6)
+	push	hl
+	pop	iy
+	ld	hl, (iy + 19)
 	ld	(iy + 16), hl
 BB11_11:
 	ld	sp, ix
@@ -1529,22 +1519,27 @@ L___const.vysion_GetFileInfo_Basic.ti_basic_sequence:
 	db	">DCS?*"
 
 	ident	"clang version 12.0.0 (https://github.com/jacobly0/llvm-project 170be88120e3aa88c20eea5615ba76b8f1d6c647)"
-	extern	_memcmp
 	extern	__Unwind_SjLj_Register
 	extern	_icon_ice_data
-	extern	__frameset
 	extern	_malloc
 	extern	_icon_c_data
-	extern	_strcmp
-	extern	_ti_Write
-	extern	_icon_appvar_data
 	extern	_ti_Close
 	extern	_ti_OpenVar
-	extern	_memchr
-	extern	_icon_ices_data
 	extern	_memcpy
 	extern	_ti_Read
 	extern	__setflag
+	extern	_ti_Open
+	extern	_ti_GetSize
+	extern	_ti_DetectAny
+	extern	_vysion_util_GetStringHash
+	extern	_xlibc_condensed_data
+	extern	_realloc
+	extern	__frameset
+	extern	_strcmp
+	extern	_ti_Write
+	extern	_icon_appvar_data
+	extern	_memchr
+	extern	_icon_ices_data
 	extern	_icon_ez80_data
 	extern	_ti_CloseAll
 	extern	__Unwind_SjLj_Unregister
@@ -1553,15 +1548,10 @@ L___const.vysion_GetFileInfo_Basic.ti_basic_sequence:
 	extern	_strcpy
 	extern	__imulu
 	extern	_vysion_ConvertXlibcToPalette
-	extern	_ti_Open
-	extern	_ti_GetSize
-	extern	_ti_DetectAny
-	extern	_vysion_util_GetStringHash
 	extern	_strtol
 	extern	_ti_GetDataPtr
-	extern	_xlibc_condensed_data
 	extern	_ti_IsArchived
-	extern	_realloc
 	extern	_icon_basic_data
 	extern	__frameset0
 	extern	_vysion_asm_SortVAT
+	extern	_memcmp

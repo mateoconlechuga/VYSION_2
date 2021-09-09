@@ -38,49 +38,55 @@ _vysion_SetOP1:
 	section	.text,"ax",@progbits
 	public	_main
 _main:
-	ld	hl, -217
+	ld	hl, -246
 	call	__frameset
-	ld	bc, -196
+	ld	bc, -222
 	lea	iy, ix + 0
 	add	iy, bc
-	ld	bc, -217
+	ld	bc, -246
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	(hl), iy
 	ld	hl, 48
 	lea	de, ix + -54
 	push	ix
-	ld	bc, -199
+	ld	bc, -225
 	add	ix, bc
 	ld	(ix + 0), de
 	pop	ix
 	lea	bc, ix + -114
 	ld	(ix + -3), de
 	push	ix
-	ld	de, -205
+	ld	de, -231
 	add	ix, de
 	ld	(ix + 0), bc
 	pop	ix
-	lea	bc, iy + 26
+	lea	bc, iy + 52
 	push	ix
-	ld	de, -208
+	ld	de, -234
 	add	ix, de
 	ld	(ix + 0), bc
 	pop	ix
-	lea	bc, iy + 24
+	lea	bc, iy + 50
 	push	ix
-	ld	de, -211
+	ld	de, -240
 	add	ix, de
 	ld	(ix + 0), bc
 	pop	ix
-	lea	bc, iy + 15
+	lea	bc, iy + 42
 	push	ix
-	ld	de, -214
+	ld	de, -243
+	add	ix, de
+	ld	(ix + 0), bc
+	pop	ix
+	lea	bc, iy + 18
+	push	ix
+	ld	de, -237
 	add	ix, de
 	ld	(ix + 0), bc
 	pop	ix
 	lea	bc, iy + 0
-	ld	de, -202
+	ld	de, -228
 	lea	iy, ix + 0
 	add	iy, de
 	ld	(iy + 0), bc
@@ -94,55 +100,60 @@ _main:
 	pop	hl
 	pop	hl
 	pop	hl
-	ld	bc, -217
+	ld	bc, -246
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	iy, (hl)
 	push	ix
-	ld	bc, -211
+	ld	bc, -240
 	add	ix, bc
 	ld	hl, (ix + 0)
 	pop	ix
 	ld	(iy + 0), hl
-	ld	bc, -214
+	ld	bc, -243
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
 	ld	(iy + 3), hl
-	ld	bc, -208
+	ld	bc, -234
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
 	ld	(iy + 6), hl
-	ld	bc, -205
+	ld	bc, -231
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
 	ld	(iy + 9), hl
-	ld	hl, 0
+	ld	bc, -237
+	lea	hl, ix + 0
+	add	hl, bc
+	ld	hl, (hl)
 	ld	(iy + 12), hl
-	ld	bc, -199
+	ld	hl, 0
+	ld	(iy + 15), hl
+	ld	bc, -225
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
 	push	hl
 	call	_vysion_SetContext
 	pop	hl
-	ld	bc, -199
+	ld	bc, -225
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
 	push	hl
 	call	_vysion_LoadFilesystem
 	pop	hl
-	ld	bc, -199
+	ld	bc, -225
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
 	push	hl
 	call	_vysion_DetectAllFiles
 	pop	hl
-	ld	bc, -199
+	ld	bc, -225
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
@@ -150,7 +161,7 @@ _main:
 	call	_vysion_DetectAllFolders
 	pop	hl
 	call	_vysion_InitializeGraphics
-	ld	bc, -202
+	ld	bc, -228
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
@@ -163,14 +174,14 @@ _main:
 	push	hl
 	call	_gfx_FillScreen
 	pop	hl
-	ld	bc, -199
+	ld	bc, -225
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
 	push	hl
 	call	_vysion_SaveFilesystem
 	pop	hl
-	ld	bc, -202
+	ld	bc, -228
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)

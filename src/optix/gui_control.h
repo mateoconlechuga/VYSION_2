@@ -4,6 +4,7 @@
 //includes
 #include <stdint.h>
 #include <stdbool.h>
+#include "input.h"
 
 //definitions
 //this is needed
@@ -112,7 +113,6 @@ struct optix_gui_data {
     bool needs_blit;
     //if the font was loaded correctly, if not then the library should just use graphx for the text rendering
     bool font_valid;
-    bool can_press;
     //skKey
     uint8_t key;
     //number of ticks
@@ -125,6 +125,7 @@ struct optix_context {
     struct optix_gui_data *data;
     struct optix_colors *colors;
     struct optix_cursor *cursor;
+    struct optix_input *input;
     struct optix_widget *(*stack)[];
 };
 

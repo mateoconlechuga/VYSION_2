@@ -10,7 +10,7 @@
 
 #define MAX_NUM_WINDOWS                10
 #define WINDOW_MANAGER_MENU_ROW_HEIGHT 16
-#define WINDOW_MANANGER_MENU_WIDTH     50
+#define WINDOW_MANANGER_MENU_WIDTH     56
 
 //window types
 #define WINDOW_FILE_EXPLORER           0

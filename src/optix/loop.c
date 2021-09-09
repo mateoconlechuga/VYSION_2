@@ -5,6 +5,7 @@
 #include <keypadc.h>
 #include "shortcuts.h"
 #include "cursor.h"
+#include "input.h"
 
 //takes an array of optix_widgets as an argument
 //please have a NULL as the last entry in this array, so we'll know when to stop
@@ -14,11 +15,10 @@ void optix_UpdateGUI(void) {
     //so this is the time since it was last called
     current_context->data->ticks = (long) timer_3_Counter;
     timer_3_Counter = 0;
-    current_context->data->key = os_GetCSC();
+    //input things
+    optix_UpdateInput();
     //we need this here unfortunately
     current_context->cursor->state = OPTIX_CURSOR_NORMAL;
-    kb_Scan();
-    //if (!kb_AnyKey()) current_context->data->can_press = true;
     //start with this I suppose
     current_context->cursor->widget.update((struct optix_widget *) current_context->cursor);
     optix_HandleShortcuts(*current_context->stack);
@@ -91,30 +91,11 @@ void optix_UpdateStack_TopLevel(struct optix_widget *(*stack)[]) {
         }
         i++;
     }
-    //we handle this separately now
-    //basically items on the main stack should only be updated if no window is selected
-    //otherwise just update stuff
-    /*while ((*stack)[j]) {
-        switch ((*stack)[j]->type) {
-            case OPTIX_WINDOW_TITLE_BAR_TYPE:
-            case OPTIX_WINDOW_TYPE:
-                if ((*stack)[j]->update) (*stack)[j]->update((*stack)[j]);
-                break;
-            default:
-                //so I think this is how I'm going to handle it:
-                //objects on the master stack (things like the super button or desktop menu in VYSION)
-
-
-        }
-
-    }*/
-
-
     //handle this as well
     //start with this, because why not
     if (current_context->data->gui_needs_full_redraw) optix_RecursiveSetNeedsRedraw(*stack);
     //cursor stuff
-    if (current_context->cursor->direction == OPTIX_CURSOR_FORCE_UPDATE || (!current_context->settings->cursor_active && current_context->data->can_press && current_context->cursor->direction != OPTIX_CURSOR_NO_DIR)) {
+    if (current_context->cursor->direction == OPTIX_CURSOR_FORCE_UPDATE || (!current_context->settings->cursor_active && current_context->cursor->direction != OPTIX_CURSOR_NO_DIR)) {
         //formerly another condition || curr_window_index + 1 != i)
         struct optix_widget *possible_selection = NULL;
         struct optix_widget **search_stack = NULL;
@@ -128,13 +109,7 @@ void optix_UpdateStack_TopLevel(struct optix_widget *(*stack)[]) {
             possible_selection = search_stack[i];
         } else possible_selection = optix_FindNearestElement(current_context->cursor->direction, current_context->cursor->current_selection, search_stack);
         //move the cursor to that position
-        if (possible_selection) {
-            current_context->data->can_press = false;
-            optix_SetCurrentSelection(possible_selection);
-            /*current_context->cursor->current_selection = possible_selection;
-            current_context->cursor->widget.transform.x = current_context->cursor->current_selection->transform.x;
-            current_context->cursor->widget.transform.y = current_context->cursor->current_selection->transform.y;*/
-        }
+        if (possible_selection) optix_SetCurrentSelection(possible_selection);
         if (current_context->cursor->direction == OPTIX_CURSOR_FORCE_UPDATE) current_context->cursor->direction = OPTIX_CURSOR_NO_DIR;
     }
     //if it's already the last entry don't bother

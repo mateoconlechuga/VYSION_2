@@ -262,7 +262,7 @@ BB0_14:
 	push	bc
 	pop	iy
 	ld	iy, (iy + 3)
-	ld	l, (iy + 4)
+	ld	l, (iy + 3)
 	ld	iy, (ix + 6)
 	ld	a, l
 	or	a, a
@@ -424,7 +424,7 @@ BB0_38:
 	ld	hl, (hl)
 	ld	iy, (_current_context)
 	ld	iy, (iy + 3)
-	ld	a, (iy + 4)
+	ld	a, (iy + 3)
 	ld	iy, (ix + 6)
 	ld	de, 0
 	ld	e, a

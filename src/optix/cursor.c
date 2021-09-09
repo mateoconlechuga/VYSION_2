@@ -1,5 +1,7 @@
 #include "cursor.h"
+#include "input.h"
 #include <debug.h>
+
 
 //initialize
 void optix_InitializeCursor(struct optix_widget *widget) {
@@ -35,14 +37,27 @@ void optix_UpdateCursor_default(struct optix_widget *widget) {
     cursor->last_x = transform->x;
     cursor->last_y = transform->y;
     if (current_context->settings->cursor_active) {
-        if (kb_Data[7]) {
-            float seconds_elapsed = ((float) current_context->data->ticks) / ((float) TIMER_FREQUENCY);
+        bool key_pressed = false;
+        float seconds_elapsed = ((float) current_context->data->ticks) / ((float) TIMER_FREQUENCY);
+        if (optix_DefaultKeyIsDown(KEY_UP)) {
+            cursor->true_y -= cursor->current_speed;
+            key_pressed = true;
+        }
+        if (optix_DefaultKeyIsDown(KEY_DOWN)) {
+            cursor->true_y += cursor->current_speed;
+            key_pressed = true;
+        }
+        if (optix_DefaultKeyIsDown(KEY_LEFT)) {
+            cursor->true_x -= cursor->current_speed;
+            key_pressed = true;
+        }
+        if (optix_DefaultKeyIsDown(KEY_RIGHT)) {
+            cursor->true_x += cursor->current_speed;
+            key_pressed = true;
+        }
+        if (key_pressed) {
             cursor->current_speed += OPTIX_CURSOR_ACCELERATION * seconds_elapsed;
             cursor->current_speed = cursor->current_speed > OPTIX_CURSOR_MAX_SPEED ? OPTIX_CURSOR_MAX_SPEED : cursor->current_speed;
-            if (kb_Data[7] & kb_Up)    cursor->true_y -= cursor->current_speed;
-            if (kb_Data[7] & kb_Down)  cursor->true_y += cursor->current_speed;
-            if (kb_Data[7] & kb_Left)  cursor->true_x -= cursor->current_speed;
-            if (kb_Data[7] & kb_Right) cursor->true_x += cursor->current_speed;
             transform->x = (int) cursor->true_x;
             transform->y = (int) cursor->true_y;
             if (transform->x > LCD_WIDTH - OPTIX_CURSOR_RESIZE_WIDTH) transform->x = LCD_WIDTH - OPTIX_CURSOR_RESIZE_WIDTH;
@@ -50,18 +65,13 @@ void optix_UpdateCursor_default(struct optix_widget *widget) {
             if (transform->x < 0) transform->x = 0;
             if (transform->y < 0) transform->y = 0;
         } else current_context->cursor->current_speed = OPTIX_CURSOR_INITIAL_SPEED;
-    } else if (current_context->data->can_press) {
-        //kb_Scan will be called elsewhere
-        if (kb_Data[7] & kb_Up)         cursor->direction = OPTIX_CURSOR_UP;
-        else if (kb_Data[7] & kb_Down)  cursor->direction = OPTIX_CURSOR_DOWN;
-        else if (kb_Data[7] & kb_Left)  cursor->direction = OPTIX_CURSOR_LEFT;
-        else if (kb_Data[7] & kb_Right) cursor->direction = OPTIX_CURSOR_RIGHT;
-        else if (cursor->direction != OPTIX_CURSOR_FORCE_UPDATE) cursor->direction = OPTIX_CURSOR_NO_DIR;
-        if (cursor->direction != OPTIX_CURSOR_NO_DIR) current_context->data->needs_blit = true;
-        //the box-based GUI mode (implement later)
     } else {
-        if (!kb_AnyKey()) current_context->data->can_press = true;
-        if (cursor->direction != OPTIX_CURSOR_FORCE_UPDATE) cursor->direction = OPTIX_CURSOR_NO_DIR;
+        if (cursor->direction != OPTIX_CURSOR_FORCE_UPDATE)  cursor->direction = OPTIX_CURSOR_NO_DIR;
+        if (optix_DefaultKeyIsDown(KEY_UP) & KEY_PRESSED)    cursor->direction = OPTIX_CURSOR_UP;
+        if (optix_DefaultKeyIsDown(KEY_DOWN) & KEY_PRESSED)  cursor->direction = OPTIX_CURSOR_DOWN;
+        if (optix_DefaultKeyIsDown(KEY_LEFT) & KEY_PRESSED)  cursor->direction = OPTIX_CURSOR_LEFT;
+        if (optix_DefaultKeyIsDown(KEY_RIGHT) & KEY_PRESSED) cursor->direction = OPTIX_CURSOR_RIGHT;
+        if (cursor->direction != OPTIX_CURSOR_NO_DIR) current_context->data->needs_blit = true;
     }
 }  
 
@@ -93,17 +103,18 @@ void optix_RenderCursor_default(struct optix_widget *widget) {
         gfx_SetColor(HIGHLIGHT_COLOR_INDEX);
         if (cursor->current_selection->type == OPTIX_WINDOW_TITLE_BAR_TYPE) {
             struct optix_window *window = ((struct optix_window_title_bar *) cursor->current_selection)->window;
-            gfx_Rectangle(transform->x, transform->y, transform->width, transform->height + window->widget.transform.height);
+            gfx_Rectangle(transform->x - 1, transform->y, transform->width + 2, transform->height + window->widget.transform.height + 1);
         } else if (cursor->current_selection->type == OPTIX_MENU_TYPE) {
             struct optix_widget *widget = (struct optix_widget *) cursor->current_selection;
             struct optix_menu *menu = (struct optix_menu *) cursor->current_selection;
             uint16_t width;
             uint8_t height;
-            int x = widget->transform.x + (menu->selection % menu->columns * 
-            (width = optix_GetMenuOptionWidth(menu->selection, menu->rows, menu->columns, widget->transform.width, widget->transform.height)));
+            int selection = menu->selection != -1 ? menu->selection : menu->last_selection;
+            int x = widget->transform.x + (selection % menu->columns * 
+            (width = optix_GetMenuOptionWidth(selection, menu->rows, menu->columns, widget->transform.width, widget->transform.height)));
             //y
-            int y = widget->transform.y + ((menu->selection - menu->min) / menu->columns * 
-            (height = optix_GetMenuOptionHeight(menu->selection, menu->rows, menu->columns, widget->transform.width, widget->transform.height)));
+            int y = widget->transform.y + ((selection - menu->min) / menu->columns * 
+            (height = optix_GetMenuOptionHeight(selection, menu->rows, menu->columns, widget->transform.width, widget->transform.height)));
             /*if (x && x < LCD_WIDTH) {
                 x--;
                 width += 2;

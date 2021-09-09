@@ -3,6 +3,7 @@
 #include <stdint.h>
 #include <graphx.h>
 #include "vysion/gfx/output/vysion_gfx.h"
+#include "../optix/input.h"
 
 //functions
 void vysion_InitializeGraphics(void) {
@@ -19,6 +20,7 @@ void vysion_InitializeOPTIX(struct optix_context *context) {
     optix_InitializeCursor(context->cursor);
     optix_InitializeSettings(context->settings);
     optix_InitializeData(context->data);
+    optix_InitializeInput(context->input);
     optix_SetContext(context);
     optix_InitializeGUIState();
     optix_InitializeFont();

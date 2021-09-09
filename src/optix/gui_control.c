@@ -16,7 +16,6 @@ void optix_InitializeSettings(struct optix_settings *settings) {
 }
 
 void optix_InitializeData(struct optix_gui_data *data) {
-    data->can_press = true;
     data->font_valid = false;
     data->gui_needs_full_redraw = true;
     data->key = 0;
