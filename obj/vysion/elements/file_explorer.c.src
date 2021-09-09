@@ -344,7 +344,7 @@ BB2_5:
 	ld	a, (iy + 17)
 	xor	a, l
 	bit	0, a
-	jq	nz, BB2_13
+	jq	nz, BB2_17
 BB2_7:
 	ld	hl, (_vysion_current_context)
 	push	de
@@ -379,10 +379,9 @@ BB2_7:
 	ld	bc, 3
 	call	__imulu
 	ld	(ix + -9), hl
+	add	hl, bc
+	ld	(ix + -15), hl
 	push	hl
-	pop	iy
-	add	iy, bc
-	push	iy
 	push	de
 	call	_realloc
 	pop	de
@@ -390,23 +389,30 @@ BB2_7:
 	ld	iy, (ix + -3)
 	ld	(iy + 51), hl
 	ld	hl, (iy + 54)
-	ld	(ix + -15), hl
+	ld	de, (ix + -15)
+	push	de
+	push	hl
+	call	_realloc
+	pop	de
+	pop	de
+	ld	iy, (ix + -3)
+	ld	(iy + 54), hl
+	push	hl
+	pop	iy
 	ld	hl, (ix + -12)
 	ld	bc, 3
 	call	__imulu
-	ld	de, 0
-	push	de
-	pop	bc
 	push	hl
 	pop	de
-	ld	hl, (ix + -15)
+	lea	hl, iy + 0
+	add	hl, de
+	ld	bc, 0
+	ld	(hl), bc
+	ld	iy, (ix + -3)
+	ld	hl, (iy + 51)
 	add	hl, de
 	ld	(hl), bc
 	ld	bc, (ix + -9)
-	ld	hl, (iy + 51)
-	add	hl, de
-	ld	de, 0
-	ld	(hl), de
 	or	a, a
 	sbc	hl, hl
 	push	hl
@@ -417,7 +423,7 @@ BB2_8:
 	lea	de, iy + 0
 	or	a, a
 	sbc	hl, de
-	jq	z, BB2_9
+	jq	z, BB2_16
 	lea	de, iy + 0
 	ld	iy, (ix + -18)
 	ld	hl, (iy + 21)
@@ -435,29 +441,40 @@ BB2_8:
 	add	hl, de
 	ld	de, (ix + -12)
 	ld	(hl), de
-	ld	a, (iy)
+	ld	l, (iy)
+	ld	a, l
 	or	a, a
-	jq	nz, BB2_12
-	ld	de, (iy + 16)
+	jq	nz, BB2_11
+	lea	hl, iy + 16
+	jq	BB2_13
+BB2_11:
+	lea	de, iy + 0
+	ld	a, l
+	cp	a, 1
+	ld	iy, (ix + -3)
+	jq	nz, BB2_15
+	push	de
+	pop	iy
+	lea	hl, iy + 18
+BB2_13:
 	ld	iy, (ix + -6)
+	ld	de, (hl)
 	ld	hl, (iy + 54)
-	ld	bc, (ix + -3)
+	ld	iy, (ix + -3)
+	lea	bc, iy + 0
 	add	hl, bc
 	ld	(hl), de
-BB2_12:
+BB2_15:
 	ld	de, 3
-	ld	iy, (ix + -3)
 	add	iy, de
 	ld	bc, (ix + -9)
 	jq	BB2_8
-BB2_9:
+BB2_16:
 	ld	de, (ix + -6)
 	push	de
 	pop	iy
 	ld	(iy + 90), 0
-	ld	hl, 0
-	ld	(iy + 54), hl
-BB2_13:
+BB2_17:
 	ld	(ix + 6), de
 	ld	sp, ix
 	pop	ix

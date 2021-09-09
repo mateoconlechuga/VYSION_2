@@ -197,6 +197,7 @@ void vysion_GetFileInfo(struct vysion_file *file) {
     if ((slot = ti_OpenVar(file->save.widget.name, "r", file->save.ti_type))) {
         //generic things
         file->icon = NULL;
+        file->custom_icon = false;
         file->size = ti_GetSize(slot);
         file->archived = ti_IsArchived(slot);
         //now get more information
@@ -204,15 +205,12 @@ void vysion_GetFileInfo(struct vysion_file *file) {
         else if (file->save.ti_type == TI_PRGM_TYPE) vysion_GetFileInfo_Basic(file, ti_GetDataPtr(slot));
         else if (file->save.ti_type == TI_APPVAR_TYPE) file->vysion_type = VYSION_APPVAR_TYPE;
         //if the file icon hasn't been set then assign it one of the default ones
-        if (!file->icon)
+        if (!file->custom_icon) {
             file->icon = default_icon[file->vysion_type];
-        else {
+        } else {
             //convert it
-            //memcpy(file->icon_alternate, file->icon, 258);
-            file->icon_alternate[0] = file->icon_alternate[1] = 0x10;
             if (file->vysion_type != VYSION_BASIC_TYPE && file->vysion_type != VYSION_PROTECTED_BASIC_TYPE)
-                vysion_ConvertXlibcToPalette(file->icon_alternate);
-            file->icon = (gfx_sprite_t *) file->icon_alternate;
+                vysion_ConvertXlibcToPalette(file->icon);
         }
         //close that slot
         ti_Close(slot);
@@ -221,6 +219,7 @@ void vysion_GetFileInfo(struct vysion_file *file) {
 
 //takes a pointer to a file and a pointer to the data for the file (probably slightly faster than opening and closing the slot another time)
 void vysion_GetFileInfo_Asm(struct vysion_file *file, void *data) {
+    gfx_sprite_t *icon_ptr;
     //firstly, we want to check if this is really a protected TI-Basic file
     //if it's ASM, that will be indicated by the first 2 bytes being 0xef7b
     if (*((uint16_t *) data) != ASM_HEX_SEQUENCE) {
@@ -242,8 +241,12 @@ void vysion_GetFileInfo_Asm(struct vysion_file *file, void *data) {
     //see if we have an icon
     //this will be indicated by the width x height bytes, which are 16 x 16
     //will also make it null if none is found, so thanks C
-    file->icon = memchr(data, 0x10, MAX_ICON_SEARCH_LEN);
-    memcpy(file->icon_alternate, file->icon, 258);
+    icon_ptr = memchr(data, 0x10, MAX_ICON_SEARCH_LEN);
+    if (icon_ptr) {
+        file->icon = gfx_AllocSprite(0x10, 0x10, malloc);
+        file->custom_icon = true;
+        memcpy(file->icon, icon_ptr, 258);
+    }
 }
 
 void vysion_GetFileInfo_Basic(struct vysion_file *file, void *data) {
@@ -256,12 +259,13 @@ void vysion_GetFileInfo_Basic(struct vysion_file *file, void *data) {
     else file->vysion_type = VYSION_PROTECTED_BASIC_TYPE;
     if (memcmp(ti_basic_sequence, data, TI_BASIC_SEQUENCE_LEN) == 0) {
         //get the icon
+        file->icon = gfx_AllocSprite(0x10, 0x10, malloc);
+        file->custom_icon = true;
         //file->icon = gfx_MallocSprite(ICON_WIDTH, ICON_HEIGHT);
         for (int i = 0; i < ICON_WIDTH * ICON_HEIGHT; i++) {
             temp[0] = *((uint8_t *) data + i + TI_BASIC_SEQUENCE_LEN);
-            file->icon_alternate[i + 2] = palette[strtol(temp, NULL, 16)];
+            file->icon->data[i] = palette[strtol(temp, NULL, 16)];
         }
-        file->icon = file->icon_alternate;
     }
 }
 

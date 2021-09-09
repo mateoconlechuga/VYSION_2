@@ -99,11 +99,13 @@ struct vysion_file_save {
 struct vysion_file {
     struct vysion_file_save save;
     //same as for folders-set to false to make the file not be written to the appvar on exit
-    bool deleted;
+    bool deleted : 1;
+    //this will be set if icon is not one of the default icons (e.g. an icon for an assembly program)
+    //we need this so that if the file info is fetched more than once, we won't allocate more space than is
+    //needed
+    bool custom_icon : 1;
     gfx_sprite_t *icon;
     //in case this is needed (which is might be)
-    //char icon_alternate[258];
-    char *icon_alternate;
     //the VYSION type for the variable
     uint8_t vysion_type;
     //the description

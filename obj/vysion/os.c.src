@@ -59,7 +59,7 @@ _vysion_RunProgram:
 	call	_os_HomeUp
 	call	_os_DrawStatusBar
 	ld	iy, (ix + 6)
-	ld	a, (iy + 22)
+	ld	a, (iy + 19)
 	cp	a, 2
 	jq	nc, BB2_2
 	ld	hl, L_.str.2

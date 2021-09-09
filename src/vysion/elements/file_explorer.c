@@ -97,16 +97,15 @@ void vysion_UpdateFileExplorerMenu(struct optix_widget *widget) {
         //update it
         //pretty easy, I think
         menu->menu.text = realloc(menu->menu.text, (num_options + 1) * sizeof(char *));
-        //menu->menu.spr = realloc(menu->menu.spr, (num_options + 1) * sizeof(char *));
+        menu->menu.spr = realloc(menu->menu.spr, (num_options + 1) * sizeof(char *));
         menu->menu.text[num_options] = menu->menu.spr[num_options] = NULL;
         for (int i = 0; i < num_options; i++) {
             struct vysion_file *file_widget = (struct vysion_file *) folder->contents[i];
             menu->menu.text[i] = folder->contents[i]->save.widget.name;
             if (file_widget->save.widget.type == VYSION_FILE) menu->menu.spr[i] = file_widget->icon;
-            //else if (file_widget->save.widget.type == VYSION_FOLDER) menu->menu.spr[i] = ((struct vysion_folder *) file_widget)->icon;
+            else if (file_widget->save.widget.type == VYSION_FOLDER) menu->menu.spr[i] = ((struct vysion_folder *) file_widget)->icon;
         }
         menu->needs_update = false;
-        menu->menu.spr = NULL;
     }
     //still this as well
     optix_UpdateMenu_default(widget);
