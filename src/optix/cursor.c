@@ -107,23 +107,25 @@ void optix_RenderCursor_default(struct optix_widget *widget) {
         } else if (cursor->current_selection->type == OPTIX_MENU_TYPE) {
             struct optix_widget *widget = (struct optix_widget *) cursor->current_selection;
             struct optix_menu *menu = (struct optix_menu *) cursor->current_selection;
-            uint16_t width;
-            uint8_t height;
-            int selection = menu->selection != -1 ? menu->selection : menu->last_selection;
-            int x = widget->transform.x + (selection % menu->columns * 
-            (width = optix_GetMenuOptionWidth(selection, menu->rows, menu->columns, widget->transform.width, widget->transform.height)));
-            //y
-            int y = widget->transform.y + ((selection - menu->min) / menu->columns * 
-            (height = optix_GetMenuOptionHeight(selection, menu->rows, menu->columns, widget->transform.width, widget->transform.height)));
-            /*if (x && x < LCD_WIDTH) {
-                x--;
-                width += 2;
+            if (menu->hide_selection_box) {
+                uint16_t width;
+                uint8_t height;
+                int selection = menu->selection != -1 ? menu->selection : menu->last_selection;
+                int x = widget->transform.x + (selection % menu->columns * 
+                (width = optix_GetMenuOptionWidth(selection, menu->rows, menu->columns, widget->transform.width, widget->transform.height)));
+                //y
+                int y = widget->transform.y + ((selection - menu->min) / menu->columns * 
+                (height = optix_GetMenuOptionHeight(selection, menu->rows, menu->columns, widget->transform.width, widget->transform.height)));
+                /*if (x && x < LCD_WIDTH) {
+                    x--;
+                    width += 2;
+                }
+                if (y && y < LCD_HEIGHT) {
+                    y--;
+                    width += 2;
+                }*/
+                gfx_Rectangle(x, y, width, height);
             }
-            if (y && y < LCD_HEIGHT) {
-                y--;
-                width += 2;
-            }*/
-            gfx_Rectangle(x, y, width, height);
         } else gfx_Rectangle(transform->x, transform->y, transform->width, transform->height);
         gfx_SetDraw(draw_location);
     }

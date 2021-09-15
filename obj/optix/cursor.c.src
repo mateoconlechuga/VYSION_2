@@ -375,15 +375,15 @@ BB1_44:
 _optix_RenderCursor_default:
 	ld	hl, -24
 	call	__frameset
-	ld	de, (ix + 6)
+	ld	bc, (ix + 6)
 	ld	hl, (_current_context)
 	ld	iy, (hl)
 	ld	a, (iy)
-	ld	l, 1
-	xor	a, l
+	ld	e, 1
+	xor	a, e
 	bit	0, a
-	jq	z, BB2_5
-	push	de
+	jq	z, BB2_6
+	push	bc
 	pop	iy
 	ld	hl, (iy + 54)
 	ld	(ix + -6), hl
@@ -403,16 +403,21 @@ _optix_RenderCursor_default:
 	ld	iy, (iy + 54)
 	ld	a, (iy)
 	cp	a, 3
-	jq	nz, BB2_8
+	jq	nz, BB2_9
+	ld	a, (iy + 89)
+	ld	l, 1
+	xor	a, l
+	bit	0, a
+	jq	nz, BB2_13
 	ld	bc, (iy + 62)
 	ld	de, -1
 	push	bc
 	pop	hl
 	or	a, a
 	sbc	hl, de
-	jq	nz, BB2_4
+	jq	nz, BB2_5
 	ld	bc, (iy + 78)
-BB2_4:
+BB2_5:
 	ld	hl, (iy + 1)
 	ld	(ix + -12), hl
 	push	bc
@@ -494,13 +499,15 @@ BB2_4:
 	push	de
 	push	hl
 	ld	hl, (ix + -12)
-	jq	BB2_11
-BB2_5:
+	jq	BB2_12
+BB2_6:
+	push	bc
+	pop	hl
 	ld	a, (iy + 1)
-	xor	a, l
-	xor	a, l
+	xor	a, e
+	xor	a, e
 	bit	0, a
-	push	de
+	push	hl
 	call	z, _optix_RefreshCursorBackground
 	pop	hl
 	or	a, a
@@ -562,11 +569,11 @@ BB2_5:
 	pop	hl
 	pop	hl
 	pop	hl
-	jq	BB2_13
-BB2_8:
+	jq	BB2_14
+BB2_9:
 	ld	hl, (ix + -6)
 	cp	a, 5
-	jq	nz, BB2_10
+	jq	nz, BB2_11
 	ld	de, (iy + 30)
 	ld	(ix + -12), de
 	push	hl
@@ -600,8 +607,8 @@ BB2_8:
 	ld	hl, (ix + -9)
 	push	hl
 	ld	hl, (ix + -18)
-	jq	BB2_11
-BB2_10:
+	jq	BB2_12
+BB2_11:
 	push	hl
 	pop	iy
 	ld	hl, (iy + 1)
@@ -618,17 +625,18 @@ BB2_10:
 	push	hl
 	push	de
 	ld	hl, (ix + -9)
-BB2_11:
+BB2_12:
 	push	hl
 	call	_gfx_Rectangle
 	pop	hl
 	pop	hl
 	pop	hl
 	pop	hl
+BB2_13:
 	ld	hl, (ix + -3)
 	push	hl
 	call	_gfx_SetDraw
-BB2_13:
+BB2_14:
 	pop	hl
 	ld	sp, ix
 	pop	ix

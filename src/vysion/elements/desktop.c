@@ -227,7 +227,7 @@ void vysion_Desktop(void) {
                 .x = LCD_WIDTH - 46,
                 .y = LCD_HEIGHT - 14,
                 .width = 40,
-                .height = 14,
+                .height = 12,
             },
         },
         .alignment = OPTIX_CENTERING_CENTERED,
@@ -235,7 +235,21 @@ void vysion_Desktop(void) {
         .background_rectangle = false,
     };
     optix_InitializeWidget(&clock_text.widget, OPTIX_TEXT_TYPE);
-    clock_text.background_rectangle = false;
+    clock_text.background_rectangle = true;
+    struct optix_rectangle taskbar_background = {
+        .widget = {
+            .transform = {
+                .0,
+                .y = LCD_HEIGHT - 16,
+                .width = LCD_WIDTH,
+                .height = 16,
+            },
+        },
+        .filled = true,
+        .border_color = WINDOW_BORDER_BEVEL_LIGHT_INDEX,
+        .fill_color = WINDOW_BG_COLOR_INDEX,
+    };
+    optix_InitializeWidget(&taskbar_background, OPTIX_RECTANGLE_TYPE);
     optix_RecursiveAlign(&super_button.widget);
     struct optix_widget *master_stack[DESKTOP_ELEMENTS + MAX_NUM_WINDOWS];
     //inititialize that too
@@ -244,18 +258,21 @@ void vysion_Desktop(void) {
         else {
             switch (i - HD_WALLPAPER_ROWS) {
                 case 0:
-                    master_stack[i] = &desktop_file_menu.menu.widget;
+                    master_stack[i] = &taskbar_background.widget;
                     break;
                 case 1:
-                    master_stack[i] = &super_button.widget;
+                    master_stack[i] = &desktop_file_menu.menu.widget;
                     break;
                 case 2:
-                    master_stack[i] = &start_window.widget;
+                    master_stack[i] = &super_button.widget;
                     break;
                 case 3:
-                    master_stack[i] = &clock_text.widget;
+                    master_stack[i] = &start_window.widget;
                     break;
                 case 4:
+                    master_stack[i] = &clock_text.widget;
+                    break;
+                case 5:
                     master_stack[i] = &desktop_window_manager.menu.widget;
                     break;
                 default:

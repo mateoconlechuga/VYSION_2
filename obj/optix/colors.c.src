@@ -112,28 +112,28 @@ L___const.optix_InitializeColors.default_colors:
 	dw	0
 	dw	4228
 	dw	32767
-	dw	1057
-	dw	1057
-	dw	1134
+	dw	25368
+	dw	16945
+	dw	16
 	dw	0
-	dw	15934
-	dw	1134
+	dw	32767
+	dw	16912
 	dw	0
 	dw	25368
 	dw	1057
 	dw	32767
 	dw	1057
-	dw	1057
-	dw	1057
-	dw	15934
+	dw	25368
+	dw	25368
+	dw	16912
 	dw	0
-	dw	32767
+	dw	0
 	dw	1057
-	dw	32767
+	dw	0
 	dw	1057
-	dw	32767
+	dw	0
 	dw	1057
-	dw	32767
+	dw	0
 	dw	1057
 	dw	32767
 	dw	1134
