@@ -147,7 +147,7 @@ void vysion_GetFileInfo_Asm(struct vysion_file *file, void *data);
 void vysion_GetFileInfo_Basic(struct vysion_file *file, void *data);
 //saving/loading
 void vysion_SaveFilesystem(struct vysion_context *context);
-void vysion_LoadFilesystem(struct vysion_context *context);
+void *vysion_LoadFilesystem(struct vysion_context *context);
 void vysion_InitializeFilesystem(struct vysion_context *context);
 //adding/deleting
 struct vysion_file *vysion_AddFile(struct vysion_context *context);

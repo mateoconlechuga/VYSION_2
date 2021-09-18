@@ -9,11 +9,6 @@
 #include <debug.h>
 #include "gui_control.h"
 
-//defines
-/*NOTES:
-    -text background color is the same as text transparent color
-*/
-
 #define BG_COLOR_DEFAULT                              gfx_RGBTo1555(0x00, 0x00, 0x00)
 //cursor colors
 #define CURSOR_FILL_DEFAULT                           gfx_RGBTo1555(0x20, 0x20, 0x20)

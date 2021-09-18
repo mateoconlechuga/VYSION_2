@@ -5,10 +5,21 @@
 _vysion_DetectAllFiles:
 	ld	hl, -19
 	call	__frameset
-	ld	iy, (ix + 6)
+	ld	hl, -917456
+	xor	a, a
+	ld	iy, -917488
 	ld	bc, 0
-	ld	de, 0
+	ld.sis	de, 1048
+	ld	(hl), e
+	inc	hl
+	ld	(hl), d
+	or	a, a
+	sbc	hl, hl
+	ld	(ix + -10), hl
+	ld	(iy), hl
+	ld	(iy + 3), a
 	ld	(ix + -3), bc
+	ld	iy, (ix + 6)
 	ld	hl, (iy + 3)
 	add	hl, bc
 	or	a, a
@@ -21,27 +32,13 @@ _vysion_DetectAllFiles:
 	push	hl
 	call	_vysion_CreateFilesystemHashTable
 	ld	bc, 0
-	push	hl
-	pop	de
+	ld	(ix + -10), hl
 	pop	hl
 	pop	hl
 	ld	hl, (ix + -3)
 BB0_2:
 	ld	(ix + -13), hl
-	ld	(ix + -10), de
 	ld	(ix + -6), bc
-	ld.sis	hl, 515
-	ld	iy, -917456
-	ld	(iy), l
-	ld	(iy + 1), h
-	or	a, a
-	sbc	hl, hl
-	ld	de, -917504
-	push	de
-	pop	iy
-	ld	(iy), hl
-	xor	a, a
-	ld	(iy + 3), a
 BB0_3:
 	pea	ix + -7
 	push	bc
@@ -76,7 +73,7 @@ BB0_8:
 	add	hl, bc
 	or	a, a
 	sbc	hl, bc
-	ld	(ix + -19), iy
+	ld	(ix + -16), iy
 	jq	z, BB0_10
 	ld	hl, (ix + -10)
 	push	hl
@@ -86,7 +83,7 @@ BB0_8:
 	push	hl
 	push	iy
 	call	_vysion_FilesystemHashSearch
-	ld	iy, (ix + -19)
+	ld	iy, (ix + -16)
 	push	hl
 	pop	de
 	pop	hl
@@ -109,9 +106,9 @@ BB0_10:
 	ld	a, (ix + -7)
 	ld	(iy + 13), a
 	ld	(iy), 0
-	ld	(ix + -16), iy
+	ld	(ix + -19), iy
 	inc	iy
-	ld	hl, (ix + -19)
+	ld	hl, (ix + -16)
 	push	hl
 	push	iy
 	call	_strcpy
@@ -125,7 +122,7 @@ BB0_10:
 BB0_13:
 	ld	hl, 1
 BB0_12:
-	ld	iy, (ix + -16)
+	ld	iy, (ix + -19)
 	ld	(iy + 10), hl
 	jq	BB0_15
 BB0_14:
@@ -136,22 +133,8 @@ BB0_14:
 	pop	de
 	ld	hl, (ix + -13)
 	add	hl, de
-	ld	hl, (hl)
-	ld	(ix + -16), hl
+	ld	iy, (hl)
 BB0_15:
-	ld.sis	hl, 515
-	ld	iy, -917456
-	ld	(iy), l
-	ld	(iy + 1), h
-	or	a, a
-	sbc	hl, hl
-	ld	de, -917504
-	push	de
-	pop	iy
-	ld	(iy), hl
-	xor	a, a
-	ld	(iy + 3), a
-	ld	iy, (ix + -16)
 	res	0, (iy + 15)
 	push	iy
 	call	_vysion_GetFileInfo
@@ -439,6 +422,16 @@ _vysion_AddFile:
 _vysion_GetFileInfo:
 	ld	hl, -3
 	call	__frameset
+	ld.sis	de, 515
+	ld	hl, -917456
+	ld	bc, 0
+	xor	a, a
+	ld	iy, -917504
+	ld	(hl), e
+	inc	hl
+	ld	(hl), d
+	ld	(iy), bc
+	ld	(iy + 3), a
 	call	_ti_CloseAll
 	ld	iy, (ix + 6)
 	inc	iy

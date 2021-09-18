@@ -7,9 +7,27 @@
 #include <debug.h>
 #include "defines.h"
 
+//this takes advantage of the fact that 
+/*void vysion_DetectAllFiles_New(struct vysion_context *context) {
+    void *search_pos = NULL;    
+    char *name = NULL;
+    uint8_t type;
+    struct vysion_file_save *file = (struct vysion_file_save *) vysion_LoadFileSystem(context);
+    int count_saved = 0;
+    int count_vat;
+    while ((name = ti_DetectAny(&search_pos, NULL, &type)) != NULL) {
+        struct vysion_file_save *current_program = file + (count_vat * sizeof(struct vysion_file_save));
+        //
+        ++count_vat;
+        ++count_saved;
+    }
+}*/
+
 //NOTE: This should be called AFTER vysion_LoadFilesystem or bad things could happen
 void vysion_DetectAllFiles(struct vysion_context *context) {
     //start by creating a hash table of everything
+    timer_Control = TIMER2_ENABLE | TIMER2_32K | TIMER2_UP;
+    timer_2_Counter = 0;
     struct vysion_file **hash_table = NULL;
     int hash_table_size = context->filesystem_info_save.num_files ? vysion_CreateFilesystemHashTable(context, &hash_table) : 0;
     void *search_pos = NULL;
@@ -17,8 +35,6 @@ void vysion_DetectAllFiles(struct vysion_context *context) {
     uint8_t type;
     //count, remove this later
     int count = 0;
-    timer_Control = TIMER1_ENABLE | TIMER1_32K | TIMER1_UP;
-    timer_1_Counter = 0;
     while ((name = ti_DetectAny(&search_pos, NULL, &type)) != NULL) {
         int index;
         struct vysion_file *file;
@@ -47,14 +63,12 @@ void vysion_DetectAllFiles(struct vysion_context *context) {
         }
         dbg_sprintf(dbgout, "Location: %d\n", file->save.widget.location);
         //get the file's information
-        timer_Control = TIMER1_ENABLE | TIMER1_32K | TIMER1_UP;
-        timer_1_Counter = 0;
         file->deleted = false;
         vysion_GetFileInfo(file);
-        dbg_sprintf(dbgout, "File info took %d ms.\n", timer_1_Counter);
         //increment the count
         ++count;
     }
+    dbg_sprintf(dbgout, "Filesystem took %d ms.\n", timer_2_Counter);
 }
 
 //so this HAS to be done after the vysion_DetectAllFiles function is called
@@ -109,7 +123,7 @@ void vysion_SaveFilesystem(struct vysion_context *context) {
 }
 
 //load the filesystem
-void vysion_LoadFilesystem(struct vysion_context *context) {
+void *vysion_LoadFilesystem(struct vysion_context *context) {
     ti_var_t slot;
     int version;
     //sort the VAT before we do anything else
@@ -193,6 +207,8 @@ void vysion_GetFileInfo(struct vysion_file *file) {
         //appvar
         icon_appvar,
     };
+    timer_Control = TIMER1_ENABLE | TIMER1_32K | TIMER1_UP;
+    timer_1_Counter = 0;
     ti_CloseAll();
     if ((slot = ti_OpenVar(file->save.widget.name, "r", file->save.ti_type))) {
         //generic things
@@ -215,6 +231,7 @@ void vysion_GetFileInfo(struct vysion_file *file) {
         //close that slot
         ti_Close(slot);
     }
+    dbg_sprintf(dbgout, "File info took %d ms.", timer_1_Counter);
 }
 
 //takes a pointer to a file and a pointer to the data for the file (probably slightly faster than opening and closing the slot another time)

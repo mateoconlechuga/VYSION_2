@@ -17,7 +17,7 @@ void optix_UpdateInput(void) {
     kb_Scan();
     current_context->data->key = os_GetCSC();
     for (i = 0; i < NUM_DEFAULT_KEYS; i++) {
-        dbg_sprintf(dbgout, "Key %d State %d\n", i, current_context->input->default_key[i]->state);
+        //dbg_sprintf(dbgout, "Key %d State %d\n", i, current_context->input->default_key[i]->state);
         optix_UpdateKeyState(current_context->input->default_key[i]);
     }
     i = 0;
