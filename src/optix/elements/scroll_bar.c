@@ -1,4 +1,8 @@
 #include "scroll_bar.h"
+#include <stdint.h>
+#include "../colors.h"
+#include "menu.h"
+
 
 //functions
 //we probably don't need this actually, unless more functionality needs to be added later on

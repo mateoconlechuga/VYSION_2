@@ -60,7 +60,7 @@ struct vysion_window_manager_menu {
     int last_num_windows;
     bool needs_update;
     //since this will sometimes be visible, and sometimes not
-    char **text_save;
+    //char *text_save;
 };
 
 //a global

@@ -52,26 +52,26 @@ _optix_UpdateCursor_default:
 	ld	hl, -12
 	call	__frameset
 	ld	iy, (ix + 6)
-	ld	de, 0
-	ld	bc, 4
+	ld	de, 4
 	ld	hl, (iy + 1)
 	ld	(iy + 30), hl
 	ld	hl, (iy + 4)
 	ld	(iy + 33), hl
-	ld	iy, (_current_context)
-	ld	hl, (iy)
+	ld	hl, (_current_context)
+	push	hl
+	pop	bc
+	ld	hl, (hl)
 	ld	a, (hl)
 	ld	l, 1
 	xor	a, l
 	bit	0, a
 	jq	z, BB1_11
-	ld	iy, (ix + 6)
 	ld	hl, (iy + 51)
-	ld	de, 5
+	ld	bc, 5
 	or	a, a
-	sbc	hl, de
+	sbc	hl, bc
 	jq	z, BB1_3
-	ld	(iy + 51), bc
+	ld	(iy + 51), de
 BB1_3:
 	ld	hl, 1
 	push	hl
@@ -130,8 +130,12 @@ BB1_9:
 	jq	nz, BB1_16
 	jq	BB1_44
 BB1_11:
-	ex	de, hl
+	or	a, a
+	sbc	hl, hl
 	ld	e, 56
+	push	bc
+	pop	iy
+	ld	(ix + -3), iy
 	ld	iy, (iy + 3)
 	ld	bc, (iy + 4)
 	ld	a, (iy + 7)
@@ -139,13 +143,16 @@ BB1_11:
 	call	__fmul
 	ld	(ix + -9), bc
 	ld	(ix + -10), a
-	ld	hl, 1
+	ld	iy, (ix + -3)
+	ld	iy, (iy + 9)
+	ld	(iy + 48), hl
+	inc	hl
 	push	hl
 	call	_optix_DefaultKeyIsDown
+	ld	iy, (ix + 6)
 	ld	d, a
 	pop	hl
 	or	a, a
-	ld	iy, (ix + 6)
 	lea	hl, iy + 44
 	ld	(ix + -6), hl
 	jq	z, BB1_13
@@ -373,7 +380,7 @@ BB1_44:
 	section	.text,"ax",@progbits
 	public	_optix_RenderCursor_default
 _optix_RenderCursor_default:
-	ld	hl, -24
+	ld	hl, -58
 	call	__frameset
 	ld	bc, (ix + 6)
 	ld	hl, (_current_context)
@@ -386,10 +393,10 @@ _optix_RenderCursor_default:
 	push	bc
 	pop	iy
 	ld	hl, (iy + 54)
-	ld	(ix + -6), hl
+	ld	(ix + -46), hl
 	call	_gfx_GetDraw
 	ld	l, a
-	ld	(ix + -3), hl
+	ld	(ix + -43), hl
 	or	a, a
 	sbc	hl, hl
 	push	hl
@@ -404,102 +411,51 @@ _optix_RenderCursor_default:
 	ld	a, (iy)
 	cp	a, 3
 	jq	nz, BB2_9
-	ld	a, (iy + 89)
+	ld	de, 159
+	lea	bc, iy + 0
+	add	iy, de
+	ld	a, (iy)
 	ld	l, 1
 	xor	a, l
 	bit	0, a
-	jq	nz, BB2_13
-	ld	bc, (iy + 62)
-	ld	de, -1
+	jq	nz, BB2_14
+	ld	de, 132
 	push	bc
-	pop	hl
+	pop	iy
+	add	iy, de
+	ld	iy, (iy)
+	ld	de, -1
+	lea	hl, iy + 0
 	or	a, a
 	sbc	hl, de
 	jq	nz, BB2_5
-	ld	bc, (iy + 78)
+	ld	de, 148
+	push	bc
+	pop	iy
+	add	iy, de
+	ld	iy, (iy)
 BB2_5:
-	ld	hl, (iy + 1)
-	ld	(ix + -12), hl
 	push	bc
+	pea	ix + -40
+	push	iy
+	call	_optix_SetMenuOptionTransform
 	pop	hl
-	ld	(ix + -6), hl
-	ld	bc, (iy + 72)
-	call	__irems
-	ld	(ix + -15), hl
-	ld	(ix + -18), iy
-	ld	hl, (iy + 69)
-	ld	(ix + -9), hl
-	ld	e, (iy + 7)
-	ld	d, (iy + 8)
-	ld	a, (iy + 9)
-	ld	l, a
-	push	hl
-	push	de
-	push	bc
-	ld	hl, (ix + -9)
-	push	hl
-	ld	hl, (ix + -6)
-	push	hl
-	call	_optix_GetMenuOptionWidth
-	pop	de
-	pop	de
-	pop	de
-	pop	de
-	pop	de
-	ld	de, 0
-	push	de
-	pop	bc
-	ld	c, l
-	ld	b, h
-	ld	(ix + -9), bc
-	ld	hl, (ix + -15)
-	call	__imulu
-	ld	de, (ix + -12)
-	add	hl, de
-	ld	(ix + -12), hl
-	ld	iy, (ix + -18)
-	ld	hl, (iy + 4)
-	ld	(ix + -15), hl
-	ld	de, (iy + 66)
-	ld	hl, (ix + -6)
-	or	a, a
-	sbc	hl, de
-	ld	bc, (iy + 72)
-	call	__idivs
-	ld	(ix + -21), hl
-	ld	hl, (iy + 69)
-	ld	(ix + -24), hl
-	ld	e, (iy + 7)
-	ld	d, (iy + 8)
-	ld	a, (iy + 9)
-	ld	l, a
-	push	hl
-	push	de
-	push	bc
-	ld	hl, (ix + -24)
-	push	hl
-	ld	hl, (ix + -6)
-	push	hl
-	call	_optix_GetMenuOptionHeight
+	pop	hl
+	pop	hl
+	ld	iy, (ix + -39)
+	ld	de, (ix + -36)
 	ld	bc, 0
-	ld	c, a
-	pop	hl
-	pop	hl
-	pop	hl
-	pop	hl
-	pop	hl
-	ld	hl, (ix + -21)
 	push	bc
-	pop	de
-	call	__imulu
-	ld	bc, (ix + -15)
-	add	hl, bc
-	push	de
-	ld	de, (ix + -9)
-	push	de
+	pop	hl
+	ld	l, (ix + -33)
+	ld	h, (ix + -32)
+	ld	a, (ix + -31)
+	ld	c, a
+	push	bc
 	push	hl
-	ld	hl, (ix + -12)
-	jq	BB2_12
+	push	de
+	push	iy
+	jq	BB2_13
 BB2_6:
 	push	bc
 	pop	hl
@@ -569,20 +525,20 @@ BB2_6:
 	pop	hl
 	pop	hl
 	pop	hl
-	jq	BB2_14
+	jq	BB2_15
 BB2_9:
-	ld	hl, (ix + -6)
+	ld	hl, (ix + -46)
 	cp	a, 5
 	jq	nz, BB2_11
 	ld	de, (iy + 30)
-	ld	(ix + -12), de
+	ld	(ix + -52), de
 	push	hl
 	pop	iy
 	ld	hl, (iy + 1)
 	dec	hl
-	ld	(ix + -18), hl
+	ld	(ix + -58), hl
 	ld	hl, (iy + 4)
-	ld	(ix + -9), hl
+	ld	(ix + -49), hl
 	ld	c, (iy + 7)
 	ld	b, (iy + 8)
 	ld	de, 0
@@ -592,27 +548,27 @@ BB2_9:
 	ld	h, b
 	ld	bc, 2
 	add	hl, bc
-	ld	(ix + -15), hl
+	ld	(ix + -55), hl
 	ld	a, (iy + 9)
 	push	de
 	pop	hl
 	ld	l, a
-	ld	iy, (ix + -12)
+	ld	iy, (ix + -52)
 	ld	e, (iy + 9)
 	inc	hl
 	add	hl, de
 	push	hl
-	ld	hl, (ix + -15)
+	ld	hl, (ix + -55)
 	push	hl
-	ld	hl, (ix + -9)
+	ld	hl, (ix + -49)
 	push	hl
-	ld	hl, (ix + -18)
+	ld	hl, (ix + -58)
 	jq	BB2_12
 BB2_11:
 	push	hl
 	pop	iy
 	ld	hl, (iy + 1)
-	ld	(ix + -9), hl
+	ld	(ix + -49), hl
 	ld	de, (iy + 4)
 	ld	bc, 0
 	push	bc
@@ -624,19 +580,20 @@ BB2_11:
 	push	bc
 	push	hl
 	push	de
-	ld	hl, (ix + -9)
+	ld	hl, (ix + -49)
 BB2_12:
 	push	hl
+BB2_13:
 	call	_gfx_Rectangle
 	pop	hl
 	pop	hl
 	pop	hl
 	pop	hl
-BB2_13:
-	ld	hl, (ix + -3)
+BB2_14:
+	ld	hl, (ix + -43)
 	push	hl
 	call	_gfx_SetDraw
-BB2_14:
+BB2_15:
 	pop	hl
 	ld	sp, ix
 	pop	ix
@@ -1051,9 +1008,9 @@ L___const.optix_RenderCursor_default.spr:
 	extern	_cursor_resize_vertical_data
 	extern	_gfx_BlitRectangle
 	extern	__Unwind_SjLj_Register
+	extern	_optix_SetMenuOptionTransform
 	extern	__frameset
 	extern	_malloc
-	extern	_optix_GetMenuOptionWidth
 	extern	_gfx_SetTransparentColor
 	extern	__fadd
 	extern	_cursor_text_math_data
@@ -1064,20 +1021,17 @@ L___const.optix_RenderCursor_default.spr:
 	extern	__fmul
 	extern	__ftol
 	extern	_gfx_SetDraw
-	extern	__idivs
 	extern	__setflag
-	extern	_current_context
 	extern	_cursor_text_upper_data
+	extern	_current_context
 	extern	_cursor_text_lower_data
 	extern	__Unwind_SjLj_Unregister
-	extern	__irems
 	extern	__ixor
 	extern	_gfx_AllocSprite
 	extern	__imulu
 	extern	_cursor_move_data
 	extern	_gfx_SetColor
 	extern	_gfx_Rectangle
-	extern	_optix_GetMenuOptionHeight
 	extern	_gfx_Sprite
 	extern	__ltof
 	extern	_cursor_normal_data

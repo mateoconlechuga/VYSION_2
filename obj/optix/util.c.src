@@ -863,19 +863,105 @@ BB10_4:
 	section	.text,"ax",@progbits
 	public	_optix_GetElementInStackByAddress
 _optix_GetElementInStackByAddress:
-	call	__frameset0
-	ld	iy, (ix + 6)
-	ld	bc, (ix + 9)
-	ld.sis	de, -1
+	ld	hl, -6
+	call	__frameset
+	ld	hl, (ix + 6)
+	ld	de, 0
+	ld	(ix + -3), de
+	ld	(ix + -6), hl
+	push	hl
+	call	_optix_GetNumElementsInStack
+	pop	de
+	ld	de, 0
+	ld	e, l
+	ld	d, h
 BB11_1:
-	ld	hl, (iy)
-	inc.sis	de
-	lea	iy, iy + 3
+	push	de
+	pop	hl
+	ld	bc, (ix + -3)
 	or	a, a
 	sbc	hl, bc
-	jq	nz, BB11_1
+	jq	z, BB11_5
+	ld	iy, (ix + -6)
+	ld	hl, (iy)
+	ld	bc, (ix + 9)
+	or	a, a
+	sbc	hl, bc
+	jq	z, BB11_6
+	ld	hl, (ix + -3)
+	inc	hl
+	ld	(ix + -3), hl
+	lea	iy, iy + 3
+	ld	(ix + -6), iy
+	jq	BB11_1
+BB11_5:
+	ld	hl, -1
+	jq	BB11_4
+BB11_6:
+	ld	hl, (ix + -3)
+BB11_4:
+	ld	sp, ix
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_optix_RemoveElementInStack
+_optix_RemoveElementInStack:
+	ld	hl, -6
+	call	__frameset
+	ld	hl, (ix + 6)
+	push	hl
+	call	_optix_GetNumElementsInStack
+	ld	e, l
+	ld	d, h
+	pop	hl
+	ld	bc, 3
+	ld	hl, (ix + 9)
+	call	__imulu
+	push	hl
+	pop	bc
+	ld	hl, (ix + 6)
+	add	hl, bc
+	ld	(ix + -3), hl
+	ld	bc, (ix + 9)
+	inc	bc
+	push	bc
+	pop	hl
+	ld	bc, 3
+	call	__imulu
+	push	hl
+	pop	bc
+	ld	iy, (ix + 6)
+	add	iy, bc
+	or	a, a
+	sbc	hl, hl
 	ld	l, e
 	ld	h, d
+	ld	(ix + -6), hl
+	ld	de, (ix + 9)
+	or	a, a
+	sbc	hl, de
+	ld	bc, 3
+	call	__imulu
+	push	hl
+	push	iy
+	ld	hl, (ix + -3)
+	push	hl
+	call	_memmove
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	hl, (ix + -6)
+	ld	bc, 3
+	call	__imulu
+	push	hl
+	pop	de
+	ld	hl, (ix + 6)
+	add	hl, de
+	ld	de, 0
+	ld	(hl), de
+	ld	sp, ix
 	pop	ix
 	ret
 	section	.text,"ax",@progbits
@@ -883,6 +969,7 @@ BB11_1:
 	ident	"clang version 12.0.0 (https://github.com/jacobly0/llvm-project 170be88120e3aa88c20eea5615ba76b8f1d6c647)"
 	extern	__Unwind_SjLj_Register
 	extern	__frameset
+	extern	_memmove
 	extern	_optix_SetCurrentSelection
 	extern	__idivs
 	extern	__setflag

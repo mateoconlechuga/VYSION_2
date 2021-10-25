@@ -4,10 +4,12 @@
 #include <stdint.h>
 #include <graphx.h>
 #include "../gui_control.h"
+#include "../loop.h"
 #include "../input.h"
 #include "../shapes.h"
 #include "../cursor.h"
 #include "../util.h"
+#include "../colors.h"
 
 //functions
 //update button
@@ -41,14 +43,16 @@ void optix_RenderButton_default(struct optix_widget *widget) {
     struct optix_button *button = (struct optix_button *) widget;
     if (widget->state.visible && widget->state.needs_redraw) {
         if (widget->state.selected) {
-            if (button->pressed) {
-                optix_OutlinedRectangle_WithBevel(widget->transform.x, widget->transform.y, widget->transform.width, widget->transform.height, //transform
-                BUTTON_BG_COLOR_PRESSED_INDEX, WINDOW_BORDER_BEVEL_DARK_INDEX, WINDOW_BORDER_BEVEL_LIGHT_INDEX);                               //color
-                optix_SetTextColor(BUTTON_TEXT_FG_COLOR_PRESSED_INDEX, BUTTON_TEXT_BG_COLOR_PRESSED_INDEX);
-            } else {
-                optix_OutlinedRectangle_WithBevel(widget->transform.x, widget->transform.y, widget->transform.width, widget->transform.height, //transform
-                BUTTON_BG_COLOR_SELECTED_INDEX, WINDOW_BORDER_BEVEL_LIGHT_INDEX, WINDOW_BORDER_BEVEL_DARK_INDEX);                              //color
-                optix_SetTextColor(BUTTON_TEXT_FG_COLOR_SELECTED_INDEX, BUTTON_TEXT_BG_COLOR_SELECTED_INDEX);
+            if (!button->hide_selection_box) {
+                if (button->pressed) {
+                    optix_OutlinedRectangle_WithBevel(widget->transform.x, widget->transform.y, widget->transform.width, widget->transform.height, //transform
+                    BUTTON_BG_COLOR_PRESSED_INDEX, WINDOW_BORDER_BEVEL_DARK_INDEX, WINDOW_BORDER_BEVEL_LIGHT_INDEX);                               //color
+                    optix_SetTextColor(BUTTON_TEXT_FG_COLOR_PRESSED_INDEX, BUTTON_TEXT_BG_COLOR_PRESSED_INDEX);
+                } else {
+                    optix_OutlinedRectangle_WithBevel(widget->transform.x, widget->transform.y, widget->transform.width, widget->transform.height, //transform
+                    BUTTON_BG_COLOR_SELECTED_INDEX, WINDOW_BORDER_BEVEL_LIGHT_INDEX, WINDOW_BORDER_BEVEL_DARK_INDEX);                              //color
+                    optix_SetTextColor(BUTTON_TEXT_FG_COLOR_SELECTED_INDEX, BUTTON_TEXT_BG_COLOR_SELECTED_INDEX);
+                }
             }
         } else {
             //for partial redraw later on

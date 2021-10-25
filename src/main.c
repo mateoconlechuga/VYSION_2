@@ -33,17 +33,13 @@ void vysion_SetOP1(uint8_t type, char name[]) {
     char temp[10] = " ";
     temp[0] = type;
     strcat(temp, name);
-    strcpy(os_OP1, temp);
+    strcpy((char *) os_OP1, temp);
 }
 
 
-void main(void) {
+int main(void) {
     //initialize the context and OPTIX environment
-    struct vysion_context vysion_context = {
-        .filesystem_info_save = {.num_files = 0, .num_folders = 0, .num_folder_indices = 0},
-    };
-    char *name[] = {"File", "Folder"};
-    //OPTIX stuff
+    struct vysion_context vysion_context;
     struct optix_cursor cursor;
     struct optix_colors colors;
     struct optix_settings settings;
@@ -58,23 +54,10 @@ void main(void) {
         .input = &input,
     };
     vysion_SetContext(&vysion_context);
-    //do filesystem things
-    vysion_LoadFilesystem(&vysion_context);
-    vysion_DetectAllFiles(&vysion_context);
-    vysion_DetectAllFolders(&vysion_context);
-    for (int i = 0; i < vysion_context.filesystem_info_save.num_folders; i++) {
-        int j = 0;
-        dbg_sprintf(dbgout, "Name: %s Index: %d\n", vysion_context.folder[i]->save.widget.name, vysion_context.folder[i]->save.index);
-        while (vysion_context.folder[i]->contents[j]) {
-            struct vysion_file_widget *widget = vysion_context.folder[i]->contents[j];
-            dbg_sprintf(dbgout, "   Name: %s Type: %s\n", widget->name, name[widget->type]);
-            j++;
-        }
-    }
     vysion_InitializeGraphics();
     vysion_InitializeOPTIX(&context);
+    vysion_InitializeFilesystem(&vysion_context);
+    for (int i = 0; i < MAX_NUM_WINDOWS; i++) vysion_current_context->window[i] = NULL;
     vysion_Desktop();
-    gfx_FillScreen(0);
-    vysion_SaveFilesystem(&vysion_context);
     vysion_CloseAllWindows(&context);
 }

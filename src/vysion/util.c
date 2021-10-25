@@ -1,5 +1,9 @@
 #include "util.h"
+
+#include <stdint.h>
 #include <graphx.h>
+#include <tice.h>
+
 #include "gfx/output/vysion_gfx.h"
 
 //hashing functions (add an option to choose the desired one eventually)

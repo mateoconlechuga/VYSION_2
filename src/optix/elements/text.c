@@ -1,7 +1,12 @@
 #include "text.h"
+
 #include <debug.h>
+#include <graphx.h>
+#include <fontlibc.h>
 #include "input_box.h"
 #include "../shapes.h"
+#include "../cursor.h"
+#include "../colors.h"
 
 //sets a text object's width and height according to the text's width and height
 void optix_InitializeTextTransform(struct optix_text *text) {
@@ -35,6 +40,26 @@ size_t optix_GetStringWidthL(char *str, size_t max_chars) {
     }
 }
 
+size_t optix_GetStringWidth(char *str) {
+    if (current_context->data->font_valid) return fontlib_GetStringWidth(str);
+    else return gfx_GetStringWidth(str);
+}
+
+void optix_DrawStringL(char *str, size_t max_chars) {
+    if (current_context->data->font_valid) fontlib_DrawStringL(str, max_chars);
+    else {
+        char temp = str[max_chars + 1];
+        size_t size;
+        str[max_chars + 1] = '\0';
+        //since we know the fontlib cursor position will always be set regardless of whether
+        //or not the font is valid
+        gfx_PrintStringXY(str, fontlib_GetCursorX(), fontlib_GetCursorY());
+        str[max_chars + 1] = temp;
+    }
+}
+
+
+
 //stolen and modified from DrDnar
 //link: https://github.com/drdnar/open-adventure-ce/blob/db326b80753669cddf4a86697e14cdade8f49899/style.c#L186
 char *optix_PrintStringWrapped_fontlibc(const char *string, bool fake_print) {
@@ -59,7 +84,8 @@ char *optix_PrintStringWrapped_fontlibc(const char *string, bool fake_print) {
             /* If the word is super-long such that it won't fit in the window,
              * then forcibly print it starting on a new line. */
             if (str_width != 0) {
-                if (str_width > width && x == left)
+                //altered to make this greater than or equal to
+                if (str_width >= width && x == left)
                     if (!fake_print) x = fontlib_DrawString(string);
                     else {
                         do x += (str_width = fontlib_GetGlyphWidth(*string++));
@@ -136,8 +162,6 @@ void optix_UpdateText_default(struct optix_widget *widget) {
             widget->state.needs_redraw = true;
         }
     }
-    //all we need to do here is to update the wrap if necessary
-    if (text->needs_offset_update) optix_WrapText((struct optix_widget *) text);
 }
 
 void optix_RenderText_default(struct optix_widget *widget) {
@@ -146,58 +170,50 @@ void optix_RenderText_default(struct optix_widget *widget) {
         if (current_context->data->font_valid) {
             int max_lines = widget->transform.height / TEXT_SPACING;
             int lines_to_render = max_lines < text->num_lines ? max_lines : text->num_lines;
+            int i = 0;
+            char *str = text->text;
             fontlib_SetWindow(widget->transform.x, widget->transform.y, widget->transform.width, widget->transform.height);
             if (text->background_rectangle)
                 optix_OutlinedRectangle_WithBevel(widget->transform.x, widget->transform.y, widget->transform.width, widget->transform.height,           //x, y, width, height
                 BUTTON_BG_COLOR_UNSELECTED_INDEX, WINDOW_BORDER_BEVEL_DARK_INDEX, WINDOW_BORDER_BEVEL_LIGHT_INDEX);                                      //bevel (make it look depressed)
-            for (int i = text->min; i < text->min + lines_to_render; i++) {
-                size_t num_chars = i == text->num_lines - 1 ? strlen(text->text) : (size_t) (text->offsets[i + 1] - text->offsets[i]);
-                //size_t line_width = optix_GetStringWidthL(text->offsets[i], num_chars);
-                //fontlib_SetCursorPosition((widget->transform.x + line_width / 2) * text->alignment + text->x_offset, widget->transform.y + i * TEXT_SPACING);
-                fontlib_SetCursorPosition(widget->transform.x + text->x_offset, widget->transform.y + (i - text->min) * TEXT_SPACING);
-                if (i < text->num_lines) fontlib_DrawStringL(text->offsets[i], num_chars);
-                else fontlib_DrawString(text->offsets[i]);
+            //if the text is only one line, I think it's fair to make the assumption that it can just be printed (this will fix some issues with the
+            //optix_PrintStringWrapped_fontlibc function not working correctly for single-line text with a window the same width as the string as well)
+            while (i < text->min + lines_to_render) {
+                char *old_str = str;
+                char temp;
+                //only print if we're past  the text min
+                fontlib_SetCursorPosition(widget->transform.x, widget->transform.y + (i < text->min ? 0 : i - text->min) * TEXT_SPACING);
+                str = optix_PrintStringWrapped_fontlibc(str, true);
+                //we should print with the appropriate alignment
+                if (i >= text->min) {
+                    size_t str_length = optix_GetStringWidthL(old_str, (size_t) (str - old_str + 1));
+                    unsigned int new_x_pos = fontlib_GetCursorX() + (text->alignment * ((widget->transform.width - str_length) / 2));
+                    fontlib_SetCursorPosition(new_x_pos, fontlib_GetCursorY());
+                    optix_DrawStringL(old_str, (size_t) (str - old_str + 1));
+                }
+                i++;
+                if (*str == '\0' || str == text->text) break;
             }
-            //fontlib_SetCursorPosition(widget->transform.x, widget->transform.y);
-            //fontlib_DrawString(text->text);
         } else gfx_PrintStringXY(text->text, widget->transform.x, widget->transform.y);
     }
 }
 
-void optix_WrapText(struct optix_widget *widget) {
+
+void optix_GetTextNumLines(struct optix_widget *widget) {
     struct optix_text *text = (struct optix_text *) widget;
     struct optix_input_box *input_box = (struct optix_input_box *) widget;
     //all we need to do here is to update the wrap if necessary
-    int num_lines = 0;
     char *str = text->text;
-    bool multiple_lines = true;
-    bool found_current_line = false;
+    char *last_str = text->text;
+    text->num_lines = 0;
     fontlib_SetWindow(widget->transform.x, widget->transform.y, widget->transform.width, widget->transform.height);
     fontlib_SetCursorPosition(widget->transform.x, widget->transform.y);
-    //basically we don't want to do any of this is the string is already going to fit
-    if (optix_GetStringWidthL(text->text, strlen(text->text)) <= widget->transform.width) multiple_lines = false;
-    do {
-        //current line is the first one that's greater than input_box->text.text + input_box->cursor_offset, I think
-        if (!found_current_line && widget->type == OPTIX_INPUT_BOX_TYPE && str > input_box->text.text + input_box->cursor_offset) {
-            found_current_line = true;
-            input_box->current_line = num_lines - 1;
-        }
-        num_lines++;
-        if (num_lines > text->num_lines) text->offsets = realloc(text->offsets, sizeof(char *) * num_lines);
-        text->offsets[num_lines - 1] = str;
-    } while (multiple_lines && (*(str = optix_PrintStringWrapped_fontlibc(str, true)) != '\0') && str != text->text);
-    //just do this again
-    if (!found_current_line && widget->type == OPTIX_INPUT_BOX_TYPE && str >= text->text + input_box->cursor_offset) {
-        input_box->current_line = num_lines - 1;
+    while (true) {
+        last_str = str;
+        str = optix_PrintStringWrapped_fontlibc(str, true);
+        text->num_lines++;
+        if (*str == '\0' || str == text->text || str == last_str) break;
     }
-    //} //else if (num_lines != text->num_lines) text->offsets = realloc(text->offsets, sizeof(char *) * num_lines);
-    //cut it down if we need to
-    //or if it has too few lines (if it's one line, maybe)
-    if (text->num_lines > num_lines) text->offsets = realloc(text->offsets, sizeof(char *) * num_lines);
-    text->num_lines = num_lines;
-    text->offsets[0] = text->text;
-    //have this too
-    text->needs_offset_update = false;
 }
 
 
@@ -208,6 +224,7 @@ bool optix_InitializeFont(void) {
         fontlib_SetFont(font_pack, 0);
         fontlib_SetColors(TEXT_FG_COLOR_INDEX, TEXT_BG_COLOR_INDEX);
         fontlib_SetTransparency(true);
+        fontlib_SetNewlineOptions(FONTLIB_AUTO_CLEAR_TO_EOL);
     }
     current_context->data->font_valid = (bool) font_pack;
     return (bool) font_pack;

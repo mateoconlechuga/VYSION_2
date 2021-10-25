@@ -18,6 +18,7 @@ struct optix_button {
     //if this option is enabled, there will not be a rectangle drawn in the unselected BG color when unselected
     //so the background will show behind it
     bool transparent_background;
+    bool hide_selection_box;
 };
 
 //functions

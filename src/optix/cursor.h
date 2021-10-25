@@ -3,15 +3,8 @@
 
 //includes
 #include <stdint.h>
-#include <stdbool.h>
-#include <tice.h>
-#include <keypadc.h>
 #include <graphx.h>
-#include <debug.h>
-#include "gfx/optix_gfx.h"
 #include "gui_control.h"
-#include "colors.h"
-#include "elements/window.h"
 
 //defines
 #define OPTIX_CURSOR_SPEED         3

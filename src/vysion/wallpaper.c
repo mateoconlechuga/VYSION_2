@@ -1,10 +1,17 @@
 #include "wallpaper.h"
+
 #include <debug.h>
+
+#include "filesystem.h"
+#include "control.h"
+
 #include "../optix/elements/sprite.h"
 #include "../optix/elements/divider.h"
+#include "../optix/elements/menu.h"
 #include "../optix/gui_control.h"
 #include "../optix/cursor.h"
-#include "filesystem.h"
+#include "../optix/init.h"
+
 
 /*Some quick notes on the wallpaper system and format:
     -all high definition wallpapers will be prepended with VYSWALLHD
@@ -111,9 +118,11 @@ void vysion_RenderWallpaper(struct optix_widget *widget) {
 void vysion_WallpaperPickerMenu_ClickAction(void *args) {
     struct vysion_wallpaper_picker_menu *menu = (struct optix_menu *) args;
     char *name = menu->menu.text[menu->menu.selection];
+    dbg_sprintf(dbgout, "Click action...\n");
     menu->selection = menu->menu.selection;
     vysion_SetWallpaper(name, *(current_context->stack));
     current_context->data->gui_needs_full_redraw = true;
+    dbg_sprintf(dbgout, "What the ....?");
 }
 
 
@@ -128,9 +137,12 @@ void vysion_WallpaperPicker(void) {
     struct optix_widget *last_selection = current_context->cursor->current_selection;
     struct optix_widget *stack[9];
     struct optix_widget ***old_stack = current_context->stack;
-    char *wallpaper_name[vysion_current_context->filesystem_info_save.num_files];
+    char wallpaper_name[MAX_NUM_WALLPAPERS][WALLPAPER_NAME_MAX_LENGTH];
+    char *wallpaper_name_ptr[MAX_NUM_WALLPAPERS];
     struct optix_sprite wallpaper[HD_WALLPAPER_ROWS];
     struct optix_sprite *wallpaper_ptr[HD_WALLPAPER_ROWS];
+    void *search_pos = NULL;
+    char *var_name = NULL;
     struct vysion_wallpaper_picker_menu wallpaper_menu = {
         .menu = {
             .widget = {
@@ -140,15 +152,24 @@ void vysion_WallpaperPicker(void) {
                 },
                 .child = NULL,
             },
-            .text_centering = {.y_centering = OPTIX_CENTERING_CENTERED, .x_centering = OPTIX_CENTERING_LEFT, .x_offset = 4},
+            .text_args = {
+                .widget = {
+                    .centering = {
+                        .x_centering = OPTIX_CENTERING_LEFT,
+                        .x_offset = 4,
+                        .y_centering = OPTIX_CENTERING_CENTERED,
+                    },
+                },
+            },
             .rows = LCD_HEIGHT / 16,
             .columns = 1,
-            .text = wallpaper_name,
+            .text = (char **) wallpaper_name_ptr,
             .click_action = {
                 .click_action = vysion_WallpaperPickerMenu_ClickAction,
             },
             .pass_self = true,
         },
+        .selection = 0,
     };
     struct optix_divider wallpaper_menu_divider = {
         .alignment = DIVIDER_ALIGNMENT_RIGHT,
@@ -158,22 +179,18 @@ void vysion_WallpaperPicker(void) {
     for (i = 0; i < HD_WALLPAPER_ROWS; i++) stack[i] = wallpaper_ptr[i] = &wallpaper[i];
     vysion_InitializeWallpaper(wallpaper_ptr);
     ti_CloseAll();
-    for (i = 0; i < vysion_current_context->filesystem_info_save.num_files; i++) {
-        struct vysion_file *file = vysion_current_context->file[i];
-        if (file->save.ti_type == TI_APPVAR_TYPE) {
-            ti_var_t slot;
-            slot = ti_Open(file->save.widget.name, "r");
-            if (!(memcmp(ti_GetDataPtr(slot), HD_WALLAPER_HEADER_STRING, strlen(HD_WALLAPER_HEADER_STRING)))) {
-                wallpaper_name[wallpapers_found] = file->save.widget.name;
-                //another if statement here eventually that compares the name to the active wallpaper's name and sets
-                //the menu selection accordingly if it is
-                wallpapers_found++;
-            }
-            ti_Close(slot);
-        } else continue;
+    while ((var_name = ti_DetectVar(&search_pos, HD_WALLAPER_HEADER_STRING, TI_APPVAR_TYPE))) {
+        dbg_sprintf(dbgout, "%s ", var_name);
+        strcpy(wallpaper_name[wallpapers_found], var_name);
+        wallpaper_name_ptr[wallpapers_found] = wallpaper_name[wallpapers_found];
+        dbg_sprintf(dbgout, "%s\n", wallpaper_menu.menu.text[wallpapers_found]);
+        wallpapers_found++;
     }
-    wallpaper_name[wallpapers_found] = NULL;
+    //another if statement here eventually that compares the name to the active wallpaper's name and sets
+    //the menu selection accordingly if it is
+    wallpaper_name_ptr[wallpapers_found] = NULL;
     optix_InitializeWidget(&wallpaper_menu.menu.widget, OPTIX_MENU_TYPE);
+    dbg_sprintf(dbgout, "Menu options: %d\n", wallpaper_menu.menu.num_options);
     //OPTIX things
     stack[6] = &wallpaper_menu.menu.widget;
     stack[7] = &wallpaper_menu_divider.widget;

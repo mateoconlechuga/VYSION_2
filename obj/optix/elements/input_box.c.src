@@ -3,33 +3,15 @@
 	section	.text,"ax",@progbits
 	public	_optix_UpdateInputBox_default
 _optix_UpdateInputBox_default:
-	ld	hl, -24
+	ld	hl, -12
 	call	__frameset
 	ld	iy, (ix + 6)
 	ld	hl, (iy + 32)
 	ld	(ix + -3), hl
 	push	hl
 	call	_strlen
-	ld	(ix + -9), hl
+	ld	(ix + -6), hl
 	pop	hl
-	ld	iy, (ix + 6)
-	ld	b, (iy + 9)
-	ld	c, 10
-	call	__bdivu
-	ld	bc, 0
-	ld	c, a
-	ld	iy, (ix + 6)
-	ld	de, (iy + 41)
-	push	bc
-	pop	hl
-	or	a, a
-	sbc	hl, de
-	call	__setflag
-	jq	m, BB0_2
-	push	de
-	pop	bc
-BB0_2:
-	ld	(ix + -6), bc
 	ld	iy, (_current_context)
 	ld	hl, (iy + 9)
 	ld	de, (ix + 6)
@@ -38,14 +20,13 @@ BB0_2:
 	call	_optix_CheckTransformOverlap
 	pop	hl
 	pop	hl
-	ld	e, 1
-	xor	a, e
+	ld	d, 1
+	xor	a, d
 	bit	0, a
-	jq	nz, BB0_8
+	jq	nz, BB0_4
 	ld	hl, 5
 	ld	iy, (_current_context)
 	ld	iy, (iy + 9)
-	ld	(ix + -12), iy
 	ld	(iy + 48), hl
 	ld	hl, -720868
 	push	de
@@ -58,11 +39,11 @@ BB0_2:
 	ld.sis	bc, 1
 	call	__sand
 	ld	a, l
-	xor	a, e
-	xor	a, e
+	xor	a, d
+	xor	a, d
 	bit	0, a
 	ld	iy, (ix + 6)
-	jq	nz, BB0_5
+	jq	nz, BB0_3
 	ld	hl, -720878
 	push	de
 	ld	e, (hl)
@@ -73,46 +54,11 @@ BB0_2:
 	pop	de
 	ld	a, l
 	bit	5, a
-	jq	z, BB0_14
-BB0_5:
-	ld	a, (iy + 14)
-	xor	a, e
-	bit	0, a
-	jq	nz, BB0_13
-	ld	bc, (iy + 41)
-	ld	de, (iy + 49)
-	ld	(ix + -18), de
-	inc	de
-	push	de
-	pop	hl
-	or	a, a
-	sbc	hl, bc
-	call	__setflag
-	jq	p, BB0_11
-	ld	hl, (iy + 38)
-	ld	(ix + -15), hl
-	ex	de, hl
-	ld	bc, 3
-	call	__imulu
-	push	hl
-	pop	bc
-	ld	de, (ix + -15)
-	push	de
-	pop	hl
-	add	hl, bc
-	ld	hl, (hl)
-	ld	(ix + -21), hl
-	ld	hl, (ix + -18)
-	ld	bc, 3
-	call	__imulu
-	push	hl
-	pop	bc
-	ex	de, hl
-	add	hl, bc
-	ld	bc, (hl)
-	ld	hl, (ix + -21)
-	jq	BB0_12
-BB0_8:
+	jq	z, BB0_7
+BB0_3:
+	ld	(iy + 14), 1
+	jq	BB0_7
+BB0_4:
 	ld	hl, -720868
 	push	de
 	ld	e, (hl)
@@ -124,11 +70,11 @@ BB0_8:
 	ld.sis	bc, 1
 	call	__sand
 	ld	a, l
-	xor	a, e
-	xor	a, e
+	xor	a, d
+	xor	a, d
 	bit	0, a
 	ld	iy, (ix + 6)
-	jq	nz, BB0_10
+	jq	nz, BB0_6
 	ld	hl, -720878
 	push	de
 	ld	e, (hl)
@@ -139,116 +85,20 @@ BB0_8:
 	pop	de
 	ld	a, l
 	bit	5, a
-	jq	z, BB0_14
-BB0_10:
+	jq	z, BB0_7
+BB0_6:
 	ld	(iy + 14), 0
-	jq	BB0_14
-BB0_11:
-	ld	hl, (iy + 32)
-	ld	(ix + -21), hl
-	push	hl
-	call	_strlen
-	ld	iy, (ix + 6)
-	ld	(ix + -24), hl
-	pop	hl
-	ld	de, (iy + 38)
-	ld	bc, 3
-	ld	hl, (ix + -18)
-	call	__imulu
-	push	hl
-	pop	bc
-	ld	(ix + -15), de
-	ex	de, hl
-	add	hl, bc
-	ld	bc, (hl)
-	ld	hl, (ix + -21)
-	ld	de, (ix + -24)
-	add	hl, de
-BB0_12:
-	or	a, a
-	sbc	hl, bc
-	ld	(ix + -18), hl
-	ld	hl, (iy + 35)
-	ld	(ix + -21), hl
-	lea	de, iy + 0
-	ld	iy, (ix + -12)
-	ld	hl, (iy + 4)
-	push	de
-	pop	iy
-	ld	bc, (iy + 4)
-	or	a, a
-	sbc	hl, bc
-	push	hl
-	pop	de
-	push	de
-	pop	iy
-	add	iy, iy
-	sbc	hl, hl
-	push	hl
-	pop	bc
-	ex	de, hl
-	add	hl, bc
-	call	__ixor
-	ld	bc, 10
-	call	__idivu
-	ld	de, (ix + -21)
-	add	hl, de
-	ld	iy, (ix + 6)
-	ld	(iy + 49), hl
-	ld	bc, 3
-	call	__imulu
-	push	hl
-	pop	de
-	ld	hl, (ix + -15)
-	add	hl, de
-	ld	de, (hl)
-	ld	iy, (ix + -12)
-	ld	hl, (iy + 1)
-	ld	iy, (ix + 6)
-	ld	bc, (iy + 1)
-	or	a, a
-	sbc	hl, bc
-	ld	bc, (ix + -18)
-	push	bc
-	push	hl
-	push	de
-	call	_optix_GetStringIndexByOffset
-	ld	(ix + -12), hl
-	pop	hl
-	pop	hl
-	pop	hl
-	ld	iy, (ix + 6)
-	ld	de, (iy + 38)
-	ld	iy, (ix + 6)
-	ld	hl, (iy + 49)
-	ld	bc, 3
-	call	__imulu
-	push	hl
-	pop	bc
-	ex	de, hl
-	add	hl, bc
-	ld	hl, (hl)
-	ld	iy, (ix + 6)
-	ld	bc, (iy + 32)
-	ld	de, (ix + -12)
-	add	hl, de
-	or	a, a
-	sbc	hl, bc
-	ld	(iy + 46), hl
-	ld	e, 1
-BB0_13:
-	ld	(iy + 14), 1
-BB0_14:
+BB0_7:
 	ld	a, (iy + 14)
-	xor	a, e
+	xor	a, d
 	bit	0, a
-	jq	nz, BB0_50
+	jq	nz, BB0_34
 	ld	bc, 6
-	ld	e, (iy + 52)
+	ld	e, (iy + 49)
 	or	a, a
 	sbc	hl, hl
 	ld	l, e
-	ld	(ix + -12), hl
+	ld	(ix + -9), hl
 	add	hl, bc
 	ld	iy, (_current_context)
 	lea	bc, iy + 0
@@ -258,7 +108,7 @@ BB0_14:
 	add	hl, bc
 	or	a, a
 	sbc	hl, bc
-	jq	z, BB0_50
+	jq	z, BB0_34
 	push	bc
 	pop	iy
 	ld	iy, (iy + 3)
@@ -266,141 +116,143 @@ BB0_14:
 	ld	iy, (ix + 6)
 	ld	a, l
 	or	a, a
-	jq	z, BB0_41
+	jq	z, BB0_34
 	ld	a, l
 	cp	a, 10
-	jq	nz, BB0_21
-	ld	de, (iy + 46)
+	jq	nz, BB0_14
+	ld	de, (iy + 43)
 	push	de
 	pop	hl
-	ld	bc, (ix + -9)
+	ld	bc, (ix + -6)
 	or	a, a
 	sbc	hl, bc
-	jq	nc, BB0_40
+	call	__setflag
+	jq	p, BB0_33
 	inc	de
-	jq	BB0_20
-BB0_21:
+	jq	BB0_13
+BB0_14:
 	ld	a, l
 	cp	a, 11
-	jq	nz, BB0_25
-	ld	de, (iy + 46)
+	jq	nz, BB0_18
+	ld	de, (iy + 43)
 	ld	bc, 1
 	push	de
 	pop	hl
 	or	a, a
 	sbc	hl, bc
 	call	__setflag
-	jq	p, BB0_24
-	ld	hl, (iy + 49)
+	jq	p, BB0_17
+	ld	hl, (iy + 46)
 	or	a, a
 	sbc	hl, bc
 	call	__setflag
-	jq	m, BB0_40
-BB0_24:
+	jq	m, BB0_33
+BB0_17:
 	dec	de
-BB0_20:
-	ld	(iy + 46), de
-	jq	BB0_40
-BB0_25:
+BB0_13:
+	ld	(iy + 43), de
+	jq	BB0_33
+BB0_18:
 	ld	a, l
 	cp	a, 15
-	jq	nz, BB0_27
+	jq	nz, BB0_20
 	or	a, a
 	sbc	hl, hl
-	ld	(iy + 46), hl
+	ld	(iy + 43), hl
 	ld	hl, (ix + -3)
 	ld	(hl), 0
-	jq	BB0_40
-BB0_27:
+	jq	BB0_33
+BB0_20:
 	ld	a, l
 	cp	a, 48
-	jq	nz, BB0_31
+	jq	nz, BB0_24
 	ld	l, e
 	inc	l
 	ld	a, e
 	cp	a, 2
-	jq	c, BB0_30
+	jq	c, BB0_23
 	ld	l, 0
-BB0_30:
-	ld	(iy + 52), l
-	jq	BB0_41
-BB0_31:
+BB0_23:
+	ld	(iy + 49), l
+	jq	BB0_34
+BB0_24:
 	ld	a, l
 	sub	a, 55
 	cp	a, 2
-	jq	nc, BB0_35
-	ld	de, (iy + 46)
+	jq	nc, BB0_28
+	ld	de, (iy + 43)
 	ld	bc, 1
 	push	de
 	pop	hl
 	or	a, a
 	sbc	hl, bc
 	call	__setflag
-	jq	p, BB0_34
-	ld	hl, (iy + 49)
+	jq	p, BB0_27
+	ld	hl, (iy + 46)
 	or	a, a
 	sbc	hl, bc
 	call	__setflag
-	jq	m, BB0_41
-BB0_34:
+	jq	m, BB0_34
+BB0_27:
 	ld	iy, (ix + -3)
 	add	iy, de
-	lea	hl, iy + 0
-	dec	hl
-	ld	(ix + -3), hl
-	ld	hl, (ix + -9)
+	ld	(ix + -3), iy
+	dec	iy
+	ld	hl, (ix + -6)
 	ld	bc, 2
 	add	hl, bc
 	or	a, a
 	sbc	hl, de
 	push	hl
-	push	iy
 	ld	hl, (ix + -3)
 	push	hl
+	push	iy
 	call	_memmove
+	pop	hl
+	pop	hl
+	pop	hl
 	ld	iy, (ix + 6)
-	pop	hl
-	pop	hl
-	pop	hl
-	ld	hl, (iy + 46)
+	ld	hl, (iy + 43)
 	dec	hl
-	jq	BB0_39
-BB0_35:
-	ld	de, 0
-	ld	e, l
+	jq	BB0_32
+BB0_28:
+	ld	bc, 0
+	ld	c, l
+	ld	(ix + -12), bc
 	ld	bc, 3
-	ld	hl, (ix + -12)
+	ld	hl, (ix + -9)
 	call	__imulu
 	push	hl
 	pop	bc
 	ld	hl, L___const.optix_UpdateInputBox_default.keys
 	add	hl, bc
 	ld	hl, (hl)
-	add	hl, de
+	ld	bc, (ix + -12)
+	add	hl, bc
 	ld	a, (hl)
 	or	a, a
-	jq	z, BB0_41
-	ld	a, (iy + 53)
-	ld	l, 1
-	xor	a, l
+	jq	z, BB0_34
+	ld	a, (iy + 50)
+	xor	a, d
 	bit	0, a
-	jq	nz, BB0_38
-	ld	de, (ix + -9)
+	jq	nz, BB0_31
+	ld	de, (ix + -6)
 	inc	de
-	ld	bc, (iy + 54)
+	ld	bc, (iy + 51)
 	ex	de, hl
 	or	a, a
 	sbc	hl, bc
-	jq	nc, BB0_41
-BB0_38:
-	ld	de, (iy + 46)
+	call	__setflag
+	jq	p, BB0_34
+BB0_31:
+	ld	de, (iy + 43)
 	ld	iy, (ix + -3)
 	add	iy, de
 	lea	hl, iy + 0
 	inc	hl
 	push	hl
 	pop	bc
-	ld	hl, (ix + -9)
+	ld	hl, (ix + -6)
 	or	a, a
 	sbc	hl, de
 	push	hl
@@ -411,7 +263,7 @@ BB0_38:
 	pop	hl
 	pop	hl
 	ld	iy, (ix + 6)
-	ld	a, (iy + 52)
+	ld	a, (iy + 49)
 	or	a, a
 	sbc	hl, hl
 	ld	l, a
@@ -425,178 +277,22 @@ BB0_38:
 	ld	iy, (_current_context)
 	ld	iy, (iy + 3)
 	ld	a, (iy + 3)
-	ld	iy, (ix + 6)
 	ld	de, 0
 	ld	e, a
 	add	hl, de
 	ld	a, (hl)
-	ld	de, (iy + 46)
+	ld	iy, (ix + 6)
+	ld	de, (iy + 43)
 	ld	hl, (ix + -3)
 	add	hl, de
 	ld	(hl), a
-	ld	hl, (iy + 46)
+	ld	hl, (iy + 43)
 	inc	hl
-BB0_39:
-	ld	(iy + 46), hl
-BB0_40:
-	ld	(iy + 44), 1
-BB0_41:
-	ld	a, (iy + 44)
-	ld	l, 1
-	xor	a, l
-	bit	0, a
-	jq	nz, BB0_50
-	push	iy
-	call	_optix_WrapText
-	pop	hl
-	ld	iy, (ix + 6)
-	ld	de, (iy + 49)
-	ld	iy, (iy + 35)
-	ld	(ix + -9), iy
-	ld	bc, (ix + -6)
-	add	iy, bc
-	ld	hl, 1
-	or	a, a
-	sbc	hl, bc
-	add	hl, de
-	push	hl
-	pop	bc
-	ld	(ix + -3), iy
-	lea	hl, iy + 0
-	or	a, a
-	sbc	hl, de
-	call	__setflag
-	jq	m, BB0_44
-	ld	bc, (ix + -9)
-BB0_44:
-	ld	hl, (ix + -3)
-	or	a, a
-	sbc	hl, de
-	call	__setflag
-	ld	iy, (ix + 6)
-	jq	m, BB0_46
-	push	de
-	pop	hl
-	or	a, a
-	sbc	hl, bc
-	call	__setflag
-	jq	p, BB0_49
-BB0_46:
-	push	de
-	pop	hl
-	or	a, a
-	sbc	hl, bc
-	call	__setflag
-	jq	m, BB0_48
-	push	bc
-	pop	de
-BB0_48:
-	ld	(iy + 35), de
-BB0_49:
-	ld	(iy + 17), 1
-	ld	(iy + 44), 0
-BB0_50:
-	ld	sp, ix
-	pop	ix
-	ret
-	section	.text,"ax",@progbits
-
-	section	.text,"ax",@progbits
-	public	_optix_GetStringIndexByOffset
-_optix_GetStringIndexByOffset:
-	ld	hl, -9
-	call	__frameset
-	ld	de, (ix + 6)
-	ld	hl, (ix + 12)
-	ld	bc, 0
-	ld	(ix + -3), bc
-	push	hl
-	push	de
-	call	_optix_GetStringWidthL
-	pop	de
-	pop	de
-	ld	de, (ix + 9)
-	or	a, a
-	sbc	hl, de
-	jq	nc, BB1_2
-	ld	hl, (ix + 12)
-	jq	BB1_16
-BB1_2:
-	ld	bc, (ix + 12)
-	ld	iy, (ix + 6)
-BB1_3:
-	push	bc
-	pop	hl
-	ld	de, (ix + -3)
-	or	a, a
-	sbc	hl, de
-	call	__setflag
-	jq	m, BB1_14
-	ld	(ix + -9), bc
-	push	bc
-	pop	hl
-	or	a, a
-	sbc	hl, de
-	ld	bc, 2
-	call	__idivs
-	add	hl, de
-	ld	(ix + -6), hl
-	push	hl
-	push	iy
-	call	_optix_GetStringWidthL
-	pop	de
-	pop	de
-	ld	de, (ix + 9)
-	or	a, a
-	sbc	hl, de
-	push	hl
-	pop	de
-	push	de
-	pop	iy
-	add	iy, iy
-	sbc	hl, hl
-	push	hl
-	pop	bc
-	ex	de, hl
-	add	hl, bc
-	call	__ixor
-	ld	de, 3
-	or	a, a
-	sbc	hl, de
-	jq	c, BB1_15
-	ld	hl, (ix + -6)
-	push	hl
-	ld	hl, (ix + 6)
-	push	hl
-	call	_optix_GetStringWidthL
-	pop	de
-	pop	de
-	ld	de, (ix + 9)
-	or	a, a
-	sbc	hl, de
-	ld	a, 1
-	jq	c, BB1_7
-	ld	a, 0
-BB1_7:
-	bit	0, a
-	ld	bc, (ix + -9)
-	jq	z, BB1_10
-	ld	hl, (ix + -6)
-	inc	hl
-	ld	(ix + -3), hl
-BB1_10:
-	ld	iy, (ix + 6)
-	bit	0, a
-	jq	nz, BB1_3
-	ld	bc, (ix + -6)
-	dec	bc
-	jq	BB1_3
-BB1_14:
-	ld	hl, -1
-	jq	BB1_16
-BB1_15:
-	ld	hl, (ix + -6)
-BB1_16:
+BB0_32:
+	ld	(iy + 43), hl
+BB0_33:
+	ld	(iy + 41), 1
+BB0_34:
 	ld	sp, ix
 	pop	ix
 	ret
@@ -605,18 +301,18 @@ BB1_16:
 	section	.text,"ax",@progbits
 	public	_optix_RenderInputBox_default
 _optix_RenderInputBox_default:
-	ld	hl, -6
+	ld	hl, -3
 	call	__frameset
 	ld	iy, (ix + 6)
 	ld	a, (iy + 15)
 	ld	l, 1
 	xor	a, l
 	bit	0, a
-	jq	nz, BB2_8
+	jq	nz, BB1_8
 	ld	a, (iy + 17)
 	xor	a, l
 	bit	0, a
-	jq	nz, BB2_8
+	jq	nz, BB1_8
 	ld	iy, (ix + 6)
 	ld	l, (iy + 1)
 	ld	h, (iy + 2)
@@ -657,79 +353,26 @@ _optix_RenderInputBox_default:
 	add	hl, bc
 	or	a, a
 	sbc	hl, bc
-	jq	z, BB2_6
+	jq	z, BB1_6
 	ld	hl, (iy + 21)
 	add	hl, bc
 	or	a, a
 	sbc	hl, bc
-	jq	z, BB2_6
+	jq	z, BB1_6
 	push	iy
 	call	_optix_RenderText_default
-	ld	iy, (ix + 6)
 	pop	hl
+	ld	iy, (ix + 6)
 	ld	a, (iy + 14)
 	ld	l, 1
 	xor	a, l
 	bit	0, a
-	jq	nz, BB2_6
 	ld	hl, 18
 	push	hl
-	call	_gfx_SetColor
+	call	z, _gfx_SetColor
 	pop	hl
 	ld	iy, (ix + 6)
-	ld	hl, (iy + 1)
-	ld	(ix + -3), hl
-	ld	iy, (ix + 6)
-	ld	hl, (iy + 38)
-	ld	(ix + -6), hl
-	ld	iy, (ix + 6)
-	ld	hl, (iy + 49)
-	ld	bc, 3
-	call	__imulu
-	push	hl
-	pop	de
-	ld	hl, (ix + -6)
-	add	hl, de
-	ld	de, (hl)
-	ld	iy, (ix + 6)
-	ld	hl, (iy + 46)
-	ld	iy, (ix + 6)
-	ld	iy, (iy + 32)
-	or	a, a
-	sbc	hl, de
-	push	hl
-	pop	bc
-	add	iy, bc
-	push	iy
-	push	de
-	call	_optix_GetStringWidthL
-	pop	de
-	pop	de
-	ld	de, (ix + -3)
-	add	hl, de
-	ld	(ix + -3), hl
-	ld	iy, (ix + 6)
-	ld	de, (iy + 4)
-	ld	iy, (ix + 6)
-	ld	hl, (iy + 49)
-	ld	iy, (ix + 6)
-	ld	bc, (iy + 35)
-	or	a, a
-	sbc	hl, bc
-	ld	bc, 10
-	call	__imulu
-	add	hl, de
-	ld	de, 10
-	push	de
-	push	hl
-	ld	hl, (ix + -3)
-	push	hl
-	call	_gfx_VertLine
-	ld	iy, (ix + 6)
-	pop	hl
-	pop	hl
-	pop	hl
-BB2_6:
+BB1_6:
 	ld	hl, (iy + 27)
 	add	hl, bc
 	or	a, a
@@ -737,7 +380,110 @@ BB2_6:
 	push	hl
 	call	nz, _optix_RenderStack
 	pop	hl
-BB2_8:
+BB1_8:
+	pop	hl
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_optix_GetStringIndexByOffset
+_optix_GetStringIndexByOffset:
+	ld	hl, -9
+	call	__frameset
+	ld	de, (ix + 6)
+	ld	hl, (ix + 12)
+	ld	bc, 0
+	ld	(ix + -3), bc
+	push	hl
+	push	de
+	call	_optix_GetStringWidthL
+	pop	de
+	pop	de
+	ld	de, (ix + 9)
+	or	a, a
+	sbc	hl, de
+	call	__setflag
+	jq	p, BB2_2
+	ld	hl, (ix + 12)
+	jq	BB2_16
+BB2_2:
+	ld	bc, (ix + 12)
+	ld	iy, (ix + 6)
+BB2_3:
+	push	bc
+	pop	hl
+	ld	de, (ix + -3)
+	or	a, a
+	sbc	hl, de
+	call	__setflag
+	jq	m, BB2_14
+	ld	(ix + -9), bc
+	push	bc
+	pop	hl
+	or	a, a
+	sbc	hl, de
+	ld	bc, 2
+	call	__idivs
+	add	hl, de
+	ld	(ix + -6), hl
+	push	hl
+	push	iy
+	call	_optix_GetStringWidthL
+	pop	de
+	pop	de
+	ld	de, (ix + 9)
+	or	a, a
+	sbc	hl, de
+	push	hl
+	pop	de
+	push	de
+	pop	iy
+	add	iy, iy
+	sbc	hl, hl
+	push	hl
+	pop	bc
+	ex	de, hl
+	add	hl, bc
+	call	__ixor
+	ld	de, 3
+	or	a, a
+	sbc	hl, de
+	jq	c, BB2_15
+	ld	hl, (ix + -6)
+	push	hl
+	ld	hl, (ix + 6)
+	push	hl
+	call	_optix_GetStringWidthL
+	pop	de
+	pop	de
+	ld	de, (ix + 9)
+	or	a, a
+	sbc	hl, de
+	call	__setflag
+	ld	a, 1
+	jq	m, BB2_7
+	ld	a, 0
+BB2_7:
+	bit	0, a
+	ld	bc, (ix + -9)
+	jq	z, BB2_10
+	ld	hl, (ix + -6)
+	inc	hl
+	ld	(ix + -3), hl
+BB2_10:
+	ld	iy, (ix + 6)
+	bit	0, a
+	jq	nz, BB2_3
+	ld	bc, (ix + -6)
+	dec	bc
+	jq	BB2_3
+BB2_14:
+	ld	hl, -1
+	jq	BB2_16
+BB2_15:
+	ld	hl, (ix + -6)
+BB2_16:
 	ld	sp, ix
 	pop	ix
 	ret
@@ -774,17 +520,13 @@ L___const.optix_UpdateInputBox_default.keys:
 	extern	__sand
 	extern	_strlen
 	extern	__idivs
-	extern	__idivu
 	extern	__setflag
 	extern	_current_context
-	extern	_gfx_VertLine
 	extern	__Unwind_SjLj_Unregister
-	extern	_optix_WrapText
 	extern	_optix_GetStringWidthL
 	extern	__ixor
 	extern	_optix_RenderStack
 	extern	__imulu
 	extern	_gfx_SetColor
-	extern	_optix_RenderText_default
 	extern	_optix_SetTextColor
-	extern	__bdivu
+	extern	_optix_RenderText_default

@@ -1,0 +1,180 @@
+Date : 2021-10-11 13:30:32
+Directory : /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src
+Total : 146 files,  4564 codes, 775 comments, 649 blanks, all 5988 lines
+
+Languages
++----------+------------+------------+------------+------------+------------+
+| language | files      | code       | comment    | blank      | total      |
++----------+------------+------------+------------+------------+------------+
+| C        |         70 |      3,076 |        537 |        249 |      3,862 |
+| C++      |         74 |      1,410 |        238 |        394 |      2,042 |
+| YAML     |          2 |         78 |          0 |          6 |         84 |
++----------+------------+------------+------------+------------+------------+
+
+Directories
++-----------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                            | files      | code       | comment    | blank      | total      |
++-----------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                               |        146 |      4,564 |        775 |        649 |      5,988 |
+| optix                                                                                                           |         61 |      2,423 |        510 |        306 |      3,239 |
+| optix/elements                                                                                                  |         22 |      1,015 |        248 |        115 |      1,378 |
+| optix/gfx                                                                                                       |         20 |        275 |          0 |         62 |        337 |
+| vysion                                                                                                          |         83 |      2,088 |        252 |        330 |      2,670 |
+| vysion/elements                                                                                                 |          6 |        496 |         65 |         41 |        602 |
+| vysion/gfx                                                                                                      |         60 |        913 |          0 |        182 |      1,095 |
+| vysion/gfx/input                                                                                                |          1 |         56 |          0 |          3 |         59 |
+| vysion/gfx/output                                                                                               |         59 |        857 |          0 |        179 |      1,036 |
++-----------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++-----------------------------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| filename                                                                                                        | language | code       | comment    | blank      | total      |
++-----------------------------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/main.c                                      | C        |         40 |         13 |          8 |         61 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/main.h                                      | C++      |         13 |          0 |          5 |         18 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/optix/colors.c                              | C        |         51 |          9 |          6 |         66 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/optix/colors.h                              | C++      |        100 |         24 |          7 |        131 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/optix/cursor.c                              | C        |        167 |         24 |         11 |        202 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/optix/cursor.h                              | C++      |         51 |         17 |          7 |         75 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/optix/elements/button.c                     | C        |         56 |         10 |          2 |         68 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/optix/elements/button.h                     | C++      |         14 |         10 |          4 |         28 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/optix/elements/check_box.c                  | C        |         18 |          4 |          2 |         24 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/optix/elements/check_box.h                  | C++      |         11 |          5 |          4 |         20 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/optix/elements/divider.c                    | C        |         19 |          2 |          5 |         26 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/optix/elements/divider.h                    | C++      |         20 |          4 |          5 |         29 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/optix/elements/input_box.c                  | C        |        112 |         14 |          6 |        132 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/optix/elements/input_box.h                  | C++      |         23 |          9 |          5 |         37 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/optix/elements/menu.c                       | C        |        139 |         31 |          9 |        179 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/optix/elements/menu.h                       | C++      |         33 |         25 |          7 |         65 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/optix/elements/rectangle.c                  | C        |         12 |          1 |          1 |         14 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/optix/elements/rectangle.h                  | C++      |         14 |          2 |          5 |         21 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/optix/elements/scroll_bar.c                 | C        |         34 |         11 |          7 |         52 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/optix/elements/scroll_bar.h                 | C++      |         14 |          6 |          5 |         25 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/optix/elements/slider.c                     | C        |         31 |          6 |          4 |         41 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/optix/elements/slider.h                     | C++      |         16 |          2 |          4 |         22 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/optix/elements/sprite.c                     | C        |         11 |          0 |          1 |         12 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/optix/elements/sprite.h                     | C++      |         16 |          4 |          4 |         24 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/optix/elements/text.c                       | C        |        167 |         43 |         13 |        223 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/optix/elements/text.h                       | C++      |         29 |          8 |          6 |         43 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/optix/elements/window.c                     | C        |        203 |         43 |         10 |        256 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/optix/elements/window.h                     | C++      |         23 |          8 |          6 |         37 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/optix/gfx/convimg.yaml                      | YAML     |         22 |          0 |          3 |         25 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/optix/gfx/cursor_move.c                     | C        |         12 |          0 |          1 |         13 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/optix/gfx/cursor_move.h                     | C++      |         14 |          0 |          5 |         19 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/optix/gfx/cursor_normal.c                   | C        |         12 |          0 |          1 |         13 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/optix/gfx/cursor_normal.h                   | C++      |         14 |          0 |          5 |         19 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/optix/gfx/cursor_pointer.c                  | C        |         12 |          0 |          1 |         13 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/optix/gfx/cursor_pointer.h                  | C++      |         14 |          0 |          5 |         19 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/optix/gfx/cursor_resize_horizontal.c        | C        |         12 |          0 |          1 |         13 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/optix/gfx/cursor_resize_horizontal.h        | C++      |         14 |          0 |          5 |         19 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/optix/gfx/cursor_resize_vertical.c          | C        |         12 |          0 |          1 |         13 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/optix/gfx/cursor_resize_vertical.h          | C++      |         14 |          0 |          5 |         19 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/optix/gfx/cursor_text.c                     | C        |         12 |          0 |          1 |         13 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/optix/gfx/cursor_text.h                     | C++      |         14 |          0 |          5 |         19 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/optix/gfx/cursor_text_lower.c               | C        |         12 |          0 |          1 |         13 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/optix/gfx/cursor_text_lower.h               | C++      |         14 |          0 |          5 |         19 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/optix/gfx/cursor_text_math.c                | C        |         12 |          0 |          1 |         13 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/optix/gfx/cursor_text_math.h                | C++      |         14 |          0 |          5 |         19 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/optix/gfx/cursor_text_upper.c               | C        |         12 |          0 |          1 |         13 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/optix/gfx/cursor_text_upper.h               | C++      |         14 |          0 |          5 |         19 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/optix/gfx/optix_gfx.h                       | C++      |         19 |          0 |          5 |         24 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/optix/gui_control.c                         | C        |         18 |          3 |          5 |         26 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/optix/gui_control.h                         | C++      |         95 |         32 |         16 |        143 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/optix/init.c                                | C        |        190 |         71 |         10 |        271 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/optix/init.h                                | C++      |         24 |          1 |          3 |         28 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/optix/input.c                               | C        |         52 |          4 |          7 |         63 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/optix/input.h                               | C++      |         34 |          4 |         10 |         48 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/optix/loop.c                                | C        |        118 |         33 |          9 |        160 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/optix/loop.h                                | C++      |          9 |          0 |          5 |         14 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/optix/optix.h                               | C++      |         18 |          2 |          4 |         24 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/optix/shapes.c                              | C        |         22 |          4 |          4 |         30 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/optix/shapes.h                              | C++      |          8 |          0 |          4 |         12 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/optix/shortcuts.c                           | C        |          6 |          8 |          3 |         17 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/optix/shortcuts.h                           | C++      |          9 |          0 |          3 |         12 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/optix/util.c                                | C        |        144 |         25 |         13 |        182 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/optix/util.h                                | C++      |         17 |          1 |          2 |         20 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/control.c                            | C        |          5 |          1 |          2 |          8 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/control.h                            | C++      |         15 |          3 |          6 |         24 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/defines.h                            | C++      |          9 |          1 |          1 |         11 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/elements/desktop.c                   | C        |        308 |         27 |         16 |        351 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/elements/desktop.h                   | C++      |         10 |          6 |          5 |         21 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/elements/file_explorer.c             | C        |        105 |         14 |          7 |        126 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/elements/file_explorer.h             | C++      |         29 |         14 |          8 |         51 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/elements/settings.c                  | C        |         35 |          3 |          2 |         40 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/elements/settings.h                  | C++      |          9 |          1 |          3 |         13 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/filesystem.c                         | C        |         85 |          9 |          8 |        102 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/filesystem.h                         | C++      |         39 |         15 |         11 |         65 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/gfx/input/convimg.yaml               | YAML     |         56 |          0 |          3 |         59 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/gfx/output/icon_appvar.c             | C        |         12 |          0 |          1 |         13 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/gfx/output/icon_appvar.h             | C++      |         14 |          0 |          5 |         19 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/gfx/output/icon_basic.c              | C        |         12 |          0 |          1 |         13 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/gfx/output/icon_basic.h              | C++      |         14 |          0 |          5 |         19 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/gfx/output/icon_c.c                  | C        |         12 |          0 |          1 |         13 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/gfx/output/icon_c.h                  | C++      |         14 |          0 |          5 |         19 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/gfx/output/icon_ez80.c               | C        |         12 |          0 |          1 |         13 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/gfx/output/icon_ez80.h               | C++      |         14 |          0 |          5 |         19 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/gfx/output/icon_folder.c             | C        |         12 |          0 |          1 |         13 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/gfx/output/icon_folder.h             | C++      |         14 |          0 |          5 |         19 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/gfx/output/icon_ice.c                | C        |         12 |          0 |          1 |         13 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/gfx/output/icon_ice.h                | C++      |         14 |          0 |          5 |         19 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/gfx/output/icon_ices.c               | C        |         12 |          0 |          1 |         13 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/gfx/output/icon_ices.h               | C++      |         14 |          0 |          5 |         19 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/gfx/output/palette.c                 | C        |         67 |          0 |          1 |         68 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/gfx/output/palette.h                 | C++      |         11 |          0 |          5 |         16 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/gfx/output/settings_colors.c         | C        |         12 |          0 |          1 |         13 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/gfx/output/settings_colors.h         | C++      |         14 |          0 |          5 |         19 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/gfx/output/settings_desktop.c        | C        |         12 |          0 |          1 |         13 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/gfx/output/settings_desktop.h        | C++      |         14 |          0 |          5 |         19 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/gfx/output/settings_reset.c          | C        |         12 |          0 |          1 |         13 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/gfx/output/settings_reset.h          | C++      |         14 |          0 |          5 |         19 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/gfx/output/settings_shell.c          | C        |         12 |          0 |          1 |         13 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/gfx/output/settings_shell.h          | C++      |         14 |          0 |          5 |         19 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/gfx/output/settings_system.c         | C        |         12 |          0 |          1 |         13 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/gfx/output/settings_system.h         | C++      |         14 |          0 |          5 |         19 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/gfx/output/settings_taskbar.c        | C        |         12 |          0 |          1 |         13 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/gfx/output/settings_taskbar.h        | C++      |         14 |          0 |          5 |         19 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/gfx/output/start_about.c             | C        |          8 |          0 |          1 |          9 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/gfx/output/start_about.h             | C++      |         14 |          0 |          5 |         19 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/gfx/output/start_appvars.c           | C        |          8 |          0 |          1 |          9 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/gfx/output/start_appvars.h           | C++      |         14 |          0 |          5 |         19 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/gfx/output/start_exit.c              | C        |          8 |          0 |          1 |          9 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/gfx/output/start_exit.h              | C++      |         14 |          0 |          5 |         19 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/gfx/output/start_files.c             | C        |          8 |          0 |          1 |          9 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/gfx/output/start_files.h             | C++      |         14 |          0 |          5 |         19 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/gfx/output/start_icon.c              | C        |         40 |          0 |          1 |         41 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/gfx/output/start_icon.h              | C++      |         14 |          0 |          5 |         19 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/gfx/output/start_programs.c          | C        |          8 |          0 |          1 |          9 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/gfx/output/start_programs.h          | C++      |         14 |          0 |          5 |         19 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/gfx/output/start_refresh.c           | C        |          8 |          0 |          1 |          9 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/gfx/output/start_refresh.h           | C++      |         14 |          0 |          5 |         19 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/gfx/output/start_search.c            | C        |          8 |          0 |          1 |          9 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/gfx/output/start_search.h            | C++      |         14 |          0 |          5 |         19 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/gfx/output/start_settings.c          | C        |          8 |          0 |          1 |          9 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/gfx/output/start_settings.h          | C++      |         14 |          0 |          5 |         19 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/gfx/output/taskbar_icon.c            | C        |         20 |          0 |          1 |         21 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/gfx/output/taskbar_icon.h            | C++      |         14 |          0 |          5 |         19 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/gfx/output/vysion_gfx.h              | C++      |         40 |          0 |          5 |         45 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/gfx/output/window_close.c            | C        |          8 |          0 |          1 |          9 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/gfx/output/window_close.h            | C++      |         14 |          0 |          5 |         19 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/gfx/output/window_maximize.c         | C        |          8 |          0 |          1 |          9 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/gfx/output/window_maximize.h         | C++      |         14 |          0 |          5 |         19 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/gfx/output/window_minimize.c         | C        |          8 |          0 |          1 |          9 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/gfx/output/window_minimize.h         | C++      |         14 |          0 |          5 |         19 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/gfx/output/xlibc_condensed.c         | C        |         12 |          0 |          1 |         13 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/gfx/output/xlibc_condensed.h         | C++      |         14 |          0 |          5 |         19 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/gfx/output/xlibc_condensed_palette.c | C        |         34 |          0 |          1 |         35 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/gfx/output/xlibc_condensed_palette.h | C++      |         11 |          0 |          5 |         16 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/init.c                               | C        |         21 |          3 |          3 |         27 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/init.h                               | C++      |          6 |          0 |          3 |          9 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/os.c                                 | C        |         34 |          3 |          4 |         41 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/os.h                                 | C++      |          6 |          2 |          4 |         12 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/settings.c                           | C        |         17 |          8 |          5 |         30 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/settings.h                           | C++      |         24 |          6 |         14 |         44 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/util.c                               | C        |         26 |          5 |          4 |         35 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/util.h                               | C++      |          7 |          0 |          3 |         10 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/wallpaper.c                          | C        |        140 |         42 |         12 |        194 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/wallpaper.h                          | C++      |         30 |          3 |          5 |         38 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/window_manager.c                     | C        |        165 |         63 |         12 |        240 |
+| /run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/window_manager.h                     | C++      |         50 |         23 |         10 |         83 |
+| Total                                                                                                           |          |      4,564 |        775 |        649 |      5,988 |
++-----------------------------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+

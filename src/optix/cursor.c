@@ -1,6 +1,16 @@
 #include "cursor.h"
-#include "input.h"
+
+#include <stdbool.h>
+#include <tice.h>
 #include <debug.h>
+#include <string.h>
+#include "input.h"
+#include "gfx/optix_gfx.h"
+#include "gui_control.h"
+#include "colors.h"
+#include "elements/window.h"
+#include "elements/button.h"
+#include "elements/menu.h"
 
 
 //initialize
@@ -26,7 +36,7 @@ void optix_InitializeCursor(struct optix_widget *widget) {
     widget->state.visible = true;
     cursor->current_selection = NULL;
     cursor->direction = OPTIX_CURSOR_NO_DIR;
-    cursor->back = gfx_MallocSprite(OPTIX_CURSOR_SPRITE_WIDTH, OPTIX_CURSOR_SPRITE_HEIGHT);
+    cursor->back = gfx_AllocSprite(OPTIX_CURSOR_SPRITE_WIDTH, OPTIX_CURSOR_SPRITE_HEIGHT, malloc);
 }
 
 //this will also handle the box-based mode
@@ -39,6 +49,7 @@ void optix_UpdateCursor_default(struct optix_widget *widget) {
     if (current_context->settings->cursor_active) {
         bool key_pressed = false;
         float seconds_elapsed = ((float) current_context->data->ticks) / ((float) TIMER_FREQUENCY);
+        current_context->cursor->state = OPTIX_CURSOR_NORMAL;
         if (optix_DefaultKeyIsDown(KEY_UP)) {
             cursor->true_y -= cursor->current_speed;
             key_pressed = true;
@@ -105,26 +116,13 @@ void optix_RenderCursor_default(struct optix_widget *widget) {
             struct optix_window *window = ((struct optix_window_title_bar *) cursor->current_selection)->window;
             gfx_Rectangle(transform->x - 1, transform->y, transform->width + 2, transform->height + window->widget.transform.height + 1);
         } else if (cursor->current_selection->type == OPTIX_MENU_TYPE) {
-            struct optix_widget *widget = (struct optix_widget *) cursor->current_selection;
             struct optix_menu *menu = (struct optix_menu *) cursor->current_selection;
+            struct optix_button temp;
             if (menu->hide_selection_box) {
-                uint16_t width;
-                uint8_t height;
                 int selection = menu->selection != -1 ? menu->selection : menu->last_selection;
-                int x = widget->transform.x + (selection % menu->columns * 
-                (width = optix_GetMenuOptionWidth(selection, menu->rows, menu->columns, widget->transform.width, widget->transform.height)));
-                //y
-                int y = widget->transform.y + ((selection - menu->min) / menu->columns * 
-                (height = optix_GetMenuOptionHeight(selection, menu->rows, menu->columns, widget->transform.width, widget->transform.height)));
-                /*if (x && x < LCD_WIDTH) {
-                    x--;
-                    width += 2;
-                }
-                if (y && y < LCD_HEIGHT) {
-                    y--;
-                    width += 2;
-                }*/
-                gfx_Rectangle(x, y, width, height);
+                struct optix_transform *transform = &temp.widget.transform;
+                optix_SetMenuOptionTransform(selection, &temp, menu);
+                gfx_Rectangle(transform->x, transform->y, transform->width, transform->height);
             }
         } else gfx_Rectangle(transform->x, transform->y, transform->width, transform->height);
         gfx_SetDraw(draw_location);

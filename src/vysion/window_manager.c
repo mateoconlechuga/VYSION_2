@@ -1,8 +1,9 @@
 #include "window_manager.h"
 #include "control.h"
-#include "optix/gui_control.h"
-#include "optix/init.h"
-#include "optix/util.h"
+#include "../optix/gui_control.h"
+#include "../optix/init.h"
+#include "../optix/util.h"
+#include "../optix/cursor.h"
 #include <debug.h>
 #include <tice.h>
 #include <graphx.h>
@@ -49,7 +50,7 @@ void vysion_AddWindow(struct vysion_window_widget *widget) {
     //also add it to the other struct because it'll break otherwise
     //get the next open slot
     while (vysion_current_context->window[index_b] && index_b < MAX_NUM_WINDOWS) index_b++;
-    dbg_sprintf(dbgout, "Index: %d Type: %d Window type: %d\n", index, (*stack)[index]->type, widget->type);
+    dbg_sprintf(dbgout, "Index: %d Type: %d Window type: %d\n", index_b, (*stack)[index]->type, widget->type);
     //so now we have the first null one
     vysion_current_context->window[index_b] = (*stack)[index];
     vysion_current_context->window[index_b + 1] = NULL;
@@ -98,8 +99,16 @@ void vysion_FormatWindowTitleBar(struct optix_window_title_bar *window_title_bar
                 .height = 12,
             },
         },
-        //.text_centering = {.y_centering = OPTIX_CENTERING_CENTERED, .x_centering = OPTIX_CENTERING_CENTERED},
-        .sprite_centering = {.y_centering = OPTIX_CENTERING_CENTERED, .x_centering = OPTIX_CENTERING_CENTERED},
+        .sprite_args = {
+            .widget = {
+                .centering = {
+                    .x_centering = OPTIX_CENTERING_CENTERED,
+                    .y_centering = OPTIX_CENTERING_CENTERED,
+                },
+            },
+            .transparent = true,
+            .transparent_color = myimages_palette_offset,
+        },
         .rows = 1,
         .columns = 3,
         //.text = window_title_bar_menu_text,
@@ -119,20 +128,39 @@ void vysion_FormatWindowTitleBar(struct optix_window_title_bar *window_title_bar
 }
 
 void vysion_CloseWindow(struct vysion_window **window) {
+    void **temp = window;
+    int vysion_index = optix_GetElementInStackByAddress(vysion_current_context->window, *temp);
+    int optix_index = optix_GetElementInStackByAddress(*current_context->stack, *temp);
     //so we have to clear the main window, take it out of the render stack, and clear the window title bar
     optix_FreeElement((struct optix_widget **) window);
+    optix_RemoveElementInStack(*current_context->stack, optix_index);
+    optix_RemoveElementInStack(vysion_current_context->window, vysion_index);
+    dbg_sprintf(dbgout, "That was successful as well.\n");
+    dbg_sprintf(dbgout, "Freeing was successful.\n");
     //free(*window);
     //*window = NULL;
 }
 
-
 void vysion_CloseAllWindows(struct optix_context *context) {
-    int i = 0;
-    while (vysion_current_context->window[i]) {
-        dbg_sprintf(dbgout, "i: %d\n", i);
-        vysion_CloseWindow(&(vysion_current_context->window[i]));
-        i++;
+    dbg_sprintf(dbgout, "Getting num elements..");
+    int num_windows = optix_GetNumElementsInStack(vysion_current_context->window);
+    dbg_sprintf(dbgout, "%d found\n", num_windows);
+    dbg_sprintf(dbgout, "Freeing everything...\n");
+    for (int i = 0; i < num_windows; i++) {
+        dbg_sprintf(dbgout, "i: %d, num_windows: %d\n", i, optix_GetNumElementsInStack(vysion_current_context->window));
+        dbg_sprintf(dbgout, "Address: %d\n", vysion_current_context->window[0]);
+        vysion_CloseWindow(&(vysion_current_context->window[0]));
     }
+}
+
+void vysion_MoveWindowToTop(struct vysion_window **window) {
+    int optix_index = optix_GetElementInStackByAddress(current_context->stack, *window);
+    int num_elements = optix_GetNumElementsInStack(current_context->stack);
+    //first remove it from its current position
+    optix_RemoveElementInStack(current_context->stack, optix_index);
+    //then put it at the top
+    (*current_context->stack)[num_elements - 1] = *window;
+    (*current_context->stack)[num_elements] = NULL;
 }
 
 void vysion_WindowManagerMenuClickAction(void *args) {
@@ -181,15 +209,11 @@ void vysion_UpdateWindowManagerMenu(struct optix_widget *widget) {
         int i = 0;
         struct optix_widget **stack = vysion_current_context->window;
         //we need to update it
-        window_manager_menu->text_save = realloc(window_manager_menu->text_save, num_windows + 1);
-        window_manager_menu->text_save[num_windows] = NULL;
-        //menu->text = widget->state.selected ? window_manager_menu->text_save : NULL;
-        menu->text = window_manager_menu->text_save;
-        menu->spr = realloc(menu->spr, num_windows + 1);
+        menu->text[num_windows] = NULL;
         menu->spr[num_windows] = NULL;
         while (stack[i]) {
             dbg_sprintf(dbgout, "%d\n", ((struct vysion_window_widget *) stack[i])->type);
-            window_manager_menu->text_save[i] = window_name[((struct vysion_window_widget *) stack[i])->type];
+            menu->text[i] = window_name[((struct vysion_window_widget *) stack[i])->type];
             menu->spr[i] = window_icon[((struct vysion_window_widget *) stack[i])->type];
             i++;
         }

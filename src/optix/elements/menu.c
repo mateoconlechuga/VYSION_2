@@ -4,19 +4,40 @@
 #include <stdbool.h>
 #include <graphx.h>
 #include <keypadc.h>
+#include <debug.h>
 //OPTIX includes
 #include "../gui_control.h"
 #include "../cursor.h"
 #include "../init.h"
+#include "../util.h"
 
 //Menu rewrite 1
 //curr_selection must be curr_selection - menu_min, or the option's place in the grid
-uint16_t optix_GetMenuOptionWidth(int curr_selection, int rows, int columns, uint16_t width, uint8_t height) {
-    return (width / columns) + ((curr_selection + 1) % columns == 0) * (width % columns);
+uint16_t optix_GetMenuOptionWidth(int option, struct optix_menu *menu) {
+    struct optix_transform *t = &(menu->widget.transform);
+    return (t->width / menu->columns) + ((option + 1) % menu->columns == 0) * (t->width % menu->columns);
 }
 
-uint8_t optix_GetMenuOptionHeight(int curr_selection, int rows, int columns, uint16_t width, uint8_t height) {
-    return (height / rows) + (curr_selection / columns == rows - 1) * (height % rows);
+uint8_t optix_GetMenuOptionHeight(int option, struct optix_menu *menu) {
+    struct optix_transform *t = &(menu->widget.transform);
+    return (t->height / menu->rows) + (option / menu->columns == menu->rows - 1) * (t->height % menu->rows);
+}
+
+int optix_GetMenuOptionRelativeX(int option, struct optix_menu *menu) {
+    return option % menu->columns * optix_GetMenuOptionWidth(option, menu);
+}
+
+int optix_GetMenuOptionRelativeY(int option, struct optix_menu *menu) {
+    return (option - menu->min) / menu->columns * optix_GetMenuOptionHeight(option, menu);
+}
+
+void optix_SetMenuOptionTransform(int option, struct optix_button *button, struct optix_menu *menu) {
+    struct optix_widget *widget = (struct optix_widget *) menu;
+    struct optix_transform *transform = &(button->widget.transform);
+    transform->x = widget->transform.x + optix_GetMenuOptionRelativeX(option, menu);
+    transform->y = widget->transform.y + optix_GetMenuOptionRelativeY(option, menu);
+    transform->width = optix_GetMenuOptionWidth(option, menu);
+    transform->height = optix_GetMenuOptionHeight(option, menu);
 }
 
 void optix_UpdateMenu_default(struct optix_widget *widget) {
@@ -41,8 +62,8 @@ void optix_UpdateMenu_default(struct optix_widget *widget) {
         widget->state.selected = true;
         //only do this if we have to
         if (current_context->settings->cursor_active) {
-            uint16_t option_width = optix_GetMenuOptionWidth(0, menu->rows, menu->columns, widget->transform.width, widget->transform.height);
-            uint8_t option_height = optix_GetMenuOptionHeight(0, menu->rows, menu->columns, widget->transform.width, widget->transform.height);
+            uint16_t option_width = optix_GetMenuOptionWidth(0, menu);
+            uint8_t option_height = optix_GetMenuOptionHeight(0, menu);
             //handle scrolling
             if (optix_DefaultKeyIsDown(KEY_ADD) & KEY_PRESSED) {
                 menu->min = menu->min + menu->columns < menu->num_options - (menu->rows - 1) * menu->columns ? menu->min + menu->columns : menu->min;
@@ -74,7 +95,7 @@ void optix_UpdateMenu_default(struct optix_widget *widget) {
             }
             //if it's a transparent background we're going to need to redraw things
             if (key_pressed)
-                if (menu->transparent_background && !menu->hide_selection_box) optix_IntelligentRecursiveSetNeedsRedraw(current_context->stack, widget);
+                if (menu->transparent_background && !menu->hide_selection_box) optix_IntelligentRecursiveSetNeedsRedraw((struct optix_widget **) current_context->stack, widget);
             //make sure we don't jump out of the menu where applicable
             if (!needs_jump) current_context->cursor->direction = OPTIX_CURSOR_NO_DIR;
         }
@@ -100,74 +121,66 @@ void optix_UpdateMenu_default(struct optix_widget *widget) {
     }
 }
 
-void optix_RenderMenu_default(struct optix_widget *widget) {
-    struct optix_menu *menu = (struct optix_menu *) widget;
+//offload some of this here for simplicity
+void optix_RenderMenuOption(int option, struct optix_menu *menu, char *option_text, gfx_sprite_t *option_spr) {
+    struct optix_widget *widget = (struct optix_widget *) menu;
     //we're going to be handling this by not handling it (just make the menu be a glorified collection of buttons, and rendered the same way)
     //each has some text and some sprite
-    struct optix_text text = {.text = NULL};
-    struct optix_sprite sprite = {.spr = NULL, .x_scale = 1, .y_scale = 1};
+    struct optix_text text;
+    struct optix_sprite sprite;
     struct optix_widget *button_children[] = {&text.widget, &sprite.widget, NULL, NULL};
     struct optix_button button = {.widget = {.child = button_children}};
     optix_InitializeWidget(&button.widget, OPTIX_BUTTON_TYPE);
+    if (widget->state.needs_redraw || option == menu->selection || option == menu->last_selection) {
+        button.widget.child = button_children;
+        button.pressed = (option == menu->selection && optix_DefaultKeyIsDown(KEY_ENTER) & KEY_HELD);
+        button.transparent_background = menu->transparent_background || (option == menu->selection && menu->hide_selection_box);
+        if (button.widget.child && option_text) {
+            memcpy(&text.widget, &(menu->text_args), sizeof(struct optix_text));
+            text.text = option_text;
+            optix_InitializeTextTransform(&text);
+            optix_InitializeWidget(&text.widget, OPTIX_TEXT_TYPE);
+        } else text.text = NULL;
+        //same for sprites
+        if (button.widget.child && option_spr) {
+            memcpy(&sprite.widget, &(menu->sprite_args), sizeof(struct optix_sprite));
+            sprite.spr = option_spr;
+            optix_InitializeWidget(&sprite.widget, OPTIX_SPRITE_TYPE);
+        } else sprite.spr = NULL;
+        //place the null, add the special element if applicable
+        if (button.widget.child) {
+            button.widget.child[0] = &text.widget;
+            button.widget.child[(text.text != NULL)] = &sprite.widget;
+            //put the element in there to be rendered as well
+            if (menu->element && menu->element[menu->selection])
+                button.widget.child[(text.text != NULL && sprite.spr != NULL)] = menu->element[menu->selection];
+            button.widget.child[(text.text != NULL) + (sprite.spr != NULL) + (menu->element != NULL && menu->element[menu->selection] != NULL)] = NULL;
+        }
+        //handle the transform
+        optix_SetMenuOptionTransform(option, &button, menu);
+        //this option will be shown as selected if it is selected and the selection box is not hidden
+        optix_RecursiveAlign(&button);
+        button.widget.state.selected = option == menu->selection && !menu->hide_selection_box;
+        optix_RecursiveSetNeedsRedraw(button.widget.child);
+        button.widget.render(&button.widget);
+    }
+
+}
+
+
+void optix_RenderMenu_default(struct optix_widget *widget) {
+    struct optix_menu *menu = (struct optix_menu *) widget;
     //return if we don't have to do anything
     if (!(widget->state.needs_redraw || (menu->selection != menu->last_selection && widget->state.selected) || menu->needs_partial_redraw)) return;
     //if ((!(widget->state.needs_redraw || menu->selection != menu->last_selection))) return;
     //just draw it
     for (int i = menu->min; i < menu->min + menu->rows * menu->columns; i++) {
-        if (widget->state.needs_redraw || i == menu->selection || i == menu->last_selection) {
-            if (!widget->state.needs_redraw && !widget->state.selected) continue;
-            button.widget.child = (i < menu->num_options) ? button_children : NULL;
-            button.pressed = (i == menu->selection && optix_DefaultKeyIsDown(KEY_ENTER) & KEY_HELD);
-            button.transparent_background = menu->transparent_background || (i == menu->selection && menu->hide_selection_box);
-            //create that button widget
-            //text
-            if (button.widget.child && menu->text && menu->text[i]) {
-                text.text = menu->text[i];
-                optix_InitializeTextTransform(&text);
-                optix_InitializeWidget(&text.widget, OPTIX_TEXT_TYPE);
-                text.background_rectangle = false;
-                text.widget.centering.x_centering = menu->text_centering.x_centering;
-                text.widget.centering.y_centering = menu->text_centering.y_centering;
-                text.widget.centering.x_offset = menu->text_centering.x_offset;
-                text.widget.centering.y_offset = menu->text_centering.y_offset;
-                //text.widget.state.needs_redraw = true;
-            } else text.text = NULL;
-            //same for sprites
-            if (button.widget.child && menu->spr && menu->spr[i]) {
-                sprite.spr = menu->spr[i];
-                sprite.x_scale = menu->spr_x_scale;
-                sprite.y_scale = menu->spr_y_scale;
-                optix_InitializeWidget(&sprite.widget, OPTIX_SPRITE_TYPE);
-                sprite.widget.centering.x_centering = menu->sprite_centering.x_centering;
-                sprite.widget.centering.y_centering = menu->sprite_centering.y_centering;
-                sprite.widget.centering.x_offset = menu->sprite_centering.x_offset;
-                sprite.widget.centering.y_offset = menu->sprite_centering.y_offset;
-                //sprite.widget.state.needs_redraw = true;
-            } else sprite.spr = NULL;
-            //place the null
-            if (button.widget.child) {
-                button.widget.child[0] = &text.widget;
-                button.widget.child[(text.text != NULL)] = &sprite.widget;
-                //put the element in there to be rendered as well
-                if (menu->element && menu->element[menu->selection])
-                    button.widget.child[(text.text != NULL && sprite.spr != NULL)] = menu->element[menu->selection];
-                button.widget.child[(text.text != NULL) + (sprite.spr != NULL) + (menu->element != NULL && menu->element[menu->selection] != NULL)] = NULL;
-            }
-            //align everything (please don't stab me)
-            //x
-            button.widget.transform.x = widget->transform.x + (i % menu->columns * 
-            (button.widget.transform.width = optix_GetMenuOptionWidth(menu->selection, menu->rows, menu->columns, widget->transform.width, widget->transform.height)));
-            //y
-            button.widget.transform.y = widget->transform.y + ((i - menu->min) / menu->columns * 
-            (button.widget.transform.height = optix_GetMenuOptionHeight(menu->selection, menu->rows, menu->columns, widget->transform.width, widget->transform.height)));
-            optix_RecursiveAlign(&button.widget);
-            //set whether it's selected
-            button.widget.state.selected = widget->state.selected && i == menu->selection && !menu->hide_selection_box;
-            optix_RecursiveSetNeedsRedraw(button.widget.child);
-            button.widget.render(&button.widget);
-        }
+        char *option_text = menu->text && menu->text[i] ? menu->text[i] : NULL;
+        gfx_sprite_t *option_spr = menu->spr && menu->spr[i] ? menu->spr[i] : NULL;
+        if (i >= menu->num_options) break;
+        optix_RenderMenuOption(i, menu, option_text, option_spr);
     }
-    //this is true, I think?
+    //this will only be run if we didn't return earlier, which will happen if the selection is different or we need a redraw of some sort
     current_context->data->needs_blit = true;
     menu->needs_partial_redraw = false;
 }

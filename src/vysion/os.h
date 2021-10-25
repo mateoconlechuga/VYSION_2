@@ -6,7 +6,6 @@
 
 #include "filesystem.h"
 
-void vysion_SetOP1(uint8_t type, char *name);
-void vysion_RunProgram(struct vysion_file_save *save);
+void vysion_RunProgram(char *name);
 
 #endif

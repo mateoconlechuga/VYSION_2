@@ -1,5 +1,10 @@
 #include "slider.h"
+#include "../gui_control.h"
 #include "../shapes.h"
+#include "../colors.h"
+#include "../cursor.h"
+#include "../input.h"
+
 
 //functions
 void optix_UpdateSlider_default(struct optix_widget *widget) {

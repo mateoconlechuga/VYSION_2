@@ -3,7 +3,7 @@
 	section	.text,"ax",@progbits
 	public	_optix_InitializeGUIState
 _optix_InitializeGUIState:
-	ld.sis	de, 2240
+	ld.sis	de, 1048
 	ld	hl, -917456
 	ld	(hl), e
 	inc	hl

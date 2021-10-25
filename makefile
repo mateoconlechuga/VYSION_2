@@ -7,8 +7,9 @@
 NAME         ?= VYSION2
 ICON         ?= icon.png
 DESCRIPTION  ?= "VYSION CE 2.0.0"
-COMPRESSED   ?= NO
+COMPRESSED   ?= YES
 ARCHIVED     ?= YES
+HAS_SPRINTF  ?= NO
 
 # ----------------------------
 # Compile Options

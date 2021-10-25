@@ -1,11 +1,17 @@
 #include "loop.h"
+
 #include <stdint.h>
 #include <stdbool.h>
 #include <stdlib.h>
 #include <keypadc.h>
+#include <tice.h>
+#include <string.h>
+
 #include "shortcuts.h"
 #include "cursor.h"
 #include "input.h"
+
+#include "elements/window.h"
 
 //takes an array of optix_widgets as an argument
 //please have a NULL as the last entry in this array, so we'll know when to stop
@@ -13,12 +19,11 @@
 void optix_UpdateGUI(void) {
     //we're assuming this is called in a loop
     //so this is the time since it was last called
-    current_context->data->ticks = (long) timer_3_Counter;
-    timer_3_Counter = 0;
+    current_context->data->ticks = (long) timer_2_Counter;
+    timer_2_Counter = 0;
     //input things
     optix_UpdateInput();
     //we need this here unfortunately
-    current_context->cursor->state = OPTIX_CURSOR_NORMAL;
     //start with this I suppose
     current_context->cursor->widget.update((struct optix_widget *) current_context->cursor);
     optix_HandleShortcuts(*current_context->stack);

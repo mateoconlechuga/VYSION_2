@@ -3,6 +3,10 @@
 #include <stdint.h>
 #include <graphx.h>
 #include "vysion/gfx/output/vysion_gfx.h"
+
+#include "../optix/elements/text.h"
+#include "../optix/colors.h"
+#include "../optix/cursor.h"
 #include "../optix/input.h"
 
 //functions

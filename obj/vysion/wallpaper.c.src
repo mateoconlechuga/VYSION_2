@@ -288,12 +288,12 @@ BB3_4:
 _vysion_WallpaperPickerMenu_ClickAction:
 	ld	hl, -3
 	call	__frameset
-	ld	hl, (ix + 6)
-	push	hl
-	pop	iy
-	ld	de, (iy + 51)
-	ld	(ix + -3), de
-	ld	de, (iy + 62)
+	ld	iy, (ix + 6)
+	ld	hl, (iy + 123)
+	ld	(ix + -3), hl
+	ld	de, 132
+	add	iy, de
+	ld	de, (iy)
 	ld	bc, 3
 	push	de
 	pop	hl
@@ -303,10 +303,15 @@ _vysion_WallpaperPickerMenu_ClickAction:
 	ld	hl, (ix + -3)
 	add	hl, bc
 	ld	hl, (hl)
-	ld	(iy + 90), de
+	ld	(ix + -3), hl
+	ld	bc, 160
+	ld	hl, (ix + 6)
+	add	hl, bc
+	ld	(hl), de
 	ld	iy, (_current_context)
 	ld	de, (iy + 15)
 	push	de
+	ld	hl, (ix + -3)
 	push	hl
 	call	_vysion_SetWallpaper
 	pop	hl
@@ -322,163 +327,168 @@ _vysion_WallpaperPickerMenu_ClickAction:
 	section	.text,"ax",@progbits
 	public	_vysion_WallpaperPicker
 _vysion_WallpaperPicker:
-	ld	hl, -441
+	ld	hl, -1108
 	call	__frameset
-	ld	bc, -273
+	ld	bc, -916
 	lea	iy, ix + 0
 	add	iy, bc
-	ld	bc, -402
+	ld	bc, -1078
 	lea	hl, ix + 0
 	add	hl, bc
-	push	hl
-	pop	de
-	ld	bc, 3
+	ld	(hl), iy
+	push	ix
+	ld	bc, -1075
+	add	ix, bc
+	lea	de, ix + 0
+	pop	ix
 	lea	hl, ix + -33
-	ld	(ix + -3), bc
 	push	ix
-	ld	bc, -426
+	ld	bc, -1096
 	add	ix, bc
 	ld	(ix + 0), hl
 	pop	ix
-	lea	hl, iy + 18
+	ld	bc, -483
+	lea	hl, ix + 0
+	add	hl, bc
 	push	ix
-	ld	bc, -429
+	ld	bc, -1090
 	add	ix, bc
 	ld	(ix + 0), hl
 	pop	ix
-	lea	hl, iy + 0
-	ld	bc, -411
+	ld	bc, -633
+	lea	hl, ix + 0
+	add	hl, bc
+	push	ix
+	ld	bc, -1093
+	add	ix, bc
+	ld	(ix + 0), hl
+	pop	ix
+	lea	hl, iy + 61
+	push	ix
+	ld	bc, -1099
+	add	ix, bc
+	ld	(ix + 0), hl
+	pop	ix
+	lea	hl, iy + 43
+	ld	bc, -1084
 	lea	iy, ix + 0
 	add	iy, bc
 	ld	(iy + 0), hl
 	push	de
 	pop	iy
-	ld	bc, -408
+	ld	de, -1102
 	lea	hl, ix + 0
-	add	hl, bc
+	add	hl, de
 	ld	(hl), iy
-	lea	hl, iy + 36
+	lea	bc, iy + 36
 	push	ix
-	ld	bc, -405
-	add	ix, bc
-	ld	(ix + 0), hl
+	ld	de, -1081
+	add	ix, de
+	ld	(ix + 0), bc
 	pop	ix
 	lea	hl, iy + 0
-	ld	bc, -414
+	ld	de, -1087
 	lea	iy, ix + 0
-	add	iy, bc
+	add	iy, de
 	ld	(iy + 0), hl
 	ld	de, (_current_context)
 	push	de
 	pop	iy
 	ld	iy, (iy + 9)
 	ld	hl, (iy + 54)
-	ld	bc, -432
+	ld	(ix + -3), bc
+	ld	bc, -1105
 	lea	iy, ix + 0
 	add	iy, bc
 	ld	(iy + 0), hl
 	push	de
 	pop	iy
 	ld	hl, (iy + 15)
-	ld	de, -435
+	ld	de, -1108
 	lea	iy, ix + 0
 	add	iy, de
 	ld	(iy + 0), hl
-	ld	iy, (_vysion_current_context)
-	ld	hl, (iy + 3)
-	ld	bc, (ix + -3)
-	call	__imulu
-	push	hl
-	pop	de
 	ld	hl, 0
-	add	hl, sp
-	or	a, a
-	sbc	hl, de
-	ld	de, -423
-	lea	iy, ix + 0
-	add	iy, de
-	ld	(iy + 0), hl
-	ld	sp, hl
-	ld	hl, 93
+	push	ix
+	ld	de, -1078
+	add	ix, de
+	ld	iy, (ix + 0)
+	pop	ix
+	ld	(iy + 40), hl
+	ld	hl, 163
 	push	hl
 	or	a, a
 	sbc	hl, hl
 	push	hl
-	ld	de, -405
-	lea	hl, ix + 0
-	add	hl, de
-	ld	hl, (hl)
-	push	hl
+	ld	bc, (ix + -3)
+	push	bc
 	call	_memset
 	pop	hl
 	pop	hl
 	pop	hl
-	ld	de, -408
+	ld	bc, -1102
 	lea	hl, ix + 0
-	add	hl, de
+	add	hl, bc
 	ld	iy, (hl)
 	ld.sis	hl, 78
 	ld	(iy + 43), l
 	ld	(iy + 44), h
 	ld	(iy + 45), -16
-	ld	(iy + 79), 1
-	ld	(iy + 80), 4
-	ld	de, -423
+	ld	(iy + 89), 1
+	ld	(iy + 90), 4
+	ld	bc, -1078
 	lea	hl, ix + 0
-	add	hl, de
-	ld	hl, (hl)
-	ld	(iy + 87), hl
+	add	hl, bc
+	ld	iy, (hl)
+	push	ix
+	ld	bc, -1093
+	add	ix, bc
+	ld	hl, (ix + 0)
+	pop	ix
+	ld	(iy + 0), hl
 	ld	hl, 15
-	ld	(iy + 105), hl
+	ld	(iy + 16), hl
 	ld	hl, 1
-	ld	(iy + 108), hl
+	ld	(iy + 19), hl
 	ld	hl, _vysion_WallpaperPickerMenu_ClickAction
-	ld	(iy + 117), hl
-	ld	(iy + 123), 1
+	ld	(iy + 28), hl
+	ld	(iy + 34), 1
 	ld	hl, 36
 	push	hl
 	or	a, a
 	sbc	hl, hl
 	push	hl
-	ld	de, -414
+	ld	bc, -1087
 	lea	hl, ix + 0
-	add	hl, de
+	add	hl, bc
 	ld	hl, (hl)
 	push	hl
 	call	_memset
 	pop	hl
 	pop	hl
 	pop	hl
-	ld	de, -405
+	ld	bc, -1081
 	lea	hl, ix + 0
-	add	hl, de
+	add	hl, bc
 	ld	hl, (hl)
-	ld	de, -408
+	ld	bc, -1102
 	lea	iy, ix + 0
-	add	iy, de
+	add	iy, bc
 	ld	iy, (iy + 0)
 	ld	(iy + 30), hl
 	ld	(iy + 33), 3
 	ld	hl, 6
 	push	hl
-	ld	de, -414
+	ld	bc, -1087
 	lea	hl, ix + 0
-	add	hl, de
+	add	hl, bc
 	ld	hl, (hl)
 	push	hl
 	call	_optix_InitializeWidget
+	ld	bc, 0
 	pop	hl
 	pop	hl
 	ld	de, 18
-	or	a, a
-	sbc	hl, hl
-	ld	(ix + -3), de
-	ld	de, -417
-	lea	iy, ix + 0
-	add	iy, de
-	ld	(iy + 0), hl
-	ld	bc, 0
-	ld	de, (ix + -3)
 BB5_1:
 	push	bc
 	pop	hl
@@ -487,56 +497,40 @@ BB5_1:
 	jq	z, BB5_3
 	push	bc
 	pop	de
-	ld	(ix + -3), bc
-	ld	bc, -411
-	lea	hl, ix + 0
-	add	hl, bc
-	ld	hl, (hl)
-	add	hl, de
-	ld	bc, (ix + -3)
 	ld	(ix + -3), de
-	ld	de, -420
+	ld	de, -1084
+	lea	hl, ix + 0
+	add	hl, de
+	ld	hl, (hl)
+	add	hl, bc
+	ld	de, -1099
 	lea	iy, ix + 0
 	add	iy, de
-	ld	(iy + 0), bc
-	push	ix
-	ld	bc, -429
-	add	ix, bc
-	ld	iy, (ix + 0)
-	pop	ix
+	ld	iy, (iy + 0)
 	ld	(hl), iy
-	ld	bc, -426
+	ld	de, -1096
 	lea	hl, ix + 0
-	add	hl, bc
-	ld	hl, (hl)
-	ld	de, (ix + -3)
 	add	hl, de
-	ld	de, 18
+	ld	hl, (hl)
+	add	hl, bc
 	ld	(hl), iy
 	ld	bc, 3
-	ld	(ix + -3), de
-	ld	de, -420
-	lea	hl, ix + 0
-	add	hl, de
-	ld	hl, (hl)
-	add	hl, bc
-	push	ix
-	add	ix, de
-	ld	(ix + 0), hl
-	pop	ix
-	lea	iy, iy + 37
-	ld	de, -429
-	lea	hl, ix + 0
-	add	hl, de
-	ld	(hl), iy
-	ld	de, -420
-	lea	iy, ix + 0
-	add	iy, de
-	ld	bc, (iy + 0)
 	ld	de, (ix + -3)
+	ex	de, hl
+	ld	de, 18
+	add	hl, bc
+	push	hl
+	pop	bc
+	lea	iy, iy + 37
+	ld	(ix + -3), bc
+	ld	bc, -1099
+	lea	hl, ix + 0
+	add	hl, bc
+	ld	(hl), iy
+	ld	bc, (ix + -3)
 	jq	BB5_1
 BB5_3:
-	ld	bc, -411
+	ld	bc, -1084
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
@@ -544,178 +538,99 @@ BB5_3:
 	call	_vysion_InitializeWallpaper
 	pop	hl
 	call	_ti_CloseAll
-	ld	bc, 0
-	ld	de, -420
-	lea	hl, ix + 0
-	add	hl, de
-	ld	(hl), bc
+	ld	hl, 21
 BB5_4:
-	ld	iy, (_vysion_current_context)
-	ld	de, (iy + 3)
-	push	bc
-	pop	hl
-	or	a, a
-	sbc	hl, de
-	call	__setflag
-	jq	p, BB5_10
-	ld	hl, (iy + 12)
-	ld	(ix + -3), bc
-	ld	bc, -417
-	lea	iy, ix + 0
-	add	iy, bc
-	ld	de, (iy + 0)
-	add	hl, de
+	push	hl
+	ld	hl, L_.str.1
+	push	hl
+	ld	bc, -1078
+	lea	hl, ix + 0
+	add	hl, bc
 	ld	iy, (hl)
-	ld	a, (iy + 13)
-	cp	a, 21
-	ld	bc, (ix + -3)
-	jq	nz, BB5_14
-	ld	de, -429
-	lea	hl, ix + 0
-	add	hl, de
-	ld	(hl), bc
-	inc	iy
-	ld	hl, L_.str
-	push	hl
-	ld	bc, -441
-	lea	hl, ix + 0
-	add	hl, bc
-	ld	(hl), iy
-	push	iy
-	call	_ti_Open
-	ld	e, a
-	pop	hl
-	pop	hl
-	ld	bc, -438
-	lea	hl, ix + 0
-	add	hl, bc
-	ld	(hl), de
-	push	de
-	call	_ti_GetDataPtr
-	pop	de
-	ld	de, 9
-	push	de
-	ld	de, L_.str.1
-	push	de
-	push	hl
-	call	_memcmp
+	pea	iy + 40
+	call	_ti_DetectVar
 	pop	de
 	pop	de
 	pop	de
 	add	hl, bc
 	or	a, a
 	sbc	hl, bc
-	jq	nz, BB5_13
-	ld	bc, -420
+	jq	z, BB5_6
+	push	hl
+	ld	bc, -1090
 	lea	hl, ix + 0
 	add	hl, bc
-	ld	de, (hl)
-	push	de
-	pop	hl
-	ld	bc, 3
-	call	__imulu
+	ld	hl, (hl)
 	push	hl
-	pop	bc
-	ld	(ix + -3), de
-	ld	de, -423
-	lea	iy, ix + 0
-	add	iy, de
-	ld	hl, (iy + 0)
+	call	_strcpy
+	pop	hl
+	pop	hl
+	ld	bc, -1093
+	lea	hl, ix + 0
 	add	hl, bc
+	ld	iy, (hl)
 	push	ix
-	ld	de, -441
-	add	ix, de
-	ld	bc, (ix + 0)
+	ld	bc, -1090
+	add	ix, bc
+	ld	hl, (ix + 0)
 	pop	ix
-	ld	(hl), bc
-	ld	de, (ix + -3)
-	inc	de
-	ld	bc, -420
-	lea	hl, ix + 0
-	add	hl, bc
-	ld	(hl), de
-	jq	BB5_8
-BB5_14:
-	jq	BB5_9
-BB5_13:
-BB5_8:
-	ld	bc, -438
-	lea	hl, ix + 0
-	add	hl, bc
-	ld	hl, (hl)
-	push	hl
-	call	_ti_Close
-	pop	hl
-	ld	de, -429
-	lea	hl, ix + 0
-	add	hl, de
-	ld	bc, (hl)
-BB5_9:
-	inc	bc
-	ld	de, 3
-	ld	(ix + -3), bc
-	ld	bc, -417
-	lea	hl, ix + 0
-	add	hl, bc
-	ld	hl, (hl)
-	add	hl, de
-	ld	de, -417
-	lea	iy, ix + 0
-	add	iy, de
-	ld	(iy + 0), hl
-	ld	bc, (ix + -3)
-	jq	BB5_4
-BB5_10:
-	ld	bc, 3
-	ld	de, -420
-	lea	hl, ix + 0
-	add	hl, de
-	ld	hl, (hl)
-	call	__imulu
-	push	hl
-	pop	de
-	ld	(ix + -3), bc
-	ld	bc, -423
-	lea	iy, ix + 0
-	add	iy, bc
-	ld	iy, (iy + 0)
-	add	iy, de
-	ld	hl, 0
 	ld	(iy), hl
+	lea	iy, iy + 3
+	push	ix
+	ld	bc, -1093
+	add	ix, bc
+	ld	(ix + 0), iy
+	pop	ix
+	push	hl
+	pop	iy
+	lea	iy, iy + 9
+	ld	bc, -1090
+	lea	hl, ix + 0
+	add	hl, bc
+	ld	(hl), iy
+	ld	hl, 21
+	jq	BB5_4
+BB5_6:
+	ld	hl, 0
+	ex	de, hl
+	ld	bc, -1093
+	lea	hl, ix + 0
+	add	hl, bc
+	ld	hl, (hl)
+	ld	(hl), de
 	ld	hl, 3
 	push	hl
-	ld	de, -405
+	ld	bc, -1081
 	lea	hl, ix + 0
-	add	hl, de
+	add	hl, bc
 	ld	hl, (hl)
 	push	hl
-	ld	bc, (ix + -3)
 	call	_optix_InitializeWidget
 	pop	hl
 	pop	hl
-	ld	de, -405
+	ld	bc, -1081
 	lea	hl, ix + 0
-	add	hl, de
+	add	hl, bc
 	ld	hl, (hl)
 	ld	(ix + -15), hl
-	ld	de, -414
+	ld	bc, -1087
 	lea	hl, ix + 0
-	add	hl, de
+	add	hl, bc
 	ld	hl, (hl)
 	ld	(ix + -12), hl
 	ld	hl, 0
 	ld	(ix + -9), hl
 	ld	iy, (_current_context)
-	ld	de, -426
+	ld	bc, -1096
 	lea	hl, ix + 0
-	add	hl, de
+	add	hl, bc
 	ld	hl, (hl)
 	ld	(iy + 15), hl
 	ld	hl, (iy + 3)
 	ld	(hl), 1
-	ld	de, -411
+	ld	bc, -1084
 	lea	hl, ix + 0
-	add	hl, de
+	add	hl, bc
 	ld	hl, (hl)
 	push	hl
 	ld	hl, L_.str.2
@@ -723,14 +638,14 @@ BB5_10:
 	call	_vysion_SetWallpaper
 	pop	hl
 	pop	hl
-	ld	de, -405
+	ld	bc, -1081
 	lea	hl, ix + 0
-	add	hl, de
+	add	hl, bc
 	ld	hl, (hl)
 	push	hl
 	call	_optix_SetCurrentSelection
 	pop	hl
-BB5_11:
+BB5_7:
 	call	_optix_UpdateGUI
 	call	_optix_RenderGUI
 	ld	hl, -720868
@@ -743,34 +658,32 @@ BB5_11:
 	pop	de
 	ld	a, l
 	bit	6, a
-	jq	z, BB5_11
+	jq	z, BB5_7
 	ld	iy, (_current_context)
-	ld	bc, -435
+	ld	bc, -1108
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
 	ld	(iy + 15), hl
-	ld	bc, -408
+	ld	bc, -1078
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	iy, (hl)
-	ld	hl, (iy + 126)
-	ld	(iy + 98), hl
-	ld	bc, -405
+	ld	hl, (iy + 37)
+	ld	(iy + 9), hl
+	ld	bc, -1081
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
 	push	hl
 	call	_vysion_WallpaperPickerMenu_ClickAction
 	pop	hl
-	ld	bc, -432
+	ld	bc, -1105
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
 	push	hl
 	call	_optix_SetCurrentSelection
-	pop	hl
-	ld	sp, hl
 	ld	sp, ix
 	pop	ix
 	ret
@@ -798,17 +711,16 @@ L_.str.2:
 	extern	_optix_InitializeWidget
 	extern	_gfx_SetPalette
 	extern	_optix_SetCurrentSelection
-	extern	_vysion_current_context
 	extern	_ti_Close
+	extern	_ti_DetectVar
 	extern	_memcpy
-	extern	__setflag
 	extern	_current_context
 	extern	_ti_CloseAll
 	extern	__Unwind_SjLj_Unregister
+	extern	_strcpy
 	extern	_ti_Open
 	extern	__imulu
 	extern	_optix_UpdateGUI
 	extern	_zx7_Decompress
 	extern	_ti_GetDataPtr
 	extern	_optix_RenderGUI
-	extern	_memcmp

@@ -6,15 +6,27 @@ _optix_InitializeWidget:
 	ld	hl, -6
 	call	__frameset
 	ld	iy, (ix + 6)
+	lea	bc, iy + 0
 	ld	a, (ix + 9)
+	ld	de, 0
+	ld	e, a
+	cp	a, 5
+	jq	nz, BB0_2
+	push	bc
+	pop	iy
 	ld	hl, (iy + 30)
+	jq	BB0_3
+BB0_2:
+	ld	hl, 0
+BB0_3:
 	ld	(ix + -3), hl
+	push	bc
+	pop	iy
+	ld	a, (ix + 9)
 	ld	(iy), a
 	ld	(iy + 14), 0
 	ld	(iy + 17), 1
 	ld	(iy + 15), 1
-	ld	de, 0
-	ld	e, a
 	ld	bc, 3
 	push	de
 	pop	hl
@@ -32,40 +44,33 @@ _optix_InitializeWidget:
 	ld	hl, 3133
 	ld	c, e
 	call	__ishru
-	ld	c, a
 	ld	a, l
 	and	a, 1
 	ld	(iy + 16), a
-	ld	a, c
+	ld	a, (ix + 9)
 	cp	a, 11
-	jq	nc, BB0_14
+	jq	c, BB0_6
+BB0_5:
+	ld	sp, ix
+	pop	ix
+	ret
+BB0_6:
 	ld	hl, LJTI0_0
 	add	hl, de
 	add	hl, de
 	add	hl, de
 	ld	hl, (hl)
 	jp	(hl)
-BB0_8:
-	ld	hl, 0
-	ld	de, (ix + 6)
-	push	de
-	pop	iy
-	ld	(iy + 27), hl
-	ld	(iy + 41), hl
-	ld	(iy + 45), 1
+BB0_7:
+	or	a, a
+	sbc	hl, hl
+	ld	(iy + 38), hl
 	ld	(iy + 35), hl
 	push	iy
-	call	_optix_WrapText
+	call	_optix_GetTextNumLines
 	pop	hl
-	ld	hl, (ix + 6)
-	ld	c, (hl)
-BB0_9:
-	ld	a, c
-	cp	a, 1
-	jq	nz, BB0_11
-	ld	hl, (ix + 6)
-	push	hl
-	pop	iy
+	jq	BB0_5
+BB0_8:
 	ld	hl, (iy + 30)
 	ld	a, (hl)
 	ex	de, hl
@@ -87,118 +92,133 @@ BB0_9:
 	ld	h, (iy + 34)
 	mlt	hl
 	ld	(iy + 9), l
-BB0_11:
-	ld	hl, (ix + 6)
+	jq	BB0_5
+BB0_9:
+	ld	de, 145
+	lea	hl, iy + 0
+	add	hl, de
+	ld	bc, 0
+	ld	(ix + -6), hl
+	ld	(hl), bc
+	ld	de, 132
+	lea	hl, iy + 0
+	add	iy, de
+	ld	(iy), bc
+	ld	de, 148
 	push	hl
 	pop	iy
-	ld	(iy + 10), 1
-	ld	(iy + 11), 1
-	jq	BB0_14
-BB0_2:
+	add	iy, de
+	ld	(iy), bc
+	ld	de, 136
+	push	hl
+	pop	iy
+	add	iy, de
+	ld	(iy), bc
+	push	hl
+	pop	iy
+	ld	a, (iy + 118)
+	or	a, a
+	jq	z, BB0_11
+	ld	a, (iy + 119)
+	or	a, a
+	jq	nz, BB0_12
+BB0_11:
+	ld	(iy + 119), 1
+	ld	(iy + 118), 1
+BB0_12:
 	ld	hl, 1
-	ld	(ix + -6), hl
-	ld	iy, (ix + 6)
-	ld	de, 0
-	ld	(iy + 75), de
-	ld	(iy + 62), de
-	ld	(iy + 78), de
-	ld	(iy + 66), de
-	ld	(iy + 61), 1
-	ld	(iy + 60), 1
-	ld	hl, (iy + 54)
 	ld	(ix + -3), hl
-BB0_3:
+	ld	hl, (iy + 126)
+	push	bc
+	pop	iy
+BB0_13:
+	push	hl
+	pop	de
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	jq	z, BB0_15
+	lea	bc, iy + 0
+	push	de
+	pop	hl
+	add	hl, bc
+	ld	hl, (hl)
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	jq	nz, BB0_17
+BB0_15:
+	lea	bc, iy + 0
+	ld	iy, (ix + 6)
+	ld	hl, (iy + 123)
+	push	bc
+	pop	iy
 	add	hl, bc
 	or	a, a
 	sbc	hl, bc
 	jq	z, BB0_5
-	push	de
-	pop	bc
-	ld	hl, (ix + -3)
+	lea	bc, iy + 0
 	add	hl, bc
 	ld	hl, (hl)
 	add	hl, bc
 	or	a, a
 	sbc	hl, bc
-	jq	nz, BB0_7
-BB0_5:
-	ld	iy, (ix + 6)
-	ld	hl, (iy + 51)
-	add	hl, bc
-	or	a, a
-	sbc	hl, bc
-	jq	z, BB0_14
-	push	de
-	pop	bc
-	add	hl, bc
-	ld	hl, (hl)
-	add	hl, bc
-	or	a, a
-	sbc	hl, bc
-	jq	z, BB0_14
-BB0_7:
-	ld	iy, (ix + 6)
+	jq	z, BB0_5
+BB0_17:
 	ld	hl, (ix + -6)
-	ld	(iy + 75), hl
-	inc	hl
-	ld	(ix + -6), hl
+	ld	bc, (ix + -3)
+	ld	(hl), bc
+	inc	bc
+	ld	(ix + -3), bc
 	ld	bc, 3
+	add	iy, bc
 	ex	de, hl
-	add	hl, bc
-	ex	de, hl
-	ld	hl, (ix + -3)
-	jq	BB0_3
-BB0_12:
-	ld	iy, (ix + -3)
-	ld	hl, (iy + 1)
-	lea	de, iy + 0
-	ld	iy, (ix + 6)
-	ld	(iy + 1), hl
-	push	de
-	pop	iy
-	ld	hl, (iy + 4)
-	ld	bc, -14
-	add	hl, bc
-	ld	bc, (ix + 6)
+	jq	BB0_13
+BB0_18:
+	ld	bc, (ix + -3)
 	push	bc
 	pop	iy
+	ld	hl, (iy + 1)
+	ld	iy, (ix + 6)
+	ld	(iy + 1), hl
+	push	bc
+	pop	iy
+	ld	hl, (iy + 4)
+	ld	de, -14
+	add	hl, de
+	ld	iy, (ix + 6)
 	ld	(iy + 4), hl
-	push	de
+	push	bc
 	pop	iy
 	ld	l, (iy + 7)
 	ld	h, (iy + 8)
-	push	bc
-	pop	iy
+	ld	iy, (ix + 6)
 	ld	(iy + 7), l
 	ld	(iy + 8), h
 	ld	(iy + 9), 14
-	jq	BB0_14
-BB0_13:
+	jq	BB0_5
+BB0_19:
 	ld	hl, _optix_CheckBoxValueXOR
-	ld	iy, (ix + 6)
 	ld	(iy + 30), hl
 	lea	hl, iy + 0
 	ld	(iy + 33), hl
-BB0_14:
-	ld	sp, ix
-	pop	ix
-	ret
+	jq	BB0_5
 	section	.text,"ax",@progbits
 	section	.rodata,"a",@progbits
 lJTI0_0:
 	private	LJTI0_0
 LJTI0_0:
+	dl	BB0_7
 	dl	BB0_8
+	dl	BB0_5
 	dl	BB0_9
-	dl	BB0_9
-	dl	BB0_2
-	dl	BB0_14
-	dl	BB0_12
-	dl	BB0_14
-	dl	BB0_14
-	dl	BB0_14
-	dl	BB0_14
-	dl	BB0_13
+	dl	BB0_5
+	dl	BB0_18
+	dl	BB0_5
+	dl	BB0_5
+	dl	BB0_5
+	dl	BB0_5
+	dl	BB0_19
 
 	section	.text,"ax",@progbits
 	public	_optix_GetSize
@@ -261,35 +281,32 @@ BB2_2:
 	section	.text,"ax",@progbits
 	public	_optix_CopyElement
 _optix_CopyElement:
-	ld	hl, -11
+	ld	hl, -6
 	call	__frameset
 	ld	hl, (ix + 9)
 	push	hl
 	call	_optix_GetSize
-	ld	(ix + -5), l
-	ld	(ix + -4), h
+	ld	(ix + -6), l
+	ld	(ix + -5), h
 	pop	hl
 	ld	iy, (ix + 9)
 	ld	hl, (iy + 27)
 	push	hl
 	call	_optix_GetNumElementsInStack
-	ld	(ix + -2), l
-	ld	(ix + -1), h
+	ld	(ix + -3), hl
 	pop	hl
-	or	a, a
-	sbc	hl, hl
-	ex	de, hl
-	ld	l, (ix + -5)
-	ld	h, (ix + -4)
+	ld	de, 0
+	ld	l, (ix + -6)
+	ld	h, (ix + -5)
 	ld	e, l
 	ld	d, h
-	ld	(ix + -5), de
+	ld	(ix + -6), de
 	push	de
 	call	_malloc
 	pop	de
 	ld	iy, (ix + 6)
 	ld	(iy), hl
-	ld	de, (ix + -5)
+	ld	de, (ix + -6)
 	push	de
 	ld	de, (ix + 9)
 	push	de
@@ -303,10 +320,11 @@ _optix_CopyElement:
 	ld	hl, (ix + 6)
 	push	hl
 	call	_optix_CopyElementHandleSpecialCase
-	ld	l, (ix + -2)
-	ld	h, (ix + -1)
-	pop	de
-	pop	de
+	ld	de, (ix + -3)
+	pop	hl
+	pop	hl
+	ld	l, e
+	ld	h, d
 	add.sis	hl, bc
 	or	a, a
 	sbc.sis	hl, bc
@@ -315,15 +333,15 @@ _optix_CopyElement:
 	ld	iy, (hl)
 	ld	hl, 0
 	ld	(iy + 27), hl
-	ld	iy, 0
-	lea	bc, iy + 0
+	ex	de, hl
+	ld	bc, 65535
+	call	__iand
 	jq	BB3_3
 BB3_1:
-	ld	de, 0
-	ld	e, l
-	ld	d, h
-	ld	(ix + -8), de
 	ex	de, hl
+	ld	bc, 65535
+	call	__iand
+	ld	(ix + -3), hl
 	ld	bc, 3
 	call	__imulu
 	add	hl, bc
@@ -339,56 +357,51 @@ BB3_1:
 	ld	iy, (hl)
 	ld	iy, (iy + 27)
 	ld	bc, 3
-	ld	hl, (ix + -8)
+	ld	hl, (ix + -3)
 	call	__imulu
 	push	hl
 	pop	de
 	add	iy, de
 	ld	hl, 0
 	ld	(iy), hl
-	ld	iy, 0
-	ld	bc, (ix + -8)
+	ld	hl, (ix + -3)
 BB3_3:
-	ld	(ix + -5), iy
+	ld	bc, 3
+	call	__imulu
+	push	hl
+	pop	bc
+	ld	iy, 0
 BB3_4:
-	ld	l, (ix + -2)
-	ld	h, (ix + -1)
-	add.sis	hl, bc
+	push	bc
+	pop	hl
+	lea	de, iy + 0
 	or	a, a
-	sbc.sis	hl, bc
-	ld	de, (ix + 6)
-	jq	z, BB3_7
-	ld	hl, (ix + -5)
-	or	a, a
-	sbc	hl, bc
-	jq	nc, BB3_7
-	ex	de, hl
-	ld	(ix + -11), iy
+	sbc	hl, de
+	ld	hl, (ix + 6)
+	jq	z, BB3_6
+	ld	(ix + -3), iy
 	ld	iy, (hl)
 	ld	hl, (iy + 27)
-	ld	de, (ix + -11)
+	ld	de, (ix + -3)
 	add	hl, de
-	ld	(ix + -8), hl
+	ld	(ix + -6), hl
 	ld	iy, (ix + 9)
 	ld	hl, (iy + 27)
 	add	hl, de
 	ld	hl, (hl)
 	push	hl
-	ld	hl, (ix + -8)
+	ld	hl, (ix + -6)
 	push	hl
-	ld	(ix + -8), bc
+	ld	(ix + -6), bc
 	call	_optix_CopyElement
-	ld	bc, (ix + -8)
-	ld	iy, (ix + -11)
+	ld	bc, (ix + -6)
+	ld	iy, (ix + -3)
 	pop	hl
 	pop	hl
-	ld	hl, (ix + -5)
-	inc	hl
-	ld	(ix + -5), hl
 	ld	de, 3
 	add	iy, de
 	jq	BB3_4
-BB3_7:
+BB3_6:
 	ld	sp, ix
 	pop	ix
 	ret
@@ -404,18 +417,18 @@ _optix_FreeElementHandleSpecialCase:
 	ld	a, (iy)
 	cp	a, 3
 	jq	nz, BB4_1
-	ld	a, (iy + 50)
+	ld	a, (iy + 122)
 	ld	l, 1
 	xor	a, l
 	bit	0, a
 	jq	nz, BB4_5
-	ld	hl, (iy + 51)
+	ld	hl, (iy + 123)
 	push	hl
 	ld	(ix + -3), iy
 	call	_free
 	pop	hl
 	ld	iy, (ix + -3)
-	ld	hl, (iy + 54)
+	ld	hl, (iy + 126)
 	ld	(ix + 6), hl
 	pop	hl
 	pop	ix
@@ -434,16 +447,17 @@ BB4_5:
 	section	.text,"ax",@progbits
 	public	_optix_FreeElement
 _optix_FreeElement:
-	ld	hl, -3
+	ld	hl, -6
 	call	__frameset
 	ld	de, (ix + 6)
+	ld	(ix + -3), de
 	or	a, a
 	sbc	hl, hl
-	ld	(ix + -3), hl
+	ld	(ix + -6), hl
 	push	de
 	call	_optix_FreeElementHandleSpecialCase
 	pop	hl
-	ld	hl, (ix + 6)
+	ld	hl, (ix + -3)
 BB5_1:
 	ld	iy, (hl)
 	ld	hl, (iy + 27)
@@ -453,7 +467,7 @@ BB5_1:
 	or	a, a
 	sbc	hl, bc
 	jq	z, BB5_5
-	ld	de, (ix + -3)
+	ld	de, (ix + -6)
 	push	bc
 	pop	iy
 	add	iy, de
@@ -466,10 +480,10 @@ BB5_1:
 	call	_optix_FreeElement
 	pop	hl
 	ld	de, 3
-	ld	hl, (ix + -3)
+	ld	hl, (ix + -6)
 	add	hl, de
-	ld	(ix + -3), hl
-	ld	hl, (ix + 6)
+	ld	(ix + -6), hl
+	ld	hl, (ix + -3)
 	jq	BB5_1
 BB5_5:
 	jq	BB5_6
@@ -477,23 +491,16 @@ BB5_4:
 	push	bc
 	call	_free
 	pop	hl
-	ld	hl, (ix + 6)
+	ld	hl, (ix + -3)
 	ld	iy, (hl)
-	ex	de, hl
-	ld	hl, 0
-	ld	(iy + 27), hl
-	ex	de, hl
+	ld	de, 0
+	ld	(iy + 27), de
 	ld	iy, (hl)
 BB5_6:
-	push	iy
-	call	_free
-	pop	hl
-	ld	hl, (ix + 6)
-	ld	de, 0
-	ld	(hl), de
-	pop	hl
+	ld	(ix + 6), iy
+	ld	sp, ix
 	pop	ix
-	ret
+	jp	_free
 	section	.text,"ax",@progbits
 
 	section	.rodata,"a",@progbits
@@ -531,17 +538,17 @@ L___const.optix_InitializeWidget.render:
 	section	.rodata,"a",@progbits
 	private	L_switch.table.optix_GetSize
 L_switch.table.optix_GetSize:
-	dw	46
+	dw	43
 	dw	37
-	dw	39
-	dw	90
+	dw	40
+	dw	160
 	dw	43
 	dw	33
 	dw	36
 	dw	33
-	dw	57
+	dw	54
 	dw	34
-	dw	42
+	dw	43
 	dw	42
 
 	ident	"clang version 12.0.0 (https://github.com/jacobly0/llvm-project 170be88120e3aa88c20eea5615ba76b8f1d6c647)"
@@ -561,13 +568,14 @@ L_switch.table.optix_GetSize:
 	extern	_optix_UpdateWindow_default
 	extern	_optix_RenderInputBox_default
 	extern	__Unwind_SjLj_Unregister
-	extern	_optix_WrapText
-	extern	_optix_UpdateButton_default
-	extern	_optix_RenderButton_default
+	extern	__iand
 	extern	_optix_RenderDivider_default
+	extern	_optix_UpdateButton_default
 	extern	__imulu
 	extern	_optix_GetNumElementsInStack
+	extern	_optix_RenderButton_default
 	extern	__smulu
+	extern	_optix_GetTextNumLines
 	extern	_optix_RenderWindowTitleBar_default
 	extern	_optix_UpdateWindowTitleBar_default
 	extern	_optix_RenderSprite_default

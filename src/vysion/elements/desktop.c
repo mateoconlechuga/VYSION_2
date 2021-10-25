@@ -14,24 +14,30 @@
 #include "../../optix/gui_control.h"
 #include "../../optix/util.h"
 #include "../../optix/init.h"
+#include "../../optix/cursor.h"
+#include "../../optix/loop.h"
 #include "../control.h"
 #include "../gfx/output/vysion_gfx.h"
 #include "../wallpaper.h"
 #include "../window_manager.h"
 #include "file_explorer.h"
 #include "settings.h"
+#include "clock.h"
+#include "battery.h"
 
 //so this file is where all of the main loop stuff is going to be
 //the desktop, which probably makes sense if you can read
 
 void vysion_SuperButtonClickAction(void *args) {
     struct optix_widget *widget = (struct optix_widget *) args;
+    static struct optix_widget *last_selection;
     widget->state.visible ^= true;
     widget->state.needs_redraw = widget->state.selected = ((struct optix_window *) widget)->needs_focus = widget->state.visible;
     if (widget->state.visible && !current_context->settings->cursor_active) {
+        last_selection = current_context->cursor->current_selection;
         optix_SetCurrentSelection(widget);
         current_context->cursor->direction = OPTIX_CURSOR_FORCE_UPDATE;
-    }
+    } else optix_SetCurrentSelection(last_selection);
     current_context->data->gui_needs_full_redraw = true;
     //optix_IntelligentRecursiveSetNeedsRedraw((*current_context->stack), widget);
     //current_context->data->gui_needs_full_redraw = true;
@@ -62,6 +68,7 @@ void vysion_StartMenuClickAction(void *args) {
         default:
             vysion_AddFileExplorerWindow(NULL);
             break;
+
     }
     //just close it
     current_context->data->key = sk_Yequ;
@@ -76,11 +83,14 @@ void vysion_Desktop(void) {
     //elements
     struct optix_sprite wallpaper[HD_WALLPAPER_ROWS];
     struct optix_sprite *wallpaper_ptr[HD_WALLPAPER_ROWS];
+    for (int i = 0; i < HD_WALLPAPER_ROWS; i++) wallpaper_ptr[i] = NULL;
     for (int i = 0; i < HD_WALLPAPER_ROWS; i++) wallpaper_ptr[i] = &wallpaper[i];
     vysion_InitializeWallpaper(wallpaper_ptr);
-    vysion_SetWallpaper("DEFAULT4", wallpaper_ptr);
+    vysion_SetWallpaper("PORSCHE4", wallpaper_ptr);
     //a window
     //window manager thing
+    char *desktop_window_manager_text[MAX_NUM_WINDOWS + 1];
+    gfx_sprite_t *desktop_window_manager_spr[MAX_NUM_WINDOWS + 1];
     struct vysion_window_manager_menu desktop_window_manager = {
         .menu = {
             .widget = {
@@ -91,10 +101,28 @@ void vysion_Desktop(void) {
                 },
                 .centering = {.x_centering = OPTIX_CENTERING_LEFT, .x_offset = 34, .y_centering = OPTIX_CENTERING_BOTTOM},
             },
-            .text_centering = {.y_centering = OPTIX_CENTERING_CENTERED, .x_centering = OPTIX_CENTERING_LEFT, .x_offset = 16},
-            .sprite_centering = {.x_centering = OPTIX_CENTERING_LEFT, .x_offset = 2, .y_centering = OPTIX_CENTERING_CENTERED},
-            .text = NULL,
-            .spr = NULL,
+            .text_args = {
+                .widget = {
+                    .centering = {
+                        .x_centering = OPTIX_CENTERING_LEFT,
+                        .x_offset = 16,
+                        .y_centering = OPTIX_CENTERING_CENTERED,
+                    },
+                },
+            },
+            .sprite_args = {
+                .widget = {
+                    .centering = {
+                        .x_centering = OPTIX_CENTERING_LEFT,
+                        .x_offset = 2,
+                        .y_centering = OPTIX_CENTERING_CENTERED,
+                    },
+                },
+                .transparent = true,
+                .transparent_color = myimages_palette_offset,
+            },
+            .text = desktop_window_manager_text,
+            .spr = desktop_window_manager_spr,
             .rows = 1,
             .transparent_background = true,
             .hide_selection_box = true,
@@ -104,14 +132,12 @@ void vysion_Desktop(void) {
         },
         .last_num_windows = 0,
         .needs_update = true,
-        .text_save = NULL,
     };
     optix_InitializeWidget(&desktop_window_manager, OPTIX_MENU_TYPE);
     desktop_window_manager.menu.widget.state.selectable = false;
     desktop_window_manager.menu.widget.update = vysion_UpdateWindowManagerMenu;
     desktop_window_manager.menu.widget.render = vysion_RenderWindowManagerMenu;
     //desktop_window_manager.menu.spr_x_scale = desktop_window_manager.menu.spr_y_scale = 2;
-
     //the main file explorer thing
     struct vysion_file_explorer_menu desktop_file_menu = {
         .menu = {
@@ -125,24 +151,41 @@ void vysion_Desktop(void) {
                     .height = LCD_HEIGHT - TASKBAR_HEIGHT,
                 },
             },
+            .text_args = {
+                .widget = {
+                    .centering = {
+                        .x_centering = OPTIX_CENTERING_CENTERED,
+                        .y_centering = OPTIX_CENTERING_BOTTOM,
+                        .y_offset = -5,
+                    },
+                },
+            },
+            .sprite_args = {
+                .widget = {
+                    .centering = {
+                        .x_centering = OPTIX_CENTERING_CENTERED,
+                        .y_centering = OPTIX_CENTERING_TOP,
+                        .y_offset = 5,
+                    },
+                },
+                .x_scale = 2,
+                .y_scale = 2,
+            },
             .text = NULL,
             .spr = NULL,
-            .text_centering = {.y_centering = OPTIX_CENTERING_BOTTOM, .y_offset = -5, .x_centering = OPTIX_CENTERING_CENTERED},
-            .sprite_centering = {.y_centering = OPTIX_CENTERING_TOP, .y_offset = 5, .x_centering = OPTIX_CENTERING_CENTERED},
             .rows = 4,
             .columns = 5,
             .click_action = {.click_action = vysion_FileExplorerMenuClickAction},
             .pass_self = true,
             .hide_selection_box = true,
         },
-        .index = VYSION_PROGRAMS,
+        .offset = 0,
         .needs_update = true,
         .nest = true,
     };
-    vysion_UpdateFileExplorerMenu(&desktop_file_menu.menu.widget);
+    //vysion_UpdateFileExplorerMenu(&desktop_file_menu.menu.widget);
     optix_InitializeWidget(&desktop_file_menu.menu.widget, OPTIX_MENU_TYPE);
-    desktop_file_menu.menu.widget.update = vysion_UpdateFileExplorerMenu;
-    desktop_file_menu.menu.spr_x_scale = desktop_file_menu.menu.spr_y_scale = 2;
+    //desktop_file_menu.menu.widget.update = vysion_UpdateFileExplorerMenu;
     desktop_file_menu.menu.transparent_background = true;
     struct optix_sprite start_sidebar_icon = {
         .widget = {
@@ -174,8 +217,27 @@ void vysion_Desktop(void) {
             .min_width = 25,
             .min_height = 25,
         },
-        .text_centering = {.y_centering = OPTIX_CENTERING_CENTERED, .x_centering = OPTIX_CENTERING_LEFT, .x_offset = 20},
-        .sprite_centering = {.y_centering = OPTIX_CENTERING_CENTERED, .x_centering = OPTIX_CENTERING_LEFT, .x_offset = 4},
+        .text_args = {
+            .widget = {
+                .centering = {
+                    .x_centering = OPTIX_CENTERING_LEFT,
+                    .x_offset = 20,
+                    .y_centering = OPTIX_CENTERING_CENTERED,
+                },
+            },
+            .background_rectangle = false,
+        },
+        .sprite_args = {
+            .widget = {
+                .centering = {
+                    .x_centering = OPTIX_CENTERING_LEFT,
+                    .x_offset = 4,
+                    .y_centering = OPTIX_CENTERING_CENTERED,
+                },
+            },
+            .transparent = true,
+            .transparent_color = myimages_palette_offset,
+        },
         .rows = 6,
         .columns = 1,
         .text = start_menu_text,
@@ -219,23 +281,50 @@ void vysion_Desktop(void) {
         },
         .alternate_key = sk_Yequ,
         .transparent_background = true,
+        .hide_selection_box = true,
     };
     optix_InitializeWidget(&super_button.widget, OPTIX_BUTTON_TYPE);
-    struct optix_text clock_text = {
-        .widget = {
-            .transform = {
-                .x = LCD_WIDTH - 46,
-                .y = LCD_HEIGHT - 14,
-                .width = 40,
-                .height = 12,
+    struct vysion_clock_text clock_text = {
+        .text = {
+            .widget = {
+                .transform = {
+                    .x = LCD_WIDTH - 46,
+                    .y = LCD_HEIGHT - 13,
+                    .width = 40,
+                    .height = fontlib_GetCurrentFontHeight(),
+                },
             },
+            .alignment = OPTIX_CENTERING_RIGHT,
+            .text = clock_text_buffer,
+            .background_rectangle = false,
         },
-        .alignment = OPTIX_CENTERING_CENTERED,
-        .text = "12:00 AM",
-        .background_rectangle = false,
+        .minutes = 255,
     };
-    optix_InitializeWidget(&clock_text.widget, OPTIX_TEXT_TYPE);
-    clock_text.background_rectangle = true;
+    optix_InitializeWidget(&clock_text.text.widget, OPTIX_TEXT_TYPE);
+    clock_text.text.widget.update = vysion_UpdateClockText;
+    clock_text.text.widget.update(&clock_text.text.widget);
+    clock_text.text.widget.state.selectable = false;
+    struct vysion_battery_icon battery_icon = {
+        .sprite = {
+            .widget = {
+                .transform = {
+                    .x = clock_text.text.widget.transform.x - battery_0->width,
+                    .y = LCD_HEIGHT - (TASKBAR_HEIGHT / 2) - (battery_0->height / 2),
+                },
+            },
+            .spr = battery_0,
+            .x_scale = 1,
+            .y_scale = 1,
+            .transparent = true,
+            .transparent_color = myimages_palette_offset,
+        },
+        .status = 0,
+        .minutes = &(clock_text.minutes),
+        .last_minutes = 255,
+    };
+    optix_InitializeWidget(&battery_icon.sprite.widget, OPTIX_SPRITE_TYPE);
+    battery_icon.sprite.widget.update = vysion_UpdateBatteryIcon;
+    dbg_sprintf(dbgout, "So that broke.");
     struct optix_rectangle taskbar_background = {
         .widget = {
             .transform = {
@@ -253,27 +342,24 @@ void vysion_Desktop(void) {
     optix_RecursiveAlign(&super_button.widget);
     struct optix_widget *master_stack[DESKTOP_ELEMENTS + MAX_NUM_WINDOWS];
     //inititialize that too
-    for (int i = 0; i < DESKTOP_ELEMENTS + MAX_NUM_WINDOWS; i++) {
+    for (int i = 0; i < DESKTOP_ELEMENTS + 1; i++) {
         if (i < HD_WALLPAPER_ROWS) master_stack[i] = wallpaper_ptr[i];
         else {
             switch (i - HD_WALLPAPER_ROWS) {
                 case 0:
-                    master_stack[i] = &taskbar_background.widget;
-                    break;
-                case 1:
-                    master_stack[i] = &desktop_file_menu.menu.widget;
-                    break;
-                case 2:
                     master_stack[i] = &super_button.widget;
                     break;
-                case 3:
+                case 1:
                     master_stack[i] = &start_window.widget;
                     break;
-                case 4:
-                    master_stack[i] = &clock_text.widget;
+                case 2:
+                    master_stack[i] = &clock_text.text.widget;
                     break;
-                case 5:
+                case 3:
                     master_stack[i] = &desktop_window_manager.menu.widget;
+                    break;
+                case 4:
+                    master_stack[i] = &battery_icon.sprite.widget;
                     break;
                 default:
                     master_stack[i] = NULL;
@@ -283,7 +369,7 @@ void vysion_Desktop(void) {
     }
     //add it to the context
     current_context->stack = &master_stack;
-    optix_SetCurrentSelection(&desktop_file_menu.menu.widget);
+    optix_SetCurrentSelection(&super_button.widget);
     optix_RefreshCursorBackground((struct optix_widget *) current_context->cursor);
     //we'll see
     /*int i = 0;

@@ -1,7 +1,18 @@
 #include "window.h"
+
 #include <debug.h>
+#include <stdint.h>
+#include <graphx.h>
+#include <tice.h>
 #include "../gui_control.h"
 #include "../shapes.h"
+#include "../loop.h"
+#include "../util.h"
+#include "../cursor.h"
+#include "../colors.h"
+#include "menu.h"
+#include "text.h"
+#include "button.h"
 
 //returns true if window size has changed
 void optix_UpdateWindow_default(struct optix_widget *widget) {

@@ -38,155 +38,121 @@ _vysion_SetOP1:
 	section	.text,"ax",@progbits
 	public	_main
 _main:
-	ld	hl, -246
+	ld	hl, -249
 	call	__frameset
-	ld	bc, -222
+	ld	bc, -231
 	lea	iy, ix + 0
 	add	iy, bc
-	ld	bc, -246
-	lea	hl, ix + 0
-	add	hl, bc
-	ld	(hl), iy
-	ld	hl, 48
-	lea	de, ix + -54
+	lea	hl, ix + -42
 	push	ix
-	ld	bc, -225
+	ld	bc, -237
 	add	ix, bc
-	ld	(ix + 0), de
+	ld	(ix + 0), hl
 	pop	ix
-	lea	bc, ix + -114
-	ld	(ix + -3), de
-	push	ix
-	ld	de, -231
-	add	ix, de
-	ld	(ix + 0), bc
-	pop	ix
-	lea	bc, iy + 52
-	push	ix
-	ld	de, -234
-	add	ix, de
-	ld	(ix + 0), bc
-	pop	ix
-	lea	bc, iy + 50
-	push	ix
-	ld	de, -240
-	add	ix, de
-	ld	(ix + 0), bc
-	pop	ix
-	lea	bc, iy + 42
-	push	ix
-	ld	de, -243
-	add	ix, de
-	ld	(ix + 0), bc
-	pop	ix
-	lea	bc, iy + 18
-	push	ix
-	ld	de, -237
-	add	ix, de
-	ld	(ix + 0), bc
-	pop	ix
-	lea	bc, iy + 0
-	ld	de, -228
-	lea	iy, ix + 0
-	add	iy, de
-	ld	(iy + 0), bc
-	push	hl
-	or	a, a
-	sbc	hl, hl
-	push	hl
-	ld	de, (ix + -3)
-	push	de
-	call	_memset
-	pop	hl
-	pop	hl
-	pop	hl
-	ld	bc, -246
-	lea	hl, ix + 0
-	add	hl, bc
-	ld	iy, (hl)
+	lea	de, ix + -102
 	push	ix
 	ld	bc, -240
 	add	ix, bc
-	ld	hl, (ix + 0)
+	ld	(ix + 0), de
 	pop	ix
-	ld	(iy + 0), hl
+	lea	de, iy + 73
+	push	ix
 	ld	bc, -243
-	lea	hl, ix + 0
-	add	hl, bc
-	ld	hl, (hl)
-	ld	(iy + 3), hl
+	add	ix, bc
+	ld	(ix + 0), de
+	pop	ix
+	lea	bc, iy + 71
+	lea	de, iy + 63
+	ld	(ix + -3), bc
+	push	ix
+	ld	bc, -249
+	add	ix, bc
+	ld	(ix + 0), de
+	pop	ix
+	lea	de, iy + 18
+	push	ix
+	ld	bc, -246
+	add	ix, bc
+	ld	(ix + 0), de
+	pop	ix
+	lea	de, iy + 0
+	push	ix
 	ld	bc, -234
-	lea	hl, ix + 0
-	add	hl, bc
-	ld	hl, (hl)
-	ld	(iy + 6), hl
-	ld	bc, -231
-	lea	hl, ix + 0
-	add	hl, bc
-	ld	hl, (hl)
-	ld	(iy + 9), hl
-	ld	bc, -237
-	lea	hl, ix + 0
-	add	hl, bc
-	ld	hl, (hl)
-	ld	(iy + 12), hl
-	ld	hl, 0
-	ld	(iy + 15), hl
-	ld	bc, -225
-	lea	hl, ix + 0
-	add	hl, bc
-	ld	hl, (hl)
+	add	ix, bc
+	ld	(ix + 0), de
+	pop	ix
+	ld	bc, (ix + -3)
+	ld	(iy + 0), bc
+	push	ix
+	ld	bc, -249
+	add	ix, bc
+	ld	de, (ix + 0)
+	pop	ix
+	ld	(iy + 3), de
+	push	ix
+	ld	bc, -243
+	add	ix, bc
+	ld	de, (ix + 0)
+	pop	ix
+	ld	(iy + 6), de
+	push	ix
+	ld	bc, -240
+	add	ix, bc
+	ld	de, (ix + 0)
+	pop	ix
+	ld	(iy + 9), de
+	push	ix
+	ld	bc, -246
+	add	ix, bc
+	ld	de, (ix + 0)
+	pop	ix
+	ld	(iy + 12), de
+	ld	de, 0
+	ld	(iy + 15), de
 	push	hl
 	call	_vysion_SetContext
 	pop	hl
-	ld	bc, -225
-	lea	hl, ix + 0
-	add	hl, bc
-	ld	hl, (hl)
-	push	hl
-	call	_vysion_LoadFilesystem
-	pop	hl
-	ld	bc, -225
-	lea	hl, ix + 0
-	add	hl, bc
-	ld	hl, (hl)
-	push	hl
-	call	_vysion_DetectAllFiles
-	pop	hl
-	ld	bc, -225
-	lea	hl, ix + 0
-	add	hl, bc
-	ld	hl, (hl)
-	push	hl
-	call	_vysion_DetectAllFolders
-	pop	hl
 	call	_vysion_InitializeGraphics
-	ld	bc, -228
+	ld	bc, -234
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
 	push	hl
 	call	_vysion_InitializeOPTIX
 	pop	hl
-	call	_vysion_Desktop
-	or	a, a
-	sbc	hl, hl
-	push	hl
-	call	_gfx_FillScreen
-	pop	hl
-	ld	bc, -225
+	ld	bc, -237
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
 	push	hl
-	call	_vysion_SaveFilesystem
+	call	_vysion_InitializeFilesystem
 	pop	hl
-	ld	bc, -228
+	ld	de, 30
+	ld	iy, 0
+BB1_1:
+	lea	hl, iy + 0
+	or	a, a
+	sbc	hl, de
+	jq	z, BB1_2
+	ld	hl, (_vysion_current_context)
+	lea	bc, iy + 0
+	add	hl, bc
+	ld	bc, 0
+	ld	(hl), bc
+	ld	bc, 3
+	add	iy, bc
+	jq	BB1_1
+BB1_2:
+	call	_vysion_Desktop
+	ld	bc, -234
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
 	push	hl
 	call	_vysion_CloseAllWindows
+	pop	hl
+	or	a, a
+	sbc	hl, hl
 	ld	sp, ix
 	pop	ix
 	ret
@@ -199,19 +165,15 @@ L___const.vysion_SetOP1.temp:
 
 	ident	"clang version 12.0.0 (https://github.com/jacobly0/llvm-project 170be88120e3aa88c20eea5615ba76b8f1d6c647)"
 	extern	_vysion_CloseAllWindows
-	extern	_memset
-	extern	_gfx_FillScreen
 	extern	__Unwind_SjLj_Register
-	extern	__frameset
 	extern	__Unwind_SjLj_Unregister
+	extern	__frameset
 	extern	_strcpy
-	extern	_vysion_DetectAllFolders
-	extern	_vysion_LoadFilesystem
 	extern	_strcat
-	extern	_vysion_SaveFilesystem
 	extern	_vysion_Desktop
 	extern	_vysion_InitializeGraphics
+	extern	_vysion_current_context
 	extern	_vysion_SetContext
 	extern	_memcpy
 	extern	_vysion_InitializeOPTIX
-	extern	_vysion_DetectAllFiles
+	extern	_vysion_InitializeFilesystem

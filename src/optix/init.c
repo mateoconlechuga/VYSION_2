@@ -4,7 +4,7 @@
 //initializes the callbacks and things too
 void optix_InitializeWidget(struct optix_widget *widget, uint8_t type) {
     struct optix_window_title_bar *window_title_bar = (struct optix_window_title_bar *) widget;
-    struct optix_window *window = (struct optix_window *) window_title_bar->window;
+    struct optix_window *window = (type == OPTIX_WINDOW_TITLE_BAR_TYPE) ? (struct optix_window *) window_title_bar->window : NULL;
     struct optix_menu *menu = (struct optix_menu *) widget;
     struct optix_text *text = (struct optix_text *) widget;
     struct optix_check_box *check_box = (struct optix_check_box *) widget;
@@ -100,26 +100,23 @@ void optix_InitializeWidget(struct optix_widget *widget, uint8_t type) {
     switch (type) {
         case OPTIX_MENU_TYPE:
             menu->min = menu->last_selection = menu->selection = menu->num_options = 0;
-            menu->spr_x_scale = menu->spr_y_scale = 1;
-            while ((menu->spr && menu->spr[menu->num_options]) || (menu->text && menu->text[menu->num_options])) 
+            if (!menu->sprite_args.x_scale || !menu->sprite_args.y_scale) menu->sprite_args.x_scale = menu->sprite_args.y_scale = 1;
+            while ((menu->spr && menu->spr[menu->num_options]) || ((menu->text && menu->text[menu->num_options])))
                 menu->num_options++;
             break;
         case OPTIX_TEXT_TYPE:
-            widget->child = NULL;
             text->num_lines = 0;
-            text->background_rectangle = true;
             text->min = 0;
-            optix_WrapText(widget);
-            //no break here, we want it to fall through
+            optix_GetTextNumLines(widget);
+            break;
         case OPTIX_BUTTON_TYPE:
+            break;
         case OPTIX_SPRITE_TYPE:
             //hopefully it's safe to assume these have been set properly
             if (widget->type == OPTIX_SPRITE_TYPE) {
                 widget->transform.width = sprite->spr->width * sprite->x_scale;
                 widget->transform.height = sprite->spr->height * sprite->y_scale;
             }
-            widget->centering.x_centering = OPTIX_CENTERING_CENTERED;
-            widget->centering.y_centering = OPTIX_CENTERING_CENTERED;
             break;
         case OPTIX_WINDOW_TITLE_BAR_TYPE:
             //initialize the transform for this as well
@@ -238,6 +235,7 @@ void optix_CopyElement(struct optix_widget **widget, struct optix_widget *refere
 //this assumes it has been copied with optix_CopyElement, so keep that in mind please
 void optix_FreeElementHandleSpecialCase(struct optix_widget **widget) {
     struct optix_menu *menu = (struct optix_menu *) (*widget);
+    struct optix_text *text = (struct optix_text *) (*widget);
     switch ((*widget)->type) {
         case OPTIX_WINDOW_TITLE_BAR_TYPE:
             optix_FreeElement((struct optix_widget **) &((struct optix_window_title_bar *) (*widget))->window);
@@ -269,5 +267,5 @@ void optix_FreeElement(struct optix_widget **widget) {
         (*widget)->child = NULL;
     }
     free(*widget);
-    *widget = NULL;
+    //*widget = NULL;
 }

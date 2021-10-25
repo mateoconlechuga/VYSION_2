@@ -3,6 +3,6 @@
 	section	.data,"aw",@progbits
 	public	_xlibc_condensed_palette
 _xlibc_condensed_palette:
-	db	"",000o,000o,224o,260o,"h",265o,"L",267o,264o,320o,"t",220o,"J",223o,245o,"df",021o,206o,341o,"v#",230o,021o,211o,316o,265o,"te",274o,270o,"RG",230o,210o,356o,271o,"v",213o,357o,177o,"'",267o,"u",252o,323o,267o,347o,"}*u&",270o,"U",230o,"5~[i",036o,377o,377o
+	db	"",000o,000o,"g",211o,"I",214o,"t",220o,"x",221o,"J",223o,"F",236o,223o,236o,"}",242o,"{",253o,"e,g-",224o,260o,230o,"5k",267o,211o,"J",205o,"L",207o,"M",263o,320o,"xU",231o,326o,233o,327o,253o,"g",245o,"l",247o,"m",251o,"n",266o,363o,265o,"t",267o,"u",271o,"v",377o,377o
 
 	ident	"clang version 12.0.0 (https://github.com/jacobly0/llvm-project 170be88120e3aa88c20eea5615ba76b8f1d6c647)"

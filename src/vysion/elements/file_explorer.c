@@ -1,10 +1,12 @@
 #include "file_explorer.h"
 #include <graphx.h>
+#include <fileioc.h>
 #include "../window_manager.h"
 #include "../../optix/init.h"
 #include "../gfx/output/vysion_gfx.h"
 #include "../control.h"
 #include "../os.h"
+#include "../filesystem.h"
 
 //unsigned char *template_text_text = "Welcome to VYSION 2!";
 //unsigned char start_icon_rotated[1154];
@@ -32,22 +34,40 @@ void vysion_AddFileExplorerWindow(void *config) {
             .dynamic = true,
             .text = NULL,
             .spr = NULL,
-            .text_centering = {.y_centering = OPTIX_CENTERING_CENTERED, .x_centering = OPTIX_CENTERING_LEFT, .x_offset = 24},
-            .sprite_centering = {.y_centering = OPTIX_CENTERING_CENTERED, .x_centering = OPTIX_CENTERING_LEFT, .x_offset = 4},
+            .text_args = {
+                .widget = {
+                    .centering = {
+                        .y_centering = OPTIX_CENTERING_CENTERED,
+                        .x_centering = OPTIX_CENTERING_LEFT,
+                        .x_offset = 24,
+                    },
+                },
+            },
+            .sprite_args = {
+                .widget = {
+                    .centering = {
+                        .y_centering = OPTIX_CENTERING_CENTERED,
+                        .x_centering = OPTIX_CENTERING_LEFT,
+                        .x_offset = 4,
+                    },
+                },
+            },
             .rows = 5,
             .columns = 1,
             .click_action = {.click_action = vysion_FileExplorerMenuClickAction},
             .pass_self = true,
         },
-        .index = VYSION_ROOT,
+        .offset = 0,
         .needs_update = true,
         .nest = true,
+        .special_folder = FOLDER_PROGRAMS,
     };
     //do this now, or there will be a slight delay until the correct options are shown
-    vysion_UpdateFileExplorerMenu(&template_file_menu.menu.widget);
-    optix_InitializeWidget(&template_file_menu.menu.widget, OPTIX_MENU_TYPE);
-    template_file_menu.menu.widget.update = vysion_UpdateFileExplorerMenu;
     //vysion_UpdateFileExplorerMenu(&template_file_menu.menu.widget);
+    optix_InitializeWidget(&template_file_menu.menu.widget, OPTIX_MENU_TYPE);
+    //vysion_UpdateFileExplorerMenu(&template_file_menu.menu.widget);
+    template_file_menu.menu.widget.render = vysion_RenderFileExplorerMenu;
+    template_file_menu.menu.num_options = vysion_current_context->num_programs;
     struct optix_window template = {
         .widget = {
             .transform = {
@@ -78,59 +98,56 @@ void vysion_AddFileExplorerWindow(void *config) {
     vysion_AddWindow(&window);
 }
 
-//a custom callback for a file explorer window
-void vysion_UpdateFileExplorerMenu(struct optix_widget *widget) {
-    struct vysion_file_explorer_menu *menu = (struct vysion_file_explorer_menu *) widget;
-    //do this too (update the thing's stuff)
-    //start out by changing the index if necessary
-    if (menu->menu.widget.state.selected && current_context->data->key == sk_Mode) {
-        menu->index = menu->folder->save.widget.location;
-        menu->needs_update = true;
-        menu->menu.widget.state.needs_redraw = true;
-        if (menu->menu.transparent_background) optix_IntelligentRecursiveSetNeedsRedraw(current_context->stack, widget);
-        menu->menu.min = menu->menu.selection = menu->menu.last_selection = 0;
-    }
-    if (menu->needs_update || widget->state.needs_redraw) {
-        struct vysion_folder *folder = menu->folder = vysion_GetFolderByIndex(vysion_current_context, menu->index);
-        int num_options = optix_GetNumElementsInStack((struct optix_widget **) folder->contents);
-        menu->menu.num_options = num_options;
-        //update it
-        //pretty easy, I think
-        menu->menu.text = realloc(menu->menu.text, (num_options + 1) * sizeof(char *));
-        menu->menu.spr = realloc(menu->menu.spr, (num_options + 1) * sizeof(char *));
-        menu->menu.text[num_options] = menu->menu.spr[num_options] = NULL;
-        for (int i = 0; i < num_options; i++) {
-            struct vysion_file *file_widget = (struct vysion_file *) folder->contents[i];
-            menu->menu.text[i] = folder->contents[i]->save.widget.name;
-            if (file_widget->save.widget.type == VYSION_FILE) menu->menu.spr[i] = file_widget->icon;
-            else if (file_widget->save.widget.type == VYSION_FOLDER) menu->menu.spr[i] = ((struct vysion_folder *) file_widget)->icon;
-        }
-        menu->needs_update = false;
-    }
-    //still this as well
-    optix_UpdateMenu_default(widget);
-}
-
 void vysion_FileExplorerMenuClickAction(struct optix_widget *widget) {
     struct vysion_file_explorer_menu *menu = (struct vysion_file_explorer_menu *) widget;
-    struct vysion_file_widget *file_widget = (struct vysion_file_widget *) menu->folder->contents[menu->menu.selection];
+    //struct vysion_file_widget *file_widget = (struct vysion_file_widget *) menu->folder->contents[menu->menu.selection];
     //so if it was a folder and was clicked, it should move to the next level if applicable
-    dbg_sprintf(dbgout, "This function called.\n");
-    switch (file_widget->type) {
-        case VYSION_FOLDER:
-            if (menu->nest) {
-                menu->menu.widget.state.needs_redraw = true;
-                if (menu->menu.transparent_background) optix_IntelligentRecursiveSetNeedsRedraw(current_context->stack, widget);
-                menu->index = ((struct vysion_folder *) file_widget)->save.index;
-                menu->needs_update = true;
-                //just set the index and min to 0
-                menu->menu.min = menu->menu.selection = 0;
-                //otherwise it'll immediately switch to the new one
-            }
+    switch (menu->current_selection_vysion_type) {
+        case VYSION_BASIC_TYPE:
+        case VYSION_PROTECTED_BASIC_TYPE:
+        case VYSION_ASM_TYPE:
+        case VYSION_C_TYPE:
+        case VYSION_ICE_TYPE:
+            vysion_RunProgram(menu->current_selection_name);
+            break;
+        case VYSION_APPVAR_TYPE:
+        case VYSION_ICE_SOURCE_TYPE:
             break;
         default:
-            //run it I guess
-            vysion_RunProgram((struct vysion_file_save *) file_widget);
             break;
+
     }
+}
+
+void vysion_RenderFileExplorerMenu(struct optix_widget *widget) {
+    struct vysion_file_explorer_menu *menu = (struct vysion_file_explorer_menu *) widget;
+    uint8_t type;
+    void *search_pos = NULL;
+    char *var_name;
+    int i = 0;
+    if (!(widget->state.needs_redraw || (menu->menu.selection != menu->menu.last_selection && widget->state.selected) || menu->menu.needs_partial_redraw)) return;
+    if (menu->special_folder) {
+        while ((var_name = ti_DetectAny(&search_pos, NULL, &type))) {
+            if (*var_name == '#' || *var_name == '!') continue;
+            if ((menu->special_folder == FOLDER_PROGRAMS && (type == TI_PPRGM_TYPE || type == TI_PRGM_TYPE)) || (menu->special_folder == FOLDER_APPVARS && type == TI_APPVAR_TYPE)) {
+                struct vysion_file_info file_info;
+                dbg_sprintf(dbgout, "Name: %s Type: %d\n", var_name, type);
+                if (i >= menu->menu.min) {
+                    vysion_GetFileInfo(&file_info, var_name, type);
+                    optix_RenderMenuOption(i, menu, var_name, file_info.icon);
+                    //so that we can use it later
+                    if (i == menu->menu.selection) {
+                        strcpy(menu->current_selection_name, var_name);
+                        menu->current_selection_vysion_type = file_info.vysion_type;
+                    }
+                }
+                //this will only be run if we didn't return earlier, which will happen if the selection is different or we need a redraw of some sort
+                i++;
+                if (i >= menu->menu.num_options || i >= (menu->menu.min + menu->menu.rows * menu->menu.columns)) break;
+            }
+        }
+    }
+    current_context->data->needs_blit = true;
+    menu->menu.needs_partial_redraw = false; 
+
 }

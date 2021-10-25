@@ -13,6 +13,6 @@
     #error Variable OPTIX_VERSION not found. Aborting.
 #endif
 
-void main(void);
+int main(void);
 
 #endif

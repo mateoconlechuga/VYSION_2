@@ -1,17 +1,20 @@
 #include "input_box.h"
-//includes
+
 #include <stdint.h>
 #include <stdbool.h>
 #include <string.h>
-#include <stdlib.h>
 #include <graphx.h>
 #include <fontlibc.h>
 #include <keypadc.h>
-//OPTIX includes
+#include <tice.h>
+
 #include "../gui_control.h"
 #include "../cursor.h"
 #include "../util.h"
 #include "../shapes.h"
+#include "../colors.h"
+#include "../loop.h"
+
 #include "text.h"
 
 void optix_UpdateInputBox_default(struct optix_widget *widget) {
@@ -21,7 +24,7 @@ void optix_UpdateInputBox_default(struct optix_widget *widget) {
                            "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0-\x33\x36\x39)\0\0\0.\x32\x35\x38(\0\0\0\x30\x31\x34\x37,\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"
                           };
     char *text = input_box->text.text;
-    size_t length = strlen(text) + 1;
+    int length = strlen(text) + 1;
     int max_lines = widget->transform.height / TEXT_SPACING;
     int lines_to_render = max_lines < input_box->text.num_lines ? max_lines : input_box->text.num_lines;
     //conditions for return
@@ -29,10 +32,10 @@ void optix_UpdateInputBox_default(struct optix_widget *widget) {
         current_context->cursor->state = OPTIX_CURSOR_TEXT;
         if (kb_Data[6] & kb_Enter || kb_Data[1] & kb_2nd) {
             if (widget->state.selected) {
-                size_t length = input_box->text.num_lines > input_box->current_line + 1 ? input_box->text.offsets[input_box->current_line + 1] - input_box->text.offsets[input_box->current_line] : strlen(input_box->text.text) - (int) (input_box->text.offsets[input_box->current_line] - input_box->text.text);
+                /*int length = input_box->text.num_lines > input_box->current_line + 1 ? input_box->text.offsets[input_box->current_line + 1] - input_box->text.offsets[input_box->current_line] : strlen(input_box->text.text) - (int) (input_box->text.offsets[input_box->current_line] - input_box->text.text);
                 input_box->current_line = input_box->text.min + abs(current_context->cursor->widget.transform.y - widget->transform.y) / TEXT_SPACING;
                 input_box->cursor_offset = optix_GetStringIndexByOffset(input_box->text.offsets[input_box->current_line], current_context->cursor->widget.transform.x - widget->transform.x, length);
-                input_box->cursor_offset += (input_box->text.offsets[input_box->current_line] - input_box->text.text);
+                input_box->cursor_offset += (input_box->text.offsets[input_box->current_line] - input_box->text.text);*/
             }
             widget->state.selected = true;
         }
@@ -80,13 +83,6 @@ void optix_UpdateInputBox_default(struct optix_widget *widget) {
             }
             break;
     }
-    if (input_box->text.needs_offset_update) {
-        optix_WrapText(widget);
-        if (input_box->current_line > input_box->text.min + lines_to_render) input_box->text.min = input_box->current_line - lines_to_render + 1;
-        if (input_box->current_line < input_box->text.min) input_box->text.min = input_box->current_line;
-        widget->state.needs_redraw = true;
-        input_box->text.needs_offset_update = false;
-    }
 }
 
 void optix_RenderInputBox_default(struct optix_widget *widget) {
@@ -105,7 +101,7 @@ void optix_RenderInputBox_default(struct optix_widget *widget) {
             //do the blinking line thing I guess
             if (widget->state.selected) {
                 gfx_SetColor(BUTTON_TEXT_FG_COLOR_UNSELECTED_INDEX);
-                gfx_VertLine(widget->transform.x + optix_GetStringWidthL(input_box->text.offsets[input_box->current_line], input_box->cursor_offset - (int) (input_box->text.offsets[input_box->current_line] - input_box->text.text)), widget->transform.y + (input_box->current_line - text->min) * TEXT_SPACING, 10);
+                //gfx_VertLine(widget->transform.x + optix_GetStringWidthL(input_box->text.offsets[input_box->current_line], input_box->cursor_offset - (int) (input_box->text.offsets[input_box->current_line] - input_box->text.text)), widget->transform.y + (input_box->current_line - text->min) * TEXT_SPACING, 10);
             }
         }
         if (widget->child) optix_RenderStack(widget->child);
@@ -118,11 +114,11 @@ void optix_RenderInputBox_default(struct optix_widget *widget) {
 //also recursive so that's cool
 size_t optix_GetStringIndexByOffset(char *str, int offset, size_t length) {
     int start_index = 0, end_index = length;
-    if (optix_GetStringWidthL(str, length) < offset) return length;
+    if ((int) optix_GetStringWidthL(str, length) < offset) return length;
     while (start_index <= end_index) {
         int middle = start_index + (end_index - start_index ) / 2;
-        if (abs(optix_GetStringWidthL(str, middle) - offset) <= INPUT_BOX_CURSOR_TOLERANCE) return middle;
-        if (optix_GetStringWidthL(str, middle) < offset) start_index = middle + 1;
+        if (abs((int) optix_GetStringWidthL(str, middle) - offset) <= INPUT_BOX_CURSOR_TOLERANCE) return middle;
+        if ((int) optix_GetStringWidthL(str, middle) < offset) start_index = middle + 1;
         else end_index = middle - 1;
     }
     return -1;

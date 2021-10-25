@@ -1,15 +1,8 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 
-#include <stdint.h>
 #include <stdbool.h>
-#include <graphx.h>
 #include "../gui_control.h"
-#include "../loop.h"
-#include "../util.h"
-#include "menu.h"
-#include "text.h"
-#include "button.h"
 
 //defines
 #define TITLE_BAR_HEIGHT   14

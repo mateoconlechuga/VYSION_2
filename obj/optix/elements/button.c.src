@@ -109,11 +109,11 @@ _optix_RenderButton_default:
 	ld	l, 1
 	xor	a, l
 	bit	0, a
-	jq	nz, BB1_14
+	jq	nz, BB1_15
 	ld	a, (iy + 17)
 	xor	a, l
 	bit	0, a
-	jq	nz, BB1_14
+	jq	nz, BB1_15
 	ld	a, (iy + 14)
 	xor	a, l
 	bit	0, a
@@ -157,8 +157,13 @@ BB1_5:
 	ld	hl, 21
 	push	hl
 	ld	hl, 18
-	jq	BB1_10
+	jq	BB1_11
 BB1_6:
+	ld	a, (iy + 39)
+	xor	a, l
+	xor	a, l
+	bit	0, a
+	jq	nz, BB1_12
 	ld	a, (iy + 36)
 	xor	a, l
 	ld	l, (iy + 1)
@@ -169,7 +174,7 @@ BB1_6:
 	ld	b, (iy + 8)
 	ld	d, (iy + 9)
 	bit	0, a
-	jq	z, BB1_8
+	jq	z, BB1_9
 	ld	hl, 8
 	push	hl
 	dec	hl
@@ -188,8 +193,8 @@ BB1_6:
 	add	hl, sp
 	ld	sp, hl
 	ld	hl, 21
-	jq	BB1_9
-BB1_8:
+	jq	BB1_10
+BB1_9:
 	ld	hl, 7
 	push	hl
 	inc	hl
@@ -208,15 +213,16 @@ BB1_8:
 	add	hl, sp
 	ld	sp, hl
 	ld	hl, 23
-BB1_9:
+BB1_10:
 	push	hl
 	dec	hl
-BB1_10:
+BB1_11:
 	push	hl
 	call	_optix_SetTextColor
 	pop	hl
 	pop	hl
 	ld	iy, (ix + 6)
+BB1_12:
 	ld	hl, (iy + 27)
 	add	hl, bc
 	or	a, a
@@ -231,7 +237,7 @@ BB1_10:
 	call	_optix_SetTextColor
 	pop	hl
 	pop	hl
-BB1_14:
+BB1_15:
 	ld	sp, ix
 	pop	ix
 	ret

@@ -3,6 +3,7 @@
 
 #include "button.h"
 #include "sprite.h"
+#include "text.h"
 
 /*NOTES:
 This will work best if the width of the menu is evenly divisible by its number of columns,
@@ -17,8 +18,8 @@ struct optix_menu {
     struct optix_widget widget;
     struct optix_resize_info resize_info;
     //centerings for the sprites and text
-    struct optix_centering text_centering;
-    struct optix_centering sprite_centering;
+    struct optix_text text_args;
+    struct optix_sprite sprite_args;
     //if this is set, the text and sprite arrays will be freed on optix_FreeElement
     bool dynamic;
     char **text;
@@ -27,8 +28,6 @@ struct optix_menu {
     //if this is set, then these widgets will be updated with the menu and rendered
     //within the menu boxes (so element[0] would be rendered within the box for the 0th menu option)
     struct optix_widget **element;
-    uint8_t spr_x_scale;
-    uint8_t spr_y_scale;
     //things to use internally
     int selection;
     bool needs_partial_redraw;
@@ -57,8 +56,10 @@ struct optix_menu {
 //void optix_AlignMenu(struct optix_menu *menu, int menu_min);
 //void optix_InitializeMenu(struct optix_menu *menu, int num_options, const char *(*text)[], gfx_sprite_t *(*spr)[]);
 
-uint16_t optix_GetMenuOptionWidth(int curr_selection, int rows, int columns, uint16_t width, uint8_t height);
-uint8_t optix_GetMenuOptionHeight(int curr_selection, int rows, int columns, uint16_t width, uint8_t height);
+uint16_t optix_GetMenuOptionWidth(int option, struct optix_menu *menu);
+uint8_t optix_GetMenuOptionHeight(int option, struct optix_menu *menu);
+void optix_SetMenuOptionTransform(int option, struct optix_button *button, struct optix_menu *menu);
+void optix_RenderMenuOption(int option, struct optix_menu *menu, char *option_text, gfx_sprite_t *option_spr);
 void optix_UpdateMenu_default(struct optix_widget *widget);
 void optix_RenderMenu_default(struct optix_widget *widget);
 

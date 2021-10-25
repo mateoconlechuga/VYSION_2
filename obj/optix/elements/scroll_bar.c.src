@@ -19,126 +19,144 @@ _optix_UpdateScrollBar_default:
 	section	.text,"ax",@progbits
 	public	_optix_RenderScrollBar_default
 _optix_RenderScrollBar_default:
-	ld	hl, -24
+	ld	hl, -18
 	call	__frameset
 	ld	iy, (ix + 6)
-	ld	de, 0
 	ld	a, (iy + 15)
 	ld	c, 1
 	xor	a, c
 	bit	0, a
-	jq	nz, BB1_20
+	jq	nz, BB1_19
 	ld	a, (iy + 17)
 	xor	a, c
 	bit	0, a
-	jq	nz, BB1_20
+	jq	nz, BB1_19
 	ld	hl, (iy + 30)
-	ld	(ix + -12), hl
-	ld	b, (hl)
-	ld	a, b
-	or	a, a
-	ld	(ix + -3), de
-	jq	z, BB1_8
-	ld	a, b
-	cp	a, 3
-	jq	nz, BB1_20
-	ld	iy, (ix + -12)
-	ld	hl, (iy + 69)
-	ld	de, (iy + 75)
-	ld	(ix + -18), de
 	ld	(ix + -9), hl
+	ld	l, (hl)
+	ld	a, l
+	or	a, a
+	ld	de, 0
+	ld	(ix + -6), de
+	jq	z, BB1_8
+	ld	a, l
+	cp	a, 3
+	jq	nz, BB1_19
+	ld	de, 139
+	ld	iy, (ix + -9)
+	lea	hl, iy + 0
+	add	hl, de
+	ld	hl, (hl)
+	ld	(ix + -3), hl
+	lea	hl, iy + 0
+	ld	de, 145
+	add	hl, de
+	ld	hl, (hl)
+	ld	(ix + -18), hl
 	ld	de, 1
+	ld	hl, (ix + -3)
 	or	a, a
 	sbc	hl, de
 	jq	nz, BB1_6
-	ld	hl, (iy + 66)
+	ld	de, 136
+	lea	hl, iy + 0
+	add	hl, de
+	ld	hl, (hl)
+	ld	(ix + -6), hl
+	ld	de, 142
+	add	iy, de
+	ld	hl, (iy)
 	ld	(ix + -3), hl
-	ld	hl, (iy + 72)
-	ld	(ix + -9), hl
 	jq	BB1_7
 BB1_6:
+	ld	de, 142
+	lea	hl, iy + 0
+	add	hl, de
 	ld	a, c
-	ld	bc, (iy + 72)
+	ld	bc, (hl)
 	ld	hl, (ix + -18)
 	call	__idivs
 	ld	(ix + -18), hl
-	ld	hl, (iy + 66)
+	ld	de, 136
+	add	iy, de
+	ld	hl, (iy)
 	call	__idivs
 	ld	c, a
-	ld	(ix + -3), hl
+	ld	(ix + -6), hl
 BB1_7:
 	ld	iy, (ix + 6)
-	ld	de, 0
 BB1_8:
-	ld	(ix + -6), de
 	ld	a, (iy + 33)
 	xor	a, c
 	bit	0, a
 	jq	z, BB1_10
 	ld	l, (iy + 7)
 	ld	h, (iy + 8)
-	ld	de, 0
-	ld	(ix + -12), hl
+	ld	bc, 0
+	push	bc
+	pop	de
 	ld	e, l
 	ld	d, h
 	ld	a, (iy + 9)
+	ld	c, a
+	ld	(ix + -15), bc
+	ld	(ix + -12), de
 	jq	BB1_11
 BB1_10:
 	ld	a, (iy + 9)
-	ld	de, 0
+	or	a, a
+	sbc	hl, hl
+	push	hl
+	pop	de
 	ld	e, a
 	ld	l, (iy + 7)
 	ld	h, (iy + 8)
 	ld	(ix + -12), hl
+	ld	(ix + -15), de
 BB1_11:
-	ld	l, a
-	ld	(ix + -15), hl
 	push	de
 	pop	hl
-	ld	bc, (ix + -9)
+	ld	bc, (ix + -3)
 	call	__imulu
 	ld	iy, (ix + -18)
 	lea	bc, iy + 0
 	call	__idivs
-	ld	(ix + -21), hl
 	ld	bc, 65535
 	call	__iand
 	push	hl
 	pop	bc
 	ex	de, hl
-	ld	(ix + -24), bc
+	ld	(ix + -9), bc
 	or	a, a
 	sbc	hl, bc
-	ld	bc, (ix + -3)
+	ld	bc, (ix + -6)
 	call	__imulu
 	push	hl
 	pop	de
 	lea	hl, iy + 0
-	ld	bc, (ix + -9)
+	ld	bc, (ix + -3)
 	or	a, a
 	sbc	hl, bc
 	push	hl
 	pop	bc
 	ex	de, hl
 	call	__idivs
-	ld	(ix + -3), hl
+	ld	(ix + -6), hl
 	ld	hl, (ix + 6)
 	push	hl
 	pop	iy
-	ld	l, (iy + 1)
-	ld	h, (iy + 2)
-	ld	a, (iy + 4)
-	ld	de, 7
-	push	de
-	inc	de
-	push	de
-	ld	de, 14
-	push	de
-	ld	de, (ix + -15)
-	push	de
-	ld	de, (ix + -12)
-	push	de
-	ld	e, a
+	ld	hl, (iy + 1)
+	ld	de, (iy + 4)
+	ld	bc, 7
+	push	bc
+	inc	bc
+	push	bc
+	ld	bc, 14
+	push	bc
+	ld	bc, (ix + -15)
+	push	bc
+	ld	bc, (ix + -12)
+	push	bc
 	push	de
 	push	hl
 	call	_optix_OutlinedRectangle_WithBevel
@@ -146,75 +164,74 @@ BB1_11:
 	add	hl, sp
 	ld	sp, hl
 	ld	iy, (ix + 6)
-	ld	bc, (iy + 1)
+	ld	hl, (iy + 1)
+	ld	(ix + -3), hl
 	ld	a, (iy + 33)
 	ld	l, 1
 	xor	a, l
-	ld	e, a
-	bit	0, e
-	ld	hl, (ix + -3)
-	jq	nz, BB1_14
-	push	bc
-	pop	iy
+	ld	hl, (ix + -6)
+	ld	bc, 65535
+	call	__iand
+	bit	0, a
+	push	hl
+	pop	de
 	ld	bc, 0
+	jq	nz, BB1_13
 	push	bc
-	pop	hl
-	lea	bc, iy + 0
-BB1_14:
-	add	hl, bc
+	pop	de
+BB1_13:
+	ld	iy, (ix + -3)
+	inc	iy
+	add	iy, de
+	ld	(ix + -3), iy
+	ld	iy, (ix + 6)
+	ld	iy, (iy + 4)
+	bit	0, a
+	jq	nz, BB1_15
 	push	hl
 	pop	bc
-	ld	iy, (ix + 6)
-	ld	d, (iy + 4)
-	bit	0, e
-	jq	nz, BB1_16
-	ld	hl, (ix + -3)
-	ld	(ix + -6), hl
-BB1_16:
-	inc.sis	bc
-	ld	(ix + -3), bc
-	ld	bc, (ix + -6)
-	ld	a, c
-	add	a, d
-	ld	l, a
-	inc	l
-	ld	(ix + -6), hl
-	bit	0, e
-	jq	z, BB1_18
+BB1_15:
+	ld	de, -2
+	inc	iy
+	add	iy, bc
+	lea	bc, iy + 0
+	bit	0, a
+	jq	z, BB1_17
 	ld	iy, (ix + 6)
 	ld	a, (iy + 9)
-	ld	bc, 0
-	ld	c, a
-	ld	hl, (ix + -21)
-	jq	BB1_19
-BB1_18:
-	ld	iy, (ix + 6)
-	ld	l, (iy + 7)
-	ld	h, (iy + 8)
-	ld	bc, (ix + -24)
-BB1_19:
-	ld.sis	de, -2
-	add.sis	hl, de
-	ld	a, c
-	add	a, -2
+	ld	iy, 0
 	ld	iyl, a
-	ld	bc, 8
-	push	bc
-	dec	bc
-	push	bc
-	ld	bc, 3
-	push	bc
+	ld	hl, (ix + -9)
+	jq	BB1_18
+BB1_17:
+	ld	iy, (ix + 6)
+	ld	e, (iy + 7)
+	ld	d, (iy + 8)
+	or	a, a
+	sbc	hl, hl
+	ld	l, e
+	ld	h, d
+	ld	de, -2
+	ld	iy, (ix + -9)
+BB1_18:
+	add	hl, de
+	add	iy, de
+	ld	de, 8
+	push	de
+	dec	de
+	push	de
+	ld	de, 3
+	push	de
 	push	iy
 	push	hl
-	ld	hl, (ix + -6)
-	push	hl
+	push	bc
 	ld	hl, (ix + -3)
 	push	hl
 	call	_optix_OutlinedRectangle_WithBevel
 	ld	hl, 21
 	add	hl, sp
 	ld	sp, hl
-BB1_20:
+BB1_19:
 	ld	sp, ix
 	pop	ix
 	ret

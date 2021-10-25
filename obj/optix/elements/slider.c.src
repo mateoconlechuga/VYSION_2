@@ -17,16 +17,17 @@ _optix_UpdateSlider_default:
 	push	de
 	push	hl
 	call	_optix_CheckTransformOverlap
-	ld	e, 1
-	pop	hl
-	pop	hl
-	xor	a, e
-	bit	0, a
-	jq	nz, BB0_18
+	pop	de
+	pop	de
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	jq	z, BB0_18
 	ld	hl, (_current_context)
 	ld	hl, (hl)
 	ld	a, (hl)
-	xor	a, e
+	ld	l, 1
+	xor	a, l
 	bit	0, a
 	jq	nz, BB0_3
 	ld	hl, 6

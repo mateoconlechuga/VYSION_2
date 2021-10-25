@@ -7,7 +7,7 @@ struct optix_context *current_context;
 
 //functions
 void optix_InitializeGUIState(void) {
-    timer_Control = TIMER3_ENABLE | TIMER3_32K | TIMER3_UP;
+    timer_Control = TIMER2_ENABLE | TIMER2_32K | TIMER2_UP;
 }
 
 void optix_InitializeSettings(struct optix_settings *settings) {

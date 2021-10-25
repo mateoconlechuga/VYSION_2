@@ -35,13 +35,14 @@ _optix_UpdateKeyState:
 BB0_7:
 	jq	BB0_8
 BB0_1:
+	dec	l
 	ld	a, l
-	or	a, a
-	jq	z, BB0_2
-	ld	a, 2
+	cp	a, 2
+	jq	c, BB0_2
+	ld	a, 1
 	jq	BB0_4
 BB0_2:
-	ld	a, 1
+	ld	a, 2
 BB0_4:
 BB0_8:
 	ld	(iy + 2), a
@@ -52,64 +53,37 @@ BB0_8:
 	section	.text,"ax",@progbits
 	public	_optix_UpdateInput
 _optix_UpdateInput:
-	ld	hl, -6
+	ld	hl, -3
 	call	__frameset
+	or	a, a
+	sbc	hl, hl
+	ld	(ix + -3), hl
 	call	_kb_Scan
 	call	_os_GetCSC
-	ld	a, l
 	ld	iy, (_current_context)
 	ld	iy, (iy + 3)
 	ld	(iy + 3), a
-	ld	de, 21
-	or	a, a
-	sbc	hl, hl
-	ld	(ix + -6), hl
-	ld	iy, 0
+	ld	de, 42
 BB1_1:
-	lea	hl, iy + 0
+	ld	hl, (ix + -3)
 	or	a, a
 	sbc	hl, de
-	jq	z, BB1_2
-	ld	(ix + -3), iy
+	jq	z, BB1_3
 	ld	iy, (_current_context)
 	ld	hl, (iy + 12)
 	ld	de, (ix + -3)
 	add	hl, de
-	ld	hl, (hl)
 	push	hl
 	call	_optix_UpdateKeyState
-	ld	iy, (ix + -3)
 	pop	hl
-	ld	de, 3
-	add	iy, de
-	ld	de, 21
+	ld	de, 6
+	ld	hl, (ix + -3)
+	add	hl, de
+	ld	(ix + -3), hl
+	ld	de, 42
 	jq	BB1_1
-BB1_2:
-BB1_4:
-	ld	iy, (_current_context)
-	ld	iy, (iy + 12)
-	ld	hl, (iy + 21)
-	add	hl, bc
-	or	a, a
-	sbc	hl, bc
-	jq	z, BB1_7
-	ld	de, (ix + -6)
-	add	hl, de
-	ld	hl, (hl)
-	add	hl, bc
-	or	a, a
-	sbc	hl, bc
-	jq	z, BB1_7
-	push	hl
-	call	_optix_UpdateKeyState
+BB1_3:
 	pop	hl
-	ld	de, 3
-	ld	hl, (ix + -6)
-	add	hl, de
-	ld	(ix + -6), hl
-	jq	BB1_4
-BB1_7:
-	ld	sp, ix
 	pop	ix
 	ret
 	section	.text,"ax",@progbits
@@ -121,12 +95,11 @@ _optix_DefaultKeyIsDown:
 	ld	hl, (ix + 6)
 	ld	iy, (_current_context)
 	ld	iy, (iy + 12)
-	ld	bc, 3
+	ld	bc, 6
 	call	__imulu
 	push	hl
 	pop	de
 	add	iy, de
-	ld	iy, (iy)
 	ld	a, (iy + 2)
 	pop	ix
 	ret
@@ -139,7 +112,7 @@ _optix_KeyIsDown:
 	ld	hl, (ix + 6)
 	ld	iy, (_current_context)
 	ld	iy, (iy + 12)
-	ld	iy, (iy + 21)
+	ld	iy, (iy + 42)
 	ld	bc, 3
 	call	__imulu
 	push	hl
@@ -154,109 +127,204 @@ _optix_KeyIsDown:
 	section	.text,"ax",@progbits
 	public	_optix_InitializeInput
 _optix_InitializeInput:
-	ld	hl, -3
+	ld	hl, -90
 	call	__frameset
-	ld	iy, (ix + 6)
+	ld	iy, L___const.optix_InitializeInput.enter
+	ld	bc, 6
 	ld	de, 0
+	ld	(ix + -66), de
+	lea	hl, ix + -6
+	ld	(ix + -90), hl
+	lea	de, ix + -12
+	ld	(ix + -69), de
+	lea	de, ix + -18
+	ld	(ix + -72), de
+	lea	de, ix + -24
+	ld	(ix + -75), de
+	lea	de, ix + -30
+	ld	(ix + -78), de
+	lea	de, ix + -36
+	ld	(ix + -81), de
+	lea	de, ix + -42
+	ld	(ix + -84), de
+	lea	de, ix + -63
+	ld	(ix + -87), de
+	push	bc
+	push	iy
+	push	hl
+	call	_memcpy
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	hl, 6
+	push	hl
+	ld	hl, L___const.optix_InitializeInput.up
+	push	hl
+	ld	hl, (ix + -69)
+	push	hl
+	call	_memcpy
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	hl, 6
+	push	hl
+	ld	hl, L___const.optix_InitializeInput.down
+	push	hl
+	ld	hl, (ix + -72)
+	push	hl
+	call	_memcpy
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	hl, 6
+	push	hl
+	ld	hl, L___const.optix_InitializeInput.left
+	push	hl
+	ld	hl, (ix + -75)
+	push	hl
+	call	_memcpy
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	hl, 6
+	push	hl
+	ld	hl, L___const.optix_InitializeInput.right
+	push	hl
+	ld	hl, (ix + -78)
+	push	hl
+	call	_memcpy
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	hl, 6
+	push	hl
+	ld	hl, L___const.optix_InitializeInput.add
+	push	hl
+	ld	hl, (ix + -81)
+	push	hl
+	call	_memcpy
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	hl, 6
+	push	hl
+	ld	hl, L___const.optix_InitializeInput.sub
+	push	hl
+	ld	hl, (ix + -84)
+	push	hl
+	call	_memcpy
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	hl, (ix + -90)
+	ld	(ix + -63), hl
+	ld	hl, (ix + -69)
+	ld	(ix + -60), hl
+	ld	hl, (ix + -72)
+	ld	(ix + -57), hl
+	ld	hl, (ix + -75)
+	ld	(ix + -54), hl
+	ld	hl, (ix + -78)
+	ld	(ix + -51), hl
+	ld	hl, (ix + -81)
+	ld	(ix + -48), hl
+	ld	hl, (ix + -84)
+	ld	(ix + -45), hl
+	ld	iy, (ix + 6)
+	lea	iy, iy + 2
 	ld	bc, 21
 BB4_1:
-	push	de
-	pop	hl
+	ld	hl, (ix + -66)
 	or	a, a
 	sbc	hl, bc
 	jq	z, BB4_2
-	push	de
-	pop	bc
-	ld	(ix + -3), bc
-	ld	hl, _optix_InitializeInput.default_key
+	ld	bc, (ix + -66)
+	ld	hl, (ix + -87)
 	add	hl, bc
 	ld	hl, (hl)
-	lea	de, iy + 0
-	add	iy, bc
-	ld	bc, 21
-	ld	(iy), hl
 	push	de
-	pop	iy
-	ld	de, 3
-	ld	hl, (ix + -3)
-	add	hl, de
-	ex	de, hl
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	l, e
+	ld	h, d
+	pop	de
+	ld	(iy + -2), l
+	ld	(iy + -1), h
+	ld	(iy), 0
+	ld	bc, 3
+	ld	hl, (ix + -66)
+	add	hl, bc
+	ld	(ix + -66), hl
+	ld	bc, 21
+	lea	iy, iy + 6
 	jq	BB4_1
 BB4_2:
+	ld	iy, (ix + 6)
 	ld	hl, 0
-	ld	(iy + 21), hl
-	pop	hl
+	ld	(iy + 42), hl
+	ld	sp, ix
 	pop	ix
 	ret
 	section	.text,"ax",@progbits
 
-	section	.data,"aw",@progbits
-	private	_optix_InitializeInput.enter
-_optix_InitializeInput.enter:
+	section	.rodata,"a",@progbits
+	private	L___const.optix_InitializeInput.enter
+L___const.optix_InitializeInput.enter:
 	dw	1537
 	db	0
 	dl	0
 
-	section	.data,"aw",@progbits
-	private	_optix_InitializeInput.up
-_optix_InitializeInput.up:
+	section	.rodata,"a",@progbits
+	private	L___const.optix_InitializeInput.up
+L___const.optix_InitializeInput.up:
 	dw	1800
 	db	0
 	dl	0
 
-	section	.data,"aw",@progbits
-	private	_optix_InitializeInput.down
-_optix_InitializeInput.down:
+	section	.rodata,"a",@progbits
+	private	L___const.optix_InitializeInput.down
+L___const.optix_InitializeInput.down:
 	dw	1793
 	db	0
 	dl	0
 
-	section	.data,"aw",@progbits
-	private	_optix_InitializeInput.left
-_optix_InitializeInput.left:
+	section	.rodata,"a",@progbits
+	private	L___const.optix_InitializeInput.left
+L___const.optix_InitializeInput.left:
 	dw	1794
 	db	0
 	dl	0
 
-	section	.data,"aw",@progbits
-	private	_optix_InitializeInput.right
-_optix_InitializeInput.right:
+	section	.rodata,"a",@progbits
+	private	L___const.optix_InitializeInput.right
+L___const.optix_InitializeInput.right:
 	dw	1796
 	db	0
 	dl	0
 
-	section	.data,"aw",@progbits
-	private	_optix_InitializeInput.add
-_optix_InitializeInput.add:
+	section	.rodata,"a",@progbits
+	private	L___const.optix_InitializeInput.add
+L___const.optix_InitializeInput.add:
 	dw	1538
 	db	0
 	dl	0
 
-	section	.data,"aw",@progbits
-	private	_optix_InitializeInput.sub
-_optix_InitializeInput.sub:
+	section	.rodata,"a",@progbits
+	private	L___const.optix_InitializeInput.sub
+L___const.optix_InitializeInput.sub:
 	dw	1540
 	db	0
 	dl	0
 
-	section	.rodata,"a",@progbits
-	private	_optix_InitializeInput.default_key
-_optix_InitializeInput.default_key:
-	dl	_optix_InitializeInput.enter
-	dl	_optix_InitializeInput.up
-	dl	_optix_InitializeInput.down
-	dl	_optix_InitializeInput.left
-	dl	_optix_InitializeInput.right
-	dl	_optix_InitializeInput.add
-	dl	_optix_InitializeInput.sub
-
 	ident	"clang version 12.0.0 (https://github.com/jacobly0/llvm-project 170be88120e3aa88c20eea5615ba76b8f1d6c647)"
 	extern	_current_context
 	extern	__Unwind_SjLj_Register
-	extern	__frameset
 	extern	__Unwind_SjLj_Unregister
+	extern	__frameset
 	extern	__imulu
 	extern	_kb_Scan
 	extern	_os_GetCSC
 	extern	__frameset0
 	extern	__sshru
+	extern	_memcpy

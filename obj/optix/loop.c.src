@@ -3,25 +3,25 @@
 	section	.text,"ax",@progbits
 	public	_optix_UpdateGUI
 _optix_UpdateGUI:
-	ld	iy, -917472
-	ld	bc, 0
+	ld	iy, -917488
 	xor	a, a
 	ld	de, (iy)
 	lea	hl, iy + 3
+	lea	bc, iy + 0
 	ld	l, (hl)
 	ld	iy, (_current_context)
 	ld	iy, (iy + 3)
 	ld	(iy + 4), de
 	ld	(iy + 7), l
-	ld	iy, -917472
-	ld	(iy), bc
+	push	bc
+	pop	iy
+	or	a, a
+	sbc	hl, hl
+	ld	(iy), hl
 	ld	(iy + 3), a
 	call	_optix_UpdateInput
 	ld	iy, (_current_context)
 	ld	iy, (iy + 9)
-	or	a, a
-	sbc	hl, hl
-	ld	(iy + 48), hl
 	ld	hl, (iy + 24)
 	push	iy
 	call	__indcallhl

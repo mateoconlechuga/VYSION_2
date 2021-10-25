@@ -33,7 +33,7 @@ struct optix_key_chain {
 };
 
 struct optix_input {
-    struct optix_key *default_key[NUM_DEFAULT_KEYS];
+    struct optix_key default_key[NUM_DEFAULT_KEYS];
     struct optix_key **key;
 };
 

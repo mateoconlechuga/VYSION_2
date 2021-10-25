@@ -9,7 +9,7 @@
 //quick test please work
 
 //just 3 for now-the super buttons, the start menu, and the clock
-#define DESKTOP_ELEMENTS                (6 + HD_WALLPAPER_ROWS)
+#define DESKTOP_ELEMENTS                (5 + HD_WALLPAPER_ROWS)
 
 //some dimension things
 #define TASKBAR_HEIGHT                  16

@@ -3,7 +3,11 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <stdlib.h>
+#include <string.h>
 #include <tice.h>
+#include <graphx.h>
+#include <debug.h>
+
 #include "gui_control.h"
 #include "elements/window.h"
 #include "elements/input_box.h"
@@ -173,10 +177,19 @@ uint16_t optix_GetNumElementsInStack(struct optix_widget *stack[]) {
 }
 
 //returns the index of the found element
-uint16_t optix_GetElementInStackByAddress(struct optix_widget *stack[], struct optix_widget *ptr) {
-    int i = 0;
-    while (stack[i] != ptr) {
-        i++;
-    }
-    return i;
+int optix_GetElementInStackByAddress(struct optix_widget *stack[], struct optix_widget *ptr) {
+    int num_elements = optix_GetNumElementsInStack(stack);
+    for (int i = 0; i < num_elements; i++)
+        if (stack[i] == ptr) return i;
+    return -1;
+}
+
+void optix_RemoveElementInStack(struct optix_widget **stack, int index) {
+    uint16_t num_elements = optix_GetNumElementsInStack(stack);
+    //if (index < 0) return; 
+    dbg_sprintf(dbgout, "Before: stack[index]: %d stack[index + 1]: %d\n", stack[index], stack[index + 1]);
+    dbg_sprintf(dbgout, "Index: %d Num elements: %d Sizeof data: %d\n", index, num_elements, (num_elements - index) * sizeof(struct optix_widget *));
+    memmove(&stack[index], &stack[index + 1], (num_elements - index) * sizeof(struct optix_widget *));
+    dbg_sprintf(dbgout, "After: stack[index]: %d stack[index + 1]: %d\n", stack[index], stack[index + 1]);
+    stack[num_elements] = NULL;
 }
