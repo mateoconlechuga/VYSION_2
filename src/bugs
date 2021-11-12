@@ -1,0 +1,81 @@
+[KEY]
+[ ] unfixed
+[x] fixed
+[i] issue found, unfixed
+[e] fixed enough
+[w] working as intended
+[c] can't/don't want to fix
+[n] not actually fixed
+[x.x.xx] first version containing fix
+
+[0.0.15 | 2021-08-24]
+[ ] slow program info fetching for TI-Basic programs with icons
+[ ] stop token hook not cleared on program start
+[ ] last key pressed could be registered in a run TI-Basic program
+[ ] filesystem loading could break with insufficient RAM
+[ ] temporary incorrect palette display when changing wallpapers
+[x] [0.0.16] stop token hook not working
+[x] [0.0.16] window type could be stored incorrectly
+[x] [0.0.18] renaming VYSION2 to something else breaks reloader
+[x] [0.0.18] error messages not cleared on program exit
+[x] [0.0.23] potentially unstable window closing
+[x] [0.0.26] current selection could be invisible in box-based mode (when closing start menu)
+[x] [0.0.28] menus behind a window can be selected when in cursor-based mode
+
+[0.0.16 | 2021-08-25]
+No new bugs found.
+
+[0.0.17 | 2021-08-26]
+No new bugs found.
+
+[0.0.18 | 2021-09-07]
+[x] [0.0.19] excessive RAM use due to bad icon structuring
+[x] [0.0.19] selection box could be rendered incorrectly
+
+[0.0.19 | 2021-09-08]
+[ ] folder indices stored incorrectly
+[ ] potential crash on filesystem load
+[ ] false [enter] input could be registered (corruption?)
+[ ] [2nd] no longer registered as a selection key
+[ ] graphical artifacts left in desktop file menu
+[x] [0.0.24] clock doesn't display the correct time
+
+[0.0.20 | 2021-09-12]
+[ ] editor program could receive VYSION2 in Ans if run
+
+[0.0.21 | 2021-10-11]
+[x] [0.0.22] window manager menu icons/text corrupted when adding windows
+[x] [0.0.22] potential reset on program exit (clearing windows?)
+[x] [0.0.23] OS input not recognized after running and then power cycling
+[x] [0.0.23] RAM leak (text offset storage)
+
+[0.0.22 | 2021-10-15]
+[x] [0.0.23] extensive memory corruption on launch, program appears to brick CEmu
+
+[0.0.23 | 2021-10-16]
+[x] [0.0.24] menus could display small black line after string
+
+[0.0.24 | 2021-10-20]
+No new bugs found.
+
+[0.0.25 | 2021-10-21]
+[x] [0.0.26] potential reset when opening wallpaper picker
+[x] [0.0.26] clock doesn't display "PM" where applicable
+
+[0.0.26 | 2021-10-23]
+[x] [0.0.27] clock sometimes not displayed
+[x] [0.0.27] battery icon could get stuck at 0% (but only when clock is invisible, see above)
+
+[0.0.27 | 2021-10-29]
+[ ] window title bar color not updated correctly
+[ ] holding [enter] on start button/menu could lead to repeated keypresses
+[ ] time display could leave graphical artifacts
+[ ] not all OPTIX elements use new selection protocol
+[ ] windows/window title bars could be rendered out of order
+[x] [0.0.28] first menu option selection box not displayed when in cursor-based mode
+[x] [0.0.28] menus could be updated when not hovered over in cursor-based mode
+[x] [0.0.28] text in window title bar could be selected (which we don't want)
+[x] [0.0.29] window titles could be reduced to only the last character in certain scenarios
+
+[0.0.28 | 2021-10-30]
+[ ] potential reset when closing windows through the GUI

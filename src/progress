@@ -1,0 +1,183 @@
+DATE:      | 2021-07-10
+VERSION:   | 0.0.1
+CHANGELOG: | [added] cursor acceleration
+           | [added] cursor framerate-independent movement
+           | [added] buttons can be activated using an alternate key (rather than clicking them)
+           | [added] basic window manager (add windows to the desktop)
+           |
+DATE:      | 2021-07-06
+VERSION:   | 0.0.2
+CHANGELOG: | [added] buttons in menus can now be clicked
+           | [added] buttons in menus can now trigger actions
+           | [added] windows can now be created/opened at runtime
+           | [added] window title bars on opened windows (title and non-functional buttons to
+           |         minimize/close)
+           | [fixed] cursor could go offscreen
+           |
+DATE:      | 2021-07-10
+VERSION:   | 0.0.3
+CHANGELOG: | [added] intelligent redrawing, allowing only required GUI elements to be redrawn when
+           |         applicable
+           | [improved] start menu can now be closed
+           | [improved] wallpapers, allowing them to be split into 6 rows
+           | [improved] wallpapers now integrated into the main GUI
+           | [improved] wallpapers can be redrawn
+           | [improved] restructured desktop code
+           | [fixed] moving windows no longer leaves graphical artifacts
+           |
+DATE:      | 2021-07-11
+VERSION:   | 0.0.4
+CHANGELOG: | [added] directory system
+           | [improved] generally improved filesystem backend
+           |
+DATE:      | 2021-07-12
+VERSION:   | 0.0.5
+CHANGELOG: | [improved] navigation switches to start menu when it is opened in box-based navigation mode
+           | [improved] opened windows are switched to when opened in box-based navigation mode
+           | [fixed] incorrect element could be selected on switching to window in box-based navigation
+           |         mode
+           | [fixed] invisible elements could be selected in box-based navigation mode
+           |
+DATE:      | 2021-07-18
+VERSION:   | 0.0.6
+CHANGELOG: | [added] graphical file exploration menus
+           | [added] desktop file icons
+           | [improved] menu and button backgrounds can now be set to transparent
+           |
+DATE:      | 2021-07-19
+VERSION:   | 0.0.7
+CHANGELOG: | [improved] desktop file icons now redrawn properly
+           |
+DATE:      | 2021-07-24
+VERSION:   | 0.0.8
+CHANGELOG: | [fixed] desktop file menu updated incorrectly in box-based mode
+           |
+DATE:      | 2021-08-02
+VERSION:   | 0.0.9
+CHANGELOG: | [added] ability to not show menu selection background when selected
+           | [improved] desktop file menu is now significantly more responsive
+           | [improved] outline in box-based mode now shows the current menu selection
+           | [fixed] flickering in box-based mode
+           |
+DATE:      | 2021-08-03
+VERSION:   | 0.0.10
+CHANGELOG: | [added] basic window manager menu
+           | [fixed] holding the selection key could allow the skipping through menus
+           | [fixed] graphical artifacts could be left in box-based mode
+           |
+DATE:      | 2021-08-04
+VERISON:   | 0.0.11
+CHANGELOG: | [added] window manager menu now expands
+           | [fixed] window manager menu no longer selectable when no windows are open
+           | [fixed] menus with only sprites and no text not rendered correctly
+           |
+DATE:      | 2021-08-05
+VERSION:   | 0.0.11
+CHANGELOG: | [added] created a wallpaper-generating Python script
+           | [improved] improved terminal interface for wallpaper generator
+           | [improved] generator can list, add, and convert files through terminal
+           | [improved] program icons now rendered correctly with condensed xlibc palette
+           |
+DATE:      | 2021-08-06
+VERSION:   | 0.0.12
+CHANGELOG: | [improved] window switcher now maintains the order in which windows were opened
+           | [improved] window opening/closing now more stable
+           |
+DATE:      | 2021-08-22
+VERSION:   | 0.0.13
+CHANGELOG: | [added] basic wallpaper picker
+           | [added] window title bar icons
+           | [improved] stack artifacts could result in displaying unmapped memory as sprites
+           |
+DATE:      | 2021-08-23
+VERSION:   | 0.0.14
+CHANGELOG: | [improved] wallpaper picker now sets desktop wallpaper to the last clicked option
+           |
+DATE:      | 2021-08-24
+VERSION:   | 0.0.15
+CHANGELOG: | [added] TI-Basic program running
+           | [added] assembly program running
+           | [added] Stop token hook
+           | [added] VAT sorting (courtesy of Cesium)
+           | [fixed] deleted files could remain in filesystem
+           |
+DATE:      | 2021-08-25
+VERSION:   | 0.0.16
+CHANGELOG: | [fixed] window type could be stored incorrectly
+           |
+DATE:      | 2021-08-26
+VERSION:   | 0.0.17
+CHANGELOG: | [improved] moved window manager menu to the bottom of the screen
+           |
+DATE:      | 2021-09-07
+VERSION:   | 0.0.18
+CHANGELOG: | [improved] improved program running, replacing old code with the new os_RunPrgm function
+           | [fixed] error messages cleared on TI-Basic program exit, where applicable
+           | [fixed] potential reloader crash if program was renamed
+           |
+DATE:      | 2021-09-08
+VERSION:   | 0.0.19
+CHANGELOG: | [added] new input system, (theoretically) allowing for remappable input
+           | [fixed] menu selection box in box-based mode briefly rendered incorrectly
+           |
+DATE:      | 2021-09-12
+VERSION:   | 0.0.20
+CHANGELOG: | [added] taskbar rectangle (will be able to be set as transparent in a future update)
+           | [improved] menu options are now not outlined when the selection box is visible
+           |
+DATE:      | 2021-10-11
+VERSION:   | 0.0.21
+CHANGELOG: | [improved] menus can use all the options available for text and sprites
+           | [improved] start menu icons now have transparent backgrounds
+           |
+DATE:      | 2021-10-15
+VERSION:   | 0.0.22
+CHANGELOG: | [improved] more stable window closing
+           | [improved] window title bars now have transparent icons
+           | [fixed] window manager text/icons could be corrupted
+           | [fixed] super button background incorrectly displayed
+           |
+DATE:      | 2021-10-16
+VERSION:   | 0.0.23
+CHANGELOG: | [fixed] OS input not recognized after running and then power cycling
+           | [fixed] extensive memory corruption on launch, program appears to brick CEmu
+           | [fixed] RAM leak in text offset storage
+           |
+DATE:      | 2021-10-20
+VERSION:   | 0.0.24
+CHANGELOG: | [improved] desktop clock now works
+           | [fixed] black boxes at end of start menu options
+           |
+DATE:      | 2021-10-21
+VERSION:   | 0.0.25
+CHANGELOG: | [added] battery indicator
+           | [improved] window manager menu now has transparent icons
+           | [improved] text can now be left, center, and right aligned
+           | [fixed] text still could leave graphical artifacts
+           |
+DATE:      | 2021-10-23
+VERSION:   | 0.0.26
+CHANGELOG: | [improved] start menu now reverts to previous selection when closed
+           | [fixed] potential reset when opening wallpaper picker
+           | [fixed] clock only displayed "AM"
+           |
+DATE:      | 2021-10-29
+VERSION:   | 0.0.27
+CHANGELOG: | [improved] rewrite of core OPTIX GUI update loop
+           | [improved] start menu now closes after opening new window
+           | [fixed] clock sometimes not displayed
+           | [fixed] battery icon could get stuck at 0% (but only when clock is invisible, see above)
+           |
+DATE:      | 2021-11-10
+VERSION:   | 0.0.28
+CHANGELOG: | [added] windows can now be closed via the window title bar menu in cursor-based mode ("X")
+           | [added] moving a window now displays a box previewing new location (like Windows 9x)
+           | [improved] menu selection now not rendered when not selected in cursor-based mode
+           | [fixed] first menu option selection box not displayed when in cursor-based mode
+           | [fixed] menus could be updated when not hovered over in cursor-based mode
+           | [fixed] text in window title bar could be selected (which we don't want)
+           | [fixed] menus behind a window can be selected when in cursor-based mode
+           |
+DATE:      | 2021-11-11
+VERSION:   | 0.0.29
+CHANGELOG; | [fixed] window titles could be reduced to only the last character in certain scenarios
