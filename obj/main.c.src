@@ -38,26 +38,26 @@ _vysion_SetOP1:
 	section	.text,"ax",@progbits
 	public	_main
 _main:
-	ld	hl, -249
+	ld	hl, -250
 	call	__frameset
-	ld	bc, -231
+	ld	bc, -232
 	lea	iy, ix + 0
 	add	iy, bc
 	lea	hl, ix + -42
 	push	ix
-	ld	bc, -237
+	ld	bc, -238
 	add	ix, bc
 	ld	(ix + 0), hl
 	pop	ix
-	lea	de, ix + -102
+	lea	de, ix + -103
 	push	ix
-	ld	bc, -240
+	ld	bc, -241
 	add	ix, bc
 	ld	(ix + 0), de
 	pop	ix
 	lea	de, iy + 73
 	push	ix
-	ld	bc, -243
+	ld	bc, -244
 	add	ix, bc
 	ld	(ix + 0), de
 	pop	ix
@@ -65,44 +65,44 @@ _main:
 	lea	de, iy + 63
 	ld	(ix + -3), bc
 	push	ix
-	ld	bc, -249
+	ld	bc, -250
 	add	ix, bc
 	ld	(ix + 0), de
 	pop	ix
 	lea	de, iy + 18
 	push	ix
-	ld	bc, -246
+	ld	bc, -247
 	add	ix, bc
 	ld	(ix + 0), de
 	pop	ix
 	lea	de, iy + 0
 	push	ix
-	ld	bc, -234
+	ld	bc, -235
 	add	ix, bc
 	ld	(ix + 0), de
 	pop	ix
 	ld	bc, (ix + -3)
 	ld	(iy + 0), bc
 	push	ix
-	ld	bc, -249
+	ld	bc, -250
 	add	ix, bc
 	ld	de, (ix + 0)
 	pop	ix
 	ld	(iy + 3), de
 	push	ix
-	ld	bc, -243
+	ld	bc, -244
 	add	ix, bc
 	ld	de, (ix + 0)
 	pop	ix
 	ld	(iy + 6), de
 	push	ix
-	ld	bc, -240
+	ld	bc, -241
 	add	ix, bc
 	ld	de, (ix + 0)
 	pop	ix
 	ld	(iy + 9), de
 	push	ix
-	ld	bc, -246
+	ld	bc, -247
 	add	ix, bc
 	ld	de, (ix + 0)
 	pop	ix
@@ -113,14 +113,14 @@ _main:
 	call	_vysion_SetContext
 	pop	hl
 	call	_vysion_InitializeGraphics
-	ld	bc, -234
+	ld	bc, -235
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
 	push	hl
 	call	_vysion_InitializeOPTIX
 	pop	hl
-	ld	bc, -237
+	ld	bc, -238
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
@@ -144,7 +144,7 @@ BB1_1:
 	jq	BB1_1
 BB1_2:
 	call	_vysion_Desktop
-	ld	bc, -234
+	ld	bc, -235
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)

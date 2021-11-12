@@ -8,6 +8,7 @@
 #include "gfx/optix_gfx.h"
 #include "gui_control.h"
 #include "colors.h"
+#include "util.h"
 #include "elements/window.h"
 #include "elements/button.h"
 #include "elements/menu.h"
@@ -76,18 +77,23 @@ void optix_UpdateCursor_default(struct optix_widget *widget) {
             if (transform->x < 0) transform->x = 0;
             if (transform->y < 0) transform->y = 0;
         } else current_context->cursor->current_speed = OPTIX_CURSOR_INITIAL_SPEED;
+        //handle this as well-the GUI should be frozen if the selected element is a window title bar that is currently being dragged
+        if (cursor->current_selection && cursor->current_selection->type == OPTIX_WINDOW_TITLE_BAR_TYPE) {
+            struct optix_window_title_bar *window_title_bar = (struct optix_window_title_bar *) current_context->cursor->current_selection;
+            if (window_title_bar->drag_active && (optix_DefaultKeyIsDown(KEY_ENTER) != KEY_RELEASED)) cursor->gui_frozen = true;
+        }
     } else {
-        if (cursor->direction != OPTIX_CURSOR_FORCE_UPDATE)  cursor->direction = OPTIX_CURSOR_NO_DIR;
+        cursor->direction = OPTIX_CURSOR_NO_DIR;
         if (optix_DefaultKeyIsDown(KEY_UP) & KEY_PRESSED)    cursor->direction = OPTIX_CURSOR_UP;
         if (optix_DefaultKeyIsDown(KEY_DOWN) & KEY_PRESSED)  cursor->direction = OPTIX_CURSOR_DOWN;
         if (optix_DefaultKeyIsDown(KEY_LEFT) & KEY_PRESSED)  cursor->direction = OPTIX_CURSOR_LEFT;
         if (optix_DefaultKeyIsDown(KEY_RIGHT) & KEY_PRESSED) cursor->direction = OPTIX_CURSOR_RIGHT;
-        if (cursor->direction != OPTIX_CURSOR_NO_DIR) current_context->data->needs_blit = true;
     }
 }  
 
 void optix_RenderCursor_default(struct optix_widget *widget) {
     struct optix_cursor *cursor = (struct optix_cursor *) widget;
+    struct optix_transform *transform = cursor->current_selection ? &cursor->current_selection->transform : NULL;
     uint8_t draw_location;
     gfx_sprite_t *spr[] = {
         cursor_normal,
@@ -101,14 +107,32 @@ void optix_RenderCursor_default(struct optix_widget *widget) {
         cursor_text_math,
     };
     if (current_context->settings->cursor_active) {
+        //start with this, show a window being moved if applicable
+        if (cursor->current_selection && cursor->current_selection->type == OPTIX_WINDOW_TITLE_BAR_TYPE) {
+            struct optix_window *window = ((struct optix_window_title_bar *) cursor->current_selection)->window;
+            struct optix_window_title_bar *window_title_bar = (struct optix_window_title_bar *) cursor->current_selection;
+            int x_pos = transform->x;
+            int y_pos = transform->y;
+            uint8_t draw_location = gfx_GetDraw();
+            gfx_SetDrawScreen();
+            gfx_SetColor(HIGHLIGHT_COLOR_INDEX);
+            if (window_title_bar->drag_active) {
+                int x_change = current_context->cursor->widget.transform.x - window_title_bar->drag_start_x;
+                int y_change = current_context->cursor->widget.transform.y - window_title_bar->drag_start_y;
+                x_pos = window->widget.transform.x + x_change;
+                y_pos = window->widget.transform.y + y_change;
+                gfx_BlitBuffer();
+                gfx_Rectangle(x_pos - 1, y_pos - transform->height, transform->width + 2, transform->height + window->widget.transform.height + 1);
+            }
+            gfx_SetDraw(draw_location);
+        }
         if (!current_context->settings->constant_refresh) optix_RefreshCursorBackground(widget);
         gfx_SetTransparentColor(0);
         gfx_TransparentSprite_NoClip(spr[cursor->state], cursor->widget.transform.x, cursor->widget.transform.y);
         //blit it
         gfx_BlitRectangle(gfx_buffer, widget->transform.x, widget->transform.y, OPTIX_CURSOR_SPRITE_WIDTH, OPTIX_CURSOR_SPRITE_HEIGHT);
         gfx_BlitRectangle(gfx_buffer, cursor->last_x, cursor->last_y, OPTIX_CURSOR_SPRITE_WIDTH, OPTIX_CURSOR_SPRITE_HEIGHT);
-    } else {
-        struct optix_transform *transform = &cursor->current_selection->transform;
+    } else if (cursor->current_selection) {
         draw_location = gfx_GetDraw();
         gfx_SetDrawScreen();
         gfx_SetColor(HIGHLIGHT_COLOR_INDEX);
@@ -140,6 +164,29 @@ void optix_RefreshCursorBackground(struct optix_widget *widget) {
 void optix_RenderCursorBackground(struct optix_widget *widget) {
     struct optix_cursor *cursor = (struct optix_cursor *) widget;
     if (current_context->settings->cursor_active) gfx_Sprite(cursor->back, cursor->last_x, cursor->last_y);
+}
+
+void optix_HandleNearestElement(void) {
+    struct optix_cursor *cursor = current_context->cursor;
+    if (current_context->settings->cursor_active) {
+        if (cursor->direction != OPTIX_CURSOR_NO_DIR) {
+            //this is the element at the top of the OPTIX stack, which should be a window or window title bar
+            struct optix_widget *top_element = current_context->stack[optix_GetNumElementsInStack(current_context->stack) - 1];
+            struct optix_widget **stack;
+            struct optix_widget *nearest_element;
+            if (top_element->type == OPTIX_WINDOW_TYPE || top_element->type == OPTIX_WINDOW_TITLE_BAR_TYPE) {
+                //if it's a window title bar, we want the window
+                struct optix_window *window = top_element->type == OPTIX_WINDOW_TYPE ? (struct optix_window *) top_element : ((struct optix_window_title_bar *) top_element)->window;
+                dbg_sprintf(dbgout, "This was true.\n");
+                if (window->active && window->widget.child) stack = window->widget.child;
+                else stack = current_context->stack;
+            } else stack = current_context->stack;
+            //find the nearest element based on this information and set the current selection to it
+            nearest_element = optix_FindNearestElement(cursor->direction, cursor->current_selection, stack);
+            if (nearest_element) optix_SetCurrentSelection(nearest_element);
+        }
+        if (cursor->direction != OPTIX_CURSOR_NO_DIR) current_context->data->needs_blit = true;
+    }
 }
 
 
@@ -193,11 +240,46 @@ struct optix_widget *optix_FindNearestElement(uint8_t direction, struct optix_wi
     return closest;
 }
 
+//this will update the current selection, or what is currently underneath the cursor
+//does this recursively, so it will return the topmost thing in that stack, taking into account children and window contents
+struct optix_widget *optix_GetCurrentSelection(struct optix_widget *stack[]) {
+    int i = 0;
+    struct optix_widget *potential_selection = NULL;
+    while (stack && stack[i]) {
+        if (!stack[i]->state.selectable) {
+            i++;
+            continue;
+        }
+        if (optix_CheckTransformOverlap(&current_context->cursor->widget, stack[i])) {
+            //check if it has any children that overlap, and if so check those as well
+            if (stack[i]->child) potential_selection = optix_GetCurrentSelection(stack[i]->child);
+            if (!potential_selection) potential_selection = stack[i];
+        }
+        if (stack[i]->type == OPTIX_WINDOW_TITLE_BAR_TYPE) {
+            dbg_sprintf(dbgout, "Type is window title bar.\n");
+            struct optix_window *window = ((struct optix_window_title_bar *) stack[i])->window;
+            if (optix_CheckTransformOverlap(&current_context->cursor->widget, (struct optix_widget *) window)) {
+                potential_selection = (struct optix_widget *) window;
+                dbg_sprintf(dbgout, "Window active: %d\n", window->active);
+                if (window->active) potential_selection = optix_GetCurrentSelection(window->widget.child);
+            }
+        }
+        i++;
+    }
+    dbg_sprintf(dbgout, "Potential selection: %d Type: %d\n", potential_selection, potential_selection->type);
+    return potential_selection;
+}
+
 void optix_SetCurrentSelection(struct optix_widget *widget) {
     //we're assuming this is correct
-    if (!current_context->settings->cursor_active) {
-        current_context->cursor->current_selection = widget;
-        current_context->cursor->widget.transform.x = widget->transform.x;
-        current_context->cursor->widget.transform.y = widget->transform.y;
+    //firstly, the old current selection should now be set to not selected
+    if (current_context->cursor->current_selection) current_context->cursor->current_selection->state.selected = false;
+    current_context->cursor->current_selection = widget;
+    if (widget) {
+        widget->state.selected = true;
+        if (!current_context->settings->cursor_active) {
+            current_context->cursor->widget.transform.x = widget->transform.x;
+            current_context->cursor->widget.transform.y = widget->transform.y;
+        }
     }
 }

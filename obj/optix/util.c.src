@@ -539,112 +539,12 @@ BB7_7:
 	section	.text,"ax",@progbits
 	public	_optix_IntelligentRecursiveSetNeedsRedraw
 _optix_IntelligentRecursiveSetNeedsRedraw:
-	ld	hl, -6
-	call	__frameset
-	ld	hl, (ix + 6)
-	add	hl, bc
-	or	a, a
-	sbc	hl, bc
-	jq	nz, BB8_1
-BB8_11:
-	ld	sp, ix
+	call	__frameset0
+	ld	iy, (_current_context)
+	ld	hl, (iy + 3)
+	ld	(hl), 1
 	pop	ix
 	ret
-BB8_1:
-	ld	e, 1
-	ld	hl, (ix + 6)
-	push	hl
-	pop	bc
-BB8_2:
-	push	bc
-	pop	hl
-	ld	hl, (hl)
-	ld	(ix + -3), hl
-	add	hl, bc
-	or	a, a
-	sbc	hl, bc
-	jq	z, BB8_11
-	ld	iy, (ix + -3)
-	ld	a, (iy + 17)
-	xor	a, e
-	xor	a, e
-	bit	0, a
-	ld	(ix + -6), bc
-	jq	nz, BB8_13
-	ld	hl, (ix + 9)
-	push	hl
-	ld	hl, (ix + -3)
-	push	hl
-	call	_optix_CheckTransformOverlap
-	ld	e, 1
-	pop	hl
-	pop	hl
-	xor	a, e
-	bit	0, a
-	jq	nz, BB8_12
-	ld	iy, (ix + -3)
-	ld	(iy + 17), 1
-	push	iy
-	ld	hl, (ix + 6)
-	push	hl
-	call	_optix_IntelligentRecursiveSetNeedsRedraw
-	ld	e, 1
-	pop	hl
-	pop	hl
-	ld	hl, (ix + -6)
-	push	hl
-	pop	bc
-	ld	hl, (hl)
-	jq	BB8_6
-BB8_13:
-	ld	hl, (ix + -3)
-	jq	BB8_6
-BB8_12:
-	ld	hl, (ix + -3)
-	ld	bc, (ix + -6)
-BB8_6:
-	push	hl
-	pop	iy
-	ld	hl, (iy + 27)
-	add	hl, bc
-	or	a, a
-	sbc	hl, bc
-	jq	z, BB8_8
-	ld	de, (ix + 9)
-	push	de
-	push	hl
-	call	_optix_IntelligentRecursiveSetNeedsRedraw
-	ld	iy, (ix + -6)
-	ld	e, 1
-	pop	hl
-	pop	hl
-	lea	bc, iy + 0
-	ld	iy, (iy)
-BB8_8:
-	ld	a, (iy)
-	cp	a, 5
-	jq	nz, BB8_10
-	lea	hl, iy + 0
-	ld	iy, (iy + 30)
-	ld	(iy + 17), 1
-	push	hl
-	pop	iy
-	ld	iy, (iy + 30)
-	ld	hl, (iy + 27)
-	ld	de, (ix + 9)
-	push	de
-	push	hl
-	call	_optix_IntelligentRecursiveSetNeedsRedraw
-	ld	bc, (ix + -6)
-	ld	e, 1
-	pop	hl
-	pop	hl
-BB8_10:
-	push	bc
-	pop	iy
-	lea	iy, iy + 3
-	lea	bc, iy + 0
-	jq	BB8_2
 	section	.text,"ax",@progbits
 
 	section	.text,"ax",@progbits
@@ -908,23 +808,18 @@ BB11_4:
 	section	.text,"ax",@progbits
 	public	_optix_RemoveElementInStack
 _optix_RemoveElementInStack:
-	ld	hl, -6
-	call	__frameset
-	ld	hl, (ix + 6)
-	push	hl
-	call	_optix_GetNumElementsInStack
-	ld	e, l
-	ld	d, h
-	pop	hl
-	ld	bc, 3
+	call	__frameset0
 	ld	hl, (ix + 9)
+	ld	bc, 3
+	push	hl
+	pop	iy
 	call	__imulu
 	push	hl
 	pop	bc
 	ld	hl, (ix + 6)
 	add	hl, bc
-	ld	(ix + -3), hl
-	ld	bc, (ix + 9)
+	ex	de, hl
+	lea	bc, iy + 0
 	inc	bc
 	push	bc
 	pop	hl
@@ -934,25 +829,20 @@ _optix_RemoveElementInStack:
 	pop	bc
 	ld	iy, (ix + 6)
 	add	iy, bc
+	ld	hl, (ix + 12)
+	ld	bc, (ix + 9)
 	or	a, a
-	sbc	hl, hl
-	ld	l, e
-	ld	h, d
-	ld	(ix + -6), hl
-	ld	de, (ix + 9)
-	or	a, a
-	sbc	hl, de
+	sbc	hl, bc
 	ld	bc, 3
 	call	__imulu
 	push	hl
 	push	iy
-	ld	hl, (ix + -3)
-	push	hl
+	push	de
 	call	_memmove
 	pop	hl
 	pop	hl
 	pop	hl
-	ld	hl, (ix + -6)
+	ld	hl, (ix + 12)
 	ld	bc, 3
 	call	__imulu
 	push	hl
@@ -961,7 +851,6 @@ _optix_RemoveElementInStack:
 	add	hl, de
 	ld	de, 0
 	ld	(hl), de
-	ld	sp, ix
 	pop	ix
 	ret
 	section	.text,"ax",@progbits

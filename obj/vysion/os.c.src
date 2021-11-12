@@ -4,21 +4,6 @@
 	public	_vysion_RunProgram
 _vysion_RunProgram:
 	call	__frameset0
-	call	_gfx_End
-	ld	iy, -3145600
-	call	_os_ClrLCD
-	call	_os_HomeUp
-	call	_os_DrawStatusBar
-	ld	hl, _main
-	push	hl
-	or	a, a
-	sbc	hl, hl
-	push	hl
-	push	hl
-	ld	hl, (ix + 6)
-	push	hl
-	call	_os_RunPrgm
-	ld	sp, ix
 	pop	ix
 	ret
 	section	.text,"ax",@progbits
@@ -26,10 +11,4 @@ _vysion_RunProgram:
 	ident	"clang version 12.0.0 (https://github.com/jacobly0/llvm-project 170be88120e3aa88c20eea5615ba76b8f1d6c647)"
 	extern	__Unwind_SjLj_Register
 	extern	__Unwind_SjLj_Unregister
-	extern	_os_RunPrgm
-	extern	_main
-	extern	_gfx_End
-	extern	_os_ClrLCD
 	extern	__frameset0
-	extern	_os_DrawStatusBar
-	extern	_os_HomeUp

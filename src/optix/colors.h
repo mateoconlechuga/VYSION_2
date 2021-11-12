@@ -15,32 +15,32 @@
 #define CURSOR_OUTLINE_DEFAULT                        gfx_RGBTo1555(0xFF, 0xFF, 0xFF)
 //window colors      
 #define WINDOW_BG_COLOR_DEFAULT                       gfx_RGBTo1555(0x11, 0x11, 0x11) //gfx_RGBTo1555(0x08, 0x08, 0x08)
-#define WINDOW_TITLE_BAR_COLOR_UNSELECTED_DEFAULT     gfx_RGBTo1555(0x22, 0x22, 0x22) //gfx_RGBTo1555(0x08, 0x08, 0x08)
-#define WINDOW_TITLE_BAR_COLOR_SELECTED_DEFAULT       gfx_RGBTo1555(0x0D, 0x1D, 0x77)
+#define WINDOW_TITLE_BAR_COLOR_UNSELECTED_DEFAULT     gfx_RGBTo1555(0x00, 0x00, 0x00) //gfx_RGBTo1555(0x08, 0x08, 0x08)
+#define WINDOW_TITLE_BAR_COLOR_SELECTED_DEFAULT       gfx_RGBTo1555(0xff, 0xff, 0xff)
 #define WINDOW_BORDER_COLOR_DEFAULT                   0 //unused
 //maybe use these later
 #define WINDOW_BORDER_BEVEL_LIGHT_DEFAULT             gfx_RGBTo1555(0x00, 0x00, 0x00) //gfx_RGBTo1555(0x78, 0x8A, 0xF1)
-#define WINDOW_BORDER_BEVEL_DARK_DEFAULT              gfx_RGBTo1555(0x22, 0x22, 0x22) //gfx_RGBTo1555(0x0D, 0x1D, 0x77)
+#define WINDOW_BORDER_BEVEL_DARK_DEFAULT              gfx_RGBTo1555(0x9f, 0x9f, 0x9f) //gfx_RGBTo1555(0x0D, 0x1D, 0x77)
 #define WINDOW_BORDER_BEVEL_MEDIUM_DEFAULT            0 //unused
 //remove the rest of the borders
 #define WINDOW_TITLE_TEXT_FG_COLOR_UNSELECTED_DEFAULT gfx_RGBTo1555(0xff, 0xff, 0xff)
-#define WINDOW_TITLE_TEXT_BG_COLOR_UNSELECTED_DEFAULT gfx_RGBTo1555(0x08, 0x08, 0x08) 
-#define WINDOW_TITLE_TEXT_FG_COLOR_SELECTED_DEFAULT   gfx_RGBTo1555(0xff, 0xff, 0xff)
-#define WINDOW_TITLE_TEXT_BG_COLOR_SELECTED_DEFAULT   gfx_RGBTo1555(0x08, 0x08, 0x08)
+#define WINDOW_TITLE_TEXT_BG_COLOR_UNSELECTED_DEFAULT gfx_RGBTo1555(0x3f, 0x3f, 0x3f) 
+#define WINDOW_TITLE_TEXT_FG_COLOR_SELECTED_DEFAULT   gfx_RGBTo1555(0x00, 0x00, 0x00)
+#define WINDOW_TITLE_TEXT_BG_COLOR_SELECTED_DEFAULT   gfx_RGBTo1555(0xff, 0xff, 0xff)
 //button colors
-#define BUTTON_BG_COLOR_UNSELECTED_DEFAULT            gfx_RGBTo1555(0x11, 0x11, 0x11) //gfx_RGBTo1555(0x08, 0x08, 0x08)
+#define BUTTON_BG_COLOR_UNSELECTED_DEFAULT            gfx_RGBTo1555(0x3f, 0x3f, 0x3f) //gfx_RGBTo1555(0x08, 0x08, 0x08)
 #define BUTTON_BG_COLOR_SELECTED_DEFAULT              gfx_RGBTo1555(0xff, 0xff, 0xff) //gfx_RGBTo1555(0x08, 0x08, 0x08)
 #define BUTTON_BG_COLOR_PRESSED_DEFAULT               gfx_RGBTo1555(0x87, 0x87, 0x87) //gfx_RGBTo1555(0x78, 0x8A, 0xF1)
 #define BUTTON_BORDER_COLOR_DEFAULT                   //unused
 #define BUTTON_TEXT_FG_COLOR_UNSELECTED_DEFAULT       gfx_RGBTo1555(0xff, 0xff, 0xff) //gfx_RGBTo1555(0xFF, 0xFF, 0xFF)
-#define BUTTON_TEXT_BG_COLOR_UNSELECTED_DEFAULT       gfx_RGBTo1555(0x08, 0x08, 0x08)
+#define BUTTON_TEXT_BG_COLOR_UNSELECTED_DEFAULT       gfx_RGBTo1555(0x3f, 0x3f, 0x3f)
 #define BUTTON_TEXT_FG_COLOR_SELECTED_DEFAULT         gfx_RGBTo1555(0x00, 0x00, 0x00) //gfx_RGBTo1555(0xFF, 0xFF, 0xFF)
-#define BUTTON_TEXT_BG_COLOR_SELECTED_DEFAULT         gfx_RGBTo1555(0x08, 0x08, 0x08)
+#define BUTTON_TEXT_BG_COLOR_SELECTED_DEFAULT         gfx_RGBTo1555(0x3f, 0x3f, 0x3f)
 #define BUTTON_TEXT_FG_COLOR_PRESSED_DEFAULT          gfx_RGBTo1555(0xff, 0xff, 0xff) //gfx_RGBTo1555(0xFF, 0xFF, 0xFF)
-#define BUTTON_TEXT_BG_COLOR_PRESSED_DEFAULT          gfx_RGBTo1555(0x08, 0x08, 0x08)
+#define BUTTON_TEXT_BG_COLOR_PRESSED_DEFAULT          gfx_RGBTo1555(0x3f, 0x3f, 0x3f)
 //text colors
 #define TEXT_FG_COLOR_DEFAULT                         gfx_RGBTo1555(0xff, 0xff, 0xff) //gfx_RGBTo1555(0xFF, 0xFF, 0xFF)
-#define TEXT_BG_COLOR_DEFAULT                         gfx_RGBTo1555(0x08, 0x08, 0x08)
+#define TEXT_BG_COLOR_DEFAULT                         gfx_RGBTo1555(0x3f, 0x3f, 0x3f)
 //random other stuff
 #define HIGHLIGHT_COLOR_DEFAULT                       gfx_RGBTo1555(0xFF, 0xFF, 0xFF)
 #define DIVIDER_COLOR_DEFAULT                         gfx_RGBTo1555(0x0D, 0x1D, 0x77)

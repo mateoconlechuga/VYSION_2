@@ -126,7 +126,7 @@ struct optix_context {
     struct optix_colors *colors;
     struct optix_cursor *cursor;
     struct optix_input *input;
-    struct optix_widget *(*stack)[];
+    struct optix_widget **stack;
 };
 
 //functions

@@ -32,22 +32,29 @@ void vysion_SuperButtonClickAction(void *args) {
     struct optix_widget *widget = (struct optix_widget *) args;
     static struct optix_widget *last_selection;
     widget->state.visible ^= true;
-    widget->state.needs_redraw = widget->state.selected = ((struct optix_window *) widget)->needs_focus = widget->state.visible;
-    if (widget->state.visible && !current_context->settings->cursor_active) {
-        last_selection = current_context->cursor->current_selection;
-        optix_SetCurrentSelection(widget);
-        current_context->cursor->direction = OPTIX_CURSOR_FORCE_UPDATE;
-    } else optix_SetCurrentSelection(last_selection);
+    widget->state.needs_redraw = widget->state.selected = widget->state.visible;
+    if (widget->state.visible) {
+        optix_MoveWidgetToTop(widget);
+        ((struct optix_window *) widget)->active = true;
+        if (!current_context->settings->cursor_active) {
+            last_selection = current_context->cursor->current_selection;
+            optix_SetCurrentSelection(widget->child[1]);
+        }
+    } else {
+        if (!current_context->settings->cursor_active) optix_SetCurrentSelection(last_selection);
+        ((struct optix_window *) widget)->active = false;
+    }
     current_context->data->gui_needs_full_redraw = true;
-    //optix_IntelligentRecursiveSetNeedsRedraw((*current_context->stack), widget);
     //current_context->data->gui_needs_full_redraw = true;
 }
 
-void vysion_UpdateStartMenu(struct optix_widget *widget) {
-    
-
-
-
+void vysion_UpdateStartWindow(struct optix_widget *widget) {
+    struct optix_window *window = (struct optix_window *) widget;
+    if (window->widget.state.visible && !window->active) {
+        window->widget.state.visible = false;
+        current_context->data->gui_needs_full_redraw = true;
+    }
+    optix_UpdateWindow_default(widget);
 }
 
 //the action the start menu does when clicked
@@ -254,6 +261,7 @@ void vysion_Desktop(void) {
     optix_InitializeWidget(&start_window.widget, OPTIX_WINDOW_TYPE);
     optix_RecursiveAlign(&start_window.widget);
     start_window.widget.state.visible = false;
+    start_window.widget.update = vysion_UpdateStartWindow;
     struct optix_sprite super_icon = {
         .widget = {
             .centering = {.x_centering = OPTIX_CENTERING_CENTERED, .y_centering = OPTIX_CENTERING_CENTERED},
@@ -350,7 +358,7 @@ void vysion_Desktop(void) {
                     master_stack[i] = &super_button.widget;
                     break;
                 case 1:
-                    master_stack[i] = &start_window.widget;
+                    master_stack[i] = &battery_icon.sprite.widget;
                     break;
                 case 2:
                     master_stack[i] = &clock_text.text.widget;
@@ -359,7 +367,7 @@ void vysion_Desktop(void) {
                     master_stack[i] = &desktop_window_manager.menu.widget;
                     break;
                 case 4:
-                    master_stack[i] = &battery_icon.sprite.widget;
+                    master_stack[i] = &start_window.widget;
                     break;
                 default:
                     master_stack[i] = NULL;
@@ -368,7 +376,7 @@ void vysion_Desktop(void) {
         }
     }
     //add it to the context
-    current_context->stack = &master_stack;
+    current_context->stack = master_stack;
     optix_SetCurrentSelection(&super_button.widget);
     optix_RefreshCursorBackground((struct optix_widget *) current_context->cursor);
     //we'll see

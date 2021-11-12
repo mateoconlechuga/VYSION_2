@@ -94,28 +94,26 @@ BB0_8:
 	ld	(iy + 9), l
 	jq	BB0_5
 BB0_9:
-	ld	de, 145
-	lea	hl, iy + 0
-	add	hl, de
-	ld	bc, 0
-	ld	(ix + -6), hl
-	ld	(hl), bc
+	ld	hl, -1
 	ld	de, 132
-	lea	hl, iy + 0
+	ld	iy, (ix + 6)
 	add	iy, de
-	ld	(iy), bc
+	ld	(iy), hl
 	ld	de, 148
-	push	hl
-	pop	iy
+	ld	iy, (ix + 6)
 	add	iy, de
-	ld	(iy), bc
-	ld	de, 136
-	push	hl
-	pop	iy
+	ld	(iy), hl
+	ld	de, 145
+	ld	iy, (ix + 6)
 	add	iy, de
-	ld	(iy), bc
-	push	hl
-	pop	iy
+	ld	de, 0
+	ld	(ix + -6), iy
+	ld	(iy), de
+	ld	bc, 136
+	ld	iy, (ix + 6)
+	add	iy, bc
+	ld	(iy), de
+	ld	iy, (ix + 6)
 	ld	a, (iy + 118)
 	or	a, a
 	jq	z, BB0_11
@@ -129,7 +127,7 @@ BB0_12:
 	ld	hl, 1
 	ld	(ix + -3), hl
 	ld	hl, (iy + 126)
-	push	bc
+	push	de
 	pop	iy
 BB0_13:
 	push	hl
@@ -447,17 +445,16 @@ BB4_5:
 	section	.text,"ax",@progbits
 	public	_optix_FreeElement
 _optix_FreeElement:
-	ld	hl, -6
+	ld	hl, -3
 	call	__frameset
 	ld	de, (ix + 6)
-	ld	(ix + -3), de
 	or	a, a
 	sbc	hl, hl
-	ld	(ix + -6), hl
+	ld	(ix + -3), hl
 	push	de
 	call	_optix_FreeElementHandleSpecialCase
 	pop	hl
-	ld	hl, (ix + -3)
+	ld	hl, (ix + 6)
 BB5_1:
 	ld	iy, (hl)
 	ld	hl, (iy + 27)
@@ -467,7 +464,7 @@ BB5_1:
 	or	a, a
 	sbc	hl, bc
 	jq	z, BB5_5
-	ld	de, (ix + -6)
+	ld	de, (ix + -3)
 	push	bc
 	pop	iy
 	add	iy, de
@@ -480,10 +477,10 @@ BB5_1:
 	call	_optix_FreeElement
 	pop	hl
 	ld	de, 3
-	ld	hl, (ix + -6)
-	add	hl, de
-	ld	(ix + -6), hl
 	ld	hl, (ix + -3)
+	add	hl, de
+	ld	(ix + -3), hl
+	ld	hl, (ix + 6)
 	jq	BB5_1
 BB5_5:
 	jq	BB5_6
@@ -491,16 +488,23 @@ BB5_4:
 	push	bc
 	call	_free
 	pop	hl
-	ld	hl, (ix + -3)
+	ld	hl, (ix + 6)
 	ld	iy, (hl)
-	ld	de, 0
-	ld	(iy + 27), de
+	ex	de, hl
+	ld	hl, 0
+	ld	(iy + 27), hl
+	ex	de, hl
 	ld	iy, (hl)
 BB5_6:
-	ld	(ix + 6), iy
-	ld	sp, ix
+	push	iy
+	call	_free
+	pop	hl
+	ld	hl, (ix + 6)
+	ld	de, 0
+	ld	(hl), de
+	pop	hl
 	pop	ix
-	jp	_free
+	ret
 	section	.text,"ax",@progbits
 
 	section	.rodata,"a",@progbits
@@ -543,7 +547,7 @@ L_switch.table.optix_GetSize:
 	dw	40
 	dw	160
 	dw	43
-	dw	33
+	dw	41
 	dw	36
 	dw	33
 	dw	54

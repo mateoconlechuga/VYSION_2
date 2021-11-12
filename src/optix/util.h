@@ -16,6 +16,6 @@ void optix_RecursiveSetNeedsRedraw(struct optix_widget *stack[]);
 void optix_IntelligentRecursiveSetNeedsRedraw(struct optix_widget *stack[], struct optix_widget *reference);
 uint16_t optix_GetNumElementsInStack(struct optix_widget *stack[]);
 int optix_GetElementInStackByAddress(struct optix_widget *stack[], struct optix_widget *ptr);
-void optix_RemoveElementInStack(struct optix_widget *stack[], int index);
+void optix_RemoveElementInStack(struct optix_widget **stack, int index, int num_elements);
 
 #endif

@@ -23,8 +23,8 @@ void vysion_AddSettingsWindow(void *config) {
                 .width = 100,
                 .height = 100,
             },
-            .child = (struct optix_widget *[]) {&template_sprite, NULL},
-            //.child = NULL,
+            //.child = (struct optix_widget *[]) {&template_sprite, NULL},
+            .child = NULL,
         },
     };
     optix_InitializeWidget(&template.widget, OPTIX_WINDOW_TYPE);

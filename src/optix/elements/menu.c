@@ -46,7 +46,7 @@ void optix_UpdateMenu_default(struct optix_widget *widget) {
     bool needs_jump = false;
     if (menu->selection != MENU_NO_SELECTION) menu->last_selection = menu->selection;
     //check if it overlaps with the cursor
-    if (current_context->cursor->current_selection == widget || (optix_CheckTransformOverlap(&current_context->cursor->widget, widget) && current_context->settings->cursor_active)) {
+    if (widget->state.selected) {
         //handle if it was pressed
         menu->needs_partial_redraw = false;
         if (optix_DefaultKeyIsDown(KEY_ENTER) & KEY_PRESSED) {
@@ -54,12 +54,11 @@ void optix_UpdateMenu_default(struct optix_widget *widget) {
             widget->state.needs_redraw = true;
         } else if (optix_DefaultKeyIsDown(KEY_ENTER) & KEY_RELEASED)
             widget->state.needs_redraw = true;
-        //restore the previous selection if cursor was off
-        if (!widget->state.selected && !current_context->settings->cursor_active) {
-            menu->selection = menu->last_selection;
-            widget->state.needs_redraw = true;
+        //restore the previous selection if cursor was off, and also draw the selection box back again
+        if (menu->selection == MENU_NO_SELECTION) {
+            if (current_context->settings->cursor_active) menu->selection = menu->last_selection;
+            menu->needs_partial_redraw = true;
         }
-        widget->state.selected = true;
         //only do this if we have to
         if (current_context->settings->cursor_active) {
             uint16_t option_width = optix_GetMenuOptionWidth(0, menu);
@@ -114,10 +113,8 @@ void optix_UpdateMenu_default(struct optix_widget *widget) {
         if (menu->element && menu->element[menu->selection]) menu->element[menu->selection]->update(menu->element[menu->selection]);
     } else {
         //if it was selected the last loop, signal for the last selection to be redrawn as unselected
-        if (widget->state.selected) menu->needs_partial_redraw = true;
+        if (menu->selection != MENU_NO_SELECTION) menu->needs_partial_redraw = true;
         menu->selection = MENU_NO_SELECTION;
-        widget->state.selected = false;
-        //make sure we don't run into issues with this
     }
 }
 

@@ -187,7 +187,7 @@ void optix_RenderText_default(struct optix_widget *widget) {
                 //we should print with the appropriate alignment
                 if (i >= text->min) {
                     size_t str_length = optix_GetStringWidthL(old_str, (size_t) (str - old_str + 1));
-                    unsigned int new_x_pos = fontlib_GetCursorX() + (text->alignment * ((widget->transform.width - str_length) / 2));
+                    unsigned int new_x_pos = widget->transform.x + (text->alignment * ((widget->transform.width - str_length) / 2));
                     fontlib_SetCursorPosition(new_x_pos, fontlib_GetCursorY());
                     optix_DrawStringL(old_str, (size_t) (str - old_str + 1));
                 }

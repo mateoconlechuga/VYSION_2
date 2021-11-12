@@ -554,7 +554,7 @@ BB5_24:
 	section	.text,"ax",@progbits
 	public	_optix_RenderText_default
 _optix_RenderText_default:
-	ld	hl, -24
+	ld	hl, -21
 	call	__frameset
 	ld	iy, (ix + 6)
 	ld	a, (iy + 15)
@@ -743,10 +743,12 @@ BB6_11:
 	push	hl
 	push	de
 	call	_optix_GetStringWidthL
-	ld	(ix + -24), hl
+	push	hl
+	pop	bc
 	pop	hl
 	pop	hl
-	call	_fontlib_GetCursorX
+	ld	iy, (ix + 6)
+	ld	hl, (iy + 1)
 	ld	(ix + -21), hl
 	ld	iy, (ix + 6)
 	ld	a, (iy + 30)
@@ -756,11 +758,15 @@ BB6_11:
 	pop	de
 	ld	e, a
 	ld	iy, (ix + 6)
-	ld	c, (iy + 7)
-	ld	b, (iy + 8)
-	ld	l, c
-	ld	h, b
-	ld	bc, (ix + -24)
+	push	hl
+	ld	l, (iy + 7)
+	ld	h, (iy + 8)
+	ex	(sp), hl
+	pop	iy
+	ex	de, hl
+	ld	e, iyl
+	ld	d, iyh
+	ex	de, hl
 	or	a, a
 	sbc	hl, bc
 	ld	c, 1

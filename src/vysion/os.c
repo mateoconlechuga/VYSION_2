@@ -8,7 +8,7 @@
 #include "../main.h"
 
 void vysion_RunProgram(char *name) {
-    gfx_End();
+    /*gfx_End();
     os_ClrHome();
-    os_RunPrgm(name, NULL, 0, main);
+    os_RunPrgm(name, NULL, 0, main);*/
 }

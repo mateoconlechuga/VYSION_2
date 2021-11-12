@@ -3,31 +3,20 @@
 	section	.text,"ax",@progbits
 	public	_optix_UpdateInputBox_default
 _optix_UpdateInputBox_default:
-	ld	hl, -12
+	ld	hl, -16
 	call	__frameset
 	ld	iy, (ix + 6)
 	ld	hl, (iy + 32)
 	ld	(ix + -3), hl
 	push	hl
 	call	_strlen
-	ld	(ix + -6), hl
-	pop	hl
-	ld	iy, (_current_context)
-	ld	hl, (iy + 9)
-	ld	de, (ix + 6)
-	push	de
-	push	hl
-	call	_optix_CheckTransformOverlap
-	pop	hl
-	pop	hl
-	ld	d, 1
-	xor	a, d
+	ld	iy, (ix + 6)
+	pop	de
+	ld	a, (iy + 14)
+	ld	e, 1
+	xor	a, e
 	bit	0, a
-	jq	nz, BB0_4
-	ld	hl, 5
-	ld	iy, (_current_context)
-	ld	iy, (iy + 9)
-	ld	(iy + 48), hl
+	jq	z, BB0_4
 	ld	hl, -720868
 	push	de
 	ld	e, (hl)
@@ -39,10 +28,9 @@ _optix_UpdateInputBox_default:
 	ld.sis	bc, 1
 	call	__sand
 	ld	a, l
-	xor	a, d
-	xor	a, d
+	xor	a, e
+	xor	a, e
 	bit	0, a
-	ld	iy, (ix + 6)
 	jq	nz, BB0_3
 	ld	hl, -720878
 	push	de
@@ -54,11 +42,18 @@ _optix_UpdateInputBox_default:
 	pop	de
 	ld	a, l
 	bit	5, a
-	jq	z, BB0_7
+	jq	z, BB0_34
 BB0_3:
-	ld	(iy + 14), 1
-	jq	BB0_7
+	ld	(iy + 14), 0
+	jq	BB0_34
 BB0_4:
+	ld	(ix + -12), hl
+	ld	hl, 5
+	ld	iy, (_current_context)
+	ld	(ix + -9), iy
+	ld	iy, (iy + 9)
+	ld	(ix + -6), iy
+	ld	(iy + 48), hl
 	ld	hl, -720868
 	push	de
 	ld	e, (hl)
@@ -70,11 +65,10 @@ BB0_4:
 	ld.sis	bc, 1
 	call	__sand
 	ld	a, l
-	xor	a, d
-	xor	a, d
+	xor	a, e
+	xor	a, e
 	bit	0, a
-	ld	iy, (ix + 6)
-	jq	nz, BB0_6
+	jq	nz, BB0_7
 	ld	hl, -720878
 	push	de
 	ld	e, (hl)
@@ -85,32 +79,34 @@ BB0_4:
 	pop	de
 	ld	a, l
 	bit	5, a
-	jq	z, BB0_7
-BB0_6:
-	ld	(iy + 14), 0
-BB0_7:
-	ld	a, (iy + 14)
-	xor	a, d
-	bit	0, a
-	jq	nz, BB0_34
-	ld	bc, 6
-	ld	e, (iy + 49)
-	or	a, a
-	sbc	hl, hl
-	ld	l, e
-	ld	(ix + -9), hl
-	add	hl, bc
+	jq	nz, BB0_7
 	ld	iy, (_current_context)
-	lea	bc, iy + 0
-	ld	iy, (iy + 9)
+	ld	(ix + -9), iy
+	ld	hl, (iy + 9)
+	ld	(ix + -6), hl
+	ld	iy, (ix + 6)
+	jq	BB0_8
+BB0_7:
+	ld	iy, (ix + 6)
+	ld	(iy + 14), 1
+BB0_8:
+	ld	bc, 0
+	ld	a, (iy + 49)
+	push	bc
+	pop	hl
+	ld	(ix + -13), a
+	ld	l, a
+	ld	(ix + -16), hl
+	ld	de, 6
+	add	hl, de
+	ld	iy, (ix + -6)
 	ld	(iy + 48), hl
 	ld	hl, (ix + -3)
 	add	hl, bc
 	or	a, a
 	sbc	hl, bc
 	jq	z, BB0_34
-	push	bc
-	pop	iy
+	ld	iy, (ix + -9)
 	ld	iy, (iy + 3)
 	ld	l, (iy + 3)
 	ld	iy, (ix + 6)
@@ -123,7 +119,7 @@ BB0_7:
 	ld	de, (iy + 43)
 	push	de
 	pop	hl
-	ld	bc, (ix + -6)
+	ld	bc, (ix + -12)
 	or	a, a
 	sbc	hl, bc
 	call	__setflag
@@ -156,9 +152,7 @@ BB0_18:
 	ld	a, l
 	cp	a, 15
 	jq	nz, BB0_20
-	or	a, a
-	sbc	hl, hl
-	ld	(iy + 43), hl
+	ld	(iy + 43), bc
 	ld	hl, (ix + -3)
 	ld	(hl), 0
 	jq	BB0_33
@@ -166,9 +160,9 @@ BB0_20:
 	ld	a, l
 	cp	a, 48
 	jq	nz, BB0_24
-	ld	l, e
+	ld	a, (ix + -13)
+	ld	l, a
 	inc	l
-	ld	a, e
 	cp	a, 2
 	jq	c, BB0_23
 	ld	l, 0
@@ -198,7 +192,7 @@ BB0_27:
 	add	iy, de
 	ld	(ix + -3), iy
 	dec	iy
-	ld	hl, (ix + -6)
+	ld	hl, (ix + -12)
 	ld	bc, 2
 	add	hl, bc
 	or	a, a
@@ -217,26 +211,27 @@ BB0_27:
 	jq	BB0_32
 BB0_28:
 	ld	bc, 0
-	ld	c, l
-	ld	(ix + -12), bc
+	push	bc
+	pop	de
+	ld	e, l
 	ld	bc, 3
-	ld	hl, (ix + -9)
+	ld	hl, (ix + -16)
 	call	__imulu
 	push	hl
 	pop	bc
 	ld	hl, L___const.optix_UpdateInputBox_default.keys
 	add	hl, bc
 	ld	hl, (hl)
-	ld	bc, (ix + -12)
-	add	hl, bc
+	add	hl, de
 	ld	a, (hl)
 	or	a, a
 	jq	z, BB0_34
 	ld	a, (iy + 50)
-	xor	a, d
+	ld	l, 1
+	xor	a, l
 	bit	0, a
 	jq	nz, BB0_31
-	ld	de, (ix + -6)
+	ld	de, (ix + -12)
 	inc	de
 	ld	bc, (iy + 51)
 	ex	de, hl
@@ -252,7 +247,7 @@ BB0_31:
 	inc	hl
 	push	hl
 	pop	bc
-	ld	hl, (ix + -6)
+	ld	hl, (ix + -12)
 	or	a, a
 	sbc	hl, de
 	push	hl
@@ -512,7 +507,6 @@ L___const.optix_UpdateInputBox_default.keys:
 	dl	L_.str.2
 
 	ident	"clang version 12.0.0 (https://github.com/jacobly0/llvm-project 170be88120e3aa88c20eea5615ba76b8f1d6c647)"
-	extern	_optix_CheckTransformOverlap
 	extern	__Unwind_SjLj_Register
 	extern	__frameset
 	extern	_memmove

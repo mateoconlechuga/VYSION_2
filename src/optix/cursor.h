@@ -41,7 +41,7 @@
 //acceleration increase, per second
 #define OPTIX_CURSOR_ACCELERATION  (float) 5
 //pixels per second again
-#define OPTIX_CURSOR_INITIAL_SPEED 5
+#define OPTIX_CURSOR_INITIAL_SPEED 0
 //same here
 #define OPTIX_CURSOR_MAX_SPEED     10
 
@@ -61,6 +61,9 @@ struct optix_cursor {
     struct optix_widget *current_selection;
     //for partial redraw
     gfx_sprite_t *back;
+    //if this is set to true, the GUI will not be updated or rendered for that loop (mostly for the cursor to use
+    //when moving windows and such)
+    bool gui_frozen;
 };
 
 //functions
@@ -70,6 +73,8 @@ void optix_RenderCursor_default(struct optix_widget *widget);
 void optix_RefreshCursorBackground(struct optix_widget *widget);
 void optix_RenderCursorBackground(struct optix_widget *widget);
 struct optix_widget *optix_FindNearestElement(uint8_t direction, struct optix_widget *reference, struct optix_widget *stack[]);
+void optix_HandleNearestElement(void);
+struct optix_widget *optix_GetCurrentSelection(struct optix_widget *stack[]);
 void optix_SetCurrentSelection(struct optix_widget *widget);
 
 #endif

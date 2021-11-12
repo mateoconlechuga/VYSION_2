@@ -104,7 +104,9 @@ void optix_RecursiveSetNeedsRedraw(struct optix_widget *stack[]) {
 
 //same thing but tests if it overlaps first
 void optix_IntelligentRecursiveSetNeedsRedraw(struct optix_widget *stack[], struct optix_widget *reference) {
-    int i = 0;
+    //let's just unintelligently set redraw now
+    current_context->data->gui_needs_full_redraw = true;
+    /*int i = 0;
     if (!stack) return;
     while (stack[i]) {
         if (!stack[i]->state.needs_redraw && optix_CheckTransformOverlap(stack[i], reference)) {
@@ -117,7 +119,7 @@ void optix_IntelligentRecursiveSetNeedsRedraw(struct optix_widget *stack[], stru
             optix_IntelligentRecursiveSetNeedsRedraw(((struct optix_window_title_bar *) stack[i])->window->widget.child, reference);
         }
         i++;
-    }
+    }*/
 }
 
 
@@ -184,8 +186,7 @@ int optix_GetElementInStackByAddress(struct optix_widget *stack[], struct optix_
     return -1;
 }
 
-void optix_RemoveElementInStack(struct optix_widget **stack, int index) {
-    uint16_t num_elements = optix_GetNumElementsInStack(stack);
+void optix_RemoveElementInStack(struct optix_widget **stack, int index, int num_elements) {
     //if (index < 0) return; 
     dbg_sprintf(dbgout, "Before: stack[index]: %d stack[index + 1]: %d\n", stack[index], stack[index + 1]);
     dbg_sprintf(dbgout, "Index: %d Num elements: %d Sizeof data: %d\n", index, num_elements, (num_elements - index) * sizeof(struct optix_widget *));

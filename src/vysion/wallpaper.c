@@ -120,7 +120,7 @@ void vysion_WallpaperPickerMenu_ClickAction(void *args) {
     char *name = menu->menu.text[menu->menu.selection];
     dbg_sprintf(dbgout, "Click action...\n");
     menu->selection = menu->menu.selection;
-    vysion_SetWallpaper(name, *(current_context->stack));
+    vysion_SetWallpaper(name, current_context->stack);
     current_context->data->gui_needs_full_redraw = true;
     dbg_sprintf(dbgout, "What the ....?");
 }
@@ -136,7 +136,7 @@ void vysion_WallpaperPicker(void) {
     int wallpapers_found = 0;
     struct optix_widget *last_selection = current_context->cursor->current_selection;
     struct optix_widget *stack[9];
-    struct optix_widget ***old_stack = current_context->stack;
+    struct optix_widget **old_stack = current_context->stack;
     char wallpaper_name[MAX_NUM_WALLPAPERS][WALLPAPER_NAME_MAX_LENGTH];
     char *wallpaper_name_ptr[MAX_NUM_WALLPAPERS];
     struct optix_sprite wallpaper[HD_WALLPAPER_ROWS];
@@ -195,7 +195,7 @@ void vysion_WallpaperPicker(void) {
     stack[6] = &wallpaper_menu.menu.widget;
     stack[7] = &wallpaper_menu_divider.widget;
     stack[8] = NULL;
-    current_context->stack = &stack;
+    current_context->stack = stack;
     current_context->data->gui_needs_full_redraw = true;
     vysion_SetWallpaper("DEFAULT4", wallpaper_ptr);
     optix_SetCurrentSelection(&wallpaper_menu.menu.widget);

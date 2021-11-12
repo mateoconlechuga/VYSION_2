@@ -3,63 +3,48 @@
 	section	.text,"ax",@progbits
 	public	_vysion_AddSettingsWindow
 _vysion_AddSettingsWindow:
-	ld	hl, -180
+	ld	hl, -144
 	call	__frameset
-	ld	bc, 37
-	lea	hl, ix + -43
-	ld	de, -171
+	ld	hl, 45
+	lea	de, ix + -51
+	ld	bc, -144
 	lea	iy, ix + 0
-	add	iy, de
-	ld	(iy + 0), hl
-	lea	de, ix + -80
-	ld	(ix + -3), bc
+	add	iy, bc
+	ld	(iy + 0), de
+	lea	bc, ix + -94
+	ld	(ix + -3), de
 	push	ix
-	ld	bc, -174
-	add	ix, bc
-	ld	(ix + 0), de
-	pop	ix
-	lea	de, ix + -123
-	push	ix
-	ld	bc, -168
-	add	ix, bc
-	ld	(ix + 0), de
+	ld	de, -141
+	add	ix, de
+	ld	(ix + 0), bc
 	pop	ix
 	push	ix
-	ld	bc, -129
-	add	ix, bc
-	lea	de, ix + 0
+	ld	de, -135
+	add	ix, de
+	lea	bc, ix + 0
 	pop	ix
 	push	ix
-	ld	bc, -177
-	add	ix, bc
-	ld	(ix + 0), de
+	ld	de, -138
+	add	ix, de
+	ld	(ix + 0), bc
 	pop	ix
-	push	ix
-	ld	bc, -162
-	add	ix, bc
-	lea	de, ix + 0
-	pop	ix
-	push	ix
-	ld	bc, -165
-	add	ix, bc
-	ld	(ix + 0), de
-	pop	ix
-	ld	bc, (ix + -3)
-	push	bc
-	ld	de, 0
-	push	de
 	push	hl
+	or	a, a
+	sbc	hl, hl
+	push	hl
+	ld	de, (ix + -3)
+	push	de
 	call	_memset
 	pop	hl
 	pop	hl
 	pop	hl
 	ld	(ix + -10), 1
-	ld	hl, 37
+	ld	hl, 43
 	push	hl
 	or	a, a
 	sbc	hl, hl
 	push	hl
-	ld	bc, -174
+	ld	bc, -141
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
@@ -68,70 +53,16 @@ _vysion_AddSettingsWindow:
 	pop	hl
 	pop	hl
 	pop	hl
-	ld	(ix + -70), 1
-	ld	(ix + -69), 1
-	ld	hl, _settings_system_data
-	ld	(ix + -50), hl
-	ld	(ix + -123), 0
-	ld	hl, 50
-	ld	(ix + -122), hl
-	ld	(ix + -119), hl
-	ld.sis	hl, 100
-	ld	(ix + -116), l
-	ld	(ix + -115), h
-	ld	(ix + -114), 100
-	ld	bc, -168
-	lea	hl, ix + 0
-	add	hl, bc
-	ld	hl, (hl)
-	push	hl
-	pop	iy
-	ld	bc, -180
-	lea	hl, ix + 0
-	add	hl, bc
-	ld	(hl), iy
-	ld	hl, 17
-	push	hl
-	or	a, a
-	sbc	hl, hl
-	push	hl
-	pea	iy + 10
-	call	_memset
-	pop	hl
-	pop	hl
-	pop	hl
-	ld	bc, -174
-	lea	hl, ix + 0
-	add	hl, bc
-	ld	hl, (hl)
-	ld	bc, -129
-	lea	iy, ix + 0
-	add	iy, bc
-	ld	(iy + 0), hl
-	ld	hl, 0
-	ld	(ix + -126), hl
-	ld	bc, -177
-	lea	hl, ix + 0
-	add	hl, bc
-	ld	hl, (hl)
-	ld	(ix + -96), hl
-	ld	hl, 13
-	push	hl
-	or	a, a
-	sbc	hl, hl
-	push	hl
-	ld	bc, -180
-	lea	hl, ix + 0
-	add	hl, bc
-	ld	iy, (hl)
-	pea	iy + 30
-	call	_memset
-	pop	hl
-	pop	hl
-	pop	hl
+	ld	de, 50
+	ld	(ix + -93), de
 	ld	hl, 4
+	ld	(ix + -90), de
+	ld.sis	de, 100
+	ld	(ix + -87), e
+	ld	(ix + -86), d
+	ld	(ix + -85), 100
 	push	hl
-	ld	bc, -168
+	ld	bc, -141
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
@@ -139,12 +70,12 @@ _vysion_AddSettingsWindow:
 	call	_optix_InitializeWidget
 	pop	hl
 	pop	hl
-	ld	hl, 30
+	ld	hl, 41
 	push	hl
 	or	a, a
 	sbc	hl, hl
 	push	hl
-	ld	bc, -165
+	ld	bc, -138
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
@@ -153,17 +84,14 @@ _vysion_AddSettingsWindow:
 	pop	hl
 	pop	hl
 	pop	hl
-	ld	bc, -168
+	ld	bc, -141
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
-	ld	bc, -132
-	lea	iy, ix + 0
-	add	iy, bc
-	ld	(iy + 0), hl
+	ld	(ix + -105), hl
 	ld	hl, 5
 	push	hl
-	ld	bc, -165
+	ld	bc, -138
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
@@ -171,14 +99,14 @@ _vysion_AddSettingsWindow:
 	call	_optix_InitializeWidget
 	pop	hl
 	pop	hl
-	ld	hl, 33
+	ld	hl, 41
 	push	hl
-	ld	bc, -165
+	ld	bc, -138
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
 	push	hl
-	ld	bc, -171
+	ld	bc, -144
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
@@ -187,7 +115,7 @@ _vysion_AddSettingsWindow:
 	pop	hl
 	pop	hl
 	pop	hl
-	ld	bc, -171
+	ld	bc, -144
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
@@ -201,7 +129,6 @@ _vysion_AddSettingsWindow:
 	ident	"clang version 12.0.0 (https://github.com/jacobly0/llvm-project 170be88120e3aa88c20eea5615ba76b8f1d6c647)"
 	extern	_memset
 	extern	__Unwind_SjLj_Register
-	extern	_settings_system_data
 	extern	__frameset
 	extern	__Unwind_SjLj_Unregister
 	extern	_optix_InitializeWidget

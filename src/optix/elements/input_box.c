@@ -28,7 +28,7 @@ void optix_UpdateInputBox_default(struct optix_widget *widget) {
     int max_lines = widget->transform.height / TEXT_SPACING;
     int lines_to_render = max_lines < input_box->text.num_lines ? max_lines : input_box->text.num_lines;
     //conditions for return
-    if (optix_CheckTransformOverlap(&current_context->cursor->widget, widget)) {
+    if (widget->state.selected) {
         current_context->cursor->state = OPTIX_CURSOR_TEXT;
         if (kb_Data[6] & kb_Enter || kb_Data[1] & kb_2nd) {
             if (widget->state.selected) {
