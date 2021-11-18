@@ -54,15 +54,11 @@ void optix_UpdateMenu_default(struct optix_widget *widget) {
             widget->state.needs_redraw = true;
         } else if (optix_DefaultKeyIsDown(KEY_ENTER) & KEY_RELEASED)
             widget->state.needs_redraw = true;
-        //restore the previous selection if cursor was off, and also draw the selection box back again
-        if (menu->selection == MENU_NO_SELECTION) {
-            if (current_context->settings->cursor_active) menu->selection = menu->last_selection;
-            menu->needs_partial_redraw = true;
-        }
         //only do this if we have to
         if (current_context->settings->cursor_active) {
             uint16_t option_width = optix_GetMenuOptionWidth(0, menu);
             uint8_t option_height = optix_GetMenuOptionHeight(0, menu);
+            int potential_selection;
             //handle scrolling
             if (optix_DefaultKeyIsDown(KEY_ADD) & KEY_PRESSED) {
                 menu->min = menu->min + menu->columns < menu->num_options - (menu->rows - 1) * menu->columns ? menu->min + menu->columns : menu->min;
@@ -71,10 +67,26 @@ void optix_UpdateMenu_default(struct optix_widget *widget) {
                 menu->min = menu->min - menu->columns > 0 ? menu->min - menu->columns : 0;
                 widget->state.needs_redraw = true;
             }
-            menu->selection = menu->min + (((current_context->cursor->widget.transform.y - widget->transform.y) / option_height) * menu->columns + 
+            potential_selection = menu->min + (((current_context->cursor->widget.transform.y - widget->transform.y) / option_height) * menu->columns + 
             ((current_context->cursor->widget.transform.x - widget->transform.x) / option_width));
+            if (potential_selection < menu->num_options) menu->selection = potential_selection;
+            else {
+                dbg_sprintf(dbgout, "Selection %d\n", menu->selection);
+                if (menu->selection != MENU_NO_SELECTION) {
+                    dbg_sprintf(dbgout, "Hello?\n");
+                    menu->needs_partial_redraw = true;
+                }
+                menu->last_selection = MENU_NO_SELECTION;
+                menu->selection = MENU_NO_SELECTION;
+                dbg_sprintf(dbgout, "Needs redraw %d Needs partial redraw %d\n", widget->state.needs_redraw, menu->needs_partial_redraw);
+            }
         } else if (current_context->cursor->current_selection == widget) {
             bool key_pressed = false;
+            //restore the previous selection if cursor was off, and also draw the selection box back again
+            if (menu->selection == MENU_NO_SELECTION && menu->last_selection != menu->selection) {
+                menu->selection = menu->last_selection;
+                menu->needs_partial_redraw = true;
+            }
             if (optix_DefaultKeyIsDown(KEY_UP) & KEY_PRESSED) {
                 menu->selection = (needs_jump = (menu->selection == 0)) ? 0 : menu->selection - menu->columns;
                 key_pressed = true;
@@ -100,17 +112,20 @@ void optix_UpdateMenu_default(struct optix_widget *widget) {
         }
         //scroll if we need to
         //handle out of bounds
-        menu->selection = menu->selection < 0 ? 0 : ((menu->selection >= menu->num_options) ? menu->num_options - 1 : menu->selection);
-        if (menu->selection < menu->min) {
-            menu->min = ((int) menu->selection / menu->columns) * menu->columns;
-            widget->state.needs_redraw = true;
-        } else if (menu->selection > menu->min + (menu->rows - 1) * menu->columns) {
-            menu->min = ((int) menu->selection / menu->columns - (menu->rows - 1)) * menu->columns;
-            widget->state.needs_redraw = true;
+        dbg_sprintf(dbgout, "Needs redraw %d Needs partial redraw %d\n", widget->state.needs_redraw, menu->needs_partial_redraw);
+        if (menu->selection != MENU_NO_SELECTION) {
+            if (menu->selection < 0) menu->selection = 0;
+            if (menu->selection >= menu->num_options && menu->selection != MENU_NO_SELECTION)
+                menu->selection = menu->num_options - 1;
+            if (menu->selection < menu->min && menu->selection != MENU_NO_SELECTION) {
+                menu->min = ((int) menu->selection / menu->columns) * menu->columns;
+            else if (menu->selection > menu->min + (menu->rows - 1) * menu->columns) {
+                menu->min = ((int) menu->selection / menu->columns - (menu->rows - 1)) * menu->columns;
+            
         }
         //so if there is an element, only the one within the currently selected box will be updated
         //I think this makes sense?
-        if (menu->element && menu->element[menu->selection]) menu->element[menu->selection]->update(menu->element[menu->selection]);
+        if (widget->child && widget->child[menu->selection]) widget->child[menu->selection]->update(widget->child[menu->selection]);
     } else {
         //if it was selected the last loop, signal for the last selection to be redrawn as unselected
         if (menu->selection != MENU_NO_SELECTION) menu->needs_partial_redraw = true;
@@ -145,13 +160,16 @@ void optix_RenderMenuOption(int option, struct optix_menu *menu, char *option_te
             optix_InitializeWidget(&sprite.widget, OPTIX_SPRITE_TYPE);
         } else sprite.spr = NULL;
         //place the null, add the special element if applicable
-        if (button.widget.child) {
+        if (button.widget.child || widget->child) {
             button.widget.child[0] = &text.widget;
             button.widget.child[(text.text != NULL)] = &sprite.widget;
+            dbg_sprintf(dbgout, "Child %d\n", widget->child);
             //put the element in there to be rendered as well
-            if (menu->element && menu->element[menu->selection])
-                button.widget.child[(text.text != NULL && sprite.spr != NULL)] = menu->element[menu->selection];
-            button.widget.child[(text.text != NULL) + (sprite.spr != NULL) + (menu->element != NULL && menu->element[menu->selection] != NULL)] = NULL;
+            if (widget->child && widget->child[option]) {
+                dbg_sprintf(dbgout, "Child detected. Type %d\n", widget->child[option]->type);
+                button.widget.child[(text.text != NULL) + (sprite.spr != NULL)] = widget->child[option];
+            } else dbg_sprintf(dbgout, "widget->child == %d\n", widget->child);
+            button.widget.child[(text.text != NULL) + (sprite.spr != NULL) + (widget->child != NULL && widget->child[option] != NULL)] = NULL;
         }
         //handle the transform
         optix_SetMenuOptionTransform(option, &button, menu);

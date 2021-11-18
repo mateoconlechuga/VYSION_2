@@ -15,6 +15,8 @@ EDIT: That's no longer an issue, it will always resize perfectly now (using modu
 #define MENU_NO_SELECTION -1
 
 struct optix_menu {
+    //if widget.child is set, then these widgets will be updated with the menu and rendered
+    //within the menu boxes (so child[0] would be rendered within the box for the 0th menu option)
     struct optix_widget widget;
     struct optix_resize_info resize_info;
     //centerings for the sprites and text
@@ -25,9 +27,6 @@ struct optix_menu {
     char **text;
     //sprite things
     gfx_sprite_t **spr;
-    //if this is set, then these widgets will be updated with the menu and rendered
-    //within the menu boxes (so element[0] would be rendered within the box for the 0th menu option)
-    struct optix_widget **element;
     //things to use internally
     int selection;
     bool needs_partial_redraw;

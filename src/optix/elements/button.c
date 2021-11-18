@@ -50,7 +50,7 @@ void optix_RenderButton_default(struct optix_widget *widget) {
                     optix_SetTextColor(BUTTON_TEXT_FG_COLOR_PRESSED_INDEX, BUTTON_TEXT_BG_COLOR_PRESSED_INDEX);
                 } else {
                     optix_OutlinedRectangle_WithBevel(widget->transform.x, widget->transform.y, widget->transform.width, widget->transform.height, //transform
-                    BUTTON_BG_COLOR_SELECTED_INDEX, WINDOW_BORDER_BEVEL_LIGHT_INDEX, WINDOW_BORDER_BEVEL_DARK_INDEX);                              //color
+                    BUTTON_BG_COLOR_SELECTED_INDEX, HIGHLIGHT_COLOR_INDEX, WINDOW_BORDER_BEVEL_DARK_INDEX);                              //color
                     optix_SetTextColor(BUTTON_TEXT_FG_COLOR_SELECTED_INDEX, BUTTON_TEXT_BG_COLOR_SELECTED_INDEX);
                 }
             }

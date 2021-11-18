@@ -93,7 +93,7 @@ void vysion_Desktop(void) {
     for (int i = 0; i < HD_WALLPAPER_ROWS; i++) wallpaper_ptr[i] = NULL;
     for (int i = 0; i < HD_WALLPAPER_ROWS; i++) wallpaper_ptr[i] = &wallpaper[i];
     vysion_InitializeWallpaper(wallpaper_ptr);
-    vysion_SetWallpaper("PORSCHE4", wallpaper_ptr);
+    vysion_SetWallpaper("CONSTRUCT", wallpaper_ptr);
     //a window
     //window manager thing
     char *desktop_window_manager_text[MAX_NUM_WINDOWS + 1];
@@ -333,6 +333,20 @@ void vysion_Desktop(void) {
     optix_InitializeWidget(&battery_icon.sprite.widget, OPTIX_SPRITE_TYPE);
     battery_icon.sprite.widget.update = vysion_UpdateBatteryIcon;
     dbg_sprintf(dbgout, "So that broke.");
+    struct optix_text version_text = {
+        .widget = {
+            .transform = {
+                .x = 2,
+                .y = 1,
+                .width = 200,
+                .height = 100,
+            },
+        },
+        .text = VYSION_VERSION_TEXT,
+        .background_rectangle = false,
+    };
+    optix_InitializeWidget(&version_text.widget, OPTIX_TEXT_TYPE);
+    //version_text.num_lines = 2;
     struct optix_rectangle taskbar_background = {
         .widget = {
             .transform = {
@@ -368,6 +382,9 @@ void vysion_Desktop(void) {
                     break;
                 case 4:
                     master_stack[i] = &start_window.widget;
+                    break;
+                case 5:
+                    master_stack[i] = &version_text.widget;
                     break;
                 default:
                     master_stack[i] = NULL;

@@ -1,45 +1,87 @@
 	section	.text,"ax",@progbits
 	assume	adl = 1
+	file	0 "/run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/main.c" md5 0xdc9b9226ce039b1089db1a9fbe0d6d94
+	file	1 "/run/media/mike/Data/Data/Programming/TI/CEdev2/include/stdint.h" md5 0xefb8540da62ce56ff575dd92d043acf8
 	section	.text,"ax",@progbits
 	public	_vysion_SetOP1
 _vysion_SetOP1:
+	private	func_begin0
+func_begin0:
+	loc	0 31 0
+	cfi_sections .debug_frame
+	cfi_startproc
 	ld	hl, -13
 	call	__frameset
+	private	tmp0
+tmp0:
+	cfi_def_cfa ix, 6
+	cfi_offset ix, -6
+	loc	0 0 0 prologue_end
 	ld	hl, L___const.vysion_SetOP1.temp
 	ld	de, 10
 	lea	bc, ix + -10
+	loc	0 33 10
 	ld	(ix + -13), bc
 	push	de
 	push	hl
 	push	bc
 	call	_memcpy
+	private	tmp1
+tmp1:
 	pop	hl
 	pop	hl
 	pop	hl
+	loc	0 34 13
 	ld	a, (ix + 6)
 	ld	(ix + -10), a
+	loc	0 35 5
 	ld	hl, (ix + 9)
+	private	tmp2
+tmp2:
 	push	hl
 	ld	hl, (ix + -13)
+	private	tmp3
+tmp3:
 	push	hl
 	call	_strcat
+	private	tmp4
+tmp4:
 	pop	hl
 	pop	hl
+	loc	0 36 5
 	ld	hl, (ix + -13)
 	push	hl
 	ld	hl, -3144200
 	push	hl
 	call	_strcpy
+	private	tmp5
+tmp5:
+	loc	0 37 1
 	ld	sp, ix
 	pop	ix
+	cfi_def_cfa sp, 3
+	cfi_restore ix
 	ret
+	private	tmp6
+tmp6:
 	section	.text,"ax",@progbits
+	private	func_end0
+func_end0:
+	cfi_endproc
 
 	section	.text,"ax",@progbits
 	public	_main
 _main:
+	private	func_begin1
+func_begin1:
+	loc	0 40 0
+	cfi_startproc
 	ld	hl, -250
 	call	__frameset
+	private	tmp7
+tmp7:
+	cfi_def_cfa ix, 6
+	cfi_offset ix, -6
 	ld	bc, -232
 	lea	iy, ix + 0
 	add	iy, bc
@@ -76,6 +118,9 @@ _main:
 	ld	(ix + 0), de
 	pop	ix
 	lea	de, iy + 0
+	private	tmp8
+tmp8:
+	loc	0 49 36 prologue_end
 	push	ix
 	ld	bc, -235
 	add	ix, bc
@@ -109,61 +154,2105 @@ _main:
 	ld	(iy + 12), de
 	ld	de, 0
 	ld	(iy + 15), de
+	loc	0 56 5
 	push	hl
 	call	_vysion_SetContext
+	private	tmp9
+tmp9:
 	pop	hl
+	loc	0 57 5
 	call	_vysion_InitializeGraphics
+	private	tmp10
+tmp10:
+	loc	0 58 5
 	ld	bc, -235
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
 	push	hl
 	call	_vysion_InitializeOPTIX
+	private	tmp11
+tmp11:
 	pop	hl
+	loc	0 59 5
 	ld	bc, -238
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
 	push	hl
 	call	_vysion_InitializeFilesystem
+	private	tmp12
+tmp12:
 	pop	hl
 	ld	de, 30
+	private	tmp13
+tmp13:
+	loc	0 0 0 is_stmt 0
 	ld	iy, 0
+	private	tmp14
+tmp14:
 BB1_1:
+	loc	0 60 5 is_stmt 1
 	lea	hl, iy + 0
 	or	a, a
 	sbc	hl, de
 	jq	z, BB1_2
+	private	tmp15
+tmp15:
+	loc	0 60 47 is_stmt 0
 	ld	hl, (_vysion_current_context)
+	loc	0 60 81
 	lea	bc, iy + 0
 	add	hl, bc
 	ld	bc, 0
 	ld	(hl), bc
+	private	tmp16
+tmp16:
+	loc	0 60 5
 	ld	bc, 3
 	add	iy, bc
 	jq	BB1_1
+	private	tmp17
+tmp17:
 BB1_2:
+	loc	0 61 5 is_stmt 1
 	call	_vysion_Desktop
+	private	tmp18
+tmp18:
+	loc	0 62 5
 	ld	bc, -235
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
 	push	hl
 	call	_vysion_CloseAllWindows
+	private	tmp19
+tmp19:
 	pop	hl
+	loc	0 63 1
 	or	a, a
 	sbc	hl, hl
 	ld	sp, ix
 	pop	ix
+	cfi_def_cfa sp, 3
+	cfi_restore ix
 	ret
+	private	tmp20
+tmp20:
 	section	.text,"ax",@progbits
+	private	func_end1
+func_end1:
+	cfi_endproc
+	file	2 "src/vysion/control.h" md5 0x142e8a7308e1e42df5545e37383739b4
+	file	3 "src/vysion/../optix/gui_control.h" md5 0x37b1c6dcab8f9caf582d8d1baa2b5b83
+	file	4 "src/vysion/../optix/elements/window.h" md5 0xe885682523f0899dfb6b8101118e9f5c
+	file	5 "src/vysion/elements/../window_manager.h" md5 0xfe2559823ec5cd6c314f79e18fa2ca59
+	file	6 "/run/media/mike/Data/Data/Programming/TI/CEdev2/include/graphx.h" md5 0x9182ed22f00c123d838469e0bb01c04e
+	file	7 "src/vysion/init.h" md5 0x3b6c0105f4d17f297875792146d8f09b
+	file	8 "src/optix/colors.h" md5 0x92c9b2788b7597b9021f2065be378470
+	file	9 "src/optix/cursor.h" md5 0xd72252edeb083d6848af3d5d0542208e
+	file	10 "/run/media/mike/Data/Data/Programming/TI/CEdev2/include/keypadc.h" md5 0xbfc2088ae0e53257626cbaf9f27540ef
+	file	11 "src/optix/input.h" md5 0xdd249b2610cc6f608d203ce067fa1c6d
+	file	12 "src/vysion/elements/../filesystem.h" md5 0x50490853103307068f94460c2a9c0c27
+	file	13 "src/vysion/elements/desktop.h" md5 0x5a8ab02a252ac9e342a87073511bfed3
 
 	section	.rodata,"a",@progbits
 	private	L___const.vysion_SetOP1.temp
 L___const.vysion_SetOP1.temp:
 	db	" ",000o,000o,000o,000o,000o,000o,000o,000o,000o
 
+	section	.debug_loclists,"",@progbits
+	dd	debug_list_header_end0-debug_list_header_start0
+	private	debug_list_header_start0
+debug_list_header_start0:
+	dw	5
+	db	3
+	db	0
+	dd	1
+	private	loclists_table_base0
+loclists_table_base0:
+	dd	debug_loc0-loclists_table_base0
+	private	debug_loc0
+debug_loc0:
+	db	4
+	uleb128	tmp2-func_begin0
+	uleb128	tmp3-func_begin0
+	db	1
+	db	82
+	db	0
+	private	debug_list_header_end0
+debug_list_header_end0:
+	section	.debug_abbrev,"",@progbits
+	private	abbrev_start198
+abbrev_start198:
+	db	1
+	db	17
+	db	1
+	db	37
+	db	37
+	db	19
+	db	5
+	db	3
+	db	37
+	db	114
+	db	23
+	db	16
+	db	23
+	db	27
+	db	37
+	db	17
+	db	27
+	db	18
+	db	6
+	db	115
+	db	23
+	db	"",214o,001o
+	db	23
+	db	0
+	db	0
+	db	2
+	db	15
+	db	0
+	db	73
+	db	19
+	db	0
+	db	0
+	db	3
+	db	36
+	db	0
+	db	3
+	db	37
+	db	62
+	db	11
+	db	11
+	db	11
+	db	0
+	db	0
+	db	4
+	db	22
+	db	0
+	db	73
+	db	19
+	db	3
+	db	37
+	db	58
+	db	11
+	db	59
+	db	11
+	db	0
+	db	0
+	db	5
+	db	46
+	db	1
+	db	17
+	db	27
+	db	18
+	db	6
+	db	64
+	db	24
+	db	122
+	db	25
+	db	3
+	db	37
+	db	58
+	db	11
+	db	59
+	db	11
+	db	39
+	db	25
+	db	63
+	db	25
+	db	0
+	db	0
+	db	6
+	db	5
+	db	0
+	db	3
+	db	37
+	db	58
+	db	11
+	db	59
+	db	11
+	db	73
+	db	19
+	db	0
+	db	0
+	db	7
+	db	5
+	db	0
+	db	2
+	db	34
+	db	3
+	db	37
+	db	58
+	db	11
+	db	59
+	db	11
+	db	73
+	db	19
+	db	0
+	db	0
+	db	8
+	db	52
+	db	0
+	db	2
+	db	24
+	db	3
+	db	37
+	db	58
+	db	11
+	db	59
+	db	11
+	db	73
+	db	19
+	db	0
+	db	0
+	db	9
+	db	46
+	db	1
+	db	17
+	db	27
+	db	18
+	db	6
+	db	64
+	db	24
+	db	122
+	db	25
+	db	3
+	db	37
+	db	58
+	db	11
+	db	59
+	db	11
+	db	39
+	db	25
+	db	73
+	db	19
+	db	63
+	db	25
+	db	0
+	db	0
+	db	10
+	db	11
+	db	1
+	db	17
+	db	27
+	db	18
+	db	6
+	db	0
+	db	0
+	db	11
+	db	52
+	db	0
+	db	3
+	db	37
+	db	58
+	db	11
+	db	59
+	db	11
+	db	73
+	db	19
+	db	0
+	db	0
+	db	12
+	db	72
+	db	0
+	db	127
+	db	19
+	db	125
+	db	27
+	db	0
+	db	0
+	db	13
+	db	46
+	db	1
+	db	3
+	db	37
+	db	58
+	db	11
+	db	59
+	db	11
+	db	39
+	db	25
+	db	60
+	db	25
+	db	63
+	db	25
+	db	0
+	db	0
+	db	14
+	db	5
+	db	0
+	db	73
+	db	19
+	db	0
+	db	0
+	db	15
+	db	19
+	db	1
+	db	3
+	db	37
+	db	11
+	db	11
+	db	58
+	db	11
+	db	59
+	db	11
+	db	0
+	db	0
+	db	16
+	db	13
+	db	0
+	db	3
+	db	37
+	db	73
+	db	19
+	db	58
+	db	11
+	db	59
+	db	11
+	db	56
+	db	11
+	db	0
+	db	0
+	db	17
+	db	1
+	db	1
+	db	73
+	db	19
+	db	0
+	db	0
+	db	18
+	db	33
+	db	0
+	db	73
+	db	19
+	db	55
+	db	11
+	db	0
+	db	0
+	db	19
+	db	21
+	db	1
+	db	39
+	db	25
+	db	0
+	db	0
+	db	20
+	db	19
+	db	1
+	db	11
+	db	11
+	db	58
+	db	11
+	db	59
+	db	11
+	db	0
+	db	0
+	db	21
+	db	33
+	db	0
+	db	73
+	db	19
+	db	0
+	db	0
+	db	22
+	db	36
+	db	0
+	db	3
+	db	37
+	db	11
+	db	11
+	db	62
+	db	11
+	db	0
+	db	0
+	db	23
+	db	46
+	db	0
+	db	3
+	db	37
+	db	58
+	db	11
+	db	59
+	db	11
+	db	39
+	db	25
+	db	60
+	db	25
+	db	63
+	db	25
+	db	0
+	db	0
+	db	0
+	section	.debug_info,"",@progbits
+	private	cu_begin0
+cu_begin0:
+	dd	debug_info_end0-debug_info_start0
+	private	debug_info_start0
+debug_info_start0:
+	dw	5
+	db	1
+	db	3
+	dd	abbrev_start198
+	db	1
+	db	0
+	dw	12
+	db	1
+	dd	str_offsets_base0
+	dd	line_table_start0
+	db	2
+	db	0
+	dd	func_end1-func_begin0
+	dd	addr_table_base0
+	dd	loclists_table_base0
+	db	2
+	dd	44
+	db	3
+	db	3
+	db	6
+	db	1
+	db	2
+	dd	53
+	db	4
+	dd	61
+	db	5
+	db	1
+	db	11
+	db	3
+	db	4
+	db	8
+	db	1
+	db	5
+	db	0
+	dd	func_end0-func_begin0
+	db	1
+	db	84
+
+	db	133
+	db	0
+	db	31
+
+
+	db	6
+	db	10
+	db	0
+	db	31
+	dd	53
+	db	7
+	db	0
+	db	136
+	db	0
+	db	31
+	dd	39
+	db	8
+	db	2
+	db	145
+	db	3
+	db	135
+	db	0
+	db	33
+	dd	1556
+	db	0
+	db	9
+	db	1
+	dd	func_end1-func_begin1
+	db	1
+	db	84
+
+	db	134
+	db	0
+	db	40
+
+	dd	538
+
+	db	8
+	db	3
+	db	145
+	db	"",320o,001o
+	db	65
+	db	0
+	db	42
+	dd	269
+	db	8
+	db	3
+	db	145
+	db	"",223o,001o
+	db	109
+	db	0
+	db	43
+	dd	1302
+	db	8
+	db	3
+	db	145
+	db	"",333o,000o
+	db	79
+	db	0
+	db	44
+	dd	1039
+	db	8
+	db	3
+	db	145
+	db	"",331o,000o
+	db	68
+	db	0
+	db	45
+	dd	950
+	db	8
+	db	3
+	db	145
+	db	"",321o,000o
+	db	58
+	db	0
+	db	46
+	dd	979
+	db	8
+	db	2
+	db	145
+	db	36
+	db	121
+	db	0
+	db	47
+	dd	1416
+	db	8
+	db	2
+	db	145
+	db	18
+	db	137
+	db	0
+	db	49
+	dd	885
+	db	10
+	db	2
+	dd	tmp17-tmp13
+	db	11
+	db	138
+	db	0
+	db	60
+	dd	538
+	db	0
+	db	12
+	dd	254
+	db	3
+	db	12
+	dd	866
+	db	4
+	db	12
+	dd	870
+	db	5
+	db	12
+	dd	1532
+	db	6
+	db	12
+	dd	1542
+	db	7
+	db	12
+	dd	1546
+	db	8
+	db	0
+	db	13
+	db	6
+	db	2
+	db	24
+
+
+
+	db	14
+	dd	264
+	db	0
+	db	2
+	dd	269
+	db	15
+	db	65
+	db	36
+	db	2
+	db	14
+	db	16
+	db	7
+	dd	302
+	db	2
+	db	15
+	db	0
+	db	16
+	db	63
+	dd	538
+	db	2
+	db	16
+	db	30
+	db	16
+	db	64
+	dd	538
+	db	2
+	db	17
+	db	33
+	db	0
+	db	17
+	dd	314
+	db	18
+	dd	862
+	db	10
+	db	0
+	db	2
+	dd	319
+	db	15
+	db	62
+	db	45
+	db	5
+	db	56
+	db	16
+	db	8
+	dd	334
+	db	5
+	db	57
+	db	0
+	db	0
+	db	15
+	db	61
+	db	45
+	db	5
+	db	43
+	db	16
+	db	9
+	dd	367
+	db	5
+	db	45
+	db	0
+	db	16
+	db	10
+	dd	53
+	db	5
+	db	46
+	db	41
+	db	16
+	db	57
+	dd	806
+	db	5
+	db	47
+	db	42
+	db	0
+	db	15
+	db	56
+	db	41
+	db	4
+	db	26
+	db	16
+	db	8
+	dd	427
+	db	4
+	db	27
+	db	0
+	db	16
+	db	7
+	dd	694
+	db	4
+	db	28
+	db	30
+	db	16
+	db	52
+	dd	668
+	db	4
+	db	29
+	db	33
+	db	16
+	db	53
+	dd	538
+	db	4
+	db	31
+	db	34
+	db	16
+	db	54
+	dd	538
+	db	4
+	db	32
+	db	37
+	db	16
+	db	55
+	dd	668
+	db	4
+	db	35
+	db	40
+	db	0
+	db	15
+	db	40
+	db	30
+	db	3
+	db	76
+	db	16
+	db	10
+	dd	53
+	db	3
+	db	77
+	db	0
+	db	16
+	db	11
+	dd	496
+	db	3
+	db	78
+	db	1
+	db	16
+	db	20
+	dd	554
+	db	3
+	db	79
+	db	10
+	db	16
+	db	28
+	dd	608
+	db	3
+	db	80
+	db	14
+	db	16
+	db	37
+	dd	672
+	db	3
+	db	81
+	db	21
+	db	16
+	db	38
+	dd	672
+	db	3
+	db	83
+	db	24
+	db	16
+	db	39
+	dd	689
+	db	3
+	db	86
+	db	27
+	db	0
+	db	15
+	db	19
+	db	9
+	db	3
+	db	57
+	db	16
+	db	12
+	dd	538
+	db	3
+	db	58
+	db	0
+	db	16
+	db	14
+	dd	538
+	db	3
+	db	59
+	db	3
+	db	16
+	db	15
+	dd	542
+	db	3
+	db	60
+	db	6
+	db	16
+	db	18
+	dd	53
+	db	3
+	db	61
+	db	8
+	db	0
+	db	3
+	db	13
+	db	5
+	db	3
+	db	4
+	dd	550
+	db	17
+	db	1
+	db	35
+	db	3
+	db	16
+	db	7
+	db	2
+	db	15
+	db	27
+	db	4
+	db	3
+	db	37
+	db	16
+	db	21
+	dd	53
+	db	3
+	db	38
+	db	0
+	db	16
+	db	22
+	dd	53
+	db	3
+	db	39
+	db	1
+	db	16
+	db	23
+	dd	596
+	db	3
+	db	40
+	db	2
+	db	16
+	db	26
+	dd	596
+	db	3
+	db	41
+	db	3
+	db	0
+	db	4
+	dd	604
+	db	25
+	db	1
+	db	6
+	db	3
+	db	24
+	db	6
+	db	1
+	db	15
+	db	36
+	db	7
+	db	3
+	db	65
+	db	16
+	db	29
+	dd	668
+	db	3
+	db	66
+	db	0
+	db	16
+	db	31
+	dd	668
+	db	3
+	db	67
+	db	1
+	db	16
+	db	32
+	dd	668
+	db	3
+	db	68
+	db	2
+	db	16
+	db	33
+	dd	668
+	db	3
+	db	69
+	db	3
+	db	16
+	db	34
+	dd	668
+	db	3
+	db	72
+	db	4
+	db	16
+	db	35
+	dd	542
+	db	3
+	db	73
+	db	5
+	db	0
+	db	3
+	db	30
+	db	2
+	db	1
+	db	2
+	dd	677
+	db	19
+
+	db	14
+	dd	684
+	db	0
+	db	2
+	dd	427
+	db	2
+	dd	684
+	db	2
+	dd	699
+	db	15
+	db	51
+	db	43
+	db	4
+	db	15
+	db	16
+	db	8
+	dd	427
+	db	4
+	db	16
+	db	0
+	db	16
+	db	41
+	dd	732
+	db	4
+	db	17
+	db	30
+	db	16
+	db	50
+	dd	668
+	db	4
+	db	19
+	db	42
+	db	0
+	db	15
+	db	49
+	db	12
+	db	3
+	db	45
+	db	16
+	db	42
+	dd	668
+	db	3
+	db	46
+	db	0
+	db	16
+	db	43
+	dd	668
+	db	3
+	db	48
+	db	1
+	db	16
+	db	44
+	dd	668
+	db	3
+	db	49
+	db	2
+	db	16
+	db	45
+	dd	801
+	db	3
+	db	51
+	db	3
+	db	16
+	db	46
+	dd	801
+	db	3
+	db	52
+	db	6
+	db	16
+	db	47
+	dd	542
+	db	3
+	db	53
+	db	9
+	db	16
+	db	48
+	dd	53
+	db	3
+	db	54
+	db	11
+	db	0
+	db	2
+	dd	496
+	db	2
+	dd	811
+	db	4
+	dd	819
+	db	60
+	db	6
+	db	78
+	db	20
+	db	2
+	db	6
+	db	74
+	db	16
+	db	15
+	dd	53
+	db	6
+	db	75
+	db	0
+	db	16
+	db	18
+	dd	53
+	db	6
+	db	76
+	db	1
+	db	16
+	db	58
+	dd	851
+	db	6
+	db	77
+	db	2
+	db	0
+	db	17
+	dd	53
+	db	21
+	dd	862
+	db	0
+	db	22
+	db	59
+	db	8
+	db	7
+	db	23
+	db	66
+	db	7
+	db	6
+
+
+
+	db	13
+	db	67
+	db	7
+	db	7
+
+
+
+	db	14
+	dd	880
+	db	0
+	db	2
+	dd	885
+	db	15
+	db	129
+	db	18
+	db	3
+	db	123
+	db	16
+	db	68
+	dd	945
+	db	3
+	db	124
+	db	0
+	db	16
+	db	58
+	dd	974
+	db	3
+	db	125
+	db	3
+	db	16
+	db	79
+	dd	1034
+	db	3
+	db	126
+	db	6
+	db	16
+	db	109
+	dd	1297
+	db	3
+	db	127
+	db	9
+	db	16
+	db	121
+	dd	1411
+	db	3
+	db	128
+	db	12
+	db	16
+	db	128
+	dd	689
+	db	3
+	db	129
+	db	15
+	db	0
+	db	2
+	dd	950
+	db	15
+	db	71
+	db	2
+	db	3
+	db	104
+	db	16
+	db	69
+	dd	668
+	db	3
+	db	106
+	db	0
+	db	16
+	db	70
+	dd	668
+	db	3
+	db	108
+	db	1
+	db	0
+	db	2
+	dd	979
+	db	15
+	db	78
+	db	8
+	db	3
+	db	111
+	db	16
+	db	72
+	dd	668
+	db	3
+	db	112
+	db	0
+	db	16
+	db	73
+	dd	668
+	db	3
+	db	113
+	db	1
+	db	16
+	db	74
+	dd	668
+	db	3
+	db	115
+	db	2
+	db	16
+	db	75
+	dd	53
+	db	3
+	db	117
+	db	3
+	db	16
+	db	76
+	dd	1030
+	db	3
+	db	119
+	db	4
+	db	0
+	db	3
+	db	77
+	db	5
+	db	4
+	db	2
+	dd	1039
+	db	15
+	db	108
+	db	56
+	db	8
+	db	85
+	db	16
+	db	80
+	dd	542
+	db	8
+	db	87
+	db	0
+	db	16
+	db	81
+	dd	542
+	db	8
+	db	89
+	db	2
+	db	16
+	db	82
+	dd	542
+	db	8
+	db	90
+	db	4
+	db	16
+	db	83
+	dd	542
+	db	8
+	db	92
+	db	6
+	db	16
+	db	84
+	dd	542
+	db	8
+	db	93
+	db	8
+	db	16
+	db	85
+	dd	542
+	db	8
+	db	94
+	db	10
+	db	16
+	db	86
+	dd	542
+	db	8
+	db	95
+	db	12
+	db	16
+	db	87
+	dd	542
+	db	8
+	db	97
+	db	14
+	db	16
+	db	88
+	dd	542
+	db	8
+	db	98
+	db	16
+	db	16
+	db	89
+	dd	542
+	db	8
+	db	99
+	db	18
+	db	16
+	db	90
+	dd	542
+	db	8
+	db	101
+	db	20
+	db	16
+	db	91
+	dd	542
+	db	8
+	db	102
+	db	22
+	db	16
+	db	92
+	dd	542
+	db	8
+	db	103
+	db	24
+	db	16
+	db	93
+	dd	542
+	db	8
+	db	104
+	db	26
+	db	16
+	db	94
+	dd	542
+	db	8
+	db	106
+	db	28
+	db	16
+	db	95
+	dd	542
+	db	8
+	db	107
+	db	30
+	db	16
+	db	96
+	dd	542
+	db	8
+	db	108
+	db	32
+	db	16
+	db	97
+	dd	542
+	db	8
+	db	109
+	db	34
+	db	16
+	db	98
+	dd	542
+	db	8
+	db	110
+	db	36
+	db	16
+	db	99
+	dd	542
+	db	8
+	db	111
+	db	38
+	db	16
+	db	100
+	dd	542
+	db	8
+	db	112
+	db	40
+	db	16
+	db	101
+	dd	542
+	db	8
+	db	113
+	db	42
+	db	16
+	db	102
+	dd	542
+	db	8
+	db	114
+	db	44
+	db	16
+	db	103
+	dd	542
+	db	8
+	db	115
+	db	46
+	db	16
+	db	104
+	dd	542
+	db	8
+	db	117
+	db	48
+	db	16
+	db	105
+	dd	542
+	db	8
+	db	118
+	db	50
+	db	16
+	db	106
+	dd	542
+	db	8
+	db	120
+	db	52
+	db	16
+	db	107
+	dd	542
+	db	8
+	db	121
+	db	54
+	db	0
+	db	2
+	dd	1302
+	db	15
+	db	120
+	db	61
+	db	9
+	db	50
+	db	16
+	db	8
+	dd	427
+	db	9
+	db	51
+	db	0
+	db	16
+	db	110
+	dd	538
+	db	9
+	db	52
+	db	30
+	db	16
+	db	111
+	dd	538
+	db	9
+	db	53
+	db	33
+	db	16
+	db	112
+	dd	1407
+	db	9
+	db	55
+	db	36
+	db	16
+	db	114
+	dd	1407
+	db	9
+	db	56
+	db	40
+	db	16
+	db	115
+	dd	1407
+	db	9
+	db	57
+	db	44
+	db	16
+	db	28
+	dd	538
+	db	9
+	db	58
+	db	48
+	db	16
+	db	116
+	dd	538
+	db	9
+	db	60
+	db	51
+	db	16
+	db	117
+	dd	684
+	db	9
+	db	61
+	db	54
+	db	16
+	db	118
+	dd	806
+	db	9
+	db	63
+	db	57
+	db	16
+	db	119
+	dd	668
+	db	9
+	db	66
+	db	60
+	db	0
+	db	3
+	db	113
+	db	4
+	db	4
+	db	2
+	dd	1416
+	db	15
+	db	127
+	db	45
+	db	11
+	db	35
+	db	16
+	db	122
+	dd	1440
+	db	11
+	db	36
+	db	0
+	db	16
+	db	75
+	dd	1527
+	db	11
+	db	37
+	db	42
+	db	0
+	db	17
+	dd	1452
+	db	18
+	dd	862
+	db	7
+	db	0
+	db	15
+	db	126
+	db	6
+	db	11
+	db	22
+	db	16
+	db	75
+	dd	1485
+	db	11
+	db	23
+	db	0
+	db	16
+	db	28
+	dd	53
+	db	11
+	db	24
+	db	2
+	db	16
+	db	124
+	dd	1493
+	db	11
+	db	25
+	db	3
+	db	0
+	db	4
+	dd	542
+	db	123
+	db	10
+	db	20
+	db	2
+	dd	1498
+	db	15
+	db	125
+	db	4
+	db	11
+	db	30
+	db	16
+	db	75
+	dd	1522
+	db	11
+	db	31
+	db	0
+	db	16
+	db	28
+	dd	53
+	db	11
+	db	32
+	db	3
+	db	0
+	db	2
+	dd	1452
+	db	2
+	dd	1522
+	db	13
+	db	130
+	db	12
+	db	68
+
+
+
+	db	14
+	dd	264
+	db	0
+	db	23
+	db	131
+	db	13
+	db	19
+
+
+
+	db	13
+	db	132
+	db	5
+	db	84
+
+
+
+	db	14
+	dd	880
+	db	0
+	db	17
+	dd	44
+	db	18
+	dd	862
+	db	10
+	db	0
+	db	0
+	private	debug_info_end0
+debug_info_end0:
+	section	.debug_str_offsets,"",@progbits
+	dd	560
+	dw	5
+	dw	0
+	private	str_offsets_base0
+str_offsets_base0:
+	section	.debug_str,"MS",@progbits,1
+	private	info_string0
+info_string0:
+	db	"clang version 12.0.0 (https://github.com/jacobly0/llvm-project 170be88120e3aa88c20eea5615ba76b8f1d6c647)",000o
+	private	info_string1
+info_string1:
+	db	"src/main.c",000o
+	private	info_string2
+info_string2:
+	db	"/run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2",000o
+	private	info_string3
+info_string3:
+	db	"char",000o
+	private	info_string4
+info_string4:
+	db	"unsigned char",000o
+	private	info_string5
+info_string5:
+	db	"uint8_t",000o
+	private	info_string6
+info_string6:
+	db	"vysion_SetContext",000o
+	private	info_string7
+info_string7:
+	db	"window",000o
+	private	info_string8
+info_string8:
+	db	"widget",000o
+	private	info_string9
+info_string9:
+	db	"window_title_bar",000o
+	private	info_string10
+info_string10:
+	db	"type",000o
+	private	info_string11
+info_string11:
+	db	"transform",000o
+	private	info_string12
+info_string12:
+	db	"x",000o
+	private	info_string13
+info_string13:
+	db	"int",000o
+	private	info_string14
+info_string14:
+	db	"y",000o
+	private	info_string15
+info_string15:
+	db	"width",000o
+	private	info_string16
+info_string16:
+	db	"unsigned short",000o
+	private	info_string17
+info_string17:
+	db	"uint16_t",000o
+	private	info_string18
+info_string18:
+	db	"height",000o
+	private	info_string19
+info_string19:
+	db	"optix_transform",000o
+	private	info_string20
+info_string20:
+	db	"centering",000o
+	private	info_string21
+info_string21:
+	db	"x_centering",000o
+	private	info_string22
+info_string22:
+	db	"y_centering",000o
+	private	info_string23
+info_string23:
+	db	"x_offset",000o
+	private	info_string24
+info_string24:
+	db	"signed char",000o
+	private	info_string25
+info_string25:
+	db	"int8_t",000o
+	private	info_string26
+info_string26:
+	db	"y_offset",000o
+	private	info_string27
+info_string27:
+	db	"optix_centering",000o
+	private	info_string28
+info_string28:
+	db	"state",000o
+	private	info_string29
+info_string29:
+	db	"selected",000o
+	private	info_string30
+info_string30:
+	db	"_Bool",000o
+	private	info_string31
+info_string31:
+	db	"visible",000o
+	private	info_string32
+info_string32:
+	db	"selectable",000o
+	private	info_string33
+info_string33:
+	db	"needs_redraw",000o
+	private	info_string34
+info_string34:
+	db	"override_size",000o
+	private	info_string35
+info_string35:
+	db	"size",000o
+	private	info_string36
+info_string36:
+	db	"optix_state",000o
+	private	info_string37
+info_string37:
+	db	"render",000o
+	private	info_string38
+info_string38:
+	db	"update",000o
+	private	info_string39
+info_string39:
+	db	"child",000o
+	private	info_string40
+info_string40:
+	db	"optix_widget",000o
+	private	info_string41
+info_string41:
+	db	"resize_info",000o
+	private	info_string42
+info_string42:
+	db	"resizable",000o
+	private	info_string43
+info_string43:
+	db	"x_lock",000o
+	private	info_string44
+info_string44:
+	db	"y_lock",000o
+	private	info_string45
+info_string45:
+	db	"x_reference_transform",000o
+	private	info_string46
+info_string46:
+	db	"y_reference_transform",000o
+	private	info_string47
+info_string47:
+	db	"min_width",000o
+	private	info_string48
+info_string48:
+	db	"min_height",000o
+	private	info_string49
+info_string49:
+	db	"optix_resize_info",000o
+	private	info_string50
+info_string50:
+	db	"active",000o
+	private	info_string51
+info_string51:
+	db	"optix_window",000o
+	private	info_string52
+info_string52:
+	db	"active_save",000o
+	private	info_string53
+info_string53:
+	db	"drag_start_x",000o
+	private	info_string54
+info_string54:
+	db	"drag_start_y",000o
+	private	info_string55
+info_string55:
+	db	"drag_active",000o
+	private	info_string56
+info_string56:
+	db	"optix_window_title_bar",000o
+	private	info_string57
+info_string57:
+	db	"icon",000o
+	private	info_string58
+info_string58:
+	db	"data",000o
+	private	info_string59
+info_string59:
+	db	"__ARRAY_SIZE_TYPE__",000o
+	private	info_string60
+info_string60:
+	db	"gfx_sprite_t",000o
+	private	info_string61
+info_string61:
+	db	"vysion_window_widget",000o
+	private	info_string62
+info_string62:
+	db	"vysion_window",000o
+	private	info_string63
+info_string63:
+	db	"num_programs",000o
+	private	info_string64
+info_string64:
+	db	"num_appvars",000o
+	private	info_string65
+info_string65:
+	db	"vysion_context",000o
+	private	info_string66
+info_string66:
+	db	"vysion_InitializeGraphics",000o
+	private	info_string67
+info_string67:
+	db	"vysion_InitializeOPTIX",000o
+	private	info_string68
+info_string68:
+	db	"settings",000o
+	private	info_string69
+info_string69:
+	db	"cursor_active",000o
+	private	info_string70
+info_string70:
+	db	"constant_refresh",000o
+	private	info_string71
+info_string71:
+	db	"optix_settings",000o
+	private	info_string72
+info_string72:
+	db	"gui_needs_full_redraw",000o
+	private	info_string73
+info_string73:
+	db	"needs_blit",000o
+	private	info_string74
+info_string74:
+	db	"font_valid",000o
+	private	info_string75
+info_string75:
+	db	"key",000o
+	private	info_string76
+info_string76:
+	db	"ticks",000o
+	private	info_string77
+info_string77:
+	db	"long int",000o
+	private	info_string78
+info_string78:
+	db	"optix_gui_data",000o
+	private	info_string79
+info_string79:
+	db	"colors",000o
+	private	info_string80
+info_string80:
+	db	"bg",000o
+	private	info_string81
+info_string81:
+	db	"cursor_fill",000o
+	private	info_string82
+info_string82:
+	db	"cursor_outline",000o
+	private	info_string83
+info_string83:
+	db	"window_bg",000o
+	private	info_string84
+info_string84:
+	db	"window_title_bar_unselected",000o
+	private	info_string85
+info_string85:
+	db	"window_title_bar_selected",000o
+	private	info_string86
+info_string86:
+	db	"window_border",000o
+	private	info_string87
+info_string87:
+	db	"border_bevel_dark",000o
+	private	info_string88
+info_string88:
+	db	"border_bevel_light",000o
+	private	info_string89
+info_string89:
+	db	"border_bevel_medium",000o
+	private	info_string90
+info_string90:
+	db	"window_title_text_fg_unselected",000o
+	private	info_string91
+info_string91:
+	db	"window_title_text_bg_unselected",000o
+	private	info_string92
+info_string92:
+	db	"window_title_text_fg_selected",000o
+	private	info_string93
+info_string93:
+	db	"window_title_text_bg_selected",000o
+	private	info_string94
+info_string94:
+	db	"button_bg_unselected",000o
+	private	info_string95
+info_string95:
+	db	"button_bg_selected",000o
+	private	info_string96
+info_string96:
+	db	"button_bg_pressed",000o
+	private	info_string97
+info_string97:
+	db	"button_border",000o
+	private	info_string98
+info_string98:
+	db	"button_text_fg_unselected",000o
+	private	info_string99
+info_string99:
+	db	"button_text_bg_unselected",000o
+	private	info_string100
+info_string100:
+	db	"button_text_fg_selected",000o
+	private	info_string101
+info_string101:
+	db	"button_text_bg_selected",000o
+	private	info_string102
+info_string102:
+	db	"button_text_fg_pressed",000o
+	private	info_string103
+info_string103:
+	db	"button_text_bg_pressed",000o
+	private	info_string104
+info_string104:
+	db	"text_fg",000o
+	private	info_string105
+info_string105:
+	db	"text_bg",000o
+	private	info_string106
+info_string106:
+	db	"highlight",000o
+	private	info_string107
+info_string107:
+	db	"divider",000o
+	private	info_string108
+info_string108:
+	db	"optix_colors",000o
+	private	info_string109
+info_string109:
+	db	"cursor",000o
+	private	info_string110
+info_string110:
+	db	"last_x",000o
+	private	info_string111
+info_string111:
+	db	"last_y",000o
+	private	info_string112
+info_string112:
+	db	"current_speed",000o
+	private	info_string113
+info_string113:
+	db	"float",000o
+	private	info_string114
+info_string114:
+	db	"true_x",000o
+	private	info_string115
+info_string115:
+	db	"true_y",000o
+	private	info_string116
+info_string116:
+	db	"direction",000o
+	private	info_string117
+info_string117:
+	db	"current_selection",000o
+	private	info_string118
+info_string118:
+	db	"back",000o
+	private	info_string119
+info_string119:
+	db	"gui_frozen",000o
+	private	info_string120
+info_string120:
+	db	"optix_cursor",000o
+	private	info_string121
+info_string121:
+	db	"input",000o
+	private	info_string122
+info_string122:
+	db	"default_key",000o
+	private	info_string123
+info_string123:
+	db	"kb_lkey_t",000o
+	private	info_string124
+info_string124:
+	db	"chain",000o
+	private	info_string125
+info_string125:
+	db	"optix_key_chain",000o
+	private	info_string126
+info_string126:
+	db	"optix_key",000o
+	private	info_string127
+info_string127:
+	db	"optix_input",000o
+	private	info_string128
+info_string128:
+	db	"stack",000o
+	private	info_string129
+info_string129:
+	db	"optix_context",000o
+	private	info_string130
+info_string130:
+	db	"vysion_InitializeFilesystem",000o
+	private	info_string131
+info_string131:
+	db	"vysion_Desktop",000o
+	private	info_string132
+info_string132:
+	db	"vysion_CloseAllWindows",000o
+	private	info_string133
+info_string133:
+	db	"vysion_SetOP1",000o
+	private	info_string134
+info_string134:
+	db	"main",000o
+	private	info_string135
+info_string135:
+	db	"temp",000o
+	private	info_string136
+info_string136:
+	db	"name",000o
+	private	info_string137
+info_string137:
+	db	"context",000o
+	private	info_string138
+info_string138:
+	db	"i",000o
+	section	.debug_str_offsets,"",@progbits
+	dd	info_string0
+	dd	info_string1
+	dd	info_string2
+	dd	info_string3
+	dd	info_string4
+	dd	info_string5
+	dd	info_string6
+	dd	info_string7
+	dd	info_string8
+	dd	info_string9
+	dd	info_string10
+	dd	info_string11
+	dd	info_string12
+	dd	info_string13
+	dd	info_string14
+	dd	info_string15
+	dd	info_string16
+	dd	info_string17
+	dd	info_string18
+	dd	info_string19
+	dd	info_string20
+	dd	info_string21
+	dd	info_string22
+	dd	info_string23
+	dd	info_string24
+	dd	info_string25
+	dd	info_string26
+	dd	info_string27
+	dd	info_string28
+	dd	info_string29
+	dd	info_string30
+	dd	info_string31
+	dd	info_string32
+	dd	info_string33
+	dd	info_string34
+	dd	info_string35
+	dd	info_string36
+	dd	info_string37
+	dd	info_string38
+	dd	info_string39
+	dd	info_string40
+	dd	info_string41
+	dd	info_string42
+	dd	info_string43
+	dd	info_string44
+	dd	info_string45
+	dd	info_string46
+	dd	info_string47
+	dd	info_string48
+	dd	info_string49
+	dd	info_string50
+	dd	info_string51
+	dd	info_string52
+	dd	info_string53
+	dd	info_string54
+	dd	info_string55
+	dd	info_string56
+	dd	info_string57
+	dd	info_string58
+	dd	info_string59
+	dd	info_string60
+	dd	info_string61
+	dd	info_string62
+	dd	info_string63
+	dd	info_string64
+	dd	info_string65
+	dd	info_string66
+	dd	info_string67
+	dd	info_string68
+	dd	info_string69
+	dd	info_string70
+	dd	info_string71
+	dd	info_string72
+	dd	info_string73
+	dd	info_string74
+	dd	info_string75
+	dd	info_string76
+	dd	info_string77
+	dd	info_string78
+	dd	info_string79
+	dd	info_string80
+	dd	info_string81
+	dd	info_string82
+	dd	info_string83
+	dd	info_string84
+	dd	info_string85
+	dd	info_string86
+	dd	info_string87
+	dd	info_string88
+	dd	info_string89
+	dd	info_string90
+	dd	info_string91
+	dd	info_string92
+	dd	info_string93
+	dd	info_string94
+	dd	info_string95
+	dd	info_string96
+	dd	info_string97
+	dd	info_string98
+	dd	info_string99
+	dd	info_string100
+	dd	info_string101
+	dd	info_string102
+	dd	info_string103
+	dd	info_string104
+	dd	info_string105
+	dd	info_string106
+	dd	info_string107
+	dd	info_string108
+	dd	info_string109
+	dd	info_string110
+	dd	info_string111
+	dd	info_string112
+	dd	info_string113
+	dd	info_string114
+	dd	info_string115
+	dd	info_string116
+	dd	info_string117
+	dd	info_string118
+	dd	info_string119
+	dd	info_string120
+	dd	info_string121
+	dd	info_string122
+	dd	info_string123
+	dd	info_string124
+	dd	info_string125
+	dd	info_string126
+	dd	info_string127
+	dd	info_string128
+	dd	info_string129
+	dd	info_string130
+	dd	info_string131
+	dd	info_string132
+	dd	info_string133
+	dd	info_string134
+	dd	info_string135
+	dd	info_string136
+	dd	info_string137
+	dd	info_string138
+	section	.debug_addr,"",@progbits
+	dd	debug_addr_end0-debug_addr_start0
+	private	debug_addr_start0
+debug_addr_start0:
+	dw	5
+	db	3
+	db	0
+	private	addr_table_base0
+addr_table_base0:
+	dl	func_begin0
+	dl	func_begin1
+	dl	tmp13
+	dl	tmp9
+	dl	tmp10
+	dl	tmp11
+	dl	tmp12
+	dl	tmp18
+	dl	tmp19
+	private	debug_addr_end0
+debug_addr_end0:
 	ident	"clang version 12.0.0 (https://github.com/jacobly0/llvm-project 170be88120e3aa88c20eea5615ba76b8f1d6c647)"
+	section	.debug_line,"",@progbits
+line_table_start0:
 	extern	_vysion_CloseAllWindows
 	extern	__Unwind_SjLj_Register
 	extern	__Unwind_SjLj_Unregister

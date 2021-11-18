@@ -1,14 +1,32 @@
 	section	.text,"ax",@progbits
 	assume	adl = 1
+	file	0 "/run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/elements/file_explorer.c" md5 0x5f10819331a87ca32afcf2c0c1f32685
+	file	1 "src/vysion/elements/file_explorer.h" md5 0x684d27c6fd011035e7925f0bf63aaf45
+	file	2 "/run/media/mike/Data/Data/Programming/TI/CEdev2/include/stdint.h" md5 0xefb8540da62ce56ff575dd92d043acf8
+	file	3 "src/vysion/elements/../../optix/elements/../gui_control.h" md5 0x37b1c6dcab8f9caf582d8d1baa2b5b83
+	file	4 "src/vysion/elements/../../optix/elements/../elements/menu.h" md5 0x6d26d5d39fe4c543573cca0de52bb0a9
+	file	5 "src/vysion/elements/../../optix/elements/../elements/text.h" md5 0xcd45d1ba3822608bf7ba904d021a9333
+	file	6 "src/vysion/elements/../../optix/elements/../elements/sprite.h" md5 0x595eaac1d35693f3597c47f433e47f6e
+	file	7 "/run/media/mike/Data/Data/Programming/TI/CEdev2/include/graphx.h" md5 0x9182ed22f00c123d838469e0bb01c04e
 	section	.text,"ax",@progbits
 	public	_vysion_AddFileExplorerWindow
 _vysion_AddFileExplorerWindow:
-	ld	hl, -338
+	private	func_begin0
+func_begin0:
+	file	8 "src/vysion/elements/file_explorer.c" md5 0x5f10819331a87ca32afcf2c0c1f32685
+	loc	8 14 0
+	cfi_sections .debug_frame
+	cfi_startproc
+	ld	hl, -335
 	call	__frameset
-	ld	bc, -320
+	private	tmp0
+tmp0:
+	cfi_def_cfa ix, 6
+	cfi_offset ix, -6
+	ld	bc, -317
 	lea	iy, ix + 0
 	add	iy, bc
-	ld	bc, -323
+	ld	bc, -320
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	(hl), iy
@@ -16,31 +34,34 @@ _vysion_AddFileExplorerWindow:
 	sbc	hl, hl
 	lea	de, ix + -51
 	push	ix
-	ld	bc, -335
+	ld	bc, -332
 	add	ix, bc
 	ld	(ix + 0), de
 	pop	ix
 	lea	bc, iy + 90
 	ld	(ix + -3), de
 	push	ix
-	ld	de, -332
+	ld	de, -329
 	add	ix, de
 	ld	(ix + 0), bc
 	pop	ix
 	lea	bc, iy + 47
 	push	ix
-	ld	de, -329
+	ld	de, -326
 	add	ix, de
 	ld	(ix + 0), bc
 	pop	ix
 	lea	bc, iy + 41
 	push	ix
-	ld	de, -338
+	ld	de, -335
 	add	ix, de
 	ld	(ix + 0), bc
 	pop	ix
 	lea	bc, iy + 0
-	ld	de, -326
+	private	tmp1
+tmp1:
+	loc	8 16 40 prologue_end
+	ld	de, -323
 	lea	iy, ix + 0
 	add	iy, de
 	ld	(iy + 0), bc
@@ -50,46 +71,60 @@ _vysion_AddFileExplorerWindow:
 	ld	de, (ix + -3)
 	push	de
 	call	_memset
+	private	tmp2
+tmp2:
 	pop	hl
 	pop	hl
 	pop	hl
-	ld	hl, 179
+	loc	8 21 38
+	ld	hl, 176
 	push	hl
 	ld	hl, L___const.vysion_AddFileExplorerWindow.template_file_menu
 	push	hl
-	ld	bc, -332
+	ld	bc, -329
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
 	push	hl
 	call	_memcpy
+	private	tmp3
+tmp3:
 	pop	hl
 	pop	hl
 	pop	hl
+	loc	8 67 5
 	ld	hl, 3
 	push	hl
-	ld	bc, -332
+	ld	bc, -329
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
 	push	hl
 	call	_optix_InitializeWidget
+	private	tmp4
+tmp4:
 	pop	hl
 	pop	hl
+	loc	8 69 43
 	ld	hl, _vysion_RenderFileExplorerMenu
 	push	ix
-	ld	bc, -323
+	ld	bc, -320
 	add	ix, bc
 	ld	iy, (ix + 0)
 	pop	ix
 	ld	(iy + 111), hl
+	loc	8 70 43
 	ld	iy, (_vysion_current_context)
+	loc	8 70 67 is_stmt 0
 	ld	hl, (iy + 30)
+	loc	8 70 41
 	ld	(ix + -85), hl
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	iy, (hl)
+	loc	8 72 19 is_stmt 1
 	ld	(iy + 47), 0
+	loc	8 73 26
 	ld	hl, 110
 	ld	(iy + 48), hl
 	ld	hl, 70
@@ -98,7 +133,8 @@ _vysion_AddFileExplorerWindow:
 	ld	(iy + 54), l
 	ld	(iy + 55), h
 	ld	(iy + 56), 100
-	ld	bc, -329
+	loc	8 72 19
+	ld	bc, -326
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	iy, (hl)
@@ -109,26 +145,31 @@ _vysion_AddFileExplorerWindow:
 	push	hl
 	pea	iy + 10
 	call	_memset
+	private	tmp5
+tmp5:
 	pop	hl
 	pop	hl
 	pop	hl
-	ld	bc, -323
+	ld	bc, -320
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	iy, (hl)
+	loc	8 79 48
 	push	ix
-	ld	bc, -332
+	ld	bc, -329
 	add	ix, bc
 	ld	hl, (ix + 0)
 	pop	ix
 	ld	(iy + 41), hl
 	ld	hl, 0
 	ld	(iy + 44), hl
-	ld	bc, -338
+	loc	8 72 19
+	ld	bc, -335
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
 	ld	(iy + 74), hl
+	loc	8 82 24
 	ld	(iy + 77), 1
 	or	a, a
 	sbc	hl, hl
@@ -140,399 +181,674 @@ _vysion_AddFileExplorerWindow:
 	ld	(iy + 86), l
 	ld	(iy + 87), h
 	ld	(iy + 88), 50
+	loc	8 71 36
 	ld	(iy + 89), 0
+	loc	8 88 5
 	ld	hl, 4
 	push	hl
-	ld	bc, -329
+	ld	bc, -326
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
 	push	hl
 	call	_optix_InitializeWidget
+	private	tmp6
+tmp6:
 	pop	hl
 	pop	hl
+	loc	8 91 35
 	ld	hl, 41
 	push	hl
 	or	a, a
 	sbc	hl, hl
 	push	hl
-	ld	bc, -326
+	ld	bc, -323
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
 	push	hl
 	call	_memset
+	private	tmp7
+tmp7:
 	pop	hl
 	pop	hl
 	pop	hl
-	ld	bc, -329
+	loc	8 91 56 is_stmt 0
+	ld	bc, -326
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
-	ld	bc, -323
+	ld	bc, -320
 	lea	iy, ix + 0
 	add	iy, bc
 	ld	iy, (iy + 0)
 	ld	(iy + 30), hl
 	ld	hl, 5
+	loc	8 95 5 is_stmt 1
 	push	hl
-	ld	bc, -326
+	ld	bc, -323
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
 	push	hl
 	call	_optix_InitializeWidget
+	private	tmp8
+tmp8:
 	pop	hl
 	pop	hl
+	loc	8 96 5
 	ld	hl, 41
 	push	hl
-	ld	bc, -326
+	ld	bc, -323
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
 	push	hl
-	ld	bc, -335
+	ld	bc, -332
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
 	push	hl
 	call	_memcpy
+	private	tmp9
+tmp9:
 	pop	hl
 	pop	hl
 	pop	hl
-	ld	bc, -335
+	loc	8 98 5
+	ld	bc, -332
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
 	push	hl
 	call	_vysion_AddWindow
+	private	tmp10
+tmp10:
+	loc	8 99 1
 	ld	sp, ix
 	pop	ix
+	cfi_def_cfa sp, 3
+	cfi_restore ix
 	ret
+	private	tmp11
+tmp11:
 	section	.text,"ax",@progbits
+	private	func_end0
+func_end0:
+	cfi_endproc
+	file	9 "src/vysion/elements/../../optix/init.h" md5 0xdf46c5f574869ae72b9f13b12782165e
+	file	10 "src/vysion/elements/../window_manager.h" md5 0xfe2559823ec5cd6c314f79e18fa2ca59
+	file	11 "src/vysion/elements/../../optix/elements/../elements/window.h" md5 0xe885682523f0899dfb6b8101118e9f5c
 
 	section	.text,"ax",@progbits
 	public	_vysion_FileExplorerMenuClickAction
 _vysion_FileExplorerMenuClickAction:
+	private	func_begin1
+func_begin1:
+	loc	8 101 0
+	cfi_startproc
 	call	__frameset0
+	private	tmp12
+tmp12:
+	cfi_def_cfa ix, 6
+	cfi_offset ix, -6
 	ld	iy, (ix + 6)
-	ld	de, 178
+	ld	de, 175
+	private	tmp13
+tmp13:
+	loc	8 105 19 prologue_end
 	lea	hl, iy + 0
 	add	hl, de
 	ld	a, (hl)
+	loc	8 105 5 is_stmt 0
 	cp	a, 2
 	jq	c, BB1_2
+	private	tmp14
+tmp14:
 	sub	a, 3
 	cp	a, 3
 	jq	nc, BB1_3
+	private	tmp15
+tmp15:
 BB1_2:
-	ld	de, 169
+	loc	8 0 5
+	ld	de, 166
+	private	tmp16
+tmp16:
+	loc	8 111 37 is_stmt 1
 	add	iy, de
+	private	tmp17
+tmp17:
+	loc	8 111 13 is_stmt 0
 	push	iy
 	call	_vysion_RunProgram
+	private	tmp18
+tmp18:
 	pop	hl
+	private	tmp19
+tmp19:
 BB1_3:
+	loc	8 120 1 is_stmt 1
 	pop	ix
+	cfi_def_cfa sp, 3
+	cfi_restore ix
 	ret
+	private	tmp20
+tmp20:
 	section	.text,"ax",@progbits
+	private	func_end1
+func_end1:
+	cfi_endproc
+	file	12 "src/vysion/elements/../os.h" md5 0x8e06d113f976558aa5d07c3b8e6fb31a
 
 	section	.text,"ax",@progbits
 	public	_vysion_RenderFileExplorerMenu
 _vysion_RenderFileExplorerMenu:
-	ld	hl, -293
+	private	func_begin2
+func_begin2:
+	loc	8 122 0
+	cfi_startproc
+	ld	hl, -299
 	call	__frameset
+	private	tmp21
+tmp21:
+	cfi_def_cfa ix, 6
+	cfi_offset ix, -6
 	ld	iy, (ix + 6)
 	ld	hl, 0
 	ld	de, 0
+	private	tmp22
+tmp22:
+	loc	8 125 11 prologue_end
 	push	ix
-	ld	bc, -278
+	ld	bc, -284
 	add	ix, bc
 	ld	(ix + 0), de
 	pop	ix
+	private	tmp23
+tmp23:
 	ld	(ix + -10), hl
+	private	tmp24
+tmp24:
+	loc	8 128 25
 	ld	a, (iy + 17)
 	inc	e
 	xor	a, e
+	loc	8 128 38 is_stmt 0
 	xor	a, e
 	bit	0, a
+	private	tmp25
+tmp25:
 	jq	nz, BB2_4
+	private	tmp26
+tmp26:
+	loc	8 128 53
 	ld	iy, (ix + 6)
-	ld	bc, 132
+	ld	bc, 129
 	add	iy, bc
 	ld	hl, (iy)
-	ld	bc, 148
+	ld	bc, 145
+	loc	8 128 77
 	ld	iy, (ix + 6)
 	add	iy, bc
 	ld	bc, (iy)
 	ld	iy, (ix + 6)
+	loc	8 128 92
 	or	a, a
 	sbc	hl, bc
 	jq	z, BB2_3
+	private	tmp27
+tmp27:
+	loc	8 128 109
 	ld	a, (iy + 14)
 	xor	a, e
+	loc	8 128 119
 	xor	a, e
 	bit	0, a
 	jq	nz, BB2_4
+	private	tmp28
+tmp28:
 BB2_3:
+	loc	8 128 133
 	ld	iy, (ix + 6)
-	ld	bc, 135
+	ld	bc, 132
 	add	iy, bc
 	ld	a, (iy)
 	ld	iy, (ix + 6)
 	xor	a, e
+	private	tmp29
+tmp29:
+	loc	8 128 9
 	bit	0, a
 	jq	nz, BB2_21
+	private	tmp30
+tmp30:
 BB2_4:
-	ld	de, 161
+	loc	8 0 9
+	ld	bc, 158
+	lea	de, iy + 0
+	private	tmp31
+tmp31:
+	loc	8 129 15 is_stmt 1
 	lea	hl, iy + 0
+	add	hl, bc
+	ld	bc, -287
+	lea	iy, ix + 0
+	add	iy, bc
+	ld	(iy + 0), hl
+	ld	a, (hl)
+	private	tmp32
+tmp32:
+	loc	8 129 9 is_stmt 0
+	or	a, a
+	jq	nz, BB2_5
+	private	tmp33
+tmp33:
+BB2_20:
+	loc	8 0 9
+	ex	de, hl
+	loc	8 150 5 is_stmt 1
+	ld	iy, (_current_context)
+	loc	8 150 22 is_stmt 0
+	ld	iy, (iy + 3)
+	loc	8 150 39
+	ld	(iy + 1), 1
+	loc	8 151 16 is_stmt 1
+	ld	de, 132
 	add	hl, de
+	loc	8 151 37 is_stmt 0
+	ld	(hl), 0
+BB2_21:
+	loc	8 153 1 is_stmt 1
+	ld	sp, ix
+	pop	ix
+	cfi_def_cfa sp, 3
+	cfi_restore ix
+	ret
+BB2_5:
+	private	tmp34
+tmp34:
+	loc	8 0 1 is_stmt 0
+	ld	bc, -275
+	lea	hl, ix + 0
+	add	hl, bc
+	ld	bc, -290
+	lea	iy, ix + 0
+	add	iy, bc
+	ld	(iy + 0), hl
+	lea	hl, ix + -7
+	push	ix
+	ld	bc, -278
+	add	ix, bc
+	ld	(ix + 0), hl
+	pop	ix
+	lea	hl, ix + -10
 	push	ix
 	ld	bc, -281
 	add	ix, bc
 	ld	(ix + 0), hl
 	pop	ix
-	ld	a, (hl)
-	or	a, a
-	lea	de, iy + 0
-	jq	nz, BB2_5
-BB2_20:
-	ex	de, hl
-	ld	iy, (_current_context)
-	ld	iy, (iy + 3)
-	ld	(iy + 1), 1
-	ld	de, 135
-	add	hl, de
-	ld	(hl), 0
-BB2_21:
-	ld	sp, ix
-	pop	ix
-	ret
-BB2_5:
-	ld	bc, -275
-	lea	hl, ix + 0
-	add	hl, bc
-	ld	bc, -284
-	lea	iy, ix + 0
-	add	iy, bc
-	ld	(iy + 0), hl
-	ld	bc, 169
+	ld	bc, 166
 	push	de
 	pop	iy
 	add	iy, bc
-	ld	bc, -287
+	ld	bc, -293
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	(hl), iy
+	private	tmp35
+tmp35:
 BB2_6:
 BB2_7:
 BB2_8:
-	pea	ix + -7
+	loc	8 130 28 is_stmt 1
+	ld	bc, -278
+	lea	hl, ix + 0
+	add	hl, bc
+	ld	hl, (hl)
+	private	tmp36
+tmp36:
+	push	hl
+	private	tmp37
+tmp37:
 	ld	hl, 0
 	push	hl
-	pea	ix + -10
+	ld	bc, -281
+	lea	hl, ix + 0
+	add	hl, bc
+	ld	hl, (hl)
+	private	tmp38
+tmp38:
+	push	hl
+	private	tmp39
+tmp39:
 	call	_ti_DetectAny
+	private	tmp40
+tmp40:
+	loc	8 0 28 is_stmt 0
 	ld	de, (ix + 6)
+	loc	8 130 28
 	push	hl
 	pop	iy
 	pop	hl
 	pop	hl
 	pop	hl
+	private	tmp41
+tmp41:
+	loc	8 130 9
 	lea	hl, iy + 0
 	add	hl, bc
 	or	a, a
 	sbc	hl, bc
 	jq	z, BB2_20
-	push	de
-	pop	bc
+	private	tmp42
+tmp42:
+	loc	8 131 17 is_stmt 1
 	ld	a, (iy)
+	loc	8 131 34 is_stmt 0
 	cp	a, 33
 	jq	z, BB2_8
+	private	tmp43
+tmp43:
 	cp	a, 35
 	jq	z, BB2_8
-	ld	de, -290
+	private	tmp44
+tmp44:
+	loc	8 132 24 is_stmt 1
+	ld	bc, -287
 	lea	hl, ix + 0
-	add	hl, de
-	ld	(hl), iy
-	ld	de, -281
-	lea	iy, ix + 0
-	add	iy, de
-	ld	hl, (iy + 0)
+	add	hl, bc
+	ld	hl, (hl)
 	ld	a, (hl)
-	ld	e, (ix + -7)
+	ld	l, (ix + -7)
+	loc	8 132 58 is_stmt 0
 	cp	a, 1
 	jq	nz, BB2_13
-	ld	a, e
+	private	tmp45
+tmp45:
+	loc	8 132 84
+	ld	a, l
 	add	a, -5
 	cp	a, 2
 	jq	c, BB2_15
 	jq	BB2_7
+	private	tmp46
+tmp46:
 BB2_13:
+	loc	8 132 153
 	cp	a, 2
 	jq	nz, BB2_7
-	ld	a, e
+	private	tmp47
+tmp47:
+	ld	a, l
 	cp	a, 21
 	jq	nz, BB2_7
-	ld	e, 21
+	private	tmp48
+tmp48:
+	loc	8 134 17 is_stmt 1
+	ld	l, 21
+	private	tmp49
+tmp49:
 BB2_15:
-	ld	a, e
-	push	bc
-	pop	hl
-	ld	bc, 136
+	ld	de, 0
+	ld	e, l
+	private	tmp50
+tmp50:
+	push	de
+	push	iy
+	ld	hl, L_.str
+	push	hl
+	ld	hl, -327680
+	push	hl
+	ld	bc, -296
+	lea	hl, ix + 0
 	add	hl, bc
-	ld	bc, -293
+	ld	(hl), iy
+	call	_sprintf
+	private	tmp51
+tmp51:
+	pop	hl
+	pop	hl
+	pop	hl
+	pop	hl
+	private	tmp52
+tmp52:
+	loc	8 135 37
+	ld	hl, (ix + 6)
+	ld	de, 133
+	add	hl, de
+	ld	bc, -299
 	lea	iy, ix + 0
 	add	iy, bc
 	ld	(iy + 0), hl
 	ld	de, (hl)
 	ld	(ix + -3), de
-	ld	de, -278
+	ld	de, -284
 	lea	hl, ix + 0
 	add	hl, de
 	ld	bc, (hl)
+	private	tmp53
+tmp53:
+	loc	8 135 21 is_stmt 0
 	push	bc
 	pop	hl
 	ld	de, (ix + -3)
 	or	a, a
 	sbc	hl, de
 	call	__setflag
+	private	tmp54
+tmp54:
 	jq	m, BB2_18
+	private	tmp55
+tmp55:
+	loc	8 136 62 is_stmt 1
+	ld	a, (ix + -7)
+	private	tmp56
+tmp56:
+	loc	8 136 21 is_stmt 0
 	ld	l, a
+	private	tmp57
+tmp57:
 	push	hl
-	ld	bc, -290
+	ld	bc, -296
 	lea	hl, ix + 0
+	private	tmp58
+tmp58:
 	add	hl, bc
 	ld	hl, (hl)
 	push	hl
-	ld	bc, -284
+	ld	bc, -290
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
 	push	hl
 	call	_vysion_GetFileInfo
+	private	tmp59
+tmp59:
 	pop	hl
 	pop	hl
 	pop	hl
-	ld	bc, -284
+	loc	8 137 73 is_stmt 1
+	ld	bc, -290
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	iy, (hl)
 	ld	hl, (iy + 1)
+	loc	8 137 21 is_stmt 0
 	push	hl
-	ld	bc, -290
+	ld	bc, -296
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
 	push	hl
 	ld	hl, (ix + 6)
 	push	hl
-	ld	bc, -278
+	ld	bc, -284
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
 	push	hl
 	call	_optix_RenderMenuOption
-	pop	hl
-	pop	hl
-	pop	hl
-	pop	hl
-	ld	iy, (ix + 6)
-	ld	de, 132
-	add	iy, de
-	ld	de, (iy)
-	ld	(ix + -3), de
-	ld	de, -278
+	private	tmp60
+tmp60:
+	loc	8 0 21
+	ld	de, -284
 	lea	hl, ix + 0
 	add	hl, de
 	ld	bc, (hl)
+	loc	8 137 21
+	pop	hl
+	pop	hl
+	pop	hl
+	pop	hl
+	private	tmp61
+tmp61:
+	loc	8 139 41 is_stmt 1
+	ld	iy, (ix + 6)
+	ld	de, 129
+	add	iy, de
+	ld	de, (iy)
+	private	tmp62
+tmp62:
+	loc	8 139 25 is_stmt 0
 	push	bc
 	pop	hl
-	ld	de, (ix + -3)
 	or	a, a
 	sbc	hl, de
 	jq	nz, BB2_18
-	ld	bc, -290
+	private	tmp63
+tmp63:
+	loc	8 140 25 is_stmt 1
+	ld	bc, -296
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
 	push	hl
-	ld	bc, -287
+	ld	bc, -293
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
 	push	hl
 	call	_strcpy
-	pop	hl
-	pop	hl
-	ld	bc, -284
-	lea	hl, ix + 0
-	add	hl, bc
-	ld	iy, (hl)
-	ld	a, (iy + 0)
-	ld	iy, (ix + 6)
-	ld	de, 178
-	add	iy, de
-	ld	(iy), a
-	ld	de, -278
-	lea	iy, ix + 0
-	add	iy, de
-	ld	bc, (iy + 0)
-BB2_18:
-	inc	bc
-	push	bc
-	pop	hl
-	ld	iy, (ix + 6)
-	ld	de, 145
-	add	iy, de
-	ld	bc, (iy)
-	ld	de, (ix + 6)
-	ld	(ix + -3), de
-	ld	de, -278
-	lea	iy, ix + 0
-	add	iy, de
-	ld	(iy + 0), hl
-	or	a, a
-	sbc	hl, bc
-	call	__setflag
-	ld	de, (ix + -3)
-	jq	p, BB2_20
-	ld	de, -293
+	private	tmp64
+tmp64:
+	loc	8 0 25 is_stmt 0
+	ld	de, -284
 	lea	hl, ix + 0
 	add	hl, de
-	ld	hl, (hl)
-	ld	hl, (hl)
+	ld	bc, (hl)
+	loc	8 140 25
+	pop	hl
+	pop	hl
+	loc	8 141 73 is_stmt 1
 	ld	de, -290
-	lea	iy, ix + 0
-	add	iy, de
-	ld	(iy + 0), hl
+	lea	hl, ix + 0
+	add	hl, de
+	ld	iy, (hl)
+	ld	a, (iy + 0)
+	loc	8 141 61 is_stmt 0
 	ld	iy, (ix + 6)
-	ld	bc, 139
-	add	iy, bc
-	ld	bc, (iy)
+	ld	de, 175
+	add	iy, de
+	ld	(iy), a
+	private	tmp65
+tmp65:
+BB2_18:
+	loc	8 145 18 is_stmt 1
+	inc	bc
+	private	tmp66
+tmp66:
+	loc	8 146 37
 	ld	iy, (ix + 6)
 	ld	de, 142
 	add	iy, de
 	ld	hl, (iy)
+	ld	de, -296
+	lea	iy, ix + 0
+	add	iy, de
+	ld	(iy + 0), hl
 	ld	de, (ix + 6)
-	call	__imulu
 	ld	(ix + -3), de
-	ld	de, -290
+	ld	de, -284
+	lea	hl, ix + 0
+	add	hl, de
+	ld	(hl), bc
+	private	tmp67
+tmp67:
+	loc	8 146 49 is_stmt 0
+	push	bc
+	pop	hl
+	push	ix
+	ld	de, -296
+	add	ix, de
+	private	tmp68
+tmp68:
+	ld	bc, (ix + 0)
+	pop	ix
+	or	a, a
+	sbc	hl, bc
+	call	__setflag
+	private	tmp69
+tmp69:
+	ld	de, (ix + -3)
+	jq	p, BB2_20
+	loc	8 146 69
+	ld	de, -299
+	lea	hl, ix + 0
+	add	hl, de
+	ld	hl, (hl)
+	ld	hl, (hl)
+	loc	8 146 86
+	ld	de, -296
+	lea	iy, ix + 0
+	add	iy, de
+	ld	(iy + 0), hl
+	ld	iy, (ix + 6)
+	ld	bc, 136
+	add	iy, bc
+	ld	bc, (iy)
+	loc	8 146 104
+	ld	iy, (ix + 6)
+	ld	de, 139
+	add	iy, de
+	ld	hl, (iy)
+	ld	de, (ix + 6)
+	loc	8 146 91
+	call	__imulu
+	private	tmp70
+tmp70:
+	loc	8 146 73
+	ld	(ix + -3), de
+	ld	de, -296
 	lea	iy, ix + 0
 	add	iy, de
 	ld	bc, (iy + 0)
 	add	hl, bc
 	push	hl
 	pop	bc
-	ld	de, -278
+	private	tmp71
+tmp71:
+	loc	8 146 21
+	ld	de, -284
 	lea	hl, ix + 0
 	add	hl, de
 	ld	hl, (hl)
 	or	a, a
 	sbc	hl, bc
 	call	__setflag
+	private	tmp72
+tmp72:
 	ld	de, (ix + -3)
 	jq	m, BB2_6
 	jq	BB2_20
+	private	tmp73
+tmp73:
 	section	.text,"ax",@progbits
+	private	func_end2
+func_end2:
+	cfi_endproc
+	file	13 "/run/media/mike/Data/Data/Programming/TI/CEdev2/include/fileioc.h" md5 0x401d136bf9f9e94c4b267b5082bd13a5
+	file	14 "src/vysion/elements/../filesystem.h" md5 0x50490853103307068f94460c2a9c0c27
 
 	section	.rodata,"a",@progbits
 	private	L___const.vysion_AddFileExplorerWindow.template_file_menu
@@ -548,7 +864,7 @@ L___const.vysion_AddFileExplorerWindow.template_file_menu:
 	db	0
 	db	0
 	db	1
-	dw	179
+	dw	176
 	dl	0
 	dl	0
 	dl	0
@@ -589,7 +905,6 @@ L___const.vysion_AddFileExplorerWindow.template_file_menu:
 	dl	0
 	dl	0
 	dl	0
-	dl	0
 	db	0
 	dl	0
 	dl	5
@@ -609,7 +924,2164 @@ L___const.vysion_AddFileExplorerWindow.template_file_menu:
 	db	9 dup 0
 	db	0
 
+	section	.rodata,"a",@progbits
+	private	L_.str
+L_.str:
+	db	"Name: %s Type: %d",012o,000o
+
+	section	.debug_loclists,"",@progbits
+	dd	debug_list_header_end0-debug_list_header_start0
+	private	debug_list_header_start0
+debug_list_header_start0:
+	dw	5
+	db	3
+	db	0
+	dd	8
+	private	loclists_table_base0
+loclists_table_base0:
+	dd	debug_loc0-loclists_table_base0
+	dd	debug_loc1-loclists_table_base0
+	dd	debug_loc2-loclists_table_base0
+	dd	debug_loc3-loclists_table_base0
+	dd	debug_loc4-loclists_table_base0
+	dd	debug_loc5-loclists_table_base0
+	dd	debug_loc6-loclists_table_base0
+	dd	debug_loc7-loclists_table_base0
+	private	debug_loc0
+debug_loc0:
+	db	4
+	uleb128	tmp13-func_begin0
+	uleb128	tmp17-func_begin0
+	db	1
+	db	85
+	db	0
+	private	debug_loc1
+debug_loc1:
+	db	4
+	uleb128	tmp13-func_begin0
+	uleb128	tmp17-func_begin0
+	db	1
+	db	85
+	db	0
+	private	debug_loc2
+debug_loc2:
+	db	4
+	uleb128	tmp35-func_begin0
+	uleb128	tmp38-func_begin0
+	db	3
+	db	116
+	db	18
+	db	6
+	db	4
+	uleb128	tmp38-func_begin0
+	uleb128	tmp39-func_begin0
+	db	2
+	db	114
+	db	0
+	db	4
+	uleb128	tmp39-func_begin0
+	uleb128	tmp68-func_begin0
+	db	3
+	db	116
+	db	18
+	db	6
+	db	0
+	private	debug_loc3
+debug_loc3:
+	db	4
+	uleb128	tmp23-func_begin0
+	uleb128	tmp25-func_begin0
+	db	1
+	db	85
+	db	0
+	private	debug_loc4
+debug_loc4:
+	db	4
+	uleb128	tmp23-func_begin0
+	uleb128	tmp25-func_begin0
+	db	1
+	db	85
+	db	0
+	private	debug_loc5
+debug_loc5:
+	db	4
+	uleb128	tmp24-func_begin0
+	uleb128	tmp33-func_begin0
+	db	3
+	db	17
+	db	0
+	db	159
+	db	4
+	uleb128	tmp34-func_begin0
+	uleb128	tmp35-func_begin0
+	db	3
+	db	17
+	db	0
+	db	159
+	db	4
+	uleb128	tmp35-func_begin0
+	uleb128	tmp66-func_begin0
+	db	2
+	db	116
+	db	15
+	db	4
+	uleb128	tmp66-func_begin0
+	uleb128	tmp67-func_begin0
+	db	1
+	db	80
+	db	4
+	uleb128	tmp67-func_begin0
+	uleb128	tmp68-func_begin0
+	db	2
+	db	116
+	db	15
+	db	0
+	private	debug_loc6
+debug_loc6:
+	db	4
+	uleb128	tmp35-func_begin0
+	uleb128	tmp36-func_begin0
+	db	3
+	db	116
+	db	21
+	db	6
+	db	4
+	uleb128	tmp36-func_begin0
+	uleb128	tmp37-func_begin0
+	db	2
+	db	114
+	db	0
+	db	4
+	uleb128	tmp37-func_begin0
+	uleb128	tmp45-func_begin0
+	db	3
+	db	116
+	db	21
+	db	6
+	db	4
+	uleb128	tmp45-func_begin0
+	uleb128	tmp50-func_begin0
+	db	1
+	db	82
+	db	4
+	uleb128	tmp50-func_begin0
+	uleb128	tmp51-func_begin0
+	db	1
+	db	81
+	db	4
+	uleb128	tmp56-func_begin0
+	uleb128	tmp57-func_begin0
+	db	4
+	db	83
+	db	157
+	db	8
+	db	8
+	db	4
+	uleb128	tmp57-func_begin0
+	uleb128	tmp58-func_begin0
+	db	1
+	db	82
+	db	0
+	private	debug_loc7
+debug_loc7:
+	db	4
+	uleb128	tmp41-func_begin0
+	uleb128	tmp51-func_begin0
+	db	1
+	db	85
+	db	0
+	private	debug_list_header_end0
+debug_list_header_end0:
+	section	.debug_abbrev,"",@progbits
+	private	abbrev_start205
+abbrev_start205:
+	db	1
+	db	17
+	db	1
+	db	37
+	db	37
+	db	19
+	db	5
+	db	3
+	db	37
+	db	114
+	db	23
+	db	16
+	db	23
+	db	27
+	db	37
+	db	17
+	db	27
+	db	18
+	db	6
+	db	115
+	db	23
+	db	"",214o,001o
+	db	23
+	db	0
+	db	0
+	db	2
+	db	15
+	db	0
+	db	73
+	db	19
+	db	0
+	db	0
+	db	3
+	db	19
+	db	1
+	db	3
+	db	37
+	db	11
+	db	11
+	db	58
+	db	11
+	db	59
+	db	11
+	db	0
+	db	0
+	db	4
+	db	13
+	db	0
+	db	3
+	db	37
+	db	73
+	db	19
+	db	58
+	db	11
+	db	59
+	db	11
+	db	56
+	db	11
+	db	0
+	db	0
+	db	5
+	db	36
+	db	0
+	db	3
+	db	37
+	db	62
+	db	11
+	db	11
+	db	11
+	db	0
+	db	0
+	db	6
+	db	22
+	db	0
+	db	73
+	db	19
+	db	3
+	db	37
+	db	58
+	db	11
+	db	59
+	db	11
+	db	0
+	db	0
+	db	7
+	db	21
+	db	1
+	db	39
+	db	25
+	db	0
+	db	0
+	db	8
+	db	5
+	db	0
+	db	73
+	db	19
+	db	0
+	db	0
+	db	9
+	db	19
+	db	1
+	db	11
+	db	11
+	db	58
+	db	11
+	db	59
+	db	11
+	db	0
+	db	0
+	db	10
+	db	1
+	db	1
+	db	73
+	db	19
+	db	0
+	db	0
+	db	11
+	db	33
+	db	0
+	db	73
+	db	19
+	db	0
+	db	0
+	db	12
+	db	36
+	db	0
+	db	3
+	db	37
+	db	11
+	db	11
+	db	62
+	db	11
+	db	0
+	db	0
+	db	13
+	db	15
+	db	0
+	db	0
+	db	0
+	db	14
+	db	19
+	db	0
+	db	3
+	db	37
+	db	60
+	db	25
+	db	0
+	db	0
+	db	15
+	db	33
+	db	0
+	db	73
+	db	19
+	db	55
+	db	11
+	db	0
+	db	0
+	db	16
+	db	46
+	db	1
+	db	17
+	db	27
+	db	18
+	db	6
+	db	64
+	db	24
+	db	122
+	db	25
+	db	3
+	db	37
+	db	58
+	db	11
+	db	59
+	db	11
+	db	39
+	db	25
+	db	63
+	db	25
+	db	0
+	db	0
+	db	17
+	db	5
+	db	0
+	db	3
+	db	37
+	db	58
+	db	11
+	db	59
+	db	11
+	db	73
+	db	19
+	db	0
+	db	0
+	db	18
+	db	52
+	db	0
+	db	2
+	db	24
+	db	3
+	db	37
+	db	58
+	db	11
+	db	59
+	db	11
+	db	73
+	db	19
+	db	0
+	db	0
+	db	19
+	db	52
+	db	0
+	db	3
+	db	37
+	db	58
+	db	11
+	db	59
+	db	11
+	db	73
+	db	19
+	db	0
+	db	0
+	db	20
+	db	72
+	db	0
+	db	127
+	db	19
+	db	125
+	db	27
+	db	0
+	db	0
+	db	21
+	db	46
+	db	1
+	db	3
+	db	37
+	db	58
+	db	11
+	db	59
+	db	11
+	db	39
+	db	25
+	db	60
+	db	25
+	db	63
+	db	25
+	db	0
+	db	0
+	db	22
+	db	5
+	db	0
+	db	2
+	db	34
+	db	3
+	db	37
+	db	58
+	db	11
+	db	59
+	db	11
+	db	73
+	db	19
+	db	0
+	db	0
+	db	23
+	db	52
+	db	0
+	db	2
+	db	34
+	db	3
+	db	37
+	db	58
+	db	11
+	db	59
+	db	11
+	db	73
+	db	19
+	db	0
+	db	0
+	db	24
+	db	11
+	db	1
+	db	17
+	db	27
+	db	18
+	db	6
+	db	0
+	db	0
+	db	25
+	db	46
+	db	1
+	db	3
+	db	37
+	db	58
+	db	11
+	db	59
+	db	11
+	db	39
+	db	25
+	db	73
+	db	19
+	db	60
+	db	25
+	db	63
+	db	25
+	db	0
+	db	0
+	db	26
+	db	38
+	db	0
+	db	73
+	db	19
+	db	0
+	db	0
+	db	27
+	db	19
+	db	1
+	db	3
+	db	37
+	db	11
+	db	5
+	db	58
+	db	11
+	db	59
+	db	11
+	db	0
+	db	0
+	db	28
+	db	13
+	db	0
+	db	3
+	db	37
+	db	73
+	db	19
+	db	58
+	db	11
+	db	59
+	db	11
+	db	56
+	db	5
+	db	0
+	db	0
+	db	29
+	db	13
+	db	0
+	db	3
+	db	37
+	db	73
+	db	19
+	db	58
+	db	11
+	db	59
+	db	11
+	db	11
+	db	11
+	db	13
+	db	11
+	db	12
+	db	11
+	db	56
+	db	5
+	db	0
+	db	0
+	db	30
+	db	33
+	db	0
+	db	73
+	db	19
+	db	55
+	db	5
+	db	0
+	db	0
+	db	0
+	section	.debug_info,"",@progbits
+	private	cu_begin0
+cu_begin0:
+	dd	debug_info_end0-debug_info_start0
+	private	debug_info_start0
+debug_info_start0:
+	dw	5
+	db	1
+	db	3
+	dd	abbrev_start205
+	db	1
+	db	0
+	dw	12
+	db	1
+	dd	str_offsets_base0
+	dd	line_table_start0
+	db	2
+	db	0
+	dd	func_end2-func_begin0
+	dd	addr_table_base0
+	dd	loclists_table_base0
+	db	2
+	dd	44
+	db	3
+	db	7
+	db	9
+	db	1
+	db	16
+	db	4
+	db	3
+	dd	77
+	db	1
+	db	18
+	db	0
+	db	4
+	db	5
+	dd	77
+	db	1
+	db	19
+	db	3
+	db	4
+	db	6
+	dd	77
+	db	1
+	db	21
+	db	6
+	db	0
+	db	5
+	db	4
+	db	5
+	db	3
+	db	2
+	dd	86
+	db	3
+	db	90
+	db	176
+	db	1
+	db	30
+	db	4
+	db	8
+	dd	164
+	db	1
+	db	31
+	db	0
+	db	4
+	db	82
+	dd	581
+	db	1
+	db	32
+	db	157
+	db	4
+	db	83
+	dd	401
+	db	1
+	db	34
+	db	158
+	db	4
+	db	84
+	dd	934
+	db	1
+	db	36
+	db	159
+	db	4
+	db	85
+	dd	581
+	db	1
+	db	38
+	db	162
+	db	4
+	db	86
+	dd	935
+	db	1
+	db	40
+	db	163
+	db	4
+	db	88
+	dd	942
+	db	1
+	db	43
+	db	166
+	db	4
+	db	89
+	dd	401
+	db	1
+	db	44
+	db	175
+	db	0
+	db	3
+	db	81
+	db	157
+	db	4
+	db	17
+	db	4
+	db	9
+	dd	332
+	db	4
+	db	20
+	db	0
+	db	4
+	db	42
+	dd	607
+	db	4
+	db	21
+	db	30
+	db	4
+	db	51
+	dd	681
+	db	4
+	db	23
+	db	42
+	db	4
+	db	59
+	dd	768
+	db	4
+	db	24
+	db	85
+	db	4
+	db	69
+	dd	581
+	db	4
+	db	26
+	db	122
+	db	4
+	db	53
+	dd	888
+	db	4
+	db	27
+	db	123
+	db	4
+	db	60
+	dd	893
+	db	4
+	db	29
+	db	126
+	db	4
+	db	3
+	dd	77
+	db	4
+	db	31
+	db	129
+	db	4
+	db	70
+	dd	581
+	db	4
+	db	32
+	db	132
+	db	4
+	db	5
+	dd	77
+	db	4
+	db	34
+	db	133
+	db	4
+	db	71
+	dd	77
+	db	4
+	db	35
+	db	136
+	db	4
+	db	72
+	dd	77
+	db	4
+	db	36
+	db	139
+	db	4
+	db	73
+	dd	77
+	db	4
+	db	37
+	db	142
+	db	4
+	db	74
+	dd	77
+	db	4
+	db	39
+	db	145
+	db	4
+	db	75
+	dd	898
+	db	4
+	db	44
+	db	148
+	db	4
+	db	78
+	dd	581
+	db	4
+	db	46
+	db	154
+	db	4
+	db	79
+	dd	581
+	db	4
+	db	49
+	db	155
+	db	4
+	db	80
+	dd	581
+	db	4
+	db	51
+	db	156
+	db	0
+	db	3
+	db	41
+	db	30
+	db	3
+	db	76
+	db	4
+	db	10
+	dd	401
+	db	3
+	db	77
+	db	0
+	db	4
+	db	13
+	dd	413
+	db	3
+	db	78
+	db	1
+	db	4
+	db	21
+	dd	467
+	db	3
+	db	79
+	db	10
+	db	4
+	db	29
+	dd	521
+	db	3
+	db	80
+	db	14
+	db	4
+	db	38
+	dd	585
+	db	3
+	db	81
+	db	21
+	db	4
+	db	39
+	dd	585
+	db	3
+	db	83
+	db	24
+	db	4
+	db	40
+	dd	602
+	db	3
+	db	86
+	db	27
+	db	0
+	db	6
+	dd	409
+	db	12
+	db	2
+	db	11
+	db	5
+	db	11
+	db	8
+	db	1
+	db	3
+	db	20
+	db	9
+	db	3
+	db	57
+	db	4
+	db	14
+	dd	77
+	db	3
+	db	58
+	db	0
+	db	4
+	db	15
+	dd	77
+	db	3
+	db	59
+	db	3
+	db	4
+	db	16
+	dd	455
+	db	3
+	db	60
+	db	6
+	db	4
+	db	19
+	dd	401
+	db	3
+	db	61
+	db	8
+	db	0
+	db	6
+	dd	463
+	db	18
+	db	2
+	db	35
+	db	5
+	db	17
+	db	7
+	db	2
+	db	3
+	db	28
+	db	4
+	db	3
+	db	37
+	db	4
+	db	22
+	dd	401
+	db	3
+	db	38
+	db	0
+	db	4
+	db	23
+	dd	401
+	db	3
+	db	39
+	db	1
+	db	4
+	db	24
+	dd	509
+	db	3
+	db	40
+	db	2
+	db	4
+	db	27
+	dd	509
+	db	3
+	db	41
+	db	3
+	db	0
+	db	6
+	dd	517
+	db	26
+	db	2
+	db	6
+	db	5
+	db	25
+	db	6
+	db	1
+	db	3
+	db	37
+	db	7
+	db	3
+	db	65
+	db	4
+	db	30
+	dd	581
+	db	3
+	db	66
+	db	0
+	db	4
+	db	32
+	dd	581
+	db	3
+	db	67
+	db	1
+	db	4
+	db	33
+	dd	581
+	db	3
+	db	68
+	db	2
+	db	4
+	db	34
+	dd	581
+	db	3
+	db	69
+	db	3
+	db	4
+	db	35
+	dd	581
+	db	3
+	db	72
+	db	4
+	db	4
+	db	36
+	dd	455
+	db	3
+	db	73
+	db	5
+	db	0
+	db	5
+	db	31
+	db	2
+	db	1
+	db	2
+	dd	590
+	db	7
+
+	db	8
+	dd	597
+	db	0
+	db	2
+	dd	332
+	db	2
+	dd	597
+	db	3
+	db	50
+	db	12
+	db	3
+	db	45
+	db	4
+	db	43
+	dd	581
+	db	3
+	db	46
+	db	0
+	db	4
+	db	44
+	dd	581
+	db	3
+	db	48
+	db	1
+	db	4
+	db	45
+	dd	581
+	db	3
+	db	49
+	db	2
+	db	4
+	db	46
+	dd	676
+	db	3
+	db	51
+	db	3
+	db	4
+	db	47
+	dd	676
+	db	3
+	db	52
+	db	6
+	db	4
+	db	48
+	dd	455
+	db	3
+	db	53
+	db	9
+	db	4
+	db	49
+	dd	401
+	db	3
+	db	54
+	db	11
+	db	0
+	db	2
+	dd	413
+	db	3
+	db	58
+	db	43
+	db	5
+	db	19
+	db	4
+	db	9
+	dd	332
+	db	5
+	db	20
+	db	0
+	db	4
+	db	52
+	dd	401
+	db	5
+	db	22
+	db	30
+	db	4
+	db	24
+	dd	509
+	db	5
+	db	23
+	db	31
+	db	4
+	db	53
+	dd	759
+	db	5
+	db	24
+	db	32
+	db	4
+	db	5
+	dd	77
+	db	5
+	db	26
+	db	35
+	db	4
+	db	55
+	dd	77
+	db	5
+	db	28
+	db	38
+	db	4
+	db	56
+	dd	581
+	db	5
+	db	30
+	db	41
+	db	4
+	db	57
+	dd	581
+	db	5
+	db	32
+	db	42
+	db	0
+	db	2
+	dd	764
+	db	5
+	db	54
+	db	6
+	db	1
+	db	3
+	db	68
+	db	37
+	db	6
+	db	10
+	db	4
+	db	9
+	dd	332
+	db	6
+	db	11
+	db	0
+	db	4
+	db	60
+	dd	828
+	db	6
+	db	12
+	db	30
+	db	4
+	db	64
+	dd	401
+	db	6
+	db	14
+	db	33
+	db	4
+	db	65
+	dd	401
+	db	6
+	db	15
+	db	34
+	db	4
+	db	66
+	dd	581
+	db	6
+	db	17
+	db	35
+	db	4
+	db	67
+	dd	401
+	db	6
+	db	18
+	db	36
+	db	0
+	db	2
+	dd	833
+	db	6
+	dd	841
+	db	63
+	db	7
+	db	78
+	db	9
+	db	2
+	db	7
+	db	74
+	db	4
+	db	16
+	dd	401
+	db	7
+	db	75
+	db	0
+	db	4
+	db	19
+	dd	401
+	db	7
+	db	76
+	db	1
+	db	4
+	db	61
+	dd	873
+	db	7
+	db	77
+	db	2
+	db	0
+	db	10
+	dd	401
+	db	11
+	dd	884
+	db	0
+	db	12
+	db	62
+	db	8
+	db	7
+	db	2
+	dd	759
+	db	2
+	dd	828
+	db	3
+	db	77
+	db	6
+	db	3
+	db	90
+	db	4
+	db	75
+	dd	922
+	db	3
+	db	91
+	db	0
+	db	4
+	db	76
+	dd	934
+	db	3
+	db	92
+	db	3
+	db	0
+	db	2
+	dd	927
+	db	7
+
+	db	8
+	dd	934
+	db	0
+	db	13
+	db	2
+	dd	940
+	db	14
+	db	87
+
+	db	10
+	dd	764
+	db	15
+	dd	884
+	db	9
+	db	0
+	db	16
+	db	0
+	dd	func_end0-func_begin0
+	db	1
+	db	84
+
+	db	113
+	db	8
+	db	14
+
+
+	db	17
+	db	122
+	db	8
+	db	14
+	dd	934
+	db	18
+	db	3
+	db	145
+	db	"",234o,002o
+	db	94
+	db	8
+	db	16
+	dd	1553
+	db	18
+	db	3
+	db	145
+	db	"",354o,000o
+	db	118
+	db	8
+	db	21
+	dd	86
+	db	18
+	db	3
+	db	145
+	db	"",301o,000o
+	db	119
+	db	8
+	db	71
+	dd	1181
+	db	18
+	db	2
+	db	145
+	db	18
+	db	120
+	db	8
+	db	91
+	dd	1116
+	db	19
+	db	121
+	db	8
+	db	15
+	dd	39
+	db	20
+	dd	1053
+	db	1
+	db	20
+	dd	1053
+	db	2
+	db	20
+	dd	1053
+	db	3
+	db	20
+	dd	1068
+	db	4
+	db	0
+	db	21
+	db	91
+	db	9
+	db	21
+
+
+
+	db	8
+	dd	597
+	db	8
+	dd	409
+	db	0
+	db	21
+	db	92
+	db	10
+	db	77
+
+
+
+	db	8
+	dd	1078
+	db	0
+	db	2
+	dd	1083
+	db	3
+	db	103
+	db	45
+	db	10
+	db	43
+	db	4
+	db	93
+	dd	1116
+	db	10
+	db	45
+	db	0
+	db	4
+	db	10
+	dd	401
+	db	10
+	db	46
+	db	41
+	db	4
+	db	102
+	dd	828
+	db	10
+	db	47
+	db	42
+	db	0
+	db	3
+	db	101
+	db	41
+	db	11
+	db	26
+	db	4
+	db	9
+	dd	332
+	db	11
+	db	27
+	db	0
+	db	4
+	db	94
+	dd	1176
+	db	11
+	db	28
+	db	30
+	db	4
+	db	97
+	dd	581
+	db	11
+	db	29
+	db	33
+	db	4
+	db	98
+	dd	77
+	db	11
+	db	31
+	db	34
+	db	4
+	db	99
+	dd	77
+	db	11
+	db	32
+	db	37
+	db	4
+	db	100
+	dd	581
+	db	11
+	db	35
+	db	40
+	db	0
+	db	2
+	dd	1181
+	db	3
+	db	96
+	db	43
+	db	11
+	db	15
+	db	4
+	db	9
+	dd	332
+	db	11
+	db	16
+	db	0
+	db	4
+	db	42
+	dd	607
+	db	11
+	db	17
+	db	30
+	db	4
+	db	95
+	dd	581
+	db	11
+	db	19
+	db	42
+	db	0
+	db	16
+	db	5
+	dd	func_end1-func_begin1
+	db	1
+	db	84
+
+	db	114
+	db	8
+	db	101
+
+
+	db	22
+	db	1
+	db	9
+	db	8
+	db	101
+	dd	597
+	db	23
+	db	0
+	db	8
+	db	8
+	db	102
+	dd	81
+	db	20
+	dd	1250
+	db	6
+	db	0
+	db	21
+	db	104
+	db	12
+	db	9
+
+
+
+	db	8
+	dd	759
+	db	0
+	db	16
+	db	7
+	dd	func_end2-func_begin2
+	db	1
+	db	84
+
+	db	115
+	db	8
+	db	122
+
+
+	db	22
+	db	4
+	db	9
+	db	8
+	db	122
+	dd	597
+	db	23
+	db	2
+	db	124
+	db	8
+	db	125
+	dd	934
+	db	23
+	db	3
+	db	8
+	db	8
+	db	123
+	dd	81
+	db	23
+	db	5
+	db	125
+	db	8
+	db	127
+	dd	77
+	db	23
+	db	6
+	db	10
+	db	8
+	db	124
+	dd	401
+	db	23
+	db	7
+	db	126
+	db	8
+	db	126
+	dd	759
+	db	24
+	db	8
+	dd	tmp73-tmp48
+	db	18
+	db	2
+	db	145
+	db	24
+	db	123
+	db	8
+	db	133
+	dd	1435
+	db	0
+	db	20
+	dd	1362
+	db	9
+	db	20
+	dd	1406
+	db	10
+	db	20
+	dd	1518
+	db	11
+	db	0
+	db	25
+	db	105
+	db	13
+	db	159
+
+	dd	759
+
+
+	db	8
+	dd	1386
+	db	8
+	dd	1391
+	db	8
+	dd	1401
+	db	0
+	db	2
+	dd	934
+	db	2
+	dd	1396
+	db	26
+	dd	764
+	db	2
+	dd	409
+	db	25
+	db	106
+	db	14
+	db	64
+
+	dd	1430
+
+
+	db	8
+	dd	1430
+	db	8
+	dd	759
+	db	8
+	dd	409
+	db	0
+	db	2
+	dd	1435
+	db	27
+	db	111
+	dw	265
+	db	14
+	db	43
+	db	4
+	db	107
+	dd	401
+	db	14
+	db	45
+	db	0
+	db	4
+	db	102
+	dd	828
+	db	14
+	db	46
+	db	1
+	db	4
+	db	108
+	dd	1505
+	db	14
+	db	47
+	db	4
+	db	28
+	db	36
+	dd	455
+	db	14
+	db	48
+	dw	262
+	db	29
+	db	109
+	dd	581
+	db	14
+	db	50
+	db	1
+	db	1
+	db	7
+	dw	264
+	db	29
+	db	110
+	dd	581
+	db	14
+	db	51
+	db	1
+	db	1
+	db	6
+	dw	264
+	db	0
+	db	10
+	dd	764
+	db	30
+	dd	884
+	dw	258
+	db	0
+	db	21
+	db	112
+	db	4
+	db	61
+
+
+
+	db	8
+	dd	77
+	db	8
+	dd	1543
+	db	8
+	dd	759
+	db	8
+	dd	1548
+	db	0
+	db	2
+	dd	164
+	db	2
+	dd	841
+	db	3
+	db	117
+	db	45
+	db	1
+	db	25
+	db	4
+	db	94
+	dd	1568
+	db	1
+	db	26
+	db	0
+	db	0
+	db	3
+	db	116
+	db	45
+	db	10
+	db	56
+	db	4
+	db	9
+	dd	1083
+	db	10
+	db	57
+	db	0
+	db	0
+	db	0
+	private	debug_info_end0
+debug_info_end0:
+	section	.debug_str_offsets,"",@progbits
+	dd	512
+	dw	5
+	dw	0
+	private	str_offsets_base0
+str_offsets_base0:
+	section	.debug_str,"MS",@progbits,1
+	private	info_string0
+info_string0:
+	db	"clang version 12.0.0 (https://github.com/jacobly0/llvm-project 170be88120e3aa88c20eea5615ba76b8f1d6c647)",000o
+	private	info_string1
+info_string1:
+	db	"/run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2/src/vysion/elements/file_explorer.c",000o
+	private	info_string2
+info_string2:
+	db	"/run/media/mike/Data/Data/Programming/TI/Projects/Main/VYSION_2",000o
+	private	info_string3
+info_string3:
+	db	"selection",000o
+	private	info_string4
+info_string4:
+	db	"int",000o
+	private	info_string5
+info_string5:
+	db	"min",000o
+	private	info_string6
+info_string6:
+	db	"index",000o
+	private	info_string7
+info_string7:
+	db	"vysion_file_explorer_window_config",000o
+	private	info_string8
+info_string8:
+	db	"menu",000o
+	private	info_string9
+info_string9:
+	db	"widget",000o
+	private	info_string10
+info_string10:
+	db	"type",000o
+	private	info_string11
+info_string11:
+	db	"unsigned char",000o
+	private	info_string12
+info_string12:
+	db	"uint8_t",000o
+	private	info_string13
+info_string13:
+	db	"transform",000o
+	private	info_string14
+info_string14:
+	db	"x",000o
+	private	info_string15
+info_string15:
+	db	"y",000o
+	private	info_string16
+info_string16:
+	db	"width",000o
+	private	info_string17
+info_string17:
+	db	"unsigned short",000o
+	private	info_string18
+info_string18:
+	db	"uint16_t",000o
+	private	info_string19
+info_string19:
+	db	"height",000o
+	private	info_string20
+info_string20:
+	db	"optix_transform",000o
+	private	info_string21
+info_string21:
+	db	"centering",000o
+	private	info_string22
+info_string22:
+	db	"x_centering",000o
+	private	info_string23
+info_string23:
+	db	"y_centering",000o
+	private	info_string24
+info_string24:
+	db	"x_offset",000o
+	private	info_string25
+info_string25:
+	db	"signed char",000o
+	private	info_string26
+info_string26:
+	db	"int8_t",000o
+	private	info_string27
+info_string27:
+	db	"y_offset",000o
+	private	info_string28
+info_string28:
+	db	"optix_centering",000o
+	private	info_string29
+info_string29:
+	db	"state",000o
+	private	info_string30
+info_string30:
+	db	"selected",000o
+	private	info_string31
+info_string31:
+	db	"_Bool",000o
+	private	info_string32
+info_string32:
+	db	"visible",000o
+	private	info_string33
+info_string33:
+	db	"selectable",000o
+	private	info_string34
+info_string34:
+	db	"needs_redraw",000o
+	private	info_string35
+info_string35:
+	db	"override_size",000o
+	private	info_string36
+info_string36:
+	db	"size",000o
+	private	info_string37
+info_string37:
+	db	"optix_state",000o
+	private	info_string38
+info_string38:
+	db	"render",000o
+	private	info_string39
+info_string39:
+	db	"update",000o
+	private	info_string40
+info_string40:
+	db	"child",000o
+	private	info_string41
+info_string41:
+	db	"optix_widget",000o
+	private	info_string42
+info_string42:
+	db	"resize_info",000o
+	private	info_string43
+info_string43:
+	db	"resizable",000o
+	private	info_string44
+info_string44:
+	db	"x_lock",000o
+	private	info_string45
+info_string45:
+	db	"y_lock",000o
+	private	info_string46
+info_string46:
+	db	"x_reference_transform",000o
+	private	info_string47
+info_string47:
+	db	"y_reference_transform",000o
+	private	info_string48
+info_string48:
+	db	"min_width",000o
+	private	info_string49
+info_string49:
+	db	"min_height",000o
+	private	info_string50
+info_string50:
+	db	"optix_resize_info",000o
+	private	info_string51
+info_string51:
+	db	"text_args",000o
+	private	info_string52
+info_string52:
+	db	"alignment",000o
+	private	info_string53
+info_string53:
+	db	"text",000o
+	private	info_string54
+info_string54:
+	db	"char",000o
+	private	info_string55
+info_string55:
+	db	"num_lines",000o
+	private	info_string56
+info_string56:
+	db	"needs_offset_update",000o
+	private	info_string57
+info_string57:
+	db	"background_rectangle",000o
+	private	info_string58
+info_string58:
+	db	"optix_text",000o
+	private	info_string59
+info_string59:
+	db	"sprite_args",000o
+	private	info_string60
+info_string60:
+	db	"spr",000o
+	private	info_string61
+info_string61:
+	db	"data",000o
+	private	info_string62
+info_string62:
+	db	"__ARRAY_SIZE_TYPE__",000o
+	private	info_string63
+info_string63:
+	db	"gfx_sprite_t",000o
+	private	info_string64
+info_string64:
+	db	"x_scale",000o
+	private	info_string65
+info_string65:
+	db	"y_scale",000o
+	private	info_string66
+info_string66:
+	db	"transparent",000o
+	private	info_string67
+info_string67:
+	db	"transparent_color",000o
+	private	info_string68
+info_string68:
+	db	"optix_sprite",000o
+	private	info_string69
+info_string69:
+	db	"dynamic",000o
+	private	info_string70
+info_string70:
+	db	"needs_partial_redraw",000o
+	private	info_string71
+info_string71:
+	db	"rows",000o
+	private	info_string72
+info_string72:
+	db	"columns",000o
+	private	info_string73
+info_string73:
+	db	"num_options",000o
+	private	info_string74
+info_string74:
+	db	"last_selection",000o
+	private	info_string75
+info_string75:
+	db	"click_action",000o
+	private	info_string76
+info_string76:
+	db	"click_args",000o
+	private	info_string77
+info_string77:
+	db	"optix_click_action",000o
+	private	info_string78
+info_string78:
+	db	"pass_self",000o
+	private	info_string79
+info_string79:
+	db	"transparent_background",000o
+	private	info_string80
+info_string80:
+	db	"hide_selection_box",000o
+	private	info_string81
+info_string81:
+	db	"optix_menu",000o
+	private	info_string82
+info_string82:
+	db	"needs_update",000o
+	private	info_string83
+info_string83:
+	db	"special_folder",000o
+	private	info_string84
+info_string84:
+	db	"offset",000o
+	private	info_string85
+info_string85:
+	db	"nest",000o
+	private	info_string86
+info_string86:
+	db	"folder",000o
+	private	info_string87
+info_string87:
+	db	"vysion_folder",000o
+	private	info_string88
+info_string88:
+	db	"current_selection_name",000o
+	private	info_string89
+info_string89:
+	db	"current_selection_vysion_type",000o
+	private	info_string90
+info_string90:
+	db	"vysion_file_explorer_menu",000o
+	private	info_string91
+info_string91:
+	db	"optix_InitializeWidget",000o
+	private	info_string92
+info_string92:
+	db	"vysion_AddWindow",000o
+	private	info_string93
+info_string93:
+	db	"window_title_bar",000o
+	private	info_string94
+info_string94:
+	db	"window",000o
+	private	info_string95
+info_string95:
+	db	"active",000o
+	private	info_string96
+info_string96:
+	db	"optix_window",000o
+	private	info_string97
+info_string97:
+	db	"active_save",000o
+	private	info_string98
+info_string98:
+	db	"drag_start_x",000o
+	private	info_string99
+info_string99:
+	db	"drag_start_y",000o
+	private	info_string100
+info_string100:
+	db	"drag_active",000o
+	private	info_string101
+info_string101:
+	db	"optix_window_title_bar",000o
+	private	info_string102
+info_string102:
+	db	"icon",000o
+	private	info_string103
+info_string103:
+	db	"vysion_window_widget",000o
+	private	info_string104
+info_string104:
+	db	"vysion_RunProgram",000o
+	private	info_string105
+info_string105:
+	db	"ti_DetectAny",000o
+	private	info_string106
+info_string106:
+	db	"vysion_GetFileInfo",000o
+	private	info_string107
+info_string107:
+	db	"vysion_type",000o
+	private	info_string108
+info_string108:
+	db	"icon_buffer",000o
+	private	info_string109
+info_string109:
+	db	"archived",000o
+	private	info_string110
+info_string110:
+	db	"protected",000o
+	private	info_string111
+info_string111:
+	db	"vysion_file_info",000o
+	private	info_string112
+info_string112:
+	db	"optix_RenderMenuOption",000o
+	private	info_string113
+info_string113:
+	db	"vysion_AddFileExplorerWindow",000o
+	private	info_string114
+info_string114:
+	db	"vysion_FileExplorerMenuClickAction",000o
+	private	info_string115
+info_string115:
+	db	"vysion_RenderFileExplorerMenu",000o
+	private	info_string116
+info_string116:
+	db	"vysion_window",000o
+	private	info_string117
+info_string117:
+	db	"vysion_file_explorer_window",000o
+	private	info_string118
+info_string118:
+	db	"template_file_menu",000o
+	private	info_string119
+info_string119:
+	db	"template",000o
+	private	info_string120
+info_string120:
+	db	"template_title_bar",000o
+	private	info_string121
+info_string121:
+	db	"file_explorer_window_config",000o
+	private	info_string122
+info_string122:
+	db	"config",000o
+	private	info_string123
+info_string123:
+	db	"file_info",000o
+	private	info_string124
+info_string124:
+	db	"search_pos",000o
+	private	info_string125
+info_string125:
+	db	"i",000o
+	private	info_string126
+info_string126:
+	db	"var_name",000o
+	section	.debug_str_offsets,"",@progbits
+	dd	info_string0
+	dd	info_string1
+	dd	info_string2
+	dd	info_string3
+	dd	info_string4
+	dd	info_string5
+	dd	info_string6
+	dd	info_string7
+	dd	info_string8
+	dd	info_string9
+	dd	info_string10
+	dd	info_string11
+	dd	info_string12
+	dd	info_string13
+	dd	info_string14
+	dd	info_string15
+	dd	info_string16
+	dd	info_string17
+	dd	info_string18
+	dd	info_string19
+	dd	info_string20
+	dd	info_string21
+	dd	info_string22
+	dd	info_string23
+	dd	info_string24
+	dd	info_string25
+	dd	info_string26
+	dd	info_string27
+	dd	info_string28
+	dd	info_string29
+	dd	info_string30
+	dd	info_string31
+	dd	info_string32
+	dd	info_string33
+	dd	info_string34
+	dd	info_string35
+	dd	info_string36
+	dd	info_string37
+	dd	info_string38
+	dd	info_string39
+	dd	info_string40
+	dd	info_string41
+	dd	info_string42
+	dd	info_string43
+	dd	info_string44
+	dd	info_string45
+	dd	info_string46
+	dd	info_string47
+	dd	info_string48
+	dd	info_string49
+	dd	info_string50
+	dd	info_string51
+	dd	info_string52
+	dd	info_string53
+	dd	info_string54
+	dd	info_string55
+	dd	info_string56
+	dd	info_string57
+	dd	info_string58
+	dd	info_string59
+	dd	info_string60
+	dd	info_string61
+	dd	info_string62
+	dd	info_string63
+	dd	info_string64
+	dd	info_string65
+	dd	info_string66
+	dd	info_string67
+	dd	info_string68
+	dd	info_string69
+	dd	info_string70
+	dd	info_string71
+	dd	info_string72
+	dd	info_string73
+	dd	info_string74
+	dd	info_string75
+	dd	info_string76
+	dd	info_string77
+	dd	info_string78
+	dd	info_string79
+	dd	info_string80
+	dd	info_string81
+	dd	info_string82
+	dd	info_string83
+	dd	info_string84
+	dd	info_string85
+	dd	info_string86
+	dd	info_string87
+	dd	info_string88
+	dd	info_string89
+	dd	info_string90
+	dd	info_string91
+	dd	info_string92
+	dd	info_string93
+	dd	info_string94
+	dd	info_string95
+	dd	info_string96
+	dd	info_string97
+	dd	info_string98
+	dd	info_string99
+	dd	info_string100
+	dd	info_string101
+	dd	info_string102
+	dd	info_string103
+	dd	info_string104
+	dd	info_string105
+	dd	info_string106
+	dd	info_string107
+	dd	info_string108
+	dd	info_string109
+	dd	info_string110
+	dd	info_string111
+	dd	info_string112
+	dd	info_string113
+	dd	info_string114
+	dd	info_string115
+	dd	info_string116
+	dd	info_string117
+	dd	info_string118
+	dd	info_string119
+	dd	info_string120
+	dd	info_string121
+	dd	info_string122
+	dd	info_string123
+	dd	info_string124
+	dd	info_string125
+	dd	info_string126
+	section	.debug_addr,"",@progbits
+	dd	debug_addr_end0-debug_addr_start0
+	private	debug_addr_start0
+debug_addr_start0:
+	dw	5
+	db	3
+	db	0
+	private	addr_table_base0
+addr_table_base0:
+	dl	func_begin0
+	dl	tmp4
+	dl	tmp6
+	dl	tmp8
+	dl	tmp10
+	dl	func_begin1
+	dl	tmp18
+	dl	func_begin2
+	dl	tmp48
+	dl	tmp40
+	dl	tmp59
+	dl	tmp60
+	private	debug_addr_end0
+debug_addr_end0:
 	ident	"clang version 12.0.0 (https://github.com/jacobly0/llvm-project 170be88120e3aa88c20eea5615ba76b8f1d6c647)"
+	section	.debug_line,"",@progbits
+line_table_start0:
 	extern	_optix_RenderMenuOption
 	extern	__setflag
 	extern	_current_context
@@ -621,6 +3093,7 @@ L___const.vysion_AddFileExplorerWindow.template_file_menu:
 	extern	_strcpy
 	extern	_optix_InitializeWidget
 	extern	__imulu
+	extern	_sprintf
 	extern	_ti_DetectAny
 	extern	_vysion_AddWindow
 	extern	_vysion_current_context

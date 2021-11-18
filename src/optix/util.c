@@ -71,13 +71,15 @@ bool optix_CheckTransformOverlap(struct optix_widget *test, struct optix_widget 
 //pass it in a widget, and it will recursively align all of its children
 void optix_RecursiveAlign(struct optix_widget *widget) {
     //we need to align this as well
+    //because that's not how this works
+    if (widget->type == OPTIX_MENU_TYPE) return;
     if (widget->type == OPTIX_WINDOW_TITLE_BAR_TYPE) optix_RecursiveAlign((struct optix_widget *) ((struct optix_window_title_bar *) widget)->window);
     if (widget->child) {
         int i = 0;
         while (widget->child[i]) {
             struct optix_widget *child = widget->child[i];
             optix_AlignTransformToTransform(child, widget);
-            if (child->child) {
+            if (child->child && child->type != OPTIX_MENU_TYPE) {
                 //if (child->type == OPTIX_MENU_TYPE) optix_AlignMenu((struct optix_menu *) child, 0);
                 //else optix_RecursiveAlign(child);
                 optix_RecursiveAlign(child);

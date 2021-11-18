@@ -6,7 +6,7 @@
 #include "window_manager.h"
 
 //the master control file for the whole shell
-#define VYSION_VERSION            "2.0.0"
+#define VYSION_VERSION_TEXT       "VYSION 2 CE Development\n0.0.32 (private, experimental)\nDo not distribute."
 #define VYSION_SETTINGS_VERSION   2
 #define VYSION_HOOKS_VERSION      2
 #define VYSION_STATE_VERSION      2

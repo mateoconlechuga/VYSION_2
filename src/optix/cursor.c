@@ -50,6 +50,8 @@ void optix_UpdateCursor_default(struct optix_widget *widget) {
     if (current_context->settings->cursor_active) {
         bool key_pressed = false;
         float seconds_elapsed = ((float) current_context->data->ticks) / ((float) TIMER_FREQUENCY);
+        float last_true_x = cursor->true_x;
+        float last_true_y = cursor->true_y;
         current_context->cursor->state = OPTIX_CURSOR_NORMAL;
         if (optix_DefaultKeyIsDown(KEY_UP)) {
             cursor->true_y -= cursor->current_speed;
@@ -68,14 +70,18 @@ void optix_UpdateCursor_default(struct optix_widget *widget) {
             key_pressed = true;
         }
         if (key_pressed) {
-            cursor->current_speed += OPTIX_CURSOR_ACCELERATION * seconds_elapsed;
-            cursor->current_speed = cursor->current_speed > OPTIX_CURSOR_MAX_SPEED ? OPTIX_CURSOR_MAX_SPEED : cursor->current_speed;
             transform->x = (int) cursor->true_x;
             transform->y = (int) cursor->true_y;
             if (transform->x > LCD_WIDTH - OPTIX_CURSOR_RESIZE_WIDTH) transform->x = LCD_WIDTH - OPTIX_CURSOR_RESIZE_WIDTH;
             if (transform->y > LCD_HEIGHT - OPTIX_CURSOR_RESIZE_HEIGHT) transform->y = LCD_HEIGHT - OPTIX_CURSOR_RESIZE_WIDTH;
             if (transform->x < 0) transform->x = 0;
             if (transform->y < 0) transform->y = 0;
+            //handle this as well-we don't want the cursor to be accelerating if it's not moving (e.g. holding opposite arrow keys)
+            if (cursor->true_x == last_true_x && cursor->true_y == last_true_y && cursor->current_speed > OPTIX_CURSOR_INITIAL_SPEED) 
+                current_context->cursor->current_speed = OPTIX_CURSOR_INITIAL_SPEED;
+            //update cursor speed
+            cursor->current_speed += OPTIX_CURSOR_ACCELERATION * seconds_elapsed;
+            cursor->current_speed = cursor->current_speed > OPTIX_CURSOR_MAX_SPEED ? OPTIX_CURSOR_MAX_SPEED : cursor->current_speed;
         } else current_context->cursor->current_speed = OPTIX_CURSOR_INITIAL_SPEED;
         //handle this as well-the GUI should be frozen if the selected element is a window title bar that is currently being dragged
         if (cursor->current_selection && cursor->current_selection->type == OPTIX_WINDOW_TITLE_BAR_TYPE) {
@@ -246,7 +252,7 @@ struct optix_widget *optix_GetCurrentSelection(struct optix_widget *stack[]) {
     int i = 0;
     struct optix_widget *potential_selection = NULL;
     while (stack && stack[i]) {
-        if (!stack[i]->state.selectable) {
+        if (!stack[i]->state.selectable || !stack[i]->state.visible) {
             i++;
             continue;
         }
@@ -256,17 +262,15 @@ struct optix_widget *optix_GetCurrentSelection(struct optix_widget *stack[]) {
             if (!potential_selection) potential_selection = stack[i];
         }
         if (stack[i]->type == OPTIX_WINDOW_TITLE_BAR_TYPE) {
-            dbg_sprintf(dbgout, "Type is window title bar.\n");
             struct optix_window *window = ((struct optix_window_title_bar *) stack[i])->window;
             if (optix_CheckTransformOverlap(&current_context->cursor->widget, (struct optix_widget *) window)) {
                 potential_selection = (struct optix_widget *) window;
-                dbg_sprintf(dbgout, "Window active: %d\n", window->active);
                 if (window->active) potential_selection = optix_GetCurrentSelection(window->widget.child);
             }
         }
         i++;
     }
-    dbg_sprintf(dbgout, "Potential selection: %d Type: %d\n", potential_selection, potential_selection->type);
+    //dbg_sprintf(dbgout, "Potential selection: %d Type: %d\n", potential_selection, potential_selection->type);
     return potential_selection;
 }
 

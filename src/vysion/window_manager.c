@@ -37,8 +37,11 @@ void vysion_AddWindow(struct vysion_window_widget *widget) {
     //new_window_ptr->icon = widget->icon;
     //let's do this here
     //align everything
+    dbg_sprintf(dbgout, "Aligning...\n");
     optix_RecursiveAlign((struct optix_widget *) &widget->window_title_bar);
+    dbg_sprintf(dbgout, "Copying...\n");
     optix_CopyElement(&stack[index], &widget->window_title_bar);
+    dbg_sprintf(dbgout, "Successfully copied.\n");
     new_window_ptr = stack[index];
     new_window_ptr->type = widget->type;
     vysion_FormatWindowTitleBar(stack[index], &vysion_current_context->window[index_b]);

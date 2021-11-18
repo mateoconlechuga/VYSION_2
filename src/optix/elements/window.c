@@ -22,7 +22,6 @@ void optix_UpdateWindow_default(struct optix_widget *widget) {
     if (window->active) {
         if (widget->child) optix_UpdateStack(widget->child);
     } else if (widget->state.selected) {
-        dbg_sprintf(dbgout, "Window was selected.\n");
         //we know that if this happens, the cursor will be over the window
         if (optix_DefaultKeyIsDown(KEY_ENTER) & KEY_PRESSED) {
             int i = 0;
@@ -121,7 +120,6 @@ void optix_UpdateWindowTitleBar_default(struct optix_widget *widget) {
                 break;
         }
         if (widget->child) optix_UpdateStack(widget->child);
-        dbg_sprintf(dbgout, "Finished updating children.\n");
     } else window_title_bar->drag_active = false;
     //the window will only update itself if it's active anyway so who cares
     //there is a possibility that these could be null

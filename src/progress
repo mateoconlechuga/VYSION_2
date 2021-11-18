@@ -181,3 +181,22 @@ CHANGELOG: | [added] windows can now be closed via the window title bar menu in 
 DATE:      | 2021-11-11
 VERSION:   | 0.0.29
 CHANGELOG; | [fixed] window titles could be reduced to only the last character in certain scenarios
+           |
+DATE:      | 2021-11-14
+VERSION:   | 0.0.30
+CHANGELOG: | [fixed] text rendering/initialization does not correctly handle newlines
+           | [fixed] sprites redrew every loop, ignoring their needs_redraw state
+           | [fixed] cursor accelerates when holding down opposite arrow keys (but not moving)
+           |
+DATE:      | 2021-11-15
+VERSION:   | 0.0.31
+CHANGELOG: | [fixed] invisible elements could be selectable
+           | [fixed] menu text only displays the first character of a second word, if one is present
+           |
+DATE:      | 2021-11-16
+VERSION:   | 0.0.32
+CHANGELOG: | [added] menus can now have child elements that are aligned to options
+           | [fixed] menu current selection set to last option when over menu but not any option
+  
+           
+

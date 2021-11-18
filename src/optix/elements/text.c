@@ -77,7 +77,7 @@ char *optix_PrintStringWrapped_fontlibc(const char *string, bool fake_print) {
     do {
         /* Check if the next word can fit on the current line */
         str_width = fontlib_GetStringWidth(string);
-        if (x + str_width < right)
+        if (x + str_width <= right)
             if (!fake_print) x = fontlib_DrawString(string);
             else x += str_width;
         else {
@@ -125,7 +125,7 @@ char *optix_PrintStringWrapped_fontlibc(const char *string, bool fake_print) {
             string++;
             /* We do actually need to check if there's space to print the
              * space. */
-            if (x + space_width < right) {
+            if (x + space_width <= right) {
                 if (!fake_print) fontlib_DrawGlyph(' ');
                 x += space_width;
             }
@@ -181,18 +181,31 @@ void optix_RenderText_default(struct optix_widget *widget) {
             while (i < text->min + lines_to_render) {
                 char *old_str = str;
                 char temp;
+                bool special_character_processed = false;
                 //only print if we're past  the text min
                 fontlib_SetCursorPosition(widget->transform.x, widget->transform.y + (i < text->min ? 0 : i - text->min) * TEXT_SPACING);
                 str = optix_PrintStringWrapped_fontlibc(str, true);
+                switch (*str) {
+                    case '\n':
+                    //add more here later if necessary
+                        special_character_processed = true;
+                        break;
+                    default:
+                        break;
+                }
                 //we should print with the appropriate alignment
                 if (i >= text->min) {
-                    size_t str_length = optix_GetStringWidthL(old_str, (size_t) (str - old_str + 1));
+                    size_t str_length = optix_GetStringWidthL(old_str, (size_t) (str - old_str + (!special_character_processed)));
                     unsigned int new_x_pos = widget->transform.x + (text->alignment * ((widget->transform.width - str_length) / 2));
                     fontlib_SetCursorPosition(new_x_pos, fontlib_GetCursorY());
-                    optix_DrawStringL(old_str, (size_t) (str - old_str + 1));
+                    optix_DrawStringL(old_str, (size_t) (str - old_str + (!special_character_processed)));
                 }
+                if (special_character_processed) str++;
                 i++;
-                if (*str == '\0' || str == text->text) break;
+                if (*str == '\0' || str == text->text) {
+                    if (str == text->text) dbg_sprintf(dbgout, "WE'RE BREAKING, TAKE NOTICE!!!!!!\n");
+                    break;
+                }
             }
         } else gfx_PrintStringXY(text->text, widget->transform.x, widget->transform.y);
     }
@@ -211,6 +224,7 @@ void optix_GetTextNumLines(struct optix_widget *widget) {
     while (true) {
         last_str = str;
         str = optix_PrintStringWrapped_fontlibc(str, true);
+        if (*str == '\n') str++;
         text->num_lines++;
         if (*str == '\0' || str == text->text || str == last_str) break;
     }
@@ -224,7 +238,7 @@ bool optix_InitializeFont(void) {
         fontlib_SetFont(font_pack, 0);
         fontlib_SetColors(TEXT_FG_COLOR_INDEX, TEXT_BG_COLOR_INDEX);
         fontlib_SetTransparency(true);
-        fontlib_SetNewlineOptions(FONTLIB_AUTO_CLEAR_TO_EOL);
+        //fontlib_SetNewlineOptions(FONTLIB_AUTO_CLEAR_TO_EOL);
     }
     current_context->data->font_valid = (bool) font_pack;
     return (bool) font_pack;
