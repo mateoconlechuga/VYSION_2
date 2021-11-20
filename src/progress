@@ -197,6 +197,11 @@ DATE:      | 2021-11-16
 VERSION:   | 0.0.32
 CHANGELOG: | [added] menus can now have child elements that are aligned to options
            | [fixed] menu current selection set to last option when over menu but not any option
+           |
+DATE:      | 2021-11-18
+VERSION:   | 0.0.33
+CHANGELOG: | [fixed] embedded menu widgets could update even if the selection was outside of the range
+           | [fixed] menus with empty space could register hovering over space as over last selection
   
            
 

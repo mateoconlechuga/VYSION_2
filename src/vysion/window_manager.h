@@ -74,7 +74,7 @@ extern gfx_sprite_t *window_title_bar_action_icon[];
 
 //functions
 //note: this function automatically calls optix_RecursiveAlign, so you don't have to
-void vysion_AddWindow(struct vysion_window_widget *widget);
+struct vysion_window_widget *vysion_AddWindow(struct vysion_window_widget *widget);
 size_t vysion_GetWindowSize(uint8_t type);
 void vysion_FormatWindowTitleBar(struct optix_window_title_bar *window_title_bar, struct vysion_window **window);
 void vysion_UpdateWindowManagerMenu(struct optix_widget *widget);

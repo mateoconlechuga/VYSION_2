@@ -174,7 +174,7 @@ void optix_RenderCursorBackground(struct optix_widget *widget) {
 
 void optix_HandleNearestElement(void) {
     struct optix_cursor *cursor = current_context->cursor;
-    if (current_context->settings->cursor_active) {
+    if (!current_context->settings->cursor_active) {
         if (cursor->direction != OPTIX_CURSOR_NO_DIR) {
             //this is the element at the top of the OPTIX stack, which should be a window or window title bar
             struct optix_widget *top_element = current_context->stack[optix_GetNumElementsInStack(current_context->stack) - 1];

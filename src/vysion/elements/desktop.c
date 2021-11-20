@@ -346,6 +346,7 @@ void vysion_Desktop(void) {
         .background_rectangle = false,
     };
     optix_InitializeWidget(&version_text.widget, OPTIX_TEXT_TYPE);
+    version_text.widget.state.selectable = false;
     //version_text.num_lines = 2;
     struct optix_rectangle taskbar_background = {
         .widget = {

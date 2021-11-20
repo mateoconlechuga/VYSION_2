@@ -16,26 +16,21 @@
 //just change the color to red if pressed and run the click action for now
 void optix_UpdateButton_default(struct optix_widget *widget) {
     struct optix_button *button = (struct optix_button *) widget;
-    bool needs_redraw = false;
+    if (widget->state.selected) dbg_sprintf(dbgout, "Button is selected.\n");
     //check if the cursor overlaps with it
     if (!widget->state.visible) return;
     //kb_Scan will be called elsewhere
-    if (current_context->data->key == button->alternate_key || ((optix_DefaultKeyIsDown(KEY_ENTER) & KEY_PRESSED) && widget->state.selected)) {
-            if (button->click_action.click_action) button->click_action.click_action(button->click_action.click_args);
-            needs_redraw = true;
-    } else if (optix_DefaultKeyIsDown(KEY_ENTER) & KEY_PRESSED) needs_redraw = true;
-    if (optix_CheckTransformOverlap(&current_context->cursor->widget, widget)) {
-        if (!widget->state.selected) needs_redraw = true;
-        widget->state.selected = true;
-        current_context->cursor->state = OPTIX_CURSOR_OVER_ITEM;
-    } else {
-        if (widget->state.selected) needs_redraw = true;
-        widget->state.selected = false;
-    }
-    if (needs_redraw) {
+    if ((current_context->data->key && current_context->data->key == button->alternate_key) || ((optix_DefaultKeyIsDown(KEY_ENTER) & KEY_PRESSED) && widget->state.selected)) {
+        dbg_sprintf(dbgout, "Clicking...\n");
+        if (button->click_action.click_action) {
+            button->click_action.click_action(button->click_action.click_args);
+            //so that it doesn't repeat
+            optix_SetDefaultKeyState(KEY_ENTER, KEY_HELD);
+        }
         widget->state.needs_redraw = true;
-        optix_RecursiveSetNeedsRedraw(widget->child);
-    }
+    } else if (optix_DefaultKeyIsDown(KEY_ENTER) & KEY_PRESSED) widget->state.needs_redraw = true;
+    if (button->selected_save != widget->state.selected) widget->state.needs_redraw = true;
+    button->selected_save = widget->state.selected;
 }
 
 //render button
@@ -50,7 +45,7 @@ void optix_RenderButton_default(struct optix_widget *widget) {
                     optix_SetTextColor(BUTTON_TEXT_FG_COLOR_PRESSED_INDEX, BUTTON_TEXT_BG_COLOR_PRESSED_INDEX);
                 } else {
                     optix_OutlinedRectangle_WithBevel(widget->transform.x, widget->transform.y, widget->transform.width, widget->transform.height, //transform
-                    BUTTON_BG_COLOR_SELECTED_INDEX, HIGHLIGHT_COLOR_INDEX, WINDOW_BORDER_BEVEL_DARK_INDEX);                              //color
+                    BUTTON_BG_COLOR_SELECTED_INDEX, WINDOW_BORDER_BEVEL_LIGHT_INDEX, WINDOW_BORDER_BEVEL_DARK_INDEX);                              //color
                     optix_SetTextColor(BUTTON_TEXT_FG_COLOR_SELECTED_INDEX, BUTTON_TEXT_BG_COLOR_SELECTED_INDEX);
                 }
             }

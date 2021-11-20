@@ -34,6 +34,7 @@ void optix_UpdateGUI(void) {
         if (current_context->settings->cursor_active) {
             optix_SetCurrentSelection(NULL);
             optix_SetCurrentSelection(optix_GetCurrentSelection(current_context->stack));
+            dbg_sprintf(dbgout, "Current selection type is %d\n", current_context->cursor->current_selection->type);
         }
         optix_UpdateStack(current_context->stack);
         optix_HandleNearestElement();

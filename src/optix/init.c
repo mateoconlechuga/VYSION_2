@@ -99,8 +99,8 @@ void optix_InitializeWidget(struct optix_widget *widget, uint8_t type) {
     //element-specific things
     switch (type) {
         case OPTIX_MENU_TYPE:
-            menu->last_selection = menu->selection = MENU_NO_SELECTION;
-            menu->min = menu->num_options = 0;
+            menu->selection = MENU_NO_SELECTION;
+            menu->last_selection = menu->min = menu->num_options = 0;
             if (!menu->sprite_args.x_scale || !menu->sprite_args.y_scale) menu->sprite_args.x_scale = menu->sprite_args.y_scale = 1;
             while ((menu->spr && menu->spr[menu->num_options]) || ((menu->text && menu->text[menu->num_options])))
                 menu->num_options++;

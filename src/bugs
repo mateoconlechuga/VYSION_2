@@ -92,3 +92,10 @@ No new bugs found.
 
 [0.0.31 | 2021-11-15]
 No new bugs found.
+
+[0.0.32 | 2021-11-16]
+[x] [0.0.33] embedded menu widgets could update even if the selection was outside of the range
+[x] [0.0.33] menus with empty space could register hovering over space as over last selection
+
+[0.0.33 | 2021-11-18]
+[ ] potential reset when opening settings menu

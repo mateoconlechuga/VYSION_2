@@ -7,6 +7,16 @@
         "util.h": "c",
         "stdint.h": "c",
         "typeinfo": "c",
-        "text.h": "c"
+        "text.h": "c",
+        "type_traits": "c",
+        "istream": "c",
+        "ostream": "c",
+        "ratio": "c",
+        "system_error": "c",
+        "array": "c",
+        "functional": "c",
+        "tuple": "c",
+        "utility": "c",
+        "variant": "c"
     }
 }

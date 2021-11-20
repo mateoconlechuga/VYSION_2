@@ -30,6 +30,7 @@ struct optix_menu {
     //things to use internally
     int selection;
     bool needs_partial_redraw;
+    bool selected_save;
     //option we start from (used for scrolling, mainly)
     int min;
     int rows;

@@ -19,6 +19,8 @@ struct optix_button {
     //so the background will show behind it
     bool transparent_background;
     bool hide_selection_box;
+    //saves the last selection status
+    bool selected_save;
 };
 
 //functions

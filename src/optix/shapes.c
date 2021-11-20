@@ -8,7 +8,7 @@ void optix_OutlinedRectangle(uint16_t x, uint8_t y, uint16_t width, uint8_t heig
 }
 
 void optix_OutlinedRectangle_WithBevel(uint16_t x, uint8_t y, uint16_t width, uint8_t height, uint8_t fill_color, uint8_t border_bevel_light, uint8_t border_bevel_dark) {
-    /*gfx_SetColor(fill_color);
+    gfx_SetColor(fill_color);
     gfx_FillRectangle(x, y, width, height);
     gfx_SetColor(border_bevel_dark);
     //bottom edge
@@ -19,8 +19,8 @@ void optix_OutlinedRectangle_WithBevel(uint16_t x, uint8_t y, uint16_t width, ui
     //top
     gfx_HorizLine(x, y, width);
     //left
-    gfx_VertLine(x, y, height);*/
-    gfx_SetColor(fill_color);
+    gfx_VertLine(x, y, height);
+    /*gfx_SetColor(fill_color);
     gfx_FillRectangle(x + 1, y + 1, width - 2, height - 2);
     //highlight color
     gfx_SetColor(border_bevel_light);
@@ -32,7 +32,7 @@ void optix_OutlinedRectangle_WithBevel(uint16_t x, uint8_t y, uint16_t width, ui
     //bottom
     gfx_HorizLine(x + 1, y + height - 1, width - 2);
     //right
-    gfx_VertLine(x + width - 1, y + 1, height - 2);
+    gfx_VertLine(x + width - 1, y + 1, height - 2);*/
 }
 
 

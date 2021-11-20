@@ -2,10 +2,12 @@
 #include <graphx.h>
 #include "../window_manager.h"
 #include "../../optix/init.h"
+#include "../../optix/util.h"
 #include "../gfx/output/vysion_gfx.h"
 #include "../control.h"
 
 #include "../../optix/elements/text.h"
+#include "../../optix/elements/check_box.h"
 
 gfx_sprite_t *settings_menu_spr[] = {settings_system, settings_shell, settings_colors, settings_taskbar, settings_reset, settings_desktop, NULL};
 char *settings_menu_text[] = {"System", "Shell", "Colors", "Taskbar", "Reset", "Desktop", NULL};
@@ -13,6 +15,7 @@ char *settings_menu_text[] = {"System", "Shell", "Colors", "Taskbar", "Reset", "
 
 void vysion_AddSettingsWindow(void *config) {
     //settings configurations and structs (at the top for simplicity)
+    struct vysion_window *final_window;
     struct vysion_settings_window window = {
         .window = {.widget = {.type = WINDOW_SETTINGS}},
     };
@@ -34,6 +37,8 @@ void vysion_AddSettingsWindow(void *config) {
                     .x_offset = 2,
                 },
             },
+            .transparent = true,
+            .transparent_color = myimages_palette_offset,
         },
         .rows = 5,
         .columns = 1,
@@ -42,9 +47,25 @@ void vysion_AddSettingsWindow(void *config) {
         },
         //we do know that this will be the first element, so this should work?
         //arr == &arr[0], if I remember correctly
-        .pass_self = true,
     };
     optix_InitializeWidget(&template_sidebar_menu.widget, OPTIX_MENU_TYPE);
+    struct optix_text template_settings_current_menu = {
+        .widget = {
+            .transform = {
+                .width = 180,
+                .height = 10,
+            },
+            .centering = {
+                .x_centering = OPTIX_CENTERING_RIGHT,
+                .y_centering = OPTIX_CENTERING_TOP,
+                .y_offset = 5,
+            },
+        },
+        .alignment = OPTIX_CENTERING_CENTERED,
+        .text = settings_menu_text[0],
+    };
+    optix_InitializeWidget(&template_settings_current_menu.widget, OPTIX_TEXT_TYPE);
+    template_settings_current_menu.widget.state.selectable = false;
     struct optix_widget *template_children[SETTINGS_WINDOW_NUM_CHILDREN + 1];
     struct optix_window template = {
         .widget = {
@@ -67,13 +88,16 @@ void vysion_AddSettingsWindow(void *config) {
                 case 0:
                     template_children[i] = &template_sidebar_menu.widget;
                     break;
+                case 1:
+                    template_children[i] = &template_settings_current_menu.widget;
+                    break;
                 default:
                     break;
             }
         } else {
             //system
             static const char *system[] = {"Set time", NULL};
-            static const struct optix_text system_set_time = {
+            struct optix_text system_set_time = {
                 .widget = {
                     .centering = {
                         .x_centering = OPTIX_CENTERING_RIGHT,
@@ -85,9 +109,28 @@ void vysion_AddSettingsWindow(void *config) {
             };
             optix_InitializeTextTransform(&system_set_time);
             optix_InitializeWidget(&system_set_time.widget, OPTIX_TEXT_TYPE);
+            //system_set_time.widget.state.selectable = false;
             struct optix_widget *system_child[] = {&system_set_time.widget, NULL, NULL, NULL, NULL};
             //shell
             static const char *shell[] = {"Use cursor", NULL};
+            struct optix_check_box system_use_cursor = {
+                .button = {
+                    .widget = {
+                        .transform = {
+                            .width = 12,
+                            .height = 12,
+                        },
+                        .centering = {
+                            .x_centering = OPTIX_CENTERING_RIGHT,
+                            .x_offset = -4,
+                            .y_centering = OPTIX_CENTERING_CENTERED,
+                        },
+                    },
+                },
+                .value = &current_context->settings->cursor_active,
+            };
+            optix_InitializeWidget(&system_use_cursor, OPTIX_CHECK_BOX_TYPE);
+            struct optix_widget *shell_child[] = {&system_use_cursor.button.widget, NULL};
             //colors
             static const char *colors[] = {"Customize colors", NULL};
             //taskbar
@@ -99,11 +142,12 @@ void vysion_AddSettingsWindow(void *config) {
             struct optix_menu *menu = (struct optix_menu *) &template_settings_menu[i - SETTINGS_MENUS_STACK_OFFSET];
             template_children[i] = menu;
             menu->widget.transform.width = 180;
-            menu->widget.transform.height = 100;
-            menu->rows = 5;
+            menu->widget.transform.height = 80;
+            menu->rows = 4;
             menu->columns = 1;
             menu->spr = NULL;
             menu->widget.centering.x_centering = OPTIX_CENTERING_RIGHT;
+            menu->widget.centering.y_centering = OPTIX_CENTERING_BOTTOM;
             menu->text_args.widget.centering.x_centering = OPTIX_CENTERING_LEFT;
             menu->text_args.widget.centering.x_offset = 4;
             menu->text_args.widget.centering.y_centering = OPTIX_CENTERING_CENTERED;
@@ -117,6 +161,7 @@ void vysion_AddSettingsWindow(void *config) {
                     break;
                 case 1:
                     menu->text = shell;
+                    menu->widget.child = shell_child;
                     break;
                 case 2:
                     menu->text = colors;
@@ -150,18 +195,26 @@ void vysion_AddSettingsWindow(void *config) {
     optix_InitializeWidget(&template_title_bar.widget, OPTIX_WINDOW_TITLE_BAR_TYPE);
     memcpy(&window.window.widget.window_title_bar, &template_title_bar, sizeof(struct optix_window_title_bar));
     dbg_sprintf(dbgout, "Adding window...\n");
-    vysion_AddWindow(&window);
+    final_window = vysion_AddWindow(&window);
+    ((struct optix_menu *) final_window->widget.window_title_bar.window->widget.child[SETTINGS_SIDEBAR_MENU_OFFSET])->click_action.click_args = (void *) final_window;
     dbg_sprintf(dbgout, "Window added.\n");
 }
 
 void vysion_SettingsMenuSideBarMenuClickAction(void *args) {
-    struct optix_widget **stack = (struct optix_widget **) args;
-    int selection = ((struct optix_menu *) stack[SETTINGS_SIDEBAR_MENU_OFFSET])->selection;
-    dbg_sprintf(dbgout, "Selection was %d\n", selection);
-    for (int i = SETTINGS_MENUS_STACK_OFFSET; i < SETTINGS_MENUS_STACK_OFFSET + SETTINGS_NUM_MENUS; i++)
-        stack[i]->state.visible = false;
-    //set the selected one to visible
-    stack[selection + SETTINGS_SIDEBAR_MENU_OFFSET]->state.visible = true;
-    //it'll need to be redrawn now as well
-    stack[selection + SETTINGS_SIDEBAR_MENU_OFFSET]->state.needs_redraw = true;
+    struct vysion_window *final_window = args;
+    if (final_window) {
+        struct optix_widget **stack = final_window->widget.window_title_bar.window->widget.child;
+        int selection = ((struct optix_menu *) stack[SETTINGS_SIDEBAR_MENU_OFFSET])->selection;
+        dbg_sprintf(dbgout, "Selection was %d, Type was %d\n", selection, stack[SETTINGS_SIDEBAR_MENU_OFFSET]->type);
+        for (int i = SETTINGS_MENUS_STACK_OFFSET; i < SETTINGS_MENUS_STACK_OFFSET + SETTINGS_NUM_MENUS; i++) {
+            dbg_sprintf(dbgout, "Type is %d\n", stack[i]->type);
+            stack[i]->state.visible = false;
+        }
+        //set the selected one to visible
+        stack[selection + SETTINGS_MENUS_STACK_OFFSET]->state.visible = true;
+        //refresh the text for the current window
+        ((struct optix_text *) stack[SETTINGS_CURRENT_MENU_OFFSET])->text = settings_menu_text[selection];
+        //it'll need to be redrawn now as well
+        final_window->widget.window_title_bar.window->widget.state.needs_redraw = true;
+    }
 }

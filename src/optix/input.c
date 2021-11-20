@@ -44,6 +44,11 @@ uint8_t optix_KeyIsDown(int index) {
     return current_context->input->key[index]->state;
 }
 
+//sets the state of a default key
+void optix_SetDefaultKeyState(int index, uint8_t state) {
+    current_context->input->default_key[index].state = state;
+}
+
 void optix_InitializeInput(struct optix_input *input) {
     //having these be static is okay, I think
     struct optix_key enter = {.key = kb_KeyEnter};

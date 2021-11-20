@@ -44,5 +44,6 @@ void optix_InitializeInput(struct optix_input *input);
 
 uint8_t optix_DefaultKeyIsDown(int index);
 uint8_t optix_KeyIsDown(int index);
+void optix_SetDefaultKeyState(int index, uint8_t state);
 
 #endif

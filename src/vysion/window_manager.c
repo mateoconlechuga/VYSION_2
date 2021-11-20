@@ -19,7 +19,7 @@ gfx_sprite_t *window_icon[] = {WINDOW_FILE_EXPLORER_ICON, WINDOW_SETTINGS_ICON};
 gfx_sprite_t *window_title_bar_action_icon[WINDOW_TITLE_BAR_MENU_OPTIONS + 1] = {window_minimize, window_maximize, window_close, NULL};
 
 //actual code
-void vysion_AddWindow(struct vysion_window_widget *widget) {
+struct vysion_window_widget *vysion_AddWindow(struct vysion_window_widget *widget) {
     int index = 0;
     int index_b = 0;
     struct optix_widget **stack = current_context->stack;
@@ -59,6 +59,7 @@ void vysion_AddWindow(struct vysion_window_widget *widget) {
     vysion_current_context->window[index_b] = stack[index];
     vysion_current_context->window[index_b + 1] = NULL;
     dbg_sprintf(dbgout, "This part finished.\n");
+    return stack[index];
 }
 
 size_t vysion_GetWindowSize(uint8_t type) {
