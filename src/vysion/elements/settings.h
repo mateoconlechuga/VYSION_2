@@ -11,22 +11,14 @@
 #define SETTINGS_NUM_MENUS           6
 //and the offset of the main menu
 #define SETTINGS_SIDEBAR_MENU_OFFSET 0
-//text that indicates stuff
+//text that indicates the current menu
 #define SETTINGS_CURRENT_MENU_OFFSET 1
 //number of children total in the window
 #define SETTINGS_WINDOW_NUM_CHILDREN (SETTINGS_NUM_MENUS + 2)
 
-struct vysion_settings {
-    //system
-
-    //shell
-
-    //desktop
-    
-    //taskbar
-
-};
-
+//settings menu relative menu entries
+//desktop
+#define DESKTOP_SET_WALLPAPER        2
 
 //seems like the logical place to put this?
 struct vysion_settings_window {
@@ -39,5 +31,10 @@ extern char *settings_menu_text[];
 
 void vysion_AddSettingsWindow(void *config);
 void vysion_SettingsMenuSideBarMenuClickAction(void *args);
+//menu specific click actions
+void vysion_SettingsDesktopClickAction(void *args);
+
+
+
 
 #endif

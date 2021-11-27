@@ -5,6 +5,7 @@
 #include "../../optix/util.h"
 #include "../gfx/output/vysion_gfx.h"
 #include "../control.h"
+#include "../wallpaper.h"
 
 #include "../../optix/elements/text.h"
 #include "../../optix/elements/check_box.h"
@@ -174,6 +175,8 @@ void vysion_AddSettingsWindow(void *config) {
                     break;
                 case 5:
                     menu->text = desktop;
+                    menu->click_action.click_action = vysion_SettingsDesktopClickAction;
+                    menu->pass_self = true;
                     break;
                 default:
                     break;
@@ -216,5 +219,16 @@ void vysion_SettingsMenuSideBarMenuClickAction(void *args) {
         ((struct optix_text *) stack[SETTINGS_CURRENT_MENU_OFFSET])->text = settings_menu_text[selection];
         //it'll need to be redrawn now as well
         final_window->widget.window_title_bar.window->widget.state.needs_redraw = true;
+    }
+}
+
+void vysion_SettingsDesktopClickAction(void *args) {
+    struct optix_menu *menu = (struct optix_menu *) args;
+    switch (menu->selection) {
+        case DESKTOP_SET_WALLPAPER:
+            vysion_WallpaperPicker();
+            //update the text here too, most likely
+        default:
+            break;
     }
 }

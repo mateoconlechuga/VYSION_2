@@ -10,6 +10,7 @@
 #include "../cursor.h"
 #include "../init.h"
 #include "../util.h"
+#include "button.h"
 
 //Menu rewrite 1
 //curr_selection must be curr_selection - menu_min, or the option's place in the grid
@@ -66,6 +67,12 @@ void optix_UpdateMenu_default(struct optix_widget *widget) {
                 menu->click_action.click_action(menu->pass_self ? widget : menu->click_action.click_args);
                 //we don't want it to repeat
                 optix_SetDefaultKeyState(KEY_ENTER, KEY_HELD);
+            } else {
+                //this should be the same as clicking the thing if applicable
+                if (widget->child[menu->selection]->type == OPTIX_BUTTON_TYPE || widget->child[menu->selection]->type == OPTIX_CHECK_BOX_TYPE) {
+                    struct optix_button *button = (struct optix_button *) widget->child[menu->selection];
+                    if (button->click_action.click_action) button->click_action.click_action(button->click_action.click_args);
+                }
             }
             widget->state.needs_redraw = true;
         } else if (optix_DefaultKeyIsDown(KEY_ENTER) & KEY_RELEASED)

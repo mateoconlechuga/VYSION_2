@@ -308,7 +308,7 @@ BB5_10:
 	ld	hl, (ix + -3)
 	ld	de, -1
 	ld	(hl), de
-	jq	BB5_88
+	jq	BB5_93
 BB5_11:
 	ld	hl, (ix + 6)
 	push	hl
@@ -348,37 +348,62 @@ BB5_13:
 	sbc	hl, hl
 	push	hl
 	call	_optix_DefaultKeyIsDown
-	ld	c, 1
 	pop	hl
 	bit	2, a
-	jq	nz, BB5_19
-	jq	BB5_20
+	jq	nz, BB5_24
+	jq	BB5_25
 BB5_15:
 	ld	de, 149
-	ld	iy, (ix + 6)
+	ld	hl, (ix + 6)
+	push	hl
+	pop	iy
 	add	iy, de
 	ld	hl, (iy)
 	add	hl, bc
 	or	a, a
 	sbc	hl, bc
-	jq	z, BB5_19
-	ld	de, 155
-	ld	bc, (ix + 6)
-	push	bc
+	jq	nz, BB5_20
+	ld	iy, (ix + 6)
+	ld	iy, (iy + 27)
+	ld	hl, (ix + -3)
+	ld	hl, (hl)
+	ld	bc, 3
+	call	__imulu
+	push	hl
+	pop	de
+	add	iy, de
+	ld	iy, (iy)
+	ld	a, (iy)
+	cp	a, 2
+	jq	z, BB5_18
+	cp	a, 10
+	jq	nz, BB5_24
+BB5_18:
+	ld	hl, (iy + 30)
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	jq	z, BB5_24
+	ld	de, (iy + 33)
+	push	de
+	call	__indcallhl
+	jq	BB5_23
+BB5_20:
+	ld	de, (ix + 6)
+	push	de
 	pop	iy
+	ld	de, 155
 	add	iy, de
 	ld	a, (iy)
-	ld	e, 1
-	xor	a, e
+	xor	a, c
 	bit	0, a
-	push	bc
-	pop	de
-	jq	z, BB5_18
+	ld	de, (ix + 6)
+	jq	z, BB5_22
 	ld	de, 152
 	ld	iy, (ix + 6)
 	add	iy, de
 	ld	de, (iy)
-BB5_18:
+BB5_22:
 	push	de
 	call	__indcallhl
 	pop	hl
@@ -389,25 +414,27 @@ BB5_18:
 	push	hl
 	call	_optix_SetDefaultKeyState
 	pop	hl
+BB5_23:
 	pop	hl
-	ld	c, 1
-BB5_19:
+BB5_24:
 	ld	iy, (ix + 6)
 	ld	(iy + 17), 1
-BB5_20:
+BB5_25:
 	ld	iy, (_current_context)
 	ld	hl, (iy)
 	ld	a, (hl)
-	xor	a, c
+	ld	c, 1
+	ld	l, c
+	xor	a, l
 	bit	0, a
-	jq	z, BB5_25
+	jq	z, BB5_30
 	ld	iy, (iy + 9)
 	ld	hl, (iy + 54)
 	ld	iy, (ix + 6)
 	lea	de, iy + 0
 	or	a, a
 	sbc	hl, de
-	jq	nz, BB5_76
+	jq	nz, BB5_81
 	ld	hl, 1
 	push	hl
 	call	_optix_DefaultKeyIsDown
@@ -418,16 +445,16 @@ BB5_20:
 	bit	0, a
 	ld	a, 0
 	ld	c, a
-	jq	nz, BB5_50
+	jq	nz, BB5_55
 	ld	hl, (ix + -3)
 	ld	hl, (hl)
 	add	hl, bc
 	or	a, a
 	sbc	hl, bc
-	jq	z, BB5_45
+	jq	z, BB5_50
 	ld	c, 0
-	jq	BB5_46
-BB5_25:
+	jq	BB5_51
+BB5_30:
 	ld	hl, (ix + 6)
 	push	hl
 	or	a, a
@@ -455,7 +482,7 @@ BB5_25:
 	ld	l, 1
 	xor	a, l
 	bit	0, a
-	jq	z, BB5_28
+	jq	z, BB5_33
 	ld	hl, 6
 	push	hl
 	call	_optix_DefaultKeyIsDown
@@ -475,13 +502,13 @@ BB5_25:
 	add	iy, de
 	ld	de, (iy)
 	bit	0, a
-	jq	z, BB5_31
+	jq	z, BB5_36
 	ld	(ix + -6), de
 	ld	hl, (ix + 6)
 	ex	de, hl
 	ld	a, (ix + -20)
-	jq	BB5_36
-BB5_28:
+	jq	BB5_41
+BB5_33:
 	ld	hl, (ix + 6)
 	ld	de, 134
 	add	hl, de
@@ -522,13 +549,13 @@ BB5_28:
 	or	a, a
 	sbc	hl, de
 	call	__setflag
-	jq	m, BB5_30
+	jq	m, BB5_35
 	ld	bc, (ix + -26)
-BB5_30:
+BB5_35:
 	ld	hl, (ix + -15)
 	ld	(hl), bc
-	jq	BB5_34
-BB5_31:
+	jq	BB5_39
+BB5_36:
 	ld	iy, (ix + -6)
 	ld	hl, (ix + -15)
 	or	a, a
@@ -542,19 +569,19 @@ BB5_31:
 	push	de
 	pop	bc
 	call	__setflag
-	jq	p, BB5_33
+	jq	p, BB5_38
 	ld	bc, 0
-BB5_33:
+BB5_38:
 	ld	(iy), bc
 	ld	hl, (ix + -15)
 	ld	(ix + -6), hl
-BB5_34:
+BB5_39:
 	ld	iy, (ix + 6)
 	ld	a, (ix + -20)
 	ld	(iy + 17), 1
 	ld	(ix + -15), bc
 	lea	de, iy + 0
-BB5_36:
+BB5_41:
 	ld	iy, (_current_context)
 	ld	iy, (iy + 9)
 	ld	(ix + -20), iy
@@ -601,49 +628,49 @@ BB5_36:
 	or	a, a
 	sbc	hl, de
 	call	__setflag
-	jq	p, BB5_40
+	jq	p, BB5_45
 	ld	hl, (ix + -3)
 	ld	hl, (hl)
 	ld	bc, -1
 	or	a, a
 	sbc	hl, bc
-	jq	nz, BB5_56
+	jq	nz, BB5_61
 	ld	hl, (ix + -12)
 	ld	a, (hl)
 	ld	l, 1
 	xor	a, l
 	bit	0, a
-	jq	nz, BB5_56
+	jq	nz, BB5_61
 	ld	hl, (ix + -9)
 	ld	(hl), 1
-	jq	BB5_56
-BB5_40:
+	jq	BB5_61
+BB5_45:
 	ld	hl, (ix + -12)
 	ld	a, (hl)
 	ld	l, 1
 	xor	a, l
 	bit	0, a
 	ld	bc, -1
-	jq	nz, BB5_55
+	jq	nz, BB5_60
 	ld	hl, (ix + -3)
 	ld	hl, (hl)
 	or	a, a
 	sbc	hl, bc
-	jq	z, BB5_55
+	jq	z, BB5_60
 	ld	hl, (ix + -9)
 	ld	(hl), 1
-BB5_55:
+BB5_60:
 	ld	iy, -1
-BB5_56:
+BB5_61:
 	ld	hl, (ix + -3)
 	ld	(hl), iy
-	jq	BB5_77
-BB5_45:
+	jq	BB5_82
+BB5_50:
 	ld	c, 1
-BB5_46:
+BB5_51:
 	ld	de, 0
 	bit	0, c
-	jq	nz, BB5_49
+	jq	nz, BB5_54
 	ld	iy, (ix + 6)
 	ld	de, 140
 	add	iy, de
@@ -652,12 +679,12 @@ BB5_46:
 	sbc	hl, de
 	push	hl
 	pop	de
-BB5_49:
+BB5_54:
 	ld	hl, (ix + -3)
 	ld	(hl), de
 	ld	a, 1
 	ld	(ix + -6), a
-BB5_50:
+BB5_55:
 	ld	(ix + -9), c
 	ld	hl, 2
 	push	hl
@@ -668,7 +695,7 @@ BB5_50:
 	xor	a, l
 	ld	hl, 3
 	bit	0, a
-	jq	nz, BB5_63
+	jq	nz, BB5_68
 	ld	hl, (ix + -3)
 	ld	de, (hl)
 	ld	iy, (ix + 6)
@@ -680,31 +707,31 @@ BB5_50:
 	pop	hl
 	or	a, a
 	sbc	hl, bc
-	jq	z, BB5_57
+	jq	z, BB5_62
 	ld	a, 0
-	jq	BB5_58
-BB5_57:
+	jq	BB5_63
+BB5_62:
 	ld	a, 1
-BB5_58:
+BB5_63:
 	ld	iy, (ix + 6)
 	bit	0, a
 	ld	(ix + -9), a
-	jq	z, BB5_61
+	jq	z, BB5_66
 	push	de
 	pop	iy
-	jq	BB5_62
-BB5_61:
+	jq	BB5_67
+BB5_66:
 	ld	bc, 140
 	add	iy, bc
 	ld	iy, (iy)
 	add	iy, de
-BB5_62:
+BB5_67:
 	ld	hl, (ix + -3)
 	ld	(hl), iy
 	ld	a, 1
 	ld	(ix + -6), a
 	ld	hl, 3
-BB5_63:
+BB5_68:
 	push	hl
 	call	_optix_DefaultKeyIsDown
 	pop	hl
@@ -712,7 +739,7 @@ BB5_63:
 	ld	l, 1
 	xor	a, l
 	bit	0, a
-	jq	nz, BB5_67
+	jq	nz, BB5_72
 	ld	hl, (ix + -3)
 	ld	de, (hl)
 	ld	iy, (ix + 6)
@@ -727,7 +754,7 @@ BB5_63:
 	sbc	hl, bc
 	ld	a, 1
 	ld	(ix + -9), a
-	jq	z, BB5_67
+	jq	z, BB5_72
 	dec	de
 	ld	hl, (ix + -3)
 	ld	(hl), de
@@ -735,7 +762,7 @@ BB5_63:
 	ld	(ix + -9), a
 	ld	a, 1
 	ld	(ix + -6), a
-BB5_67:
+BB5_72:
 	ld	hl, 4
 	push	hl
 	call	_optix_DefaultKeyIsDown
@@ -745,7 +772,7 @@ BB5_67:
 	xor	a, c
 	bit	0, a
 	ld	b, (ix + -9)
-	jq	nz, BB5_69
+	jq	nz, BB5_74
 	ld	hl, (ix + -3)
 	ld	de, (hl)
 	inc	de
@@ -761,26 +788,26 @@ BB5_67:
 	or	a, a
 	sbc	hl, bc
 	ld	b, 1
-	jq	nz, BB5_70
-BB5_69:
+	jq	nz, BB5_75
+BB5_74:
 	ld	a, (ix + -6)
 	xor	a, c
 	bit	0, a
-	jq	z, BB5_71
-	jq	BB5_74
-BB5_70:
+	jq	z, BB5_76
+	jq	BB5_79
+BB5_75:
 	ld	hl, (ix + -3)
 	ld	(hl), de
 	xor	a, a
 	ld	b, a
-BB5_71:
+BB5_76:
 	ld	de, 156
 	ld	iy, (ix + 6)
 	add	iy, de
 	ld	a, (iy)
 	xor	a, c
 	bit	0, a
-	jq	nz, BB5_74
+	jq	nz, BB5_79
 	ld	de, 157
 	ld	iy, (ix + 6)
 	add	iy, de
@@ -788,7 +815,7 @@ BB5_71:
 	xor	a, c
 	xor	a, c
 	bit	0, a
-	jq	nz, BB5_74
+	jq	nz, BB5_79
 	ld	iy, (_current_context)
 	ld	hl, (iy + 15)
 	ld	de, (ix + 6)
@@ -799,37 +826,37 @@ BB5_71:
 	pop	hl
 	pop	hl
 	bit	0, (ix + -9)
-	jq	nz, BB5_76
-	jq	BB5_75
-BB5_74:
+	jq	nz, BB5_81
+	jq	BB5_80
+BB5_79:
 	bit	0, b
-	jq	nz, BB5_76
-BB5_75:
+	jq	nz, BB5_81
+BB5_80:
 	ld	iy, (_current_context)
 	ld	iy, (iy + 9)
 	ld	hl, 4
 	ld	(iy + 51), hl
-BB5_76:
+BB5_81:
 	ld	hl, (ix + -3)
 	ld	iy, (hl)
 	ld	bc, -1
-BB5_77:
+BB5_82:
 	lea	hl, iy + 0
 	or	a, a
 	sbc	hl, bc
 	lea	bc, iy + 0
-	jq	z, BB5_88
+	jq	z, BB5_93
 	ld	de, 0
 	push	bc
 	pop	hl
 	or	a, a
 	sbc	hl, de
 	call	__setflag
-	jq	p, BB5_80
+	jq	p, BB5_85
 	ld	hl, (ix + -3)
 	ld	bc, 0
 	ld	(hl), bc
-BB5_80:
+BB5_85:
 	ld	iy, (ix + 6)
 	ld	de, 143
 	add	iy, de
@@ -839,13 +866,13 @@ BB5_80:
 	or	a, a
 	sbc	hl, de
 	call	__setflag
-	jq	m, BB5_82
+	jq	m, BB5_87
 	dec	de
 	ld	hl, (ix + -3)
 	ld	(hl), de
 	push	de
 	pop	bc
-BB5_82:
+BB5_87:
 	ld	hl, (ix + 6)
 	push	hl
 	pop	iy
@@ -859,15 +886,15 @@ BB5_82:
 	or	a, a
 	sbc	hl, de
 	ld	(ix + -6), iy
-	jq	z, BB5_84
+	jq	z, BB5_89
 	push	bc
 	pop	hl
 	ld	de, (ix + -3)
 	or	a, a
 	sbc	hl, de
 	call	__setflag
-	jq	m, BB5_86
-BB5_84:
+	jq	m, BB5_91
+BB5_89:
 	ld	iy, (ix + 6)
 	ld	(ix + -9), bc
 	ld	de, 137
@@ -887,15 +914,15 @@ BB5_84:
 	or	a, a
 	sbc	hl, de
 	call	__setflag
-	jq	p, BB5_88
+	jq	p, BB5_93
 	ex	de, hl
 	call	__idivs
 	lea	de, iy + 0
 	or	a, a
 	sbc	hl, de
 	call	__imulu
-	jq	BB5_87
-BB5_86:
+	jq	BB5_92
+BB5_91:
 	ld	iy, (ix + 6)
 	push	bc
 	pop	hl
@@ -910,12 +937,12 @@ BB5_86:
 	ex	de, hl
 	or	a, a
 	sbc	hl, bc
-BB5_87:
+BB5_92:
 	ld	iy, (ix + -6)
 	ld	(iy), hl
 	ld	iy, (ix + 6)
 	ld	(iy + 17), 1
-BB5_88:
+BB5_93:
 	ld	hl, (ix + 6)
 	push	hl
 	pop	iy

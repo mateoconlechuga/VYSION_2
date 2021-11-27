@@ -25,10 +25,6 @@ void vysion_AddFileExplorerWindow(void *config) {
                     .width = 100,
                     .height = 100,
                 },
-                .state = {
-                    .override_size = true,
-                    .size = sizeof(struct vysion_file_explorer_menu),
-                },
                 .child = NULL,
             },
             .dynamic = true,
@@ -65,6 +61,8 @@ void vysion_AddFileExplorerWindow(void *config) {
     //do this now, or there will be a slight delay until the correct options are shown
     //vysion_UpdateFileExplorerMenu(&template_file_menu.menu.widget);
     optix_InitializeWidget(&template_file_menu.menu.widget, OPTIX_MENU_TYPE);
+    template_file_menu.menu.widget.state.override_size = true;
+    template_file_menu.menu.widget.state.size = sizeof(struct vysion_file_explorer_menu);
     //vysion_UpdateFileExplorerMenu(&template_file_menu.menu.widget);
     template_file_menu.menu.widget.render = vysion_RenderFileExplorerMenu;
     template_file_menu.menu.num_options = vysion_current_context->num_programs;

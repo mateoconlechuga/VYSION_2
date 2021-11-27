@@ -134,7 +134,7 @@ void vysion_WallpaperPicker(void) {
     //just assume that this is the number of files for the sake of argument
     int i = 0;
     int wallpapers_found = 0;
-    struct optix_widget *last_selection = current_context->cursor->current_selection;
+    struct optix_cursor old_cursor_state;
     struct optix_widget *stack[9];
     struct optix_widget **old_stack = current_context->stack;
     char wallpaper_name[MAX_NUM_WALLPAPERS][WALLPAPER_NAME_MAX_LENGTH];
@@ -195,6 +195,8 @@ void vysion_WallpaperPicker(void) {
     stack[6] = &wallpaper_menu.menu.widget;
     stack[7] = &wallpaper_menu_divider.widget;
     stack[8] = NULL;
+    //save the old cursor state
+    memcpy(&old_cursor_state, current_context->cursor, sizeof(struct optix_cursor));
     current_context->stack = stack;
     current_context->data->gui_needs_full_redraw = true;
     vysion_SetWallpaper("DEFAULT4", wallpaper_ptr);
@@ -207,5 +209,6 @@ void vysion_WallpaperPicker(void) {
     current_context->stack = old_stack;
     wallpaper_menu.menu.selection = wallpaper_menu.selection;
     vysion_WallpaperPickerMenu_ClickAction(&wallpaper_menu.menu.widget);
-    optix_SetCurrentSelection(last_selection);
+    //bring back the old cursor state
+    memcpy(current_context->cursor, &old_cursor_state, sizeof(struct optix_cursor));
 }

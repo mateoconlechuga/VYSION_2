@@ -61,19 +61,17 @@ void vysion_UpdateStartWindow(struct optix_widget *widget) {
 void vysion_StartMenuClickAction(void *args) {
     int *selection = (int *) args;
     switch (*selection) {
-        case 5:
-            gfx_End();
-            exit(0);
+        case 0:
+            vysion_AddFileExplorerWindow(NULL);
             break;
         case 1:
             vysion_AddSettingsWindow(NULL);
             break;
-        case 2:
-            dbg_sprintf(dbgout, "What");
-            vysion_WallpaperPicker();
+        case 5:
+            gfx_End();
+            exit(0);
             break;
         default:
-            vysion_AddFileExplorerWindow(NULL);
             break;
 
     }

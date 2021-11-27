@@ -202,6 +202,19 @@ DATE:      | 2021-11-18
 VERSION:   | 0.0.33
 CHANGELOG: | [fixed] embedded menu widgets could update even if the selection was outside of the range
            | [fixed] menus with empty space could register hovering over space as over last selection
+           |
+DATE:      | 2021-11-22
+VERSION:   | 0.0.34
+CHANGELOG: | [added] basic format of settings menu
+           |
+DATE:      | 2021-11-23
+VERSION:   | 0.0.35
+CHANGELOG: | [improved] buttons/checkboxes embedded in menus can now be triggered in box-based mode
+           |
+DATE:      | 2021-11-27
+VERSION:   | 0.0.36
+CHANGELOG: | [improved] start menu behavior (correct windows now opened)
+          
   
            
 

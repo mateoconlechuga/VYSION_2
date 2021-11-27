@@ -33,12 +33,4 @@ struct vysion_settings {
     bool customization_display_files : 1;
 };
 
-
-
-
-
-
-
-
-
 #endif

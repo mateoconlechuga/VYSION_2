@@ -100,47 +100,44 @@ _vysion_StartMenuClickAction:
 	ld	hl, (ix + 6)
 	ld	iy, 0
 	ld	de, (hl)
+	push	de
+	pop	hl
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	jq	nz, BB2_3
+	push	iy
+	call	_vysion_AddFileExplorerWindow
+	jq	BB2_2
+BB2_3:
 	ld	bc, 1
 	push	de
 	pop	hl
 	or	a, a
 	sbc	hl, bc
-	jq	nz, BB2_2
+	jq	nz, BB2_5
 	push	iy
 	call	_vysion_AddSettingsWindow
-	jq	BB2_7
 BB2_2:
-	ld	bc, 2
-	push	de
 	pop	hl
-	or	a, a
-	sbc	hl, bc
-	jq	nz, BB2_4
-	call	_vysion_WallpaperPicker
-	jq	BB2_8
-BB2_4:
+BB2_7:
+	ld	iy, (_current_context)
+	ld	iy, (iy + 3)
+	ld	(iy + 3), 53
+	pop	ix
+	ret
+BB2_5:
 	ld	bc, 5
 	ex	de, hl
 	or	a, a
 	sbc	hl, bc
-	jq	nz, BB2_6
+	jq	nz, BB2_7
 	call	_gfx_End
 	or	a, a
 	sbc	hl, hl
 	push	hl
 	call	_exit
 	pop	hl
-BB2_6:
-	push	iy
-	call	_vysion_AddFileExplorerWindow
-BB2_7:
-	pop	hl
-BB2_8:
-	ld	iy, (_current_context)
-	ld	iy, (iy + 3)
-	ld	(iy + 3), 53
-	pop	ix
-	ret
 	section	.text,"ax",@progbits
 
 	section	.text,"ax",@progbits
@@ -1529,7 +1526,7 @@ L___const.vysion_Desktop.super_icon:
 	section	.rodata,"a",@progbits
 	private	L_.str.7
 L_.str.7:
-	db	"VYSION 2 CE Development",012o,"0.0.34 (private, experimental)",012o,"Do not distribute.",000o
+	db	"VYSION 2 CE Development",012o,"0.0.35 (private, experimental)",012o,"Do not distribute.",000o
 
 	ident	"clang version 12.0.0 (https://github.com/jacobly0/llvm-project 170be88120e3aa88c20eea5615ba76b8f1d6c647)"
 	extern	_memset
@@ -1555,7 +1552,6 @@ L_.str.7:
 	extern	_vysion_FileExplorerMenuClickAction
 	extern	_exit
 	extern	_start_exit_data
-	extern	_vysion_WallpaperPicker
 	extern	_vysion_UpdateBatteryIcon
 	extern	_vysion_UpdateWindowManagerMenu
 	extern	_fontlib_GetCurrentFontHeight

@@ -8,7 +8,7 @@ _vysion_AddFileExplorerWindow:
 	ld	bc, -318
 	lea	iy, ix + 0
 	add	iy, bc
-	ld	bc, -321
+	ld	bc, -330
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	(hl), iy
@@ -23,13 +23,13 @@ _vysion_AddFileExplorerWindow:
 	lea	bc, iy + 90
 	ld	(ix + -3), de
 	push	ix
-	ld	de, -330
+	ld	de, -327
 	add	ix, de
 	ld	(ix + 0), bc
 	pop	ix
 	lea	bc, iy + 47
 	push	ix
-	ld	de, -327
+	ld	de, -324
 	add	ix, de
 	ld	(ix + 0), bc
 	pop	ix
@@ -40,7 +40,7 @@ _vysion_AddFileExplorerWindow:
 	ld	(ix + 0), bc
 	pop	ix
 	lea	bc, iy + 0
-	ld	de, -324
+	ld	de, -321
 	lea	iy, ix + 0
 	add	iy, de
 	ld	(iy + 0), bc
@@ -57,7 +57,7 @@ _vysion_AddFileExplorerWindow:
 	push	hl
 	ld	hl, L___const.vysion_AddFileExplorerWindow.template_file_menu
 	push	hl
-	ld	bc, -330
+	ld	bc, -327
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
@@ -68,7 +68,7 @@ _vysion_AddFileExplorerWindow:
 	pop	hl
 	ld	hl, 3
 	push	hl
-	ld	bc, -330
+	ld	bc, -327
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
@@ -76,19 +76,22 @@ _vysion_AddFileExplorerWindow:
 	call	_optix_InitializeWidget
 	pop	hl
 	pop	hl
-	ld	hl, _vysion_RenderFileExplorerMenu
-	push	ix
-	ld	bc, -321
-	add	ix, bc
-	ld	iy, (ix + 0)
-	pop	ix
-	ld	(iy + 111), hl
-	ld	iy, (_vysion_current_context)
-	ld	hl, (iy + 30)
-	ld	(ix + -85), hl
+	ld	bc, -330
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	iy, (hl)
+	ld	(iy + 108), 1
+	ld.sis	hl, 177
+	ld	(iy + 109), l
+	ld	(iy + 110), h
+	ld	hl, _vysion_RenderFileExplorerMenu
+	ld	(iy + 111), hl
+	lea	de, iy + 0
+	ld	iy, (_vysion_current_context)
+	ld	hl, (iy + 30)
+	ld	(ix + -85), hl
+	push	de
+	pop	iy
 	ld	(iy + 47), 0
 	ld	hl, 110
 	ld	(iy + 48), hl
@@ -98,7 +101,7 @@ _vysion_AddFileExplorerWindow:
 	ld	(iy + 54), l
 	ld	(iy + 55), h
 	ld	(iy + 56), 100
-	ld	bc, -327
+	ld	bc, -324
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	iy, (hl)
@@ -112,12 +115,12 @@ _vysion_AddFileExplorerWindow:
 	pop	hl
 	pop	hl
 	pop	hl
-	ld	bc, -321
+	ld	bc, -330
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	iy, (hl)
 	push	ix
-	ld	bc, -330
+	ld	bc, -327
 	add	ix, bc
 	ld	hl, (ix + 0)
 	pop	ix
@@ -143,7 +146,7 @@ _vysion_AddFileExplorerWindow:
 	ld	(iy + 89), 0
 	ld	hl, 4
 	push	hl
-	ld	bc, -327
+	ld	bc, -324
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
@@ -156,7 +159,7 @@ _vysion_AddFileExplorerWindow:
 	or	a, a
 	sbc	hl, hl
 	push	hl
-	ld	bc, -324
+	ld	bc, -321
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
@@ -165,18 +168,18 @@ _vysion_AddFileExplorerWindow:
 	pop	hl
 	pop	hl
 	pop	hl
-	ld	bc, -327
+	ld	bc, -324
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
-	ld	bc, -321
+	ld	bc, -330
 	lea	iy, ix + 0
 	add	iy, bc
 	ld	iy, (iy + 0)
 	ld	(iy + 30), hl
 	ld	hl, 5
 	push	hl
-	ld	bc, -324
+	ld	bc, -321
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
@@ -186,7 +189,7 @@ _vysion_AddFileExplorerWindow:
 	pop	hl
 	ld	hl, 41
 	push	hl
-	ld	bc, -324
+	ld	bc, -321
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
@@ -543,12 +546,7 @@ L___const.vysion_AddFileExplorerWindow.template_file_menu:
 	dw	100
 	db	100
 	db	4 dup 0
-	db	0
-	db	0
-	db	0
-	db	0
-	db	1
-	dw	177
+	db	7 dup 0
 	dl	0
 	dl	0
 	dl	0

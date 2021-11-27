@@ -49,6 +49,7 @@ void optix_UpdateStack(struct optix_widget *stack[]) {
         if (stack[i]->state.visible && stack[i]->update) stack[i]->update(stack[i]);
         //account for the edge case that an element may have destroyed itself while updating
         if (stack[i]) {
+            dbg_sprintf(dbgout, "Updating type %d\n", stack[i]->type);
             //handle this case, just in case-window title bars/windows should only be active if they're the last one
             if (stack[i + 1]) {
                 if (stack[i]->type == OPTIX_WINDOW_TYPE || stack[i]->type == OPTIX_WINDOW_TITLE_BAR_TYPE) {

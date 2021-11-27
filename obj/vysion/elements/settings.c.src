@@ -12,15 +12,20 @@ _vysion_AddSettingsWindow:
 	lea	hl, ix + 0
 	add	hl, bc
 	push	ix
-	ld	bc, -1419
+	ld	bc, -1449
 	add	ix, bc
-	lea	de, ix + 0
+	ld	(ix + 0), hl
 	pop	ix
+	ld	bc, -1419
+	lea	hl, ix + 0
+	add	hl, bc
 	push	ix
 	ld	bc, -1425
 	add	ix, bc
-	ld	(ix + 0), de
+	ld	(ix + 0), hl
 	pop	ix
+	or	a, a
+	sbc	hl, hl
 	lea	de, ix + -51
 	push	ix
 	ld	bc, -1422
@@ -51,14 +56,13 @@ _vysion_AddSettingsWindow:
 	lea	iy, ix + 0
 	add	iy, de
 	ld	(iy + 0), bc
-	push	hl
-	pop	iy
-	ld	de, -1461
-	lea	hl, ix + 0
-	add	hl, de
-	ld	(hl), iy
+	push	ix
+	ld	de, -1449
+	add	ix, de
+	ld	iy, (ix + 0)
+	pop	ix
 	lea	bc, iy + 11
-	ld	de, -1455
+	ld	de, -1458
 	lea	iy, ix + 0
 	add	iy, de
 	ld	(iy + 0), bc
@@ -75,13 +79,13 @@ _vysion_AddSettingsWindow:
 	pop	ix
 	lea	bc, iy + 91
 	push	ix
-	ld	de, -1458
+	ld	de, -1461
 	add	ix, de
 	ld	(ix + 0), bc
 	pop	ix
 	lea	bc, iy + 47
 	push	ix
-	ld	de, -1449
+	ld	de, -1452
 	add	ix, de
 	ld	(ix + 0), bc
 	pop	ix
@@ -96,12 +100,10 @@ _vysion_AddSettingsWindow:
 	lea	iy, ix + 0
 	add	iy, de
 	ld	(iy + 0), bc
-	ld	hl, 45
+	ld	bc, 45
+	push	bc
 	push	hl
-	or	a, a
-	sbc	hl, hl
 	ld	de, (ix + -3)
-	push	hl
 	ld	bc, -1443
 	lea	hl, ix + 0
 	add	hl, bc
@@ -191,7 +193,7 @@ _vysion_AddSettingsWindow:
 	add	hl, bc
 	ld	iy, (hl)
 	push	ix
-	ld	bc, -1452
+	ld	bc, -1455
 	add	ix, bc
 	ld	(ix + 0), iy
 	pop	ix
@@ -219,7 +221,7 @@ _vysion_AddSettingsWindow:
 	or	a, a
 	sbc	hl, hl
 	push	hl
-	ld	bc, -1452
+	ld	bc, -1455
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	iy, (hl)
@@ -282,7 +284,7 @@ BB0_5:
 	add	hl, de
 	ld	hl, (hl)
 	push	hl
-	ld	de, -1452
+	ld	de, -1455
 	lea	hl, ix + 0
 	add	hl, de
 	ld	(hl), iy
@@ -301,7 +303,7 @@ BB0_5:
 	ld	(iy + 116), 2
 	ld	(iy + 117), 1
 	ld	(iy + 118), -4
-	ld	bc, -1461
+	ld	bc, -1449
 	lea	iy, ix + 0
 	add	iy, bc
 	ld	iy, (iy + 0)
@@ -340,7 +342,7 @@ BB0_5:
 	or	a, a
 	sbc	hl, hl
 	push	hl
-	ld	bc, -1458
+	ld	bc, -1461
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	iy, (hl)
@@ -354,7 +356,7 @@ BB0_5:
 	or	a, a
 	sbc	hl, hl
 	push	hl
-	ld	bc, -1449
+	ld	bc, -1452
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
@@ -379,7 +381,7 @@ BB0_5:
 	ld	(iy + 88), hl
 	ld	hl, 10
 	push	hl
-	ld	bc, -1449
+	ld	bc, -1452
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
@@ -387,7 +389,7 @@ BB0_5:
 	call	_optix_InitializeWidget
 	pop	hl
 	pop	hl
-	ld	de, -1449
+	ld	de, -1452
 	lea	hl, ix + 0
 	add	hl, de
 	ld	hl, (hl)
@@ -399,11 +401,11 @@ BB0_5:
 	ld	bc, 0
 	ld	(iy + 44), bc
 	ld	(ix + -3), bc
-	ld	bc, -1452
+	ld	bc, -1455
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	de, (hl)
-	ld	bc, -1455
+	ld	bc, -1458
 	lea	iy, ix + 0
 	add	iy, bc
 	ld	iy, (iy + 0)
@@ -485,7 +487,7 @@ BB0_5:
 	sbc	hl, bc
 	jq	nc, BB0_6
 	ld	(ix + -3), de
-	ld	de, -1452
+	ld	de, -1455
 	lea	hl, ix + 0
 	add	hl, de
 	ld	bc, (hl)
@@ -499,7 +501,7 @@ BB0_5:
 BB0_14:
 	push	bc
 	pop	de
-	ld	bc, -1455
+	ld	bc, -1458
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
@@ -508,7 +510,7 @@ BB0_14:
 	add	hl, de
 	ld	de, _vysion_AddSettingsWindow.system
 	ld	(hl), de
-	ld	bc, -1458
+	ld	bc, -1461
 	jq	BB0_15
 BB0_9:
 	push	bc
@@ -537,7 +539,7 @@ BB0_11:
 BB0_16:
 	push	bc
 	pop	de
-	ld	bc, -1455
+	ld	bc, -1458
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
@@ -556,7 +558,7 @@ BB0_15:
 BB0_17:
 	push	bc
 	pop	de
-	ld	bc, -1455
+	ld	bc, -1458
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
@@ -568,7 +570,7 @@ BB0_17:
 BB0_19:
 	push	bc
 	pop	de
-	ld	bc, -1455
+	ld	bc, -1458
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
@@ -580,7 +582,7 @@ BB0_19:
 BB0_20:
 	push	bc
 	pop	de
-	ld	bc, -1455
+	ld	bc, -1458
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
@@ -588,20 +590,30 @@ BB0_20:
 	ld	de, -193
 	add	hl, de
 	ld	de, _vysion_AddSettingsWindow.reset
-	jq	BB0_18
+BB0_18:
+	ld	(hl), de
+	jq	BB0_6
 BB0_21:
 	push	bc
 	pop	de
-	ld	bc, -1455
+	ld	bc, -1458
 	lea	hl, ix + 0
 	add	hl, bc
-	ld	hl, (hl)
-	add	hl, de
+	ld	iy, (hl)
+	add	iy, de
+	lea	hl, iy + 0
 	ld	de, -193
 	add	hl, de
 	ld	de, _vysion_AddSettingsWindow.desktop
-BB0_18:
 	ld	(hl), de
+	lea	hl, iy + 0
+	ld	de, -167
+	add	hl, de
+	ld	de, _vysion_SettingsDesktopClickAction
+	ld	(hl), de
+	ld	de, -161
+	add	iy, de
+	ld	(iy), 1
 BB0_6:
 	ld	hl, 3
 	push	hl
@@ -613,7 +625,7 @@ BB0_6:
 	call	_optix_InitializeWidget
 	pop	hl
 	pop	hl
-	ld	bc, -1452
+	ld	bc, -1455
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
@@ -814,6 +826,22 @@ BB1_3:
 	ld	(iy + 17), 1
 BB1_5:
 	ld	sp, ix
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_vysion_SettingsDesktopClickAction
+_vysion_SettingsDesktopClickAction:
+	call	__frameset0
+	ld	hl, (ix + 6)
+	ld	de, 129
+	add	hl, de
+	ld	hl, (hl)
+	ld	de, 2
+	or	a, a
+	sbc	hl, de
+	call	z, _vysion_WallpaperPicker
 	pop	ix
 	ret
 	section	.text,"ax",@progbits
@@ -1055,7 +1083,9 @@ L_.str.21:
 	extern	__Unwind_SjLj_Unregister
 	extern	_settings_shell_data
 	extern	__imulu
+	extern	_vysion_WallpaperPicker
 	extern	_vysion_AddWindow
 	extern	_settings_taskbar_data
 	extern	_settings_colors_data
 	extern	_settings_desktop_data
+	extern	__frameset0

@@ -96,6 +96,9 @@ void optix_InitializeWidget(struct optix_widget *widget, uint8_t type) {
     widget->update = update[type];
     widget->render = render[type];
     widget->state.selectable = selectable[type];
+    //this will have to be done after the initialization now, as usual
+    widget->state.override_size = false;
+    widget->state.size = optix_GetSize(widget);
     //element-specific things
     switch (type) {
         case OPTIX_MENU_TYPE:
