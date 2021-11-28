@@ -36,6 +36,7 @@ void vysion_AddSettingsWindow(void *config) {
                     .y_centering = OPTIX_CENTERING_CENTERED,
                     .x_centering = OPTIX_CENTERING_LEFT,
                     .x_offset = 2,
+                    .y_offset = 0,
                 },
             },
             .transparent = true,
@@ -149,6 +150,7 @@ void vysion_AddSettingsWindow(void *config) {
             menu->spr = NULL;
             menu->widget.centering.x_centering = OPTIX_CENTERING_RIGHT;
             menu->widget.centering.y_centering = OPTIX_CENTERING_BOTTOM;
+            menu->widget.centering.x_offset = menu->widget.centering.y_offset = 0;
             menu->text_args.widget.centering.x_centering = OPTIX_CENTERING_LEFT;
             menu->text_args.widget.centering.x_offset = 4;
             menu->text_args.widget.centering.y_centering = OPTIX_CENTERING_CENTERED;
@@ -163,6 +165,8 @@ void vysion_AddSettingsWindow(void *config) {
                 case 1:
                     menu->text = shell;
                     menu->widget.child = shell_child;
+                    menu->click_action.click_action = vysion_SettingsShellClickAction;
+                    menu->pass_self = true;
                     break;
                 case 2:
                     menu->text = colors;
@@ -221,6 +225,20 @@ void vysion_SettingsMenuSideBarMenuClickAction(void *args) {
         final_window->widget.window_title_bar.window->widget.state.needs_redraw = true;
     }
 }
+
+void vysion_SettingsShellClickAction(void *args) {
+    struct optix_menu *menu = (struct optix_menu *) args;
+    switch (menu->selection) {
+        case SHELL_TOGGLE_CURSOR:
+            current_context->settings->cursor_active ^= true;
+            //who knows where the cursor will be, so I think this is the smartest thing to do
+            current_context->data->gui_needs_full_redraw = true;
+            break;
+        default:
+            break;
+    }
+}
+
 
 void vysion_SettingsDesktopClickAction(void *args) {
     struct optix_menu *menu = (struct optix_menu *) args;

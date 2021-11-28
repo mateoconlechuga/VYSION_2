@@ -459,6 +459,14 @@ BB0_5:
 	add	hl, de
 	ld	(hl), 2
 	lea	hl, iy + 0
+	ld	de, -303
+	add	hl, de
+	ld	(hl), 0
+	lea	hl, iy + 0
+	dec	de
+	add	hl, de
+	ld	(hl), 0
+	lea	hl, iy + 0
 	ld	de, -264
 	add	hl, de
 	ld	(hl), 0
@@ -511,7 +519,11 @@ BB0_14:
 	ld	de, _vysion_AddSettingsWindow.system
 	ld	(hl), de
 	ld	bc, -1461
-	jq	BB0_15
+	lea	hl, ix + 0
+	add	hl, bc
+	ld	hl, (hl)
+	ld	(iy), hl
+	jq	BB0_6
 BB0_9:
 	push	bc
 	pop	hl
@@ -536,6 +548,32 @@ BB0_11:
 	pop	iy
 	ld	bc, (ix + -3)
 	jq	BB0_12
+BB0_15:
+	push	bc
+	pop	de
+	ld	bc, -1458
+	lea	hl, ix + 0
+	add	hl, bc
+	ld	hl, (hl)
+	add	hl, de
+	push	hl
+	pop	bc
+	ld	de, -193
+	add	hl, de
+	ld	de, _vysion_AddSettingsWindow.shell
+	ld	(hl), de
+	ld	de, -1467
+	lea	hl, ix + 0
+	add	hl, de
+	ld	hl, (hl)
+	ld	(iy), hl
+	push	bc
+	pop	iy
+	lea	hl, iy + 0
+	ld	de, -167
+	add	hl, de
+	ld	de, _vysion_SettingsShellClickAction
+	jq	BB0_21
 BB0_16:
 	push	bc
 	pop	de
@@ -546,28 +584,9 @@ BB0_16:
 	add	hl, de
 	ld	de, -193
 	add	hl, de
-	ld	de, _vysion_AddSettingsWindow.shell
-	ld	(hl), de
-	ld	bc, -1467
-BB0_15:
-	lea	hl, ix + 0
-	add	hl, bc
-	ld	hl, (hl)
-	ld	(iy), hl
-	jq	BB0_6
-BB0_17:
-	push	bc
-	pop	de
-	ld	bc, -1458
-	lea	hl, ix + 0
-	add	hl, bc
-	ld	hl, (hl)
-	add	hl, de
-	ld	de, -193
-	add	hl, de
 	ld	de, _vysion_AddSettingsWindow.colors
-	jq	BB0_18
-BB0_19:
+	jq	BB0_17
+BB0_18:
 	push	bc
 	pop	de
 	ld	bc, -1458
@@ -578,8 +597,8 @@ BB0_19:
 	ld	de, -193
 	add	hl, de
 	ld	de, _vysion_AddSettingsWindow.taskbar
-	jq	BB0_18
-BB0_20:
+	jq	BB0_17
+BB0_19:
 	push	bc
 	pop	de
 	ld	bc, -1458
@@ -590,10 +609,10 @@ BB0_20:
 	ld	de, -193
 	add	hl, de
 	ld	de, _vysion_AddSettingsWindow.reset
-BB0_18:
+BB0_17:
 	ld	(hl), de
 	jq	BB0_6
-BB0_21:
+BB0_20:
 	push	bc
 	pop	de
 	ld	bc, -1458
@@ -610,6 +629,7 @@ BB0_21:
 	ld	de, -167
 	add	hl, de
 	ld	de, _vysion_SettingsDesktopClickAction
+BB0_21:
 	ld	(hl), de
 	ld	de, -161
 	add	iy, de
@@ -750,11 +770,11 @@ lJTI0_0:
 	private	LJTI0_0
 LJTI0_0:
 	dl	BB0_14
+	dl	BB0_15
 	dl	BB0_16
-	dl	BB0_17
+	dl	BB0_18
 	dl	BB0_19
 	dl	BB0_20
-	dl	BB0_21
 
 	section	.text,"ax",@progbits
 	public	_vysion_SettingsMenuSideBarMenuClickAction
@@ -826,6 +846,30 @@ BB1_3:
 	ld	(iy + 17), 1
 BB1_5:
 	ld	sp, ix
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_vysion_SettingsShellClickAction
+_vysion_SettingsShellClickAction:
+	call	__frameset0
+	ld	hl, (ix + 6)
+	ld	de, 129
+	add	hl, de
+	ld	hl, (hl)
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	jq	nz, BB2_2
+	ld	iy, (_current_context)
+	ld	hl, (iy)
+	ld	a, (hl)
+	xor	a, 1
+	ld	(hl), a
+	ld	hl, (iy + 3)
+	ld	(hl), 1
+BB2_2:
 	pop	ix
 	ret
 	section	.text,"ax",@progbits

@@ -110,7 +110,7 @@ _vysion_StartMenuClickAction:
 	call	_vysion_AddFileExplorerWindow
 	jq	BB2_2
 BB2_3:
-	ld	bc, 1
+	ld	bc, 2
 	push	de
 	pop	hl
 	or	a, a
@@ -120,24 +120,19 @@ BB2_3:
 	call	_vysion_AddSettingsWindow
 BB2_2:
 	pop	hl
+	jq	BB2_7
+BB2_5:
+	ld	bc, 5
+	ex	de, hl
+	or	a, a
+	sbc	hl, bc
+	call	z, _vysion_End
 BB2_7:
 	ld	iy, (_current_context)
 	ld	iy, (iy + 3)
 	ld	(iy + 3), 53
 	pop	ix
 	ret
-BB2_5:
-	ld	bc, 5
-	ex	de, hl
-	or	a, a
-	sbc	hl, bc
-	jq	nz, BB2_7
-	call	_gfx_End
-	or	a, a
-	sbc	hl, hl
-	push	hl
-	call	_exit
-	pop	hl
 	section	.text,"ax",@progbits
 
 	section	.text,"ax",@progbits
@@ -1380,7 +1375,7 @@ _vysion_SuperButtonClickAction.last_selection:
 	section	.rodata,"a",@progbits
 	private	L_.str
 L_.str:
-	db	"CONSTRUCT",000o
+	db	"DEFAULTB",000o
 
 	section	.rodata,"a",@progbits
 	private	L___const.vysion_Desktop.desktop_file_menu
@@ -1526,7 +1521,7 @@ L___const.vysion_Desktop.super_icon:
 	section	.rodata,"a",@progbits
 	private	L_.str.7
 L_.str.7:
-	db	"VYSION 2 CE Development",012o,"0.0.35 (private, experimental)",012o,"Do not distribute.",000o
+	db	"VYSION 2 CE Development",012o,"0.0.36 (private, experimental)",012o,"Do not distribute.",000o
 
 	ident	"clang version 12.0.0 (https://github.com/jacobly0/llvm-project 170be88120e3aa88c20eea5615ba76b8f1d6c647)"
 	extern	_memset
@@ -1538,19 +1533,19 @@ L_.str.7:
 	extern	_optix_SetCurrentSelection
 	extern	_taskbar_icon_data
 	extern	_start_settings_data
+	extern	_vysion_End
 	extern	_memcpy
 	extern	_optix_UpdateWindow_default
 	extern	_vysion_WindowManagerMenuClickAction
 	extern	_start_refresh_data
-	extern	_vysion_AddSettingsWindow
 	extern	_optix_RecursiveAlign
+	extern	_vysion_AddSettingsWindow
 	extern	_start_search_data
 	extern	_current_context
 	extern	_clock_text_buffer
 	extern	__Unwind_SjLj_Unregister
 	extern	_vysion_RenderWindowManagerMenu
 	extern	_vysion_FileExplorerMenuClickAction
-	extern	_exit
 	extern	_start_exit_data
 	extern	_vysion_UpdateBatteryIcon
 	extern	_vysion_UpdateWindowManagerMenu
@@ -1560,10 +1555,10 @@ L_.str.7:
 	extern	_optix_RefreshCursorBackground
 	extern	_optix_UpdateGUI
 	extern	_optix_RenderGUI
-	extern	_gfx_End
 	extern	_vysion_UpdateClockText
 	extern	_battery_0_data
 	extern	__frameset0
 	extern	_start_about_data
 	extern	_start_icon_data
+	extern	_gfx_End
 	extern	_vysion_AddFileExplorerWindow

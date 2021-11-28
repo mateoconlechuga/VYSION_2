@@ -43,9 +43,13 @@ _main:
 	ld	bc, -232
 	lea	iy, ix + 0
 	add	iy, bc
+	ld	bc, -238
+	lea	hl, ix + 0
+	add	hl, bc
+	ld	(hl), iy
 	lea	hl, ix + -42
 	push	ix
-	ld	bc, -238
+	ld	bc, -235
 	add	ix, bc
 	ld	(ix + 0), hl
 	pop	ix
@@ -72,12 +76,6 @@ _main:
 	lea	de, iy + 18
 	push	ix
 	ld	bc, -247
-	add	ix, bc
-	ld	(ix + 0), de
-	pop	ix
-	lea	de, iy + 0
-	push	ix
-	ld	bc, -235
 	add	ix, bc
 	ld	(ix + 0), de
 	pop	ix
@@ -113,14 +111,14 @@ _main:
 	call	_vysion_SetContext
 	pop	hl
 	call	_vysion_InitializeGraphics
-	ld	bc, -235
+	ld	bc, -238
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
 	push	hl
 	call	_vysion_InitializeOPTIX
 	pop	hl
-	ld	bc, -238
+	ld	bc, -235
 	lea	hl, ix + 0
 	add	hl, bc
 	ld	hl, (hl)
@@ -144,13 +142,6 @@ BB1_1:
 	jq	BB1_1
 BB1_2:
 	call	_vysion_Desktop
-	ld	bc, -235
-	lea	hl, ix + 0
-	add	hl, bc
-	ld	hl, (hl)
-	push	hl
-	call	_vysion_CloseAllWindows
-	pop	hl
 	or	a, a
 	sbc	hl, hl
 	ld	sp, ix
@@ -164,7 +155,6 @@ L___const.vysion_SetOP1.temp:
 	db	" ",000o,000o,000o,000o,000o,000o,000o,000o,000o
 
 	ident	"clang version 12.0.0 (https://github.com/jacobly0/llvm-project 170be88120e3aa88c20eea5615ba76b8f1d6c647)"
-	extern	_vysion_CloseAllWindows
 	extern	__Unwind_SjLj_Register
 	extern	__Unwind_SjLj_Unregister
 	extern	__frameset

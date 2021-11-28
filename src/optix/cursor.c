@@ -38,6 +38,7 @@ void optix_InitializeCursor(struct optix_widget *widget) {
     cursor->current_selection = NULL;
     cursor->direction = OPTIX_CURSOR_NO_DIR;
     cursor->back = gfx_AllocSprite(OPTIX_CURSOR_SPRITE_WIDTH, OPTIX_CURSOR_SPRITE_HEIGHT, malloc);
+    cursor->state = OPTIX_CURSOR_NORMAL;
 }
 
 //this will also handle the box-based mode

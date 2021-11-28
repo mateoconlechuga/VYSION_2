@@ -64,6 +64,14 @@ void optix_UpdateWindowTitleBar_default(struct optix_widget *widget) {
     struct optix_window *window = window_title_bar->window;
     //redraw it if the active status changes
     if (widget->state.needs_redraw) window->widget.state.needs_redraw = true;
+    //the window will only update itself if it's active anyway so who cares
+    //there is a possibility that these could be null
+    if (window && window_title_bar) {
+        if (window->widget.update) window->widget.update((struct optix_widget *) window);
+        if (window->widget.state.needs_redraw) widget->state.needs_redraw = true;
+        if (!window_title_bar->active_save && window->active) optix_MoveWidgetToTop(widget);
+        window_title_bar->active_save = window->active;
+    }
     if (window->active || widget->state.selected) {
         int x_change = 0;
         int y_change = 0;
@@ -121,14 +129,6 @@ void optix_UpdateWindowTitleBar_default(struct optix_widget *widget) {
         }
         if (widget->child) optix_UpdateStack(widget->child);
     } else window_title_bar->drag_active = false;
-    //the window will only update itself if it's active anyway so who cares
-    //there is a possibility that these could be null
-    if (window && window_title_bar) {
-        if (window->widget.update) window->widget.update((struct optix_widget *) window);
-        if (window->widget.state.needs_redraw) widget->state.needs_redraw = true;
-        if (!window_title_bar->active_save && window->active) optix_MoveWidgetToTop(widget);
-        window_title_bar->active_save = window->active;
-    }
 }
 
 void optix_RenderWindowTitleBar_default(struct optix_widget *widget) {

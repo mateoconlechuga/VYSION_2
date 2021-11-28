@@ -59,5 +59,4 @@ int main(void) {
     vysion_InitializeFilesystem(&vysion_context);
     for (int i = 0; i < MAX_NUM_WINDOWS; i++) vysion_current_context->window[i] = NULL;
     vysion_Desktop();
-    vysion_CloseAllWindows(&context);
 }

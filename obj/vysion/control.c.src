@@ -15,12 +15,30 @@ BB0_2:
 	ret
 	section	.text,"ax",@progbits
 
+	section	.text,"ax",@progbits
+	public	_vysion_End
+_vysion_End:
+	call	_gfx_End
+	ld	hl, (_vysion_current_context)
+	push	hl
+	call	_vysion_CloseAllWindows
+	pop	hl
+	or	a, a
+	sbc	hl, hl
+	push	hl
+	call	_exit
+	pop	hl
+	section	.text,"ax",@progbits
+
 	section	.bss,"aw",@nobits
 	public	_vysion_current_context
 _vysion_current_context:
 	rb	3
 
 	ident	"clang version 12.0.0 (https://github.com/jacobly0/llvm-project 170be88120e3aa88c20eea5615ba76b8f1d6c647)"
+	extern	_vysion_CloseAllWindows
 	extern	__Unwind_SjLj_Register
 	extern	__Unwind_SjLj_Unregister
+	extern	_exit
+	extern	_gfx_End
 	extern	__frameset0

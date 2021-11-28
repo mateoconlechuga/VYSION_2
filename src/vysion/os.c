@@ -8,7 +8,8 @@
 #include "../main.h"
 
 void vysion_RunProgram(char *name) {
-    /*gfx_End();
+    gfx_End();
+    vysion_CloseAllWindows(vysion_current_context);
     os_ClrHome();
-    os_RunPrgm(name, NULL, 0, main);*/
+    os_RunPrgm(name, NULL, 0, main);
 }

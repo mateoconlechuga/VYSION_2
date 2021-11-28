@@ -17,6 +17,9 @@
 #define SETTINGS_WINDOW_NUM_CHILDREN (SETTINGS_NUM_MENUS + 2)
 
 //settings menu relative menu entries
+//settings
+#define SHELL_TOGGLE_CURSOR          0
+
 //desktop
 #define DESKTOP_SET_WALLPAPER        2
 
@@ -32,6 +35,7 @@ extern char *settings_menu_text[];
 void vysion_AddSettingsWindow(void *config);
 void vysion_SettingsMenuSideBarMenuClickAction(void *args);
 //menu specific click actions
+void vysion_SettingsShellClickAction(void *args);
 void vysion_SettingsDesktopClickAction(void *args);
 
 

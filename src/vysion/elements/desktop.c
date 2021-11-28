@@ -64,12 +64,11 @@ void vysion_StartMenuClickAction(void *args) {
         case 0:
             vysion_AddFileExplorerWindow(NULL);
             break;
-        case 1:
+        case 2:
             vysion_AddSettingsWindow(NULL);
             break;
         case 5:
-            gfx_End();
-            exit(0);
+            vysion_End();
             break;
         default:
             break;
@@ -91,7 +90,7 @@ void vysion_Desktop(void) {
     for (int i = 0; i < HD_WALLPAPER_ROWS; i++) wallpaper_ptr[i] = NULL;
     for (int i = 0; i < HD_WALLPAPER_ROWS; i++) wallpaper_ptr[i] = &wallpaper[i];
     vysion_InitializeWallpaper(wallpaper_ptr);
-    vysion_SetWallpaper("CONSTRUCT", wallpaper_ptr);
+    vysion_SetWallpaper("DEFAULTB", wallpaper_ptr);
     //a window
     //window manager thing
     char *desktop_window_manager_text[MAX_NUM_WINDOWS + 1];
@@ -334,8 +333,8 @@ void vysion_Desktop(void) {
     struct optix_text version_text = {
         .widget = {
             .transform = {
-                .x = 2,
-                .y = 1,
+                .x = 4,
+                .y = 3,
                 .width = 200,
                 .height = 100,
             },

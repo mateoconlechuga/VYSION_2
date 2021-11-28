@@ -42,6 +42,9 @@ _optix_InitializeCursor:
 	pop	de
 	ld	iy, (ix + 6)
 	ld	(iy + 57), hl
+	or	a, a
+	sbc	hl, hl
+	ld	(iy + 48), hl
 	pop	ix
 	ret
 	section	.text,"ax",@progbits
