@@ -11,6 +11,51 @@
 #include "gfx/output/vysion_gfx.h"
 
 
+
+//returns the next file or folder, starting the search at ptr
+//it will skip over the contents of a folder if ptr->type == VYSION_FOLDER_TYPE
+//intended to be used in a loop
+struct vysion_widget *vysion_GetNextFile(struct vysion_widget *ptr) {
+	if (ptr->type == VYSION_FOLDER_TYPE) {
+		struct vysion_widget *temp_ptr = ptr;
+		while (temp_ptr->type != VYSION_FOLDER_END)
+			temp_ptr = vysion_GetNextFile(temp_ptr);
+		//we need to add 1 here because VYSION_FOLDER_END is 1 byte
+		return temp_ptr + sizeof(uint8_t);
+	} else return ptr + sizeof(vysion_widget);
+}
+
+
+//returns the previous file or folder, starting the search at ptr
+//it will skip over the contents of folders if VYSION_FOLDER_END is encountered
+//intended to be used in a loop; effectively the opposite of vysion_GetNextFile
+struct vysion_widget *vysion_GetPreviousFile(struct vysion_widget *ptr) {
+	if ((ptr - sizeof(uint8_t))->type == VYSION_FOLDER_END) {
+		struct vysion_widget *temp_ptr = ptr - sizeof(uint8_t);
+		while (temp_ptr->type != VYSION_FOLDER_TYPE)
+			temp_ptr = vysion_GetPreviousFile(temp_ptr);
+		return temp_ptr;
+	} else return ptr - sizeof(vysion_widget);
+}
+
+//returns the source directory of the current directory (e.g. trying on /Desktop would return /)
+struct vysion_widget *vysion_GetSourceDirectory(struct vysion_widget *ptr) {
+	//the logic that I have for this is fairly simple-we'll know that it is the source directory if
+	//vysion_GetPreviousFile encounters a VYSION_FOLDER without encountering a VYSION_FOLDER_END first
+	//we can see if this is the case if vysion_GetPreviousFile returns a folder AND the value returns equals
+	//ptr - sizeof(vysion_widget)
+	struct vysion_widget *previous_ptr;
+	struct vysion_widget *temp_ptr; 
+	while (previous_ptr - sizeof(vysion_widget) != temp_ptr) {
+		previous_ptr = temp_ptr;
+		temp_ptr = vysion_GetPreviousFile(temp_ptr);	
+	}
+	return temp_ptr;
+}
+
+
+
+
 struct vysion_file_info *vysion_GetFileInfo(struct vysion_file_info *file_info, char *name, uint8_t ti_type) {
     ti_var_t slot;
     gfx_sprite_t *default_icon[] = {
@@ -68,7 +113,7 @@ void vysion_GetFileInfo_Basic(void *data, struct vysion_file_info *file_info) {
         for (i = 0; i < ICON_WIDTH * ICON_HEIGHT; i++) {
             uint8_t *ptr = (uint8_t *) (data + i);
             //credit to Mateo for this formula
-            ((gfx_sprite_t *)file_info->icon_buffer)->data[i] = palette[(((ptr[0] - '0') << 8) | (ptr[1] - '0'))];
+            ((gfx_sprite_t *)file_info->icon_buffer)->data[i] = vysion_TIOSToXlibc(ptr);
 
         }
     }

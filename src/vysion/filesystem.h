@@ -23,8 +23,9 @@
 #define VYSION_APPVAR_TYPE          (uint8_t) 6
 //maybe have this be detected?
 #define VYSION_WALLPAPER_TYPE       (uint8_t) 7
-#define VYSION_FOLDER_TYPE          (uint8_t) 8
-#define FOLDER_END                  (uint8_t) 9
+//this will ensure we have room for more types later if required
+#define VYSION_FOLDER_TYPE          (uint8_t) 254
+#define VYSION_FOLDER_END           (uint8_t) 255
 
 //OS defines
 #define ASM_PROGRAM_TOKEN           ((uint16_t) 31727) //0xEF7B
@@ -37,6 +38,19 @@
 //program types
 #define C_HEX_SEQUENCE              (uint8_t) 0x00
 #define ICE_HEX_SEQUENCE            (uint8_t) 0x7f
+
+//default filesystem state:
+/*
+	Programs
+	Appvars
+	Root
+		Desktop
+		Taskbar*/
+//as Programs and Appvars are "special" directories (outside of the main directory system, and access the VAT
+//directly, they will be placed outside of the filesystem, which is known to start at Root (or index 2)
+//so, Programs is known to be at index 0 (base ptr) and Appvars at index 1 (base ptr + sizeof(vysion_widget))
+//if one of these is attempted to be accessed, we'll use the special flag in the filesystem menu to display it 
+
 
 #define vysion_TIOSToXlibc(color)   (uint8_t) ((color[0] - '0') << 8) | (color[1] - '0')          
 
@@ -61,6 +75,10 @@ struct vysion_widget {
     char name[9];
 };
 
+
+struct vysion_widget *vysion_GetNextFile(struct vysion_widget *ptr);
+struct vysion_widget *vysion_GetPreviousFile(struct vysion_widget *ptr);
+struct vysion_widget *vysion_GetSourceDirectory(struct vysion_widget *ptr);
 struct vysion_file_info *vysion_GetFileInfo(struct vysion_file_info *file_info, char *name, uint8_t ti_type);
 void vysion_GetFileInfo_Basic(void *data, struct vysion_file_info *file_info);
 void vysion_GetFileInfo_Asm(void *data, struct vysion_file_info *file_info);
