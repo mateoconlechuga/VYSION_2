@@ -1,0 +1,244 @@
+	section	.text,"ax",@progbits
+	assume	adl = 1
+	section	.text,"ax",@progbits
+	public	_optix_UpdateScrollBar_default
+_optix_UpdateScrollBar_default:
+	call	__frameset0
+	ld	hl, (ix + 6)
+	push	hl
+	pop	iy
+	ld	iy, (iy + 30)
+	ld	a, (iy + 17)
+	push	hl
+	pop	iy
+	ld	(iy + 17), a
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_optix_RenderScrollBar_default
+_optix_RenderScrollBar_default:
+	ld	hl, -18
+	call	__frameset
+	ld	iy, (ix + 6)
+	ld	c, 1
+	ld	a, (iy + 15)
+	xor	a, c
+	bit	0, a
+	jq	nz, BB1_19
+	ld	a, (iy + 17)
+	xor	a, c
+	bit	0, a
+	jq	nz, BB1_19
+	ld	hl, (iy + 30)
+	ld	(ix - 9), hl
+	ld	l, (hl)
+	ld	a, l
+	or	a, a
+	ld	de, 0
+	ld	(ix - 6), de
+	jq	z, BB1_8
+	ld	a, l
+	cp	a, 3
+	jq	nz, BB1_19
+	ld	de, 137
+	ld	iy, (ix - 9)
+	lea	hl, iy
+	add	hl, de
+	ld	hl, (hl)
+	ld	(ix - 3), hl
+	lea	hl, iy
+	ld	de, 143
+	add	hl, de
+	ld	hl, (hl)
+	ld	(ix - 18), hl
+	ld	de, 1
+	ld	hl, (ix - 3)
+	or	a, a
+	sbc	hl, de
+	jq	nz, BB1_5
+	ld	de, 134
+	lea	hl, iy
+	add	hl, de
+	ld	hl, (hl)
+	ld	(ix - 6), hl
+	ld	de, 140
+	add	iy, de
+	ld	hl, (iy)
+	ld	(ix - 3), hl
+	jq	BB1_7
+BB1_5:
+	ld	de, 140
+	lea	hl, iy
+	add	hl, de
+	ld	a, c
+	ld	bc, (hl)
+	ld	hl, (ix - 18)
+	call	__idivs
+	ld	(ix - 18), hl
+	ld	de, 134
+	add	iy, de
+	ld	hl, (iy)
+	call	__idivs
+	ld	c, a
+	ld	(ix - 6), hl
+BB1_7:
+	ld	iy, (ix + 6)
+BB1_8:
+	ld	a, (iy + 33)
+	xor	a, c
+	bit	0, a
+	jq	z, BB1_9
+	ld	hl, (iy + 7)
+	ld	bc, 0
+	push	bc
+	pop	de
+	ld	e, l
+	ld	d, h
+	ld	c, (iy + 9)
+	ld	(ix - 15), bc
+	ld	(ix - 12), de
+	jq	BB1_11
+BB1_9:
+	ld	de, 0
+	push	de
+	pop	bc
+	ld	c, (iy + 9)
+	ld	hl, (iy + 7)
+	ld	e, l
+	ld	d, h
+	ld	(ix - 12), de
+	ld	(ix - 15), bc
+	push	bc
+	pop	de
+BB1_11:
+	push	de
+	pop	hl
+	ld	bc, (ix - 3)
+	call	__imulu
+	ld	iy, (ix - 18)
+	lea	bc, iy
+	call	__idivs
+	ld	bc, 65535
+	call	__iand
+	push	hl
+	pop	bc
+	ex	de, hl
+	ld	(ix - 9), bc
+	or	a, a
+	sbc	hl, bc
+	ld	bc, (ix - 6)
+	call	__imulu
+	push	hl
+	pop	de
+	lea	hl, iy
+	ld	bc, (ix - 3)
+	or	a, a
+	sbc	hl, bc
+	push	hl
+	pop	bc
+	ex	de, hl
+	call	__idivs
+	ld	(ix - 6), hl
+	ld	iy, (ix + 6)
+	ld	hl, (iy + 1)
+	ld	de, (iy + 4)
+	ld	bc, 7
+	push	bc
+	inc	bc
+	push	bc
+	ld	bc, 14
+	push	bc
+	ld	bc, (ix - 15)
+	push	bc
+	ld	bc, (ix - 12)
+	push	bc
+	push	de
+	push	hl
+	call	_optix_OutlinedRectangle_WithBevel
+	ld	hl, 21
+	add	hl, sp
+	ld	sp, hl
+	ld	iy, (ix + 6)
+	ld	hl, (iy + 1)
+	ld	(ix - 3), hl
+	ld	a, (iy + 33)
+	ld	l, 1
+	xor	a, l
+	ld	hl, (ix - 6)
+	ld	bc, 65535
+	call	__iand
+	bit	0, a
+	push	hl
+	pop	de
+	ld	bc, 0
+	jq	nz, BB1_13
+	push	bc
+	pop	de
+BB1_13:
+	ld	iy, (ix - 3)
+	inc	iy
+	add	iy, de
+	ld	(ix - 3), iy
+	ld	iy, (ix + 6)
+	ld	iy, (iy + 4)
+	bit	0, a
+	jq	nz, BB1_15
+	push	hl
+	pop	bc
+BB1_15:
+	ld	de, -2
+	inc	iy
+	add	iy, bc
+	lea	bc, iy
+	bit	0, a
+	jq	z, BB1_16
+	or	a, a
+	sbc	hl, hl
+	ld	iy, (ix + 6)
+	ld	l, (iy + 9)
+	ld	iy, (ix - 9)
+	jq	BB1_18
+BB1_16:
+	ld	iy, (ix + 6)
+	ex	de, hl
+	ld	de, (iy + 7)
+	ld	iy, 0
+	ld	iyl, e
+	ld	iyh, d
+	ex	de, hl
+	ld	hl, (ix - 9)
+BB1_18:
+	add	iy, de
+	add	hl, de
+	ld	de, 8
+	push	de
+	dec	de
+	push	de
+	ld	de, 3
+	push	de
+	push	hl
+	push	iy
+	push	bc
+	ld	hl, (ix - 3)
+	push	hl
+	call	_optix_OutlinedRectangle_WithBevel
+	ld	hl, 21
+	add	hl, sp
+	ld	sp, hl
+BB1_19:
+	ld	sp, ix
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	ident	"clang version 14.0.0 (https://github.com/jacobly0/llvm-project a139def90d26173f771eb1eca797633d1fbb2797)"
+	extern	__idivs
+	extern	__Unwind_SjLj_Register
+	extern	__Unwind_SjLj_Unregister
+	extern	__frameset
+	extern	__iand
+	extern	__imulu
+	extern	_optix_OutlinedRectangle_WithBevel
+	extern	__frameset0

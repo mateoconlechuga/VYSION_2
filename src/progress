@@ -214,6 +214,17 @@ CHANGELOG: | [improved] buttons/checkboxes embedded in menus can now be triggere
 DATE:      | 2021-11-27
 VERSION:   | 0.0.36
 CHANGELOG: | [improved] start menu behavior (correct windows now opened)
+           |
+DATE:      | 2021-12-23
+VERSION:   | 0.0.37
+CHANGELOG: | [added] basic filesystem structure
+           |
+DATE:      | 2021-12-24
+VERSION:   | 0.0.38
+CHANGELOG: | [fixed] potential reset when opening settings menu
+           | [fixed] graphical artifacts/errors in file explorer
+           
+          
           
   
            

@@ -82,6 +82,16 @@ void vysion_AddSettingsWindow(void *config) {
         },
     };
     optix_InitializeWidget(&template.widget, OPTIX_WINDOW_TYPE);
+    //and now for the window title bar
+    struct optix_window_title_bar template_title_bar = {
+        .widget = {
+            .state = {.override_size = false},
+            .child = NULL,
+        },
+        .window = &template,
+    };
+    optix_InitializeWidget(&template_title_bar.widget, OPTIX_WINDOW_TITLE_BAR_TYPE);
+    memcpy(&window.window.widget.window_title_bar, &template_title_bar, sizeof(struct optix_window_title_bar));
     //and now put all of those children in
     struct optix_menu template_settings_menu[SETTINGS_NUM_MENUS];
     for (int i = 0; i < SETTINGS_WINDOW_NUM_CHILDREN; i++) {
@@ -106,16 +116,17 @@ void vysion_AddSettingsWindow(void *config) {
                         .x_offset = -4,
                         .y_centering = OPTIX_CENTERING_CENTERED,
                     },
+                    .child = NULL,
                 },
                 .text = "TEST",
             };
             optix_InitializeTextTransform(&system_set_time);
             optix_InitializeWidget(&system_set_time.widget, OPTIX_TEXT_TYPE);
             //system_set_time.widget.state.selectable = false;
-            struct optix_widget *system_child[] = {&system_set_time.widget, NULL, NULL, NULL, NULL};
+            struct optix_widget *system_child[] = {&system_set_time.widget, NULL};
             //shell
-            static const char *shell[] = {"Use cursor", NULL};
-            struct optix_check_box system_use_cursor = {
+            static const char *shell[] = {"Use cursor", "Lock screen", NULL};
+            struct optix_check_box shell_use_cursor = {
                 .button = {
                     .widget = {
                         .transform = {
@@ -127,12 +138,32 @@ void vysion_AddSettingsWindow(void *config) {
                             .x_offset = -4,
                             .y_centering = OPTIX_CENTERING_CENTERED,
                         },
+                        .child = NULL,
                     },
                 },
-                .value = &current_context->settings->cursor_active,
+                .value = &(current_context->settings->cursor_active),
             };
-            optix_InitializeWidget(&system_use_cursor, OPTIX_CHECK_BOX_TYPE);
-            struct optix_widget *shell_child[] = {&system_use_cursor.button.widget, NULL};
+            optix_InitializeWidget(&shell_use_cursor, OPTIX_CHECK_BOX_TYPE);
+            struct optix_check_box shell_lock_screen = {
+                .button = {
+                    .widget = {
+                        .transform = {
+                            .width = 12,
+                            .height = 12,
+                        },
+                        .centering = {
+                            .x_centering = OPTIX_CENTERING_RIGHT,
+                            .x_offset = -4,
+                            .y_centering = OPTIX_CENTERING_CENTERED,
+                        },
+                        .child = NULL,
+                    },
+                },
+                .value = &(vysion_current_context->settings.shell_lock_screen),
+            };
+            optix_InitializeWidget(&shell_lock_screen, OPTIX_CHECK_BOX_TYPE);
+            struct optix_widget *shell_child[] = {&shell_use_cursor.button.widget, &shell_lock_screen, NULL};
+            //struct optix_widget *shell_child[] = {&system_set_time.widget, NULL};
             //colors
             static const char *colors[] = {"Customize colors", NULL};
             //taskbar
@@ -154,6 +185,10 @@ void vysion_AddSettingsWindow(void *config) {
             menu->text_args.widget.centering.x_centering = OPTIX_CENTERING_LEFT;
             menu->text_args.widget.centering.x_offset = 4;
             menu->text_args.widget.centering.y_centering = OPTIX_CENTERING_CENTERED;
+            menu->text_args.widget.centering.y_offset = 0;
+            menu->text_args.background_rectangle = false;
+            menu->hide_selection_box = false;
+            menu->transparent_background = false;
             //initialize this
             menu->widget.child = NULL;
             //this would probably be better as just an array instead of these horrible switch statements
@@ -194,13 +229,6 @@ void vysion_AddSettingsWindow(void *config) {
     //get the last one
     template_children[SETTINGS_WINDOW_NUM_CHILDREN] = NULL;
     //optix_RecursiveAlign(&template.widget);
-    //and now for the window title bar
-    struct optix_window_title_bar template_title_bar = {
-        .widget = {.child = NULL},
-        .window = &template,
-    };
-    optix_InitializeWidget(&template_title_bar.widget, OPTIX_WINDOW_TITLE_BAR_TYPE);
-    memcpy(&window.window.widget.window_title_bar, &template_title_bar, sizeof(struct optix_window_title_bar));
     dbg_sprintf(dbgout, "Adding window...\n");
     final_window = vysion_AddWindow(&window);
     ((struct optix_menu *) final_window->widget.window_title_bar.window->widget.child[SETTINGS_SIDEBAR_MENU_OFFSET])->click_action.click_args = (void *) final_window;
@@ -233,6 +261,9 @@ void vysion_SettingsShellClickAction(void *args) {
             current_context->settings->cursor_active ^= true;
             //who knows where the cursor will be, so I think this is the smartest thing to do
             current_context->data->gui_needs_full_redraw = true;
+            break;
+        case SHELL_LOCK_SCREEN:
+            vysion_current_context->settings.shell_lock_screen ^= true;
             break;
         default:
             break;

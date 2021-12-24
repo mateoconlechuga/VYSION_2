@@ -147,7 +147,7 @@ void vysion_FormatWindowTitleBar(struct optix_window_title_bar *window_title_bar
     template_menu.widget.centering.y_centering = OPTIX_CENTERING_CENTERED;
     struct optix_widget *child[] = {&template_text.widget, &template_menu.widget};
     //so we need an array now
-    window_title_bar->widget.child = malloc((WINDOW_TITLE_BAR_ELEMENTS + 1) * sizeof(struct optix_widget *));
+    window_title_bar->widget.child = calloc(WINDOW_TITLE_BAR_ELEMENTS + 1, sizeof(struct optix_widget *));
     for (int i = 0; i < WINDOW_TITLE_BAR_ELEMENTS; i++) optix_CopyElement(&window_title_bar->widget.child[i], child[i]);
     window_title_bar->widget.child[WINDOW_TITLE_BAR_ELEMENTS] = NULL;
     optix_RecursiveAlign((struct optix_widget *) window_title_bar);

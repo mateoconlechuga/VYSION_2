@@ -158,14 +158,17 @@ void optix_RenderMenuOption(int option, struct optix_menu *menu, char *option_te
     struct optix_sprite sprite;
     struct optix_widget *button_children[] = {&text.widget, &sprite.widget, NULL, NULL};
     struct optix_button button = {.widget = {.child = button_children}};
+    dbg_sprintf(dbgout, "Rendering...%d\n", option);
     optix_InitializeWidget(&button.widget, OPTIX_BUTTON_TYPE);
     if (widget->state.needs_redraw || option == menu->selection || option == menu->last_selection) {
-        button.widget.child = button_children;
+        button.widget.child = option < menu->num_options ? button_children : NULL;
+        dbg_sprintf(dbgout, "Child address: %d\n", button.widget.child);
         button.pressed = (option == menu->selection && optix_DefaultKeyIsDown(KEY_ENTER) & KEY_HELD);
         button.transparent_background = menu->transparent_background || (option == menu->selection && menu->hide_selection_box);
         if (button.widget.child && option_text) {
             memcpy(&text.widget, &(menu->text_args), sizeof(struct optix_text));
             text.text = option_text;
+            text.widget.child = NULL;
             optix_InitializeTextTransform(&text);
             optix_InitializeWidget(&text.widget, OPTIX_TEXT_TYPE);
         } else text.text = NULL;
@@ -173,26 +176,33 @@ void optix_RenderMenuOption(int option, struct optix_menu *menu, char *option_te
         if (button.widget.child && option_spr) {
             memcpy(&sprite.widget, &(menu->sprite_args), sizeof(struct optix_sprite));
             sprite.spr = option_spr;
+            sprite.widget.child = NULL;
             optix_InitializeWidget(&sprite.widget, OPTIX_SPRITE_TYPE);
         } else sprite.spr = NULL;
         //place the null, add the special element if applicable
-        if (button.widget.child || widget->child) {
+        if ((button.widget.child || widget->child) && option < menu->num_options) {
             button.widget.child[0] = &text.widget;
             button.widget.child[(text.text != NULL)] = &sprite.widget;
             //put the element in there to be rendered as well
-            if (option < menu->num_options && widget->child && widget->child[option])
+            if (widget->child && widget->child[option])
                 button.widget.child[(text.text != NULL) + (sprite.spr != NULL)] = widget->child[option];
             button.widget.child[(text.text != NULL) + (sprite.spr != NULL) + (widget->child != NULL && widget->child[option] != NULL)] = NULL;
         }
         //handle the transform
         optix_SetMenuOptionTransform(option, &button, menu);
         //this option will be shown as selected if it is selected and the selection box is not hidden
-        optix_RecursiveAlign(&button);
-        button.widget.state.selected = (option == menu->selection && !menu->hide_selection_box);
-        optix_RecursiveSetNeedsRedraw(button.widget.child);
+        dbg_sprintf(dbgout, "Aligning...\n");
+        if (button.widget.child) {
+            dbg_sprintf(dbgout, "Why do I even do this.\n");
+            optix_RecursiveAlign(&button.widget);
+            dbg_sprintf(dbgout, "Really\n");
+            button.widget.state.selected = (option == menu->selection && !menu->hide_selection_box);
+            optix_RecursiveSetNeedsRedraw(button.widget.child);
+        }
+        dbg_sprintf(dbgout, "Rendering...\n");
         button.widget.render(&button.widget);
     }
-
+    dbg_sprintf(dbgout, "Finished rendering.\n");
 }
 
 
@@ -205,10 +215,10 @@ void optix_RenderMenu_default(struct optix_widget *widget) {
     for (int i = menu->min; i < menu->min + menu->rows * menu->columns; i++) {
         char *option_text = menu->text && menu->text[i] ? menu->text[i] : NULL;
         gfx_sprite_t *option_spr = menu->spr && menu->spr[i] ? menu->spr[i] : NULL;
-        if (i >= menu->num_options) break;
         optix_RenderMenuOption(i, menu, option_text, option_spr);
     }
     //this will only be run if we didn't return earlier, which will happen if the selection is different or we need a redraw of some sort
     current_context->data->needs_blit = true;
     menu->needs_partial_redraw = false;
+    widget->state.needs_redraw = false;
 }

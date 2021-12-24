@@ -20,7 +20,7 @@
 //there will be 6 of these, in rows across the screen
 #define HD_WALLPAPER_WIDTH        320
 #define HD_WALLPAPER_HEIGHT       40
-#define HD_WALLPAPER_ROWS         LCD_HEIGHT/HD_WALLPAPER_HEIGHT
+#define HD_WALLPAPER_ROWS         LCD_HEIGHT / HD_WALLPAPER_HEIGHT
 #define HD_WALLPAPER_LUT_SIZE     HD_WALLPAPER_ROWS * sizeof(uint16_t) + 6
 //this should maybe be somewhere else
 #define GFX_VBUFFER               0xE30014

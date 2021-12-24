@@ -78,12 +78,9 @@ void optix_RecursiveAlign(struct optix_widget *widget) {
         int i = 0;
         while (widget->child[i]) {
             struct optix_widget *child = widget->child[i];
+            dbg_sprintf(dbgout, "Loop %d child->child[i] %d\n", i, child->child);
             optix_AlignTransformToTransform(child, widget);
-            if (child->child && child->type != OPTIX_MENU_TYPE) {
-                //if (child->type == OPTIX_MENU_TYPE) optix_AlignMenu((struct optix_menu *) child, 0);
-                //else optix_RecursiveAlign(child);
-                optix_RecursiveAlign(child);
-            }
+            if (child->child && child->type != OPTIX_MENU_TYPE) optix_RecursiveAlign(child);
             i++;
         }
     }

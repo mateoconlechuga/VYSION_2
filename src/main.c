@@ -57,6 +57,30 @@ int main(void) {
     vysion_InitializeGraphics();
     vysion_InitializeOPTIX(&context);
     vysion_InitializeFilesystem(&vysion_context);
+    static const char *filesystem = 
+        "\xFERoot\0\0\0\0\0"
+            "\xFEPrograms\0\xFF"
+            "\xFE""Appvars\0\0\xFF"
+            "\xFE""Files\0\0\0\0"
+                "\xFE""Folderna\0\xFF"
+                "\xFETEST\0\0\0\0\0"
+                    "\xFENESTED\0\0\0"
+                        "\xFE""epsilon5\0\xFF"
+                        "\xFEVYSION_2\0\xFF"
+                        "\xFEHERE\0\0\0\0\0\xFF"
+                    "\xFF"
+                    "\xFE""FOLDERS\0\0\xFF"
+                    "\xFEHERE\0\0\0\0\0\xFF"
+                    "\xFENESTED\0\0\0\xFF"
+                    "\xFE""FOLDERS\0\0\xFF"
+                    "\xFEHERE\0\0\0\0\0\xFF"
+                    "\xFENESTED\0\0\0\xFF"
+                    "\xFE""FOLDERS\0\0\xFF"
+                    "\xFEHERE\0\0\0\0\0\xFF"
+                "\xFF"
+            "\xFF"
+        "\xFF";
+    vysion_current_context->filesystem_start = filesystem;
     for (int i = 0; i < MAX_NUM_WINDOWS; i++) vysion_current_context->window[i] = NULL;
     vysion_Desktop();
 }

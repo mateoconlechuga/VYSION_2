@@ -1,8 +1,0 @@
-	section	.text,"ax",@progbits
-	assume	adl = 1
-	section	.data,"aw",@progbits
-	public	_palette
-_palette:
-	db	"",000o,000o,234o,002o,"n",210o,266o,210o,"H",222o,352o,022o,366o,030o,347o,234o,"M",237o,"m",037o,"9!}!)%Y",245o,"K",255o,"k",255o,232o,255o,"p",263o,255o,"5",357o,275o,033o,">=>",223o,277o,360o,"@GA",020o,"B;",302o,">G",223o,"N",336o,"R#",324o,"UUD",326o,353o,"YC\",327o,335o,375o,336o,030o,"c",331o,"c",317o,"f",177o,347o,272o,"j",346o,"j",013o,357o,"Ps@",363o,"d",364o,011o,"u|",367o,225o,"wl",371o,360o,"y",010o,"}",241o,375o,345o,375o,357o,375o,215o,376o,224o,376o,"7",177o,300o,177o,310o,377o,361o,177o,371o,377o,377o,377o
-
-	ident	"clang version 12.0.0 (https://github.com/jacobly0/llvm-project 170be88120e3aa88c20eea5615ba76b8f1d6c647)"

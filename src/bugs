@@ -98,4 +98,21 @@ No new bugs found.
 [x] [0.0.33] menus with empty space could register hovering over space as over last selection
 
 [0.0.33 | 2021-11-18]
-[ ] potential reset when opening settings menu
+[x] [0.0.38] potential reset when opening settings menu
+
+[0.0.34 | 2021-11-22]
+No new bugs found.
+
+[0.0.35 | 2021-11-23]
+No new bugs found.
+
+[0.0.36 | 2021-11-24]
+No new bugs found.
+
+[0.0.37 | 2021-12-23]
+[x] [0.0.38] graphical artifacts/errors in file explorer
+
+[0.0.38 | 2021-12-24]
+[ ] very slow performance in box-based mode in settings menu (possibly after picking wallpaper?)
+[ ] very slow performance in box-based mode in file explorer (possibly after picking wallpaper?)
+[ ] graphical artifacts in settings menu (menus not redrawn correctly?)

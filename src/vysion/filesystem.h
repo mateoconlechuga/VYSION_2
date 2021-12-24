@@ -23,6 +23,7 @@
 #define VYSION_APPVAR_TYPE          (uint8_t) 6
 //maybe have this be detected?
 #define VYSION_WALLPAPER_TYPE       (uint8_t) 7
+#define VYSION_INVALID_TYPE         (uint8_t) 253
 //this will ensure we have room for more types later if required
 #define VYSION_FOLDER_TYPE          (uint8_t) 254
 #define VYSION_FOLDER_END           (uint8_t) 255
@@ -75,7 +76,8 @@ struct vysion_widget {
     char name[9];
 };
 
-
+struct vysion_widget *vysion_GetDirectoryEntryByIndex(struct vysion_widget *ptr, int index);
+struct vysion_widget *vysion_GetNumFilesInDirectory(struct vysion_widget *ptr);
 struct vysion_widget *vysion_GetNextFile(struct vysion_widget *ptr);
 struct vysion_widget *vysion_GetPreviousFile(struct vysion_widget *ptr);
 struct vysion_widget *vysion_GetSourceDirectory(struct vysion_widget *ptr);

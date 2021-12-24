@@ -1,0 +1,117 @@
+	section	.text,"ax",@progbits
+	assume	adl = 1
+	section	.text,"ax",@progbits
+	public	_optix_RenderDivider_default
+_optix_RenderDivider_default:
+	ld	hl, -9
+	call	__frameset
+	ld	iy, (ix + 6)
+	ld	l, 1
+	ld	a, (iy + 17)
+	xor	a, l
+	bit	0, a
+	jq	nz, BB0_11
+	ld	hl, (iy + 30)
+	ld	(ix - 3), hl
+	ld	hl, 27
+	push	hl
+	call	_gfx_SetColor
+	pop	hl
+	ld	iy, (ix + 6)
+	ld	l, (iy + 33)
+	ld	a, l
+	cp	a, 2
+	jq	nc, BB0_2
+	ld	iy, (ix - 3)
+	ld	de, (iy + 1)
+	ld	(ix - 6), de
+	ld	de, (iy + 4)
+	dec	de
+	ld	(ix - 9), de
+	ld	de, 0
+	ld	a, l
+	cp	a, 1
+	jq	z, BB0_7
+	ld	bc, 0
+	jq	BB0_9
+BB0_2:
+	ld	iy, (ix - 3)
+	ld	a, l
+	sub	a, 2
+	cp	a, 2
+	ld	bc, 0
+	jq	nc, BB0_11
+	ld	de, (iy + 1)
+	dec	de
+	ld	(ix - 6), de
+	ld	de, 0
+	ld	a, l
+	cp	a, 3
+	jq	nz, BB0_5
+	ld	hl, (iy + 7)
+	push	de
+	pop	bc
+	ld	c, l
+	ld	b, h
+	inc	bc
+BB0_5:
+	ld	hl, (ix - 6)
+	add	hl, bc
+	ld	(ix - 6), hl
+	ld	bc, (iy + 4)
+	ld	e, (iy + 9)
+	ld	iy, (ix + 6)
+	ld	a, (iy + 35)
+	ld	l, a
+	rlc	l
+	sbc	hl, hl
+	ld	l, a
+	add	hl, de
+	push	hl
+	push	bc
+	ld	hl, (ix - 6)
+	push	hl
+	call	_gfx_VertLine
+	jq	BB0_10
+BB0_7:
+	push	de
+	pop	bc
+	ld	c, (iy + 9)
+	inc	bc
+BB0_9:
+	ld	hl, (ix - 9)
+	add	hl, bc
+	push	hl
+	pop	bc
+	ld	hl, (iy + 7)
+	ld	e, l
+	ld	d, h
+	ld	iy, (ix + 6)
+	ld	a, (iy + 34)
+	ld	l, a
+	rlc	l
+	sbc	hl, hl
+	ld	l, a
+	add	hl, de
+	push	hl
+	push	bc
+	ld	hl, (ix - 6)
+	push	hl
+	call	_gfx_HorizLine
+BB0_10:
+	pop	hl
+	pop	hl
+	pop	hl
+BB0_11:
+	ld	sp, ix
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	ident	"clang version 14.0.0 (https://github.com/jacobly0/llvm-project a139def90d26173f771eb1eca797633d1fbb2797)"
+	extern	__Unwind_SjLj_Register
+	extern	_gfx_VertLine
+	extern	__frameset
+	extern	__Unwind_SjLj_Unregister
+	extern	_gfx_SetColor
+	extern	_gfx_HorizLine

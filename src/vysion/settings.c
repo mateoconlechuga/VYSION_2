@@ -3,12 +3,12 @@
 void vysion_InitializeSettings(struct vysion_settings *settings) {
     struct vysion_settings default_settings = {
         //os integration
-        .os_on_shortcuts = true, 
-        .os_use_external_editor = true,
+        .system_on_shortcuts = true, 
+        .system_use_external_editor = true,
         //VYSION
-        .vysion_lock_screen = false,
-        .vysion_use_cursor = false,
-        .vysion_settings_home = true,
+        .shell_lock_screen = false,
+        .shell_use_cursor = false,
+        .shell_settings_home = true,
         //filesystem
         .filesystem_search_type = BINARY_SEARCH,
         .filesystem_hash_algorithm = 0,
@@ -22,7 +22,6 @@ void vysion_InitializeSettings(struct vysion_settings *settings) {
         .customization_display_wallpaper = true,
         .customization_display_folders = false,
         .customization_display_files = true,
-
     };
 
 

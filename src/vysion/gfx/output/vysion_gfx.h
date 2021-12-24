@@ -8,6 +8,11 @@ extern "C" {
 #include "palette.h"
 #include "xlibc_condensed_palette.h"
 #define myimages_palette_offset 160
+#include "battery_0.h"
+#include "battery_25.h"
+#include "battery_50.h"
+#include "battery_75.h"
+#include "battery_100.h"
 #include "icon_appvar.h"
 #include "icon_basic.h"
 #include "icon_c.h"
@@ -34,11 +39,6 @@ extern "C" {
 #include "window_maximize.h"
 #include "window_close.h"
 #include "taskbar_icon.h"
-#include "battery_0.h"
-#include "battery_25.h"
-#include "battery_50.h"
-#include "battery_75.h"
-#include "battery_100.h"
 #define xlibc_condensed_palette_offset 224
 #include "xlibc_condensed.h"
 

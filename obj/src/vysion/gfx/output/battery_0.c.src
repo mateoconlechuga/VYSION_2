@@ -1,0 +1,8 @@
+	section	.text,"ax",@progbits
+	assume	adl = 1
+	section	.data,"aw",@progbits
+	public	_battery_0_data
+_battery_0_data:
+	db	"ﬂﬂﬂﬂﬂﬂ†‘‘†ﬂﬂﬂﬂﬂﬂ††ﬂ††††††‘Ã††††††ﬂ††ﬂ††††††‘Ã††††††ﬂﬂﬂﬂ††††††‘Ã††††††ﬂﬂﬂﬂ††††††‘Ã††††††ﬂﬂﬂﬂ††††††††††††††ﬂﬂﬂﬂ††††††‘‘††††††ﬂ††ﬂﬂﬂﬂﬂﬂ†‘Ã†ﬂﬂﬂﬂﬂﬂ††"
+
+	ident	"clang version 14.0.0 (https://github.com/jacobly0/llvm-project a139def90d26173f771eb1eca797633d1fbb2797)"

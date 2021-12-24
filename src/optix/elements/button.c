@@ -16,7 +16,6 @@
 //just change the color to red if pressed and run the click action for now
 void optix_UpdateButton_default(struct optix_widget *widget) {
     struct optix_button *button = (struct optix_button *) widget;
-    if (widget->state.selected) dbg_sprintf(dbgout, "Button is selected.\n");
     //check if the cursor overlaps with it
     if (!widget->state.visible) return;
     //kb_Scan will be called elsewhere

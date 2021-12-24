@@ -132,18 +132,18 @@ void vysion_WallpaperPickerMenu_ClickAction(void *args) {
 void vysion_WallpaperPicker(void) {
     //first, we'll get a list of the available wallpapers
     //just assume that this is the number of files for the sake of argument
-    int i = 0;
-    int wallpapers_found = 0;
-    struct optix_cursor old_cursor_state;
-    struct optix_widget *stack[9];
+    static int i = 0;
+    static int wallpapers_found = 0;
+    static struct optix_cursor old_cursor_state;
+    static struct optix_widget *stack[9];
     struct optix_widget **old_stack = current_context->stack;
-    char wallpaper_name[MAX_NUM_WALLPAPERS][WALLPAPER_NAME_MAX_LENGTH];
-    char *wallpaper_name_ptr[MAX_NUM_WALLPAPERS];
-    struct optix_sprite wallpaper[HD_WALLPAPER_ROWS];
-    struct optix_sprite *wallpaper_ptr[HD_WALLPAPER_ROWS];
-    void *search_pos = NULL;
-    char *var_name = NULL;
-    struct vysion_wallpaper_picker_menu wallpaper_menu = {
+    static char wallpaper_name[MAX_NUM_WALLPAPERS][WALLPAPER_NAME_MAX_LENGTH];
+    static char *wallpaper_name_ptr[MAX_NUM_WALLPAPERS];
+    static struct optix_sprite wallpaper[HD_WALLPAPER_ROWS];
+    static struct optix_sprite *wallpaper_ptr[HD_WALLPAPER_ROWS];
+    static void *search_pos = NULL;
+    static char *var_name = NULL;
+    static struct vysion_wallpaper_picker_menu wallpaper_menu = {
         .menu = {
             .widget = {
                 .transform = {
@@ -171,14 +171,13 @@ void vysion_WallpaperPicker(void) {
         },
         .selection = 0,
     };
-    struct optix_divider wallpaper_menu_divider = {
+    static struct optix_divider wallpaper_menu_divider = {
         .alignment = DIVIDER_ALIGNMENT_RIGHT,
         .reference = &wallpaper_menu.menu.widget,
     };
     optix_InitializeWidget(&wallpaper_menu_divider.widget, OPTIX_DIVIDER_TYPE);
     for (i = 0; i < HD_WALLPAPER_ROWS; i++) stack[i] = wallpaper_ptr[i] = &wallpaper[i];
     vysion_InitializeWallpaper(wallpaper_ptr);
-    ti_CloseAll();
     while ((var_name = ti_DetectVar(&search_pos, HD_WALLAPER_HEADER_STRING, TI_APPVAR_TYPE))) {
         dbg_sprintf(dbgout, "%s ", var_name);
         strcpy(wallpaper_name[wallpapers_found], var_name);

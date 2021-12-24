@@ -1,0 +1,97 @@
+	section	.text,"ax",@progbits
+	assume	adl = 1
+	section	.text,"ax",@progbits
+	public	_optix_RenderRectangle_default
+_optix_RenderRectangle_default:
+	ld	hl, -6
+	call	__frameset
+	ld	iy, (ix + 6)
+	ld	l, 1
+	ld	a, (iy + 15)
+	xor	a, l
+	bit	0, a
+	jq	nz, BB0_5
+	ld	a, (iy + 17)
+	xor	a, l
+	bit	0, a
+	jq	nz, BB0_5
+	ld	a, (iy + 30)
+	xor	a, l
+	bit	0, a
+	jq	nz, BB0_4
+	ld	a, (iy + 32)
+	ld	l, a
+	push	hl
+	call	_gfx_SetColor
+	pop	hl
+	ld	iy, (ix + 6)
+	ld	hl, (iy + 1)
+	ld	(ix - 3), hl
+	ld	iy, (ix + 6)
+	ld	hl, (iy + 4)
+	ld	(ix - 6), hl
+	ld	iy, (ix + 6)
+	ld	de, (iy + 7)
+	or	a, a
+	sbc	hl, hl
+	push	hl
+	pop	bc
+	ld	c, e
+	ld	b, d
+	ld	iy, (ix + 6)
+	ld	l, (iy + 9)
+	push	hl
+	push	bc
+	ld	hl, (ix - 6)
+	push	hl
+	ld	hl, (ix - 3)
+	push	hl
+	call	_gfx_FillRectangle
+	ld	iy, (ix + 6)
+	pop	hl
+	pop	hl
+	pop	hl
+	pop	hl
+BB0_4:
+	ld	a, (iy + 31)
+	ld	l, a
+	push	hl
+	call	_gfx_SetColor
+	pop	hl
+	ld	iy, (ix + 6)
+	ld	hl, (iy + 1)
+	ld	(ix - 3), hl
+	ld	hl, (iy + 4)
+	ld	(ix - 6), hl
+	ld	de, (iy + 7)
+	or	a, a
+	sbc	hl, hl
+	push	hl
+	pop	bc
+	ld	c, e
+	ld	b, d
+	ld	l, (iy + 9)
+	push	hl
+	push	bc
+	ld	hl, (ix - 6)
+	push	hl
+	ld	hl, (ix - 3)
+	push	hl
+	call	_gfx_Rectangle
+	pop	hl
+	pop	hl
+	pop	hl
+	pop	hl
+BB0_5:
+	ld	sp, ix
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	ident	"clang version 14.0.0 (https://github.com/jacobly0/llvm-project a139def90d26173f771eb1eca797633d1fbb2797)"
+	extern	__Unwind_SjLj_Register
+	extern	__Unwind_SjLj_Unregister
+	extern	__frameset
+	extern	_gfx_FillRectangle
+	extern	_gfx_SetColor
+	extern	_gfx_Rectangle

@@ -14,6 +14,11 @@ converts:
     palette: palette
     palette-offset: 160
     images:
+      - battery_0
+      - battery_25
+      - battery_50
+      - battery_75
+      - battery_100
       - icon_appvar.png
       - icon_basic.png
       - icon_c.png

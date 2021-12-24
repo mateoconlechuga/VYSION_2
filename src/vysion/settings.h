@@ -12,25 +12,25 @@
 
 struct vysion_settings {
     //os integration
-    bool os_on_shortcuts : 1;
-    bool os_use_external_editor : 1;
+    bool system_on_shortcuts;
+    bool system_use_external_editor;
     //VYSION
-    bool vysion_lock_screen : 1;
-    bool vysion_use_cursor : 1;
-    bool vysion_settings_home : 1;
-    //filesystem
-    uint8_t filesystem_search_type : 2;
-    uint8_t filesystem_hash_algorithm : 2;
+    bool shell_lock_screen;
+    bool shell_use_cursor;
+    bool shell_settings_home;
+    //filesystem (depracated)
+    uint8_t filesystem_search_type;
+    uint8_t filesystem_hash_algorithm;
     //colors/customization
     //general
     struct optix_colors customization_colors;
     //desktop
     char customization_wallpaper_name[9];
-    bool customization_transparent_taskbar : 1;
-    bool customization_centered_taskbar : 1;
-    bool customization_display_wallpaper : 1;
-    bool customization_display_folders : 1;
-    bool customization_display_files : 1;
+    bool customization_transparent_taskbar;
+    bool customization_centered_taskbar;
+    bool customization_display_wallpaper;
+    bool customization_display_folders;
+    bool customization_display_files;
 };
 
 #endif

@@ -10,19 +10,49 @@
 #include "util.h"
 #include "gfx/output/vysion_gfx.h"
 
+//returns the nth entry of the current directory
+//as per usual ptr should be to a folder but it shouldn't break if you want to do something weird
+struct vysion_widget *vysion_GetDirectoryEntryByIndex(struct vysion_widget *ptr, int index) {
+    for (int i = 0; i < index; i++) ptr = vysion_GetNextFile(ptr);
+    return ptr;
+}
 
+
+
+//returns the number of files in the directory, or more accurately, the number of files until the folder ends
+//so if you call it when ptr is a pointer to a folder, it will give the number of files in that folder
+//not a good idea to call when ptr is not folder, that'll probably break something
+struct vysion_widget *vysion_GetNumFilesInDirectory(struct vysion_widget *ptr) {
+    int i = 0;
+    ptr += 1;
+    while (ptr->type != VYSION_FOLDER_END) {
+        ptr = vysion_GetNextFile(ptr);
+        i++;
+    }
+    dbg_sprintf(dbgout, "Num files: %d Ptr type: %d\n", i, ptr->type);
+    return i;
+}
 
 //returns the next file or folder, starting the search at ptr
 //it will skip over the contents of a folder if ptr->type == VYSION_FOLDER_TYPE
 //intended to be used in a loop
 struct vysion_widget *vysion_GetNextFile(struct vysion_widget *ptr) {
 	if (ptr->type == VYSION_FOLDER_TYPE) {
-		struct vysion_widget *temp_ptr = ptr;
-		while (temp_ptr->type != VYSION_FOLDER_END)
+		struct vysion_widget *temp_ptr = ptr + 1;
+        dbg_sprintf(dbgout, "Test 3 %d\n", (int) *((uint8_t *) temp_ptr));
+        dbg_sprintf(dbgout, "Offset: %d\n", temp_ptr - ptr);
+        dbg_sprintf(dbgout, "Temp ptr type: %d Offset: %d Sizeof widget: %d\n", temp_ptr->type, temp_ptr - (struct vysion_widget *) vysion_current_context->filesystem_start, sizeof(struct vysion_widget));
+		while (temp_ptr->type != VYSION_FOLDER_END) {
+            //dbg_sprintf(dbgout, "This ran at least once.\n");
 			temp_ptr = vysion_GetNextFile(temp_ptr);
+        }
+        dbg_sprintf(dbgout, "Success. %d\n", ((struct vysion_widget *) ((char *) temp_ptr + 1))->type);
 		//we need to add 1 here because VYSION_FOLDER_END is 1 byte
-		return temp_ptr + sizeof(uint8_t);
-	} else return ptr + sizeof(vysion_widget);
+		return (char *) temp_ptr + 1;
+	} else if (ptr->type == VYSION_FOLDER_END) {
+        dbg_sprintf(dbgout, "This was true, apparently.\n");
+        return (char *) ptr + 1;
+    } else return ptr + 1;
 }
 
 
@@ -35,7 +65,7 @@ struct vysion_widget *vysion_GetPreviousFile(struct vysion_widget *ptr) {
 		while (temp_ptr->type != VYSION_FOLDER_TYPE)
 			temp_ptr = vysion_GetPreviousFile(temp_ptr);
 		return temp_ptr;
-	} else return ptr - sizeof(vysion_widget);
+	} else return ptr - sizeof(struct vysion_widget);
 }
 
 //returns the source directory of the current directory (e.g. trying on /Desktop would return /)
@@ -46,15 +76,12 @@ struct vysion_widget *vysion_GetSourceDirectory(struct vysion_widget *ptr) {
 	//ptr - sizeof(vysion_widget)
 	struct vysion_widget *previous_ptr;
 	struct vysion_widget *temp_ptr; 
-	while (previous_ptr - sizeof(vysion_widget) != temp_ptr) {
+	while (previous_ptr - sizeof(struct vysion_widget) != temp_ptr) {
 		previous_ptr = temp_ptr;
 		temp_ptr = vysion_GetPreviousFile(temp_ptr);	
 	}
 	return temp_ptr;
 }
-
-
-
 
 struct vysion_file_info *vysion_GetFileInfo(struct vysion_file_info *file_info, char *name, uint8_t ti_type) {
     ti_var_t slot;

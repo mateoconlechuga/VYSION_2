@@ -6,8 +6,8 @@
 
 NAME         ?= VYSION2
 ICON         ?= icon.png
-DESCRIPTION  ?= "VYSION CE 2.0.0"
-COMPRESSED   ?= YES
+DESCRIPTION  ?= "VYSION 2 Experimental"
+COMPRESSED   ?= NO
 ARCHIVED     ?= YES
 HAS_SPRINTF  ?= NO
 

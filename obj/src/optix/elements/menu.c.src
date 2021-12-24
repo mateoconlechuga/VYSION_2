@@ -1,0 +1,1692 @@
+	section	.text,"ax",@progbits
+	assume	adl = 1
+	section	.text,"ax",@progbits
+	public	_optix_GetMenuOptionWidth
+_optix_GetMenuOptionWidth:
+	ld	hl, -6
+	call	__frameset
+	ld	iy, (ix + 9)
+	ld	hl, (iy + 7)
+	ld	de, 0
+	ld	e, l
+	ld	d, h
+	ld	bc, 140
+	add	iy, bc
+	ld	bc, (iy)
+	push	de
+	pop	hl
+	call	__idivs
+	push	hl
+	pop	iy
+	ld	hl, (ix + 6)
+	inc	hl
+	call	__irems
+	ld	(ix - 6), hl
+	ld	(ix - 3), iy
+	lea	hl, iy
+	call	__imulu
+	push	hl
+	pop	bc
+	ex	de, hl
+	or	a, a
+	sbc	hl, bc
+	push	hl
+	pop	iy
+	ld	hl, (ix - 6)
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	jq	z, BB0_2
+	ld	iy, 0
+BB0_2:
+	ld	de, (ix - 3)
+	add	iy, de
+	ex	de, hl
+	ld	e, iyl
+	ld	d, iyh
+	ex	de, hl
+	ld	sp, ix
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_optix_GetMenuOptionHeight
+_optix_GetMenuOptionHeight:
+	ld	hl, -12
+	call	__frameset
+	ld	iy, (ix + 9)
+	or	a, a
+	sbc	hl, hl
+	ld	l, (iy + 9)
+	ld	(ix - 6), hl
+	ld	de, 137
+	add	iy, de
+	ld	bc, (iy)
+	ld	(ix - 12), bc
+	call	__idivs
+	push	hl
+	pop	iy
+	ld	de, 140
+	ld	hl, (ix + 9)
+	add	hl, de
+	ld	bc, (hl)
+	ld	hl, (ix + 6)
+	call	__idivs
+	ld	(ix - 9), hl
+	ld	bc, (ix - 12)
+	push	bc
+	pop	de
+	dec	de
+	ld	(ix - 3), iy
+	lea	hl, iy
+	call	__imulu
+	push	hl
+	pop	bc
+	ld	hl, (ix - 6)
+	or	a, a
+	sbc	hl, bc
+	push	hl
+	pop	bc
+	ld	hl, (ix - 9)
+	or	a, a
+	sbc	hl, de
+	jq	z, BB1_2
+	ld	bc, 0
+BB1_2:
+	ld	a, c
+	ld	hl, (ix - 3)
+	add	a, l
+	ld	sp, ix
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_optix_GetMenuOptionRelativeX
+_optix_GetMenuOptionRelativeX:
+	ld	hl, -3
+	call	__frameset
+	ld	de, (ix + 6)
+	ld	iy, (ix + 9)
+	ld	bc, 140
+	lea	hl, iy
+	add	hl, bc
+	ld	bc, (hl)
+	push	de
+	pop	hl
+	call	__irems
+	ld	(ix - 3), hl
+	push	iy
+	push	de
+	call	_optix_GetMenuOptionWidth
+	pop	de
+	pop	de
+	ld	bc, 0
+	ld	c, l
+	ld	b, h
+	ld	hl, (ix - 3)
+	call	__imulu
+	ld	sp, ix
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_optix_GetMenuOptionRelativeY
+_optix_GetMenuOptionRelativeY:
+	ld	hl, -3
+	call	__frameset
+	ld	de, (ix + 9)
+	ld	bc, 134
+	push	de
+	pop	iy
+	add	iy, bc
+	ld	bc, (iy)
+	ld	hl, (ix + 6)
+	or	a, a
+	sbc	hl, bc
+	ld	bc, 140
+	push	de
+	pop	iy
+	add	iy, bc
+	ld	bc, (iy)
+	call	__idivs
+	ld	(ix - 3), hl
+	push	de
+	ld	hl, (ix + 6)
+	push	hl
+	call	_optix_GetMenuOptionHeight
+	pop	hl
+	pop	hl
+	ld	bc, 0
+	ld	c, a
+	ld	hl, (ix - 3)
+	call	__imulu
+	ld	sp, ix
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_optix_SetMenuOptionTransform
+_optix_SetMenuOptionTransform:
+	ld	hl, -3
+	call	__frameset
+	ld	hl, (ix + 6)
+	ld	iy, (ix + 12)
+	ld	de, (iy + 1)
+	ld	(ix - 3), de
+	push	iy
+	push	hl
+	call	_optix_GetMenuOptionRelativeX
+	pop	de
+	pop	de
+	ld	de, (ix - 3)
+	add	hl, de
+	ld	iy, (ix + 9)
+	ld	(iy + 1), hl
+	ld	iy, (ix + 12)
+	ld	hl, (iy + 4)
+	ld	(ix - 3), hl
+	push	iy
+	ld	hl, (ix + 6)
+	push	hl
+	call	_optix_GetMenuOptionRelativeY
+	pop	de
+	pop	de
+	ld	de, (ix - 3)
+	add	hl, de
+	ld	iy, (ix + 9)
+	ld	(iy + 4), hl
+	ld	hl, (ix + 12)
+	push	hl
+	ld	hl, (ix + 6)
+	push	hl
+	call	_optix_GetMenuOptionWidth
+	pop	de
+	pop	de
+	ld	iy, (ix + 9)
+	ld	(iy + 7), l
+	ld	(iy + 8), h
+	ld	hl, (ix + 12)
+	push	hl
+	ld	hl, (ix + 6)
+	push	hl
+	call	_optix_GetMenuOptionHeight
+	pop	hl
+	pop	hl
+	ld	iy, (ix + 9)
+	ld	(iy + 9), a
+	pop	hl
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_optix_UpdateMenu_default
+_optix_UpdateMenu_default:
+	ld	hl, -27
+	call	__frameset
+	ld	iy, (ix + 6)
+	xor	a, a
+	ld	(ix - 6), a
+	ld	de, 129
+	lea	hl, iy
+	add	hl, de
+	ld	(ix - 3), hl
+	ld	de, (hl)
+	ld	bc, -1
+	push	de
+	pop	hl
+	or	a, a
+	sbc	hl, bc
+	ld	bc, 146
+	jq	z, BB5_2
+	ld	iy, (ix + 6)
+	add	iy, bc
+	ld	(iy), de
+	ld	iy, (ix + 6)
+BB5_2:
+	ld	c, 1
+	ld	a, (iy + 15)
+	xor	a, c
+	bit	0, a
+	jq	nz, BB5_7
+	ld	iy, (ix + 6)
+	ld	hl, (iy + 27)
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	jq	z, BB5_7
+	ld	(ix - 9), hl
+	ld	iy, (ix + 6)
+	ld	de, 146
+	add	iy, de
+	ld	hl, (iy)
+	ld	bc, 3
+	call	__imulu
+	ld	c, 1
+	push	hl
+	pop	de
+	ld	hl, (ix - 9)
+	add	hl, de
+	ld	iy, (hl)
+	lea	hl, iy
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	jq	z, BB5_7
+	ld	hl, (iy + 24)
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	jq	z, BB5_7
+	push	iy
+	call	__indcallhl
+	ld	c, 1
+	pop	hl
+BB5_7:
+	ld	iy, (ix + 6)
+	ld	a, (iy + 14)
+	xor	a, c
+	bit	0, a
+	jq	z, BB5_11
+	ld	de, 132
+	ld	hl, (ix - 3)
+	ld	hl, (hl)
+	ld	bc, -1
+	or	a, a
+	sbc	hl, bc
+	jq	z, BB5_10
+	ld	iy, (ix + 6)
+	add	iy, de
+	ld	(iy), 1
+	ld	iy, (ix + 6)
+BB5_10:
+	ld	hl, (ix - 3)
+	ld	de, -1
+	ld	(hl), de
+	jq	BB5_86
+BB5_11:
+	ld	hl, (ix + 6)
+	push	hl
+	pop	iy
+	ld	de, 132
+	add	iy, de
+	ld	(ix - 9), iy
+	ld	(iy), 0
+	inc	de
+	add	hl, de
+	ld	(ix - 12), hl
+	ld	a, (hl)
+	xor	a, c
+	xor	a, c
+	bit	0, a
+	jq	nz, BB5_13
+	ld	iy, (ix + 6)
+	ld	de, 146
+	add	iy, de
+	ld	hl, (iy)
+	ld	iy, (ix - 3)
+	ld	(iy), hl
+	ld	hl, (ix - 9)
+	ld	(hl), 1
+BB5_13:
+	or	a, a
+	sbc	hl, hl
+	push	hl
+	call	_optix_DefaultKeyIsDown
+	pop	hl
+	and	a, 1
+	ld	c, 1
+	xor	a, c
+	bit	0, a
+	jq	z, BB5_15
+	or	a, a
+	sbc	hl, hl
+	push	hl
+	call	_optix_DefaultKeyIsDown
+	pop	hl
+	bit	2, a
+	jq	nz, BB5_24
+	jq	BB5_25
+BB5_15:
+	ld	de, 149
+	ld	iy, (ix + 6)
+	add	iy, de
+	ld	hl, (iy)
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	jq	nz, BB5_20
+	ld	iy, (ix + 6)
+	ld	iy, (iy + 27)
+	ld	hl, (ix - 3)
+	ld	hl, (hl)
+	ld	bc, 3
+	call	__imulu
+	push	hl
+	pop	de
+	add	iy, de
+	ld	iy, (iy)
+	ld	a, (iy)
+	cp	a, 2
+	jq	z, BB5_18
+	cp	a, 10
+	jq	nz, BB5_24
+BB5_18:
+	ld	hl, (iy + 30)
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	jq	z, BB5_24
+	ld	de, (iy + 33)
+	push	de
+	call	__indcallhl
+	jq	BB5_23
+BB5_20:
+	ld	iy, (ix + 6)
+	ld	de, 155
+	add	iy, de
+	ld	a, (iy)
+	xor	a, c
+	bit	0, a
+	ld	de, (ix + 6)
+	jq	z, BB5_22
+	ld	de, 152
+	ld	iy, (ix + 6)
+	add	iy, de
+	ld	de, (iy)
+BB5_22:
+	push	de
+	call	__indcallhl
+	pop	hl
+	ld	hl, 2
+	push	hl
+	or	a, a
+	sbc	hl, hl
+	push	hl
+	call	_optix_SetDefaultKeyState
+	pop	hl
+BB5_23:
+	pop	hl
+BB5_24:
+	ld	iy, (ix + 6)
+	ld	(iy + 17), 1
+BB5_25:
+	ld	iy, (_current_context)
+	ld	hl, (iy)
+	ld	a, (hl)
+	ld	c, 1
+	ld	l, c
+	xor	a, l
+	bit	0, a
+	jq	z, BB5_30
+	ld	iy, (iy + 9)
+	ld	hl, (iy + 54)
+	ld	iy, (ix + 6)
+	lea	de, iy
+	or	a, a
+	sbc	hl, de
+	jq	nz, BB5_74
+	ld	hl, 1
+	push	hl
+	call	_optix_DefaultKeyIsDown
+	pop	hl
+	and	a, 1
+	ld	l, 1
+	xor	a, l
+	bit	0, a
+	ld	a, 0
+	ld	c, a
+	jq	nz, BB5_54
+	ld	hl, (ix - 3)
+	ld	hl, (hl)
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	jq	z, BB5_50
+	ld	c, 0
+	jq	BB5_51
+BB5_30:
+	ld	hl, (ix + 6)
+	push	hl
+	or	a, a
+	sbc	hl, hl
+	push	hl
+	call	_optix_GetMenuOptionWidth
+	ld	(ix - 18), hl
+	pop	hl
+	pop	hl
+	ld	hl, (ix + 6)
+	push	hl
+	or	a, a
+	sbc	hl, hl
+	push	hl
+	call	_optix_GetMenuOptionHeight
+	ld	(ix - 21), a
+	pop	hl
+	pop	hl
+	ld	hl, 5
+	push	hl
+	call	_optix_DefaultKeyIsDown
+	pop	hl
+	and	a, 1
+	ld	l, 1
+	xor	a, l
+	bit	0, a
+	jq	z, BB5_33
+	ld	hl, 6
+	push	hl
+	call	_optix_DefaultKeyIsDown
+	pop	hl
+	and	a, 1
+	ld	l, 1
+	xor	a, l
+	ld	iy, (ix + 6)
+	lea	hl, iy
+	ld	de, 134
+	add	hl, de
+	ld	(ix - 6), hl
+	ld	hl, (hl)
+	ld	(ix - 15), hl
+	ld	de, 140
+	add	iy, de
+	ld	de, (iy)
+	bit	0, a
+	jq	z, BB5_36
+	ld	(ix - 6), de
+	ld	iy, (ix + 6)
+	ld	a, (ix - 21)
+	jq	BB5_40
+BB5_33:
+	ld	hl, (ix + 6)
+	ld	de, 134
+	add	hl, de
+	ld	(ix - 15), hl
+	ld	bc, (hl)
+	ld	iy, (ix + 6)
+	ld	de, 140
+	add	iy, de
+	ld	hl, (iy)
+	ld	(ix - 6), hl
+	ld	(ix - 27), bc
+	add	hl, bc
+	ld	(ix - 24), hl
+	ld	hl, (ix + 6)
+	push	hl
+	pop	iy
+	ld	de, 143
+	add	iy, de
+	ld	de, (iy)
+	push	hl
+	pop	iy
+	ld	bc, 137
+	add	iy, bc
+	ld	hl, (iy)
+	dec	hl
+	ld	bc, (ix - 6)
+	call	__imulu
+	push	hl
+	pop	bc
+	ex	de, hl
+	or	a, a
+	sbc	hl, bc
+	push	hl
+	pop	de
+	ld	bc, (ix - 24)
+	push	bc
+	pop	hl
+	or	a, a
+	sbc	hl, de
+	push	bc
+	pop	de
+	call	__setflag
+	jq	m, BB5_35
+	ld	de, (ix - 27)
+BB5_35:
+	ld	hl, (ix - 15)
+	ld	(hl), de
+	jq	BB5_39
+BB5_36:
+	ld	iy, (ix - 6)
+	ld	hl, (ix - 15)
+	or	a, a
+	sbc	hl, de
+	ld	(ix - 15), de
+	push	hl
+	pop	de
+	ld	bc, 1
+	or	a, a
+	sbc	hl, bc
+	call	__setflag
+	jq	p, BB5_38
+	ld	de, 0
+BB5_38:
+	ld	(iy), de
+	ld	bc, (ix - 15)
+	ld	(ix - 6), bc
+BB5_39:
+	ld	iy, (ix + 6)
+	ld	a, (ix - 21)
+	ld	(iy + 17), 1
+	ld	(ix - 15), de
+BB5_40:
+	ld	iy, (_current_context)
+	ld	bc, (iy + 9)
+	ld	(ix - 21), bc
+	ld	iy, (ix + 6)
+	ld	de, (iy + 4)
+	push	bc
+	pop	iy
+	ld	hl, (iy + 4)
+	or	a, a
+	sbc	hl, de
+	ld	de, 0
+	ld	e, a
+	push	de
+	pop	bc
+	call	__idivs
+	push	hl
+	pop	bc
+	ld	hl, (ix - 6)
+	call	__imulu
+	ld	(ix - 6), hl
+	ld	iy, (ix + 6)
+	ld	bc, (iy + 1)
+	ld	iy, (ix - 21)
+	ld	hl, (iy + 1)
+	or	a, a
+	sbc	hl, bc
+	ld	de, (ix - 18)
+	push	de
+	pop	bc
+	call	__idivs
+	push	hl
+	pop	de
+	ld	bc, (ix - 15)
+	ld	iy, (ix - 6)
+	add	iy, bc
+	add	iy, de
+	lea	hl, iy
+	ld	iy, (ix + 6)
+	ld	de, 143
+	add	iy, de
+	ld	de, (iy)
+	push	hl
+	pop	iy
+	or	a, a
+	sbc	hl, de
+	call	__setflag
+	jq	p, BB5_43
+	ld	hl, (ix - 3)
+	ld	hl, (hl)
+	ld	bc, -1
+	or	a, a
+	sbc	hl, bc
+	jq	nz, BB5_45
+	ld	hl, (ix - 12)
+	ld	a, (hl)
+	ld	l, 1
+	xor	a, l
+	bit	0, a
+	lea	hl, iy
+	ld	iy, (ix + 6)
+	push	hl
+	pop	iy
+	jq	z, BB5_48
+	jq	BB5_49
+BB5_43:
+	ld	hl, (ix - 12)
+	ld	a, (hl)
+	ld	l, 1
+	xor	a, l
+	bit	0, a
+	ld	bc, -1
+	jq	z, BB5_47
+	ld	hl, -1
+	jq	BB5_46
+BB5_45:
+	lea	hl, iy
+BB5_46:
+	ld	iy, (ix + 6)
+	push	hl
+	pop	iy
+	jq	BB5_49
+BB5_47:
+	ld	hl, (ix - 3)
+	ld	hl, (hl)
+	or	a, a
+	sbc	hl, bc
+	ld	hl, -1
+	ld	iy, (ix + 6)
+	push	hl
+	pop	iy
+	jq	z, BB5_49
+BB5_48:
+	ld	hl, (ix - 9)
+	ld	(hl), 1
+BB5_49:
+	ld	hl, (ix - 3)
+	ld	(hl), iy
+	jq	BB5_75
+BB5_50:
+	ld	c, 1
+BB5_51:
+	ld	de, 0
+	bit	0, c
+	jq	nz, BB5_53
+	ld	iy, (ix + 6)
+	ld	de, 140
+	add	iy, de
+	ld	de, (iy)
+	or	a, a
+	sbc	hl, de
+	push	hl
+	pop	de
+BB5_53:
+	ld	hl, (ix - 3)
+	ld	(hl), de
+	ld	a, 1
+	ld	(ix - 6), a
+BB5_54:
+	ld	(ix - 9), c
+	ld	hl, 2
+	push	hl
+	call	_optix_DefaultKeyIsDown
+	pop	hl
+	and	a, 1
+	ld	l, 1
+	xor	a, l
+	ld	hl, 3
+	bit	0, a
+	jq	nz, BB5_62
+	ld	hl, (ix - 3)
+	ld	de, (hl)
+	ld	iy, (ix + 6)
+	ld	bc, 143
+	add	iy, bc
+	ld	bc, (iy)
+	dec	bc
+	push	de
+	pop	hl
+	or	a, a
+	sbc	hl, bc
+	jq	z, BB5_57
+	ld	a, 0
+	jq	BB5_58
+BB5_57:
+	ld	a, 1
+BB5_58:
+	ld	iy, (ix + 6)
+	bit	0, a
+	ld	(ix - 9), a
+	jq	z, BB5_60
+	push	de
+	pop	iy
+	jq	BB5_61
+BB5_60:
+	ld	bc, 140
+	add	iy, bc
+	ld	iy, (iy)
+	add	iy, de
+BB5_61:
+	ld	hl, (ix - 3)
+	ld	(hl), iy
+	ld	a, 1
+	ld	(ix - 6), a
+	ld	hl, 3
+BB5_62:
+	push	hl
+	call	_optix_DefaultKeyIsDown
+	pop	hl
+	and	a, 1
+	ld	l, 1
+	xor	a, l
+	bit	0, a
+	jq	nz, BB5_65
+	ld	hl, (ix - 3)
+	ld	de, (hl)
+	ld	iy, (ix + 6)
+	ld	bc, 140
+	add	iy, bc
+	ld	bc, (iy)
+	push	de
+	pop	hl
+	call	__irems
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	ld	a, 1
+	ld	(ix - 9), a
+	jq	z, BB5_65
+	dec	de
+	ld	hl, (ix - 3)
+	ld	(hl), de
+	xor	a, a
+	ld	(ix - 9), a
+	ld	a, 1
+	ld	(ix - 6), a
+BB5_65:
+	ld	hl, 4
+	push	hl
+	call	_optix_DefaultKeyIsDown
+	pop	hl
+	and	a, 1
+	ld	c, 1
+	xor	a, c
+	bit	0, a
+	ld	b, (ix - 9)
+	jq	nz, BB5_67
+	ld	hl, (ix - 3)
+	ld	de, (hl)
+	inc	de
+	ld	iy, (ix + 6)
+	ld	bc, 140
+	add	iy, bc
+	ld	bc, (iy)
+	push	de
+	pop	hl
+	call	__irems
+	ld	c, 1
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	ld	b, 1
+	jq	nz, BB5_68
+BB5_67:
+	ld	a, (ix - 6)
+	xor	a, c
+	bit	0, a
+	ld	iy, (ix + 6)
+	jq	z, BB5_69
+	jq	BB5_72
+BB5_68:
+	ld	hl, (ix - 3)
+	ld	(hl), de
+	xor	a, a
+	ld	b, a
+	ld	iy, (ix + 6)
+BB5_69:
+	ld	de, 156
+	ld	hl, (ix + 6)
+	push	hl
+	pop	iy
+	add	iy, de
+	ld	a, (iy)
+	xor	a, c
+	bit	0, a
+	jq	nz, BB5_72
+	ld	de, 157
+	push	hl
+	pop	iy
+	add	iy, de
+	ld	a, (iy)
+	xor	a, c
+	xor	a, c
+	bit	0, a
+	jq	nz, BB5_72
+	ld	iy, (_current_context)
+	ex	de, hl
+	ld	hl, (iy + 15)
+	push	de
+	push	hl
+	ld	(ix - 9), b
+	call	_optix_IntelligentRecursiveSetNeedsRedraw
+	pop	hl
+	pop	hl
+	bit	0, (ix - 9)
+	jq	nz, BB5_74
+	jq	BB5_73
+BB5_72:
+	bit	0, b
+	jq	nz, BB5_74
+BB5_73:
+	ld	iy, (_current_context)
+	ld	iy, (iy + 9)
+	ld	hl, 4
+	ld	(iy + 51), hl
+	ld	iy, (ix + 6)
+BB5_74:
+	ld	hl, (ix - 3)
+	ld	iy, (hl)
+	ld	bc, -1
+BB5_75:
+	lea	hl, iy
+	or	a, a
+	sbc	hl, bc
+	jq	z, BB5_86
+	ld	de, 0
+	lea	hl, iy
+	or	a, a
+	sbc	hl, de
+	call	__setflag
+	ld	(ix - 6), iy
+	jq	p, BB5_78
+	ld	hl, (ix - 3)
+	ld	de, 0
+	ld	(hl), de
+	ld	(ix - 6), de
+BB5_78:
+	ld	iy, (ix + 6)
+	ld	de, 143
+	add	iy, de
+	ld	de, (iy)
+	ld	hl, (ix - 6)
+	or	a, a
+	sbc	hl, de
+	call	__setflag
+	jq	m, BB5_80
+	dec	de
+	ld	hl, (ix - 3)
+	ld	(hl), de
+	ld	(ix - 6), de
+BB5_80:
+	ld	iy, (ix + 6)
+	ld	de, 134
+	add	iy, de
+	ld	de, (iy)
+	ld	hl, (ix - 6)
+	or	a, a
+	sbc	hl, bc
+	ld	(ix - 3), iy
+	jq	z, BB5_82
+	ld	hl, (ix - 6)
+	or	a, a
+	sbc	hl, de
+	call	__setflag
+	jq	m, BB5_84
+BB5_82:
+	ld	iy, (ix + 6)
+	ld	(ix - 9), de
+	ld	de, 137
+	add	iy, de
+	ld	hl, (iy)
+	dec	hl
+	ld	iy, (ix + 6)
+	ld	bc, 140
+	add	iy, bc
+	ld	bc, (iy)
+	ld	iy, (ix + 6)
+	push	hl
+	pop	iy
+	call	__imulu
+	ld	de, (ix - 9)
+	add	hl, de
+	ld	de, (ix - 6)
+	or	a, a
+	sbc	hl, de
+	call	__setflag
+	jq	p, BB5_86
+	ld	hl, (ix - 6)
+	call	__idivs
+	lea	de, iy
+	or	a, a
+	sbc	hl, de
+	call	__imulu
+	jq	BB5_85
+BB5_84:
+	ld	iy, (ix + 6)
+	ld	de, 140
+	add	iy, de
+	ld	bc, (iy)
+	ld	iy, (ix + 6)
+	ld	de, (ix - 6)
+	push	de
+	pop	hl
+	call	__irems
+	push	hl
+	pop	bc
+	ex	de, hl
+	or	a, a
+	sbc	hl, bc
+BB5_85:
+	ld	iy, (ix - 3)
+	ld	(iy), hl
+	ld	iy, (ix + 6)
+	ld	(iy + 17), 1
+BB5_86:
+	ld	iy, (ix + 6)
+	ld	a, (iy + 14)
+	ld	de, 133
+	add	iy, de
+	ld	(iy), a
+	ld	sp, ix
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_optix_RenderMenuOption
+_optix_RenderMenuOption:
+	ld	hl, -161
+	call	__frameset
+	ld	bc, -139
+	lea	hl, ix
+	add	hl, bc
+	ld	bc, -145
+	lea	iy, ix
+	add	iy, bc
+	ld	(iy), hl
+	xor	a, a
+	ld	bc, -152
+	lea	hl, ix
+	add	hl, bc
+	ld	(hl), a
+	ld	de, 0
+	push	ix
+	ld	bc, -161
+	add	ix, bc
+	ld	(ix), de
+	pop	ix
+	lea	bc, ix - 49
+	lea	de, ix - 86
+	lea	hl, ix - 98
+	ld	(ix - 3), de
+	push	ix
+	ld	de, -148
+	add	ix, de
+	ld	(ix), hl
+	pop	ix
+	ld	de, -145
+	lea	hl, ix
+	add	hl, de
+	ld	iy, (hl)
+	lea	hl, iy
+	ld	de, -142
+	lea	iy, ix
+	add	iy, de
+	ld	(iy), hl
+	ld	de, -151
+	lea	hl, ix
+	add	hl, de
+	ld	(hl), bc
+	ld	(ix - 98), bc
+	ld	de, (ix - 3)
+	push	ix
+	ld	bc, -155
+	add	ix, bc
+	ld	(ix), de
+	pop	ix
+	ld	(ix - 95), de
+	ld	hl, 0
+	ld	(ix - 92), hl
+	ld	(ix - 89), hl
+	ld	bc, -145
+	lea	hl, ix
+	add	hl, bc
+	ld	iy, (hl)
+	ld	(iy), 0
+	ld	bc, -142
+	lea	iy, ix
+	add	iy, bc
+	ld	iy, (iy)
+	lea	de, iy
+	inc	de
+	ld	bc, 40
+	lea	hl, iy
+	ldir
+	ld	bc, -148
+	lea	hl, ix
+	add	hl, bc
+	ld	hl, (hl)
+	ld	(ix - 112), hl
+	ld	hl, 2
+	push	hl
+	push	iy
+	call	_optix_InitializeWidget
+	pop	hl
+	pop	hl
+	ld	e, 1
+	ld	iy, (ix + 9)
+	ld	a, (iy + 17)
+	xor	a, e
+	ld	bc, 129
+	lea	hl, iy
+	add	hl, bc
+	ld	bc, -145
+	lea	iy, ix
+	add	iy, bc
+	ld	(iy), hl
+	ld	bc, (hl)
+	xor	a, e
+	bit	0, a
+	jq	nz, BB6_1
+	push	bc
+	pop	hl
+	ld	de, (ix + 6)
+	or	a, a
+	sbc	hl, de
+	jq	z, BB6_4
+	ld	de, 146
+	ld	iy, (ix + 9)
+	add	iy, de
+	ld	hl, (iy)
+	ld	de, (ix + 6)
+	or	a, a
+	sbc	hl, de
+	push	bc
+	pop	de
+	jq	z, BB6_4
+	jq	BB6_48
+BB6_1:
+	push	bc
+	pop	de
+BB6_4:
+	ld	bc, 143
+	ld	iy, (ix + 9)
+	add	iy, bc
+	ld	bc, -158
+	lea	hl, ix
+	add	hl, bc
+	ld	(hl), iy
+	ld	bc, (iy)
+	ld	hl, (ix + 6)
+	or	a, a
+	sbc	hl, bc
+	call	__setflag
+	ld	bc, -148
+	lea	hl, ix
+	push	af
+	add	hl, bc
+	pop	af
+	ld	hl, (hl)
+	jq	m, BB6_6
+	ld	hl, 0
+BB6_6:
+	ld	(ix - 112), hl
+	ex	de, hl
+	ld	de, (ix + 6)
+	or	a, a
+	sbc	hl, de
+	ld	a, 0
+	jq	nz, BB6_8
+	or	a, a
+	sbc	hl, hl
+	push	hl
+	call	_optix_DefaultKeyIsDown
+	pop	hl
+	srl	a
+	and	a, 1
+BB6_8:
+	ld	(ix - 103), a
+	ld	de, 156
+	ld	iy, (ix + 9)
+	add	iy, de
+	ld	a, (iy)
+	ld	l, 1
+	xor	a, l
+	xor	a, l
+	bit	0, a
+	ld	de, -142
+	lea	hl, ix
+	push	af
+	add	hl, de
+	pop	af
+	ld	bc, (hl)
+	jq	nz, BB6_9
+	ld	de, -145
+	lea	hl, ix
+	add	hl, de
+	ld	hl, (hl)
+	ld	hl, (hl)
+	ld	de, (ix + 6)
+	or	a, a
+	sbc	hl, de
+	ld	a, 0
+	jq	nz, BB6_12
+	ld	iy, (ix + 9)
+	push	bc
+	pop	hl
+	ld	bc, 157
+	add	iy, bc
+	push	hl
+	pop	bc
+	ld	a, (iy)
+	jq	BB6_12
+BB6_9:
+	ld	a, 1
+	ld	de, (ix + 6)
+BB6_12:
+	ld	(ix - 101), a
+	ld	iy, (ix - 112)
+	lea	hl, iy
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	jq	z, BB6_15
+	ld	hl, (ix + 12)
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	jq	z, BB6_15
+	ld	bc, 43
+	ld	iy, (ix + 9)
+	lea	hl, iy + 42
+	ld	de, -151
+	lea	iy, ix
+	add	iy, de
+	ld	iy, (iy)
+	lea	de, iy
+	ldir
+	ld	hl, (ix + 12)
+	ld	(ix - 17), hl
+	ld	hl, 0
+	ld	(ix - 22), hl
+	push	iy
+	call	_optix_InitializeTextTransform
+	pop	hl
+	or	a, a
+	sbc	hl, hl
+	push	hl
+	ld	bc, -151
+	lea	hl, ix
+	add	hl, bc
+	ld	hl, (hl)
+	push	hl
+	call	_optix_InitializeWidget
+	ld	de, (ix + 6)
+	ld	(ix - 3), de
+	ld	de, -142
+	lea	hl, ix
+	add	hl, de
+	ld	bc, (hl)
+	pop	hl
+	pop	hl
+	ld	iy, (ix - 112)
+	ld	de, (ix - 3)
+	jq	BB6_16
+BB6_15:
+	ld	hl, 0
+	ld	(ix - 17), hl
+BB6_16:
+	lea	hl, iy
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	jq	z, BB6_19
+	ld	hl, (ix + 15)
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	jq	z, BB6_19
+	ld	bc, 37
+	ld	iy, (ix + 9)
+	lea	hl, iy + 85
+	ld	de, -155
+	lea	iy, ix
+	add	iy, de
+	ld	iy, (iy)
+	lea	de, iy
+	ldir
+	ld	hl, (ix + 15)
+	ld	(ix - 56), hl
+	ld	hl, 0
+	ld	(ix - 59), hl
+	inc	hl
+	push	hl
+	push	iy
+	call	_optix_InitializeWidget
+	ld	de, (ix + 6)
+	ld	(ix - 3), de
+	ld	de, -142
+	lea	hl, ix
+	add	hl, de
+	ld	bc, (hl)
+	pop	hl
+	pop	hl
+	ld	iy, (ix - 112)
+	ld	de, (ix - 3)
+	jq	BB6_20
+BB6_19:
+	ld	hl, 0
+	ld	(ix - 56), hl
+BB6_20:
+	lea	hl, iy
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	jq	nz, BB6_22
+	ld	(ix - 3), bc
+	ld	bc, -148
+	lea	hl, ix
+	add	hl, bc
+	ld	(hl), iy
+	ld	iy, (ix + 9)
+	ld	hl, (iy + 27)
+	lea	iy, ix
+	add	iy, bc
+	ld	iy, (iy)
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	ld	bc, (ix - 3)
+	jq	z, BB6_43
+BB6_22:
+	ld	de, -158
+	lea	hl, ix
+	add	hl, de
+	ld	hl, (hl)
+	ld	de, (hl)
+	ld	hl, (ix + 6)
+	or	a, a
+	sbc	hl, de
+	ld	de, (ix + 6)
+	call	__setflag
+	jq	p, BB6_43
+	ld	bc, -151
+	lea	hl, ix
+	add	hl, bc
+	ld	hl, (hl)
+	ld	(iy), hl
+	ld	iy, (ix - 112)
+	ld	hl, (ix - 17)
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	jq	nz, BB6_24
+	ld	a, 0
+	jq	BB6_26
+BB6_24:
+	ld	a, 1
+BB6_26:
+	and	a, 1
+	or	a, a
+	sbc	hl, hl
+	ld	l, a
+	ld	bc, 3
+	call	__imulu
+	push	hl
+	pop	de
+	add	iy, de
+	push	ix
+	ld	de, -155
+	add	ix, de
+	ld	hl, (ix)
+	pop	ix
+	ld	(iy), hl
+	ld	iy, (ix + 9)
+	ld	iy, (iy + 27)
+	lea	hl, iy
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	ld	hl, 0
+	jq	z, BB6_33
+	ld	bc, 3
+	ld	hl, (ix + 6)
+	call	__imulu
+	push	hl
+	pop	de
+	lea	hl, iy
+	add	hl, de
+	ld	de, (hl)
+	push	de
+	pop	hl
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	lea	hl, iy
+	jq	z, BB6_33
+	ld	bc, -148
+	lea	hl, ix
+	add	hl, bc
+	ld	(hl), de
+	ld	hl, (ix - 17)
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	ld	c, 1
+	ld	b, 0
+	ld	a, c
+	jq	nz, BB6_30
+	ld	a, b
+BB6_30:
+	ld	iy, (ix - 112)
+	and	a, 1
+	ld	de, 0
+	ld	e, a
+	ld	hl, (ix - 56)
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	jq	nz, BB6_32
+	ld	c, b
+BB6_32:
+	ld	a, c
+	and	a, 1
+	or	a, a
+	sbc	hl, hl
+	ld	l, a
+	add	hl, de
+	ld	bc, 3
+	call	__imulu
+	push	hl
+	pop	de
+	add	iy, de
+	push	ix
+	ld	de, -148
+	add	ix, de
+	ld	hl, (ix)
+	pop	ix
+	ld	(iy), hl
+	ld	iy, (ix + 9)
+	ld	hl, (iy + 27)
+BB6_33:
+	push	hl
+	pop	iy
+	ld	hl, (ix - 17)
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	ld	e, 1
+	ld	d, 0
+	ld	a, e
+	jq	nz, BB6_35
+	ld	a, d
+BB6_35:
+	and	a, 1
+	ld	bc, 0
+	ld	c, a
+	ld	hl, (ix - 56)
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	jq	nz, BB6_37
+	ld	e, d
+BB6_37:
+	ld	hl, (ix - 112)
+	ld	(ix - 3), bc
+	push	ix
+	ld	bc, -151
+	add	ix, bc
+	ld	(ix), hl
+	pop	ix
+	ld	a, e
+	and	a, 1
+	or	a, a
+	sbc	hl, hl
+	ld	l, a
+	ld	bc, (ix - 3)
+	add	hl, bc
+	push	ix
+	ld	bc, -148
+	add	ix, bc
+	ld	(ix), hl
+	pop	ix
+	lea	hl, iy
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	jq	z, BB6_42
+	ld	bc, 3
+	ld	hl, (ix + 6)
+	call	__imulu
+	push	hl
+	pop	de
+	add	iy, de
+	ld	hl, (iy)
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	jq	nz, BB6_39
+	ld	a, 0
+	jq	BB6_41
+BB6_39:
+	ld	a, 1
+BB6_41:
+	and	a, 1
+	or	a, a
+	sbc	hl, hl
+	ld	l, a
+	ld	bc, -161
+	lea	iy, ix
+	add	iy, bc
+	ld	(iy), hl
+BB6_42:
+	ld	bc, -161
+	lea	hl, ix
+	add	hl, bc
+	ld	de, (hl)
+	ld	bc, -148
+	lea	iy, ix
+	add	iy, bc
+	ld	hl, (iy)
+	add	hl, de
+	ld	bc, 3
+	call	__imulu
+	push	hl
+	pop	de
+	ld	(ix - 3), bc
+	push	ix
+	ld	bc, -151
+	add	ix, bc
+	ld	iy, (ix)
+	pop	ix
+	add	iy, de
+	ld	hl, 0
+	ld	(iy), hl
+	ld	bc, (ix - 3)
+	ld	de, -142
+	lea	hl, ix
+	add	hl, de
+	ld	bc, (hl)
+	ld	de, (ix + 6)
+BB6_43:
+	ld	hl, (ix + 9)
+	push	hl
+	push	bc
+	push	de
+	call	_optix_SetMenuOptionTransform
+	ld	bc, -142
+	lea	hl, ix
+	add	hl, bc
+	ld	de, (hl)
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	hl, (ix - 112)
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	jq	z, BB6_47
+	push	de
+	call	_optix_RecursiveAlign
+	pop	hl
+	ld	bc, -145
+	lea	hl, ix
+	add	hl, bc
+	ld	hl, (hl)
+	ld	hl, (hl)
+	ld	de, (ix + 6)
+	or	a, a
+	sbc	hl, de
+	jq	nz, BB6_46
+	ld	hl, (ix + 9)
+	ld	de, 157
+	add	hl, de
+	ld	a, (hl)
+	xor	a, 1
+	ld	bc, -152
+	lea	hl, ix
+	add	hl, bc
+	ld	(hl), a
+BB6_46:
+	ld	bc, -152
+	lea	hl, ix
+	add	hl, bc
+	ld	a, (hl)
+	ld	(ix - 125), a
+	ld	hl, (ix - 112)
+	push	hl
+	call	_optix_RecursiveSetNeedsRedraw
+	pop	hl
+	ld	bc, -142
+	lea	hl, ix
+	add	hl, bc
+	ld	de, (hl)
+BB6_47:
+	ld	hl, (ix - 118)
+	push	de
+	call	__indcallhl
+	pop	hl
+BB6_48:
+	ld	sp, ix
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_optix_RenderMenu_default
+_optix_RenderMenu_default:
+	ld	hl, -15
+	call	__frameset
+	ld	iy, (ix + 6)
+	ld	c, 1
+	ld	a, (iy + 17)
+	xor	a, c
+	xor	a, c
+	bit	0, a
+	jq	nz, BB7_5
+	ld	de, 129
+	ld	iy, (ix + 6)
+	add	iy, de
+	ld	hl, (iy)
+	ld	de, 146
+	ld	iy, (ix + 6)
+	add	iy, de
+	ld	de, (iy)
+	ld	iy, (ix + 6)
+	ld	(ix - 3), hl
+	or	a, a
+	sbc	hl, de
+	jq	z, BB7_4
+	ld	a, (iy + 14)
+	xor	a, c
+	bit	0, a
+	jq	nz, BB7_4
+	ld	de, -1
+	ld	hl, (ix - 3)
+	or	a, a
+	sbc	hl, de
+	jq	nz, BB7_5
+BB7_4:
+	ld	iy, (ix + 6)
+	ld	de, 132
+	add	iy, de
+	ld	a, (iy)
+	ld	iy, (ix + 6)
+	xor	a, c
+	bit	0, a
+	jq	nz, BB7_8
+BB7_5:
+	ld	bc, 3
+	ld	de, 134
+	lea	hl, iy
+	add	hl, de
+	ld	(ix - 12), hl
+	ld	hl, (hl)
+	ld	(ix - 6), hl
+	call	__imulu
+	ld	(ix - 9), hl
+	ld	bc, 137
+	lea	hl, iy
+	add	hl, bc
+	ld	de, 140
+	ld	bc, (ix - 6)
+	ld	(ix - 3), bc
+	ld	(ix - 15), hl
+BB7_6:
+	ld	bc, (hl)
+	add	iy, de
+	ld	hl, (iy)
+	call	__imulu
+	ld	de, (ix - 6)
+	add	hl, de
+	ex	de, hl
+	ld	hl, (ix - 3)
+	or	a, a
+	sbc	hl, de
+	call	__setflag
+	jq	p, BB7_7
+	ld	iy, (ix + 6)
+	ld	hl, (iy + 123)
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	ld	de, 0
+	jq	z, BB7_11
+	ld	de, (ix - 9)
+	add	hl, de
+	ld	de, (hl)
+BB7_11:
+	ld	hl, (iy + 126)
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	ld	bc, 0
+	jq	z, BB7_13
+	ld	bc, (ix - 9)
+	add	hl, bc
+	ld	bc, (hl)
+BB7_13:
+	push	bc
+	push	de
+	push	iy
+	ld	hl, (ix - 3)
+	push	hl
+	call	_optix_RenderMenuOption
+	ld	iy, (ix + 6)
+	pop	hl
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	hl, (ix - 3)
+	inc	hl
+	ld	(ix - 3), hl
+	ld	hl, (ix - 12)
+	ld	hl, (hl)
+	ld	(ix - 6), hl
+	ld	bc, 3
+	ld	hl, (ix - 9)
+	add	hl, bc
+	ld	(ix - 9), hl
+	ld	hl, (ix - 15)
+	ld	de, 140
+	jq	BB7_6
+BB7_7:
+	ld	iy, (_current_context)
+	ld	iy, (iy + 3)
+	ld	(iy + 1), 1
+	ld	iy, (ix + 6)
+	lea	hl, iy
+	ld	de, 132
+	add	iy, de
+	ld	(iy), 0
+	push	hl
+	pop	iy
+	ld	(iy + 17), 0
+BB7_8:
+	ld	sp, ix
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	ident	"clang version 14.0.0 (https://github.com/jacobly0/llvm-project a139def90d26173f771eb1eca797633d1fbb2797)"
+	extern	__Unwind_SjLj_Register
+	extern	__frameset
+	extern	__indcallhl
+	extern	_optix_InitializeWidget
+	extern	_optix_IntelligentRecursiveSetNeedsRedraw
+	extern	_optix_InitializeTextTransform
+	extern	_optix_RecursiveAlign
+	extern	__idivs
+	extern	__setflag
+	extern	_current_context
+	extern	__Unwind_SjLj_Unregister
+	extern	__irems
+	extern	__imulu
+	extern	_optix_RecursiveSetNeedsRedraw
+	extern	_optix_SetDefaultKeyState
+	extern	_optix_DefaultKeyIsDown

@@ -183,7 +183,7 @@ void vysion_Desktop(void) {
             .pass_self = true,
             .hide_selection_box = true,
         },
-        .offset = 0,
+        //.offset = 0,
         .needs_update = true,
         .nest = true,
     };

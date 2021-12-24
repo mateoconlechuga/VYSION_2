@@ -1,5 +1,5 @@
-#ifndef SETTINGS_H
-#define SETTINGS_H
+#ifndef SETTINGS_WINDOW_H
+#define SETTINGS_WINDOW_H
 
 #include <stdint.h>
 #include <graphx.h>
@@ -19,6 +19,7 @@
 //settings menu relative menu entries
 //settings
 #define SHELL_TOGGLE_CURSOR          0
+#define SHELL_LOCK_SCREEN            1
 
 //desktop
 #define DESKTOP_SET_WALLPAPER        2
